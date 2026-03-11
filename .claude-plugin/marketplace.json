@@ -1,0 +1,16 @@
+{
+    "name": "Bigdata plugins marketplace",
+    "owner": {
+      "name": "RavenPack",
+      "email": "support@bigdata.com"
+    },
+    "plugins": [
+      {
+        "name": "bigdata-com",
+        "source": {
+            "source": "github",
+            "repo": "Bigdata-com/claude-plugin-bigdata-com"
+          }
+        }
+    ]
+  }
