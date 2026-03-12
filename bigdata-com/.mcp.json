@@ -1,0 +1,8 @@
+{
+    "mcpServers": {
+      "bigdata.com": {
+        "type": "http",
+        "url": "https://mcp.bigdata.com"
+      }
+  }
+}

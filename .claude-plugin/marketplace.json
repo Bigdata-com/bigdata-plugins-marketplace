@@ -7,10 +7,8 @@
     "plugins": [
       {
         "name": "bigdata-com",
-        "source": {
-            "source": "github",
-            "repo": "Bigdata-com/claude-plugin-bigdata-com"
-          }
-        }
+        "source": "./bigdata-com",
+        "description": "Official Bigdata.com plugin providing financial research, analytics, and intelligence tools powered by Bigdata MCP."
+      }
     ]
   }
