@@ -4,6 +4,11 @@
       "name": "RavenPack",
       "email": "support@bigdata.com"
     },
+    "metadata": {
+    "description": "Bigdata plugins marketplace with the Bigdata MCP tool and the skill",
+    "version": "0.0.1",
+    "pluginRoot": "plugins"
+    },
     "plugins": [
       {
         "name": "bigdata-com",
