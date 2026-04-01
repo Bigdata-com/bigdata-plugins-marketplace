@@ -6,6 +6,5 @@
     "name": "RavenPack",
     "email": "support@bigdata.com"
   },
-  "keywords": ["cursor", "plugin", "rules", "skills"],
-  "logo": "assets/bigdata-icon-black.svg"
+  "keywords": ["cursor", "plugin", "rules", "skills"]
 }
