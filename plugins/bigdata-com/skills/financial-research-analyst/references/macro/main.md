@@ -6,10 +6,10 @@ Comprehensive macro analysis at sector and country level using Bigdata.com MCP t
 
 | Tool Name | Purpose | Prerequisite |
 |-----------|---------|----------------|
-| `find_companies` | Get entity_id for companies | None |
-| `bigdata_company_tearsheet` | Company financials, metrics, estimates | `find_companies` |
+| `find_securities` | Get entity_id for companies | None |
+| `bigdata_company_tearsheet` | Company financials, metrics, estimates | `find_securities` |
 | `bigdata_search` | Search for news, filings, transcripts, **economic data**, and analyst reactions| None |
-| `bigdata_events_calendar` | Earnings and conference schedules | `find_companies` |
+| `bigdata_events_calendar` | Earnings and conference schedules | `find_securities` |
 | `bigdata_country_tearsheet` | Economic data, calendar, G7 comparison | None |
 
 If the tool `bigdata_country_tearsheet` is not available or fails, use `bigdata_search` with the following targeted queries:
@@ -63,10 +63,10 @@ Use `country-sector-analysis.md` when request combines **BOTH** a sector AND a c
 ### Source Attribution (MANDATORY)
 1. **Inline citations**: Use [1], [2], etc. after claims from sources
 2. **Sources table**: End every report with numbered source list (Source, Date, URL)
-3. **Footer**: End with "Powered by Bigdata.com - https://bigdata.com"
+3. **Footer**: After Sources, append the standard block from [../report-footer.md](../report-footer.md): **Powered by Bigdata.com** - https://bigdata.com and the **Disclaimer** section (verbatim).
 
 ### Company Identification
-Call `find_companies` first when analyzing specific companies. If ambiguous:
+Call `find_securities` first when analyzing specific companies. If ambiguous:
 > "I found multiple companies named [X]. Did you mean [Company A] in [Industry] or [Company B]?"
 
 ### Search Best Practices

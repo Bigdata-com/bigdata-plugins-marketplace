@@ -9,11 +9,13 @@ Analyze the latest earnings results with detailed breakdown of revenue, margins,
 - User requests post-earnings analysis
 - User wants breakdown of latest quarterly results
 
+**Optional depth:** For **earnings quality** or **red flag** angles on the print, see [../equity-analysis/financial-analysis/quality-of-earnings.md](../equity-analysis/financial-analysis/quality-of-earnings.md) and [../../assets/templates/earnings-reaction.md](../../assets/templates/earnings-reaction.md).
+
 ## Workflow Steps
 
 ### Step 1: Identify the Company
 
-Call `find_companies` with the company name to get the RavenPack entity_id.
+Call `find_securities` with the company name to get the RavenPack entity_id.
 
 ### Step 2: Get Financial Data
 
@@ -23,6 +25,7 @@ Call `bigdata_company_tearsheet` with the entity_id to get:
 - Latest earnings surprise data
 - Historical trends for comparison
 - Segment performance breakdown
+- **Sentiment, ownership, insider, options/short** fields when the tearsheet exposes them (for the structured **Sentiment & positioning** table)
 
 This provides the quantitative foundation for analysis.
 
@@ -40,8 +43,9 @@ Use `bigdata_search` to find earnings-related content:
 - "[Company Name] analyst reactions upgrades downgrades"
 - "[Company Name] guidance outlook management commentary"
 - "[Company Name] earnings surprise beat miss"
+- "[Company Name] lawsuit litigation regulatory ruling investigation" (post-print legal overhang)
 
-Conduct 4-5 targeted searches covering:
+Conduct 5–7 targeted searches covering:
 - Official earnings release and metrics
 - Earnings call transcript highlights
 - Analyst reactions and rating changes
@@ -49,6 +53,8 @@ Conduct 4-5 targeted searches covering:
 - Market reaction and investor sentiment
 
 ### Step 5: Synthesize Findings
+
+Before the full write-up, apply [analytical-frameworks.md](./analytical-frameworks.md): **2–3 factors** that dominate the forward debate after this print.
 
 Create comprehensive analysis organized by:
 
@@ -78,9 +84,46 @@ Create comprehensive analysis organized by:
 
 **Surprises vs. Expectations**
 - Where company beat/missed vs. consensus
+- **Magnitude framing:** approximate **standard deviations** vs typical surprise volatility if data allows; label beat/miss **sustainable vs one-time** (revenue volume/price vs buyback/tax/timing)  
 - Unexpected positives or negatives
 - Changes from prior guidance
 - Market reaction drivers
+
+**Thesis check (forward-looking)**
+
+Even without a prior user thesis, frame:
+
+- **For bulls:** this quarter **[strengthened / weakened / left unchanged]** the bull case because [specific evidence].  
+- **For bears:** this quarter **[strengthened / weakened / left unchanged]** the bear case because [specific evidence].
+
+(Optional: if the user supplied a thesis, use **Intact / Strengthened / Weakened / Broken** explicitly—see [../../assets/templates/earnings-reaction.md](../../assets/templates/earnings-reaction.md).)
+
+**Quality signals (tearsheet + quarter data)**
+
+| Signal | This quarter | Prior quarter | Trend / note | **Watch for (forward)** |
+|--------|--------------|---------------|--------------|-------------------------|
+| OCF vs net income | | | | |
+| DSO | | | | |
+| Inventory (if material) | | | | |
+| Guidance vs actual (credibility) | | | | |
+
+**Sentiment & positioning (structured)**
+
+Same discipline as earnings preview: table with **quantified sentiment** (if available), **insider**, **13F / flows**, **options/short** from tearsheet + search; use **Not available** if missing.
+
+**Scenario refresh (post-print, recommended)**
+
+| Scenario | Probability (%) | Updated assumption vs pre-print | Price / range | Implied return |
+|----------|-----------------|----------------------------------|---------------|----------------|
+| Bull | | | | |
+| Base | | | | |
+| Bear | | | | |
+
+**Probability-weighted view:** [EV or expected upside %—show math]
+
+**Valuation cross-check**
+
+From tearsheet: **EV/EBITDA, P/E, FCF yield** vs recent history and peers; does the reaction **fit** the surprise and guidance?
 
 ## Output Format
 
@@ -94,7 +137,32 @@ Period: [Quarter and Fiscal Year]
 Reported: [Date]
 
 ## Executive Summary
-[2-3 sentences on headline results and key takeaways]
+[2-3 sentences: **headline result + what changed for the bull/bear debate + what’s priced in next**]
+
+## Thesis check
+### Bull narrative
+- **Status:** Strengthened / Weakened / Unchanged  
+- **Because:** [evidence]
+
+### Bear narrative
+- **Status:** Strengthened / Weakened / Unchanged  
+- **Because:** [evidence]
+
+## Quality signals
+| Signal | This Q | Prior Q | Trend | **Watch for** |
+|--------|--------|---------|-------|---------------|
+| OCF vs NI | | | | |
+| DSO | | | | |
+| Inventory | | | | |
+| Guidance credibility | | | | |
+
+## Sentiment & positioning
+| Data type | Metric / fact | Source | As of |
+|-----------|---------------|--------|-------|
+| Sentiment (quantified) | | | |
+| Options / short | | | |
+| Institutional / 13F | | | |
+| Insider | | | |
 
 ## Financial Results Summary
 
@@ -169,13 +237,15 @@ Reported: [Date]
 
 ## Key Surprises vs. Expectations
 
+### Magnitude and quality
+- [Beat/miss vs consensus in **% or bps**; **sigma** vs historical surprise distribution if estimable]  
+- **Quality of beat/miss:** revenue vs margin vs buyback vs tax vs one-timers  
+
 ### Positive Surprises
-1. [Surprise 1 and significance]
-2. [Surprise 2 and significance]
+1. [Surprise; sustainability; line-item]
 
 ### Negative Surprises
-1. [Surprise 1 and significance]
-2. [Surprise 2 and significance]
+1. [Surprise; sustainability; line-item]
 
 ### Guidance Implications
 [How guidance compared to expectations]
@@ -189,6 +259,18 @@ Reported: [Date]
 ### Consensus View
 [Summary of analyst sentiment]
 
+## Scenario refresh (post-print)
+| Scenario | Probability (%) | Updated vs pre-print | Price / range | Implied return vs spot |
+|----------|-----------------|----------------------|---------------|-------------------------|
+| Bull | | | | |
+| Base | | | | |
+| Bear | | | | |
+
+**Probability-weighted view:** [Show EV math]
+
+## Valuation cross-check
+[Multiples vs history/peers post-print; does price embed the new guidance?]
+
 ## Investment Implications
 
 ### Business Fundamentals Assessment
@@ -199,6 +281,8 @@ Reported: [Date]
 
 ### Key Risks and Opportunities
 [Balance of concerns and positive drivers]
+
+**Closing (structured):** Net assessment: [Positive/Negative/Neutral] because [specific]; key risk: [X]; next catalyst: [Y].
 
 ## Sources
   ALWAYS include a "Sources" section at the end listing ALL documents referenced with:
@@ -213,23 +297,33 @@ Reported: [Date]
 ---
 
 **Powered by Bigdata.com** - https://bigdata.com
+
+## Disclaimer
+
+This output is for informational and research-assistance purposes only. It does **not** constitute investment, legal, tax, accounting, or other professional advice, and it is **not** a recommendation to buy, sell, or hold any security or instrument or to pursue any strategy. Information may be incomplete, estimated, delayed, or inaccurate. Past performance does not guarantee future results. Verify material facts independently and consult qualified advisors before making decisions.
 ```
 
 ## Best Practices
 
-- **Focus on business fundamentals**, not just stock price movement
-- Compare results to consensus expectations from tearsheet
-- Highlight both positive and negative surprises objectively
-- Extract key quotes from earnings call transcript when available
-- Include context from prior quarter trends
-- Note any accounting changes or one-time items
-- Assess quality of earnings (sustainable vs. one-time factors)
+- Use [analytical-frameworks.md](./analytical-frameworks.md): **lead with what matters** for the forward story  
+- **Focus on business fundamentals**, not just stock price movement  
+- Compare results to consensus from tearsheet; **quantify surprise magnitude** where possible  
+- Include **thesis check** (bull/bear) so the digest is forward-looking  
+- **Quality signals:** include **Watch for** column (forward monitoring)  
+- **Sentiment & positioning** table: tearsheet-first, then search—no anecdote-only sell-side notes  
+- **Scenario refresh** after the print: probabilities, prices, **show EV math**  
+- Add **valuation cross-check** so implications tie to price  
+- Legal/regulatory search in Step 4 for overhangs not in the press release  
+- Extract key quotes from transcript when available  
+- Note accounting changes or one-time items explicitly  
+- Assess **sustainable vs one-time** drivers of EPS and revenue
 
 ## Key Differences from Other Workflows
 
 - **vs. Company Brief:** Digest is deep dive on one earnings event; Brief covers 25 days of all developments
 - **vs. Earnings Preview:** Digest analyzes actual results; Preview sets expectations before release
-- **vs. Risk Assessment:** Digest focuses on quarterly performance; Risk Assessment is comprehensive risk analysis
+- **vs. Risk Assessment:** Digest focuses on quarterly performance; Risk Assessment is comprehensive risk analysis  
+- **vs. Valuation snapshot:** Digest is event-driven around a print; [valuation-snapshot.md](./valuation-snapshot.md) is multipurpose “what’s it worth”
 
 ## Example Queries to User
 
