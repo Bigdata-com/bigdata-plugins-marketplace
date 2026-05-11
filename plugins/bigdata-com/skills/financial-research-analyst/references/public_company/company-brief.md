@@ -9,11 +9,13 @@ Generate a comprehensive 30-day summary of recent developments for a specified c
 - User requests company summary or recent developments
 - User wants to know about recent news over the past month
 
+**Optional depth:** For an **investment memo** or **variant-perception** framing after gathering facts, use [../../assets/templates/investment-memo.md](../../assets/templates/investment-memo.md) or [../equity-analysis/main.md](../equity-analysis/main.md).
+
 ## Workflow Steps
 
 ### Step 1: Identify the Company
 
-Call `find_companies` with the company name to get the RavenPack entity_id.
+Call `find_securities` with the company name to get the RavenPack entity_id.
 
 ### Step 2: Gather Business Context
 
@@ -23,6 +25,15 @@ Call `bigdata_company_tearsheet` with the entity_id to get:
 - Recent performance metrics
 
 This context helps interpret the significance of news events.
+
+### Step 2b: Competitive context (one pass)
+
+Use `bigdata_search` at least once for industry structure and positioning:
+
+- "[Company Name] competitive landscape market share"
+- "[Company Name] vs competitors [Industry]"
+
+You do **not** need a full Porter five-forces write-up; **2–4 sentences** on structure (concentration, pricing power, disruption risk) lift quality. Mental model: [../equity-analysis/competitive-analysis/porter-five-forces.md](../equity-analysis/competitive-analysis/porter-five-forces.md).
 
 ### Step 3: Search Recent News
 
@@ -34,6 +45,7 @@ Use `bigdata_search` to find news from the last 30 days. Use natural language qu
 - "[Company Name] earnings announcement"
 - "[Company Name] product launches partnerships"
 - "[Company Name] regulatory legal updates"
+- "[Company Name] lawsuit litigation court ruling investigation settlement last 30 days" (catch material legal/regulatory items, not only earnings headlines)
 
 Conduct multiple searches to cover different aspects:
 - Financial developments
@@ -43,6 +55,8 @@ Conduct multiple searches to cover different aspects:
 - Management changes
 
 ### Step 4: Categorize Findings
+
+Apply [analytical-frameworks.md](./analytical-frameworks.md): while categorizing, mark which items are **primary** (material to value or narrative) vs **secondary**.
 
 Organize all findings into these categories:
 
@@ -70,15 +84,14 @@ Organize all findings into these categories:
 - Any significant events not covered above
 - For each: Date, event description, relevance
 
-### Step 5: Investment Implications
+### Step 5: Investment implications (“so what”)
 
-For each categorized event, provide:
-- **Date:** When the event occurred or was announced
-- **Facts:** Objective summary of what happened
-- **Investment Implication:** Assess as:
-  - **Bullish:** Positive for company/stock value
-  - **Bearish:** Negative for company/stock value
-  - **Neutral:** Mixed or unclear impact
+For each **material** categorized event, provide:
+- **Date:** When the event occurred or was announced  
+- **Facts:** Objective summary of what happened  
+- **Investment implication:** Bullish / Bearish / Neutral — and **tie to value drivers** where possible (e.g. revenue run-rate, margin bps, multiple narrative, balance sheet, regulatory overhang **lifted or worsened**). Avoid generic labels: replace “bullish for stock” with “**could support X** (e.g. +$Nm revenue / +Ybps margin / de-risk [issue])” when inferable; if not quantifiable, state the **specific mechanism** (e.g. “reduces regulatory overhang on segment Z”).  
+
+After categorization, **rank** the top **2–3** items for the overall period and reflect that ranking in the executive summary.
 
 ## Output Format
 
@@ -91,7 +104,10 @@ Structure the report as:
 Period: [Date Range - Last 30 Days]
 
 ## Executive Summary
-[2-3 sentence overview of major developments]
+[2-3 sentences: **only the developments that matter most** for value or narrative this month—see [analytical-frameworks.md](./analytical-frameworks.md)]
+
+## Competitive context
+[Short industry/positioning snapshot]
 
 ## Financial Results
 [Categorized findings with dates, facts, implications]
@@ -112,7 +128,9 @@ Period: [Date Range - Last 30 Days]
 [Categorized findings with dates, facts, implications]
 
 ## Overall Assessment
-[Brief synthesis of investment outlook]
+[Brief synthesis; **net tilt** and **why**]
+
+**Closing (structured):** Net assessment: [Positive/Negative/Neutral] because [specific]; key risk: [X]; next catalyst: [Y].
 
 ## Sources
   ALWAYS include a "Sources" section at the end listing ALL documents referenced with:
@@ -127,13 +145,20 @@ Period: [Date Range - Last 30 Days]
 ---
 
 **Powered by Bigdata.com** - https://bigdata.com
+
+## Disclaimer
+
+This output is for informational and research-assistance purposes only. It does **not** constitute investment, legal, tax, accounting, or other professional advice, and it is **not** a recommendation to buy, sell, or hold any security or instrument or to pursue any strategy. Information may be incomplete, estimated, delayed, or inaccurate. Past performance does not guarantee future results. Verify material facts independently and consult qualified advisors before making decisions.
 ```
 
 ## Best Practices
 
-- Call `bigdata_search` multiple times (5-10 searches) with different queries to ensure comprehensive coverage
-- If no events found in a category, note "No significant developments in this period"
-- Prioritize material events over minor announcements
+- Read [analytical-frameworks.md](./analytical-frameworks.md); **do not** equal-weight every category in the narrative  
+- Include **competitive context** (Step 2b)  
+- Call `bigdata_search` multiple times (5–10 searches) for coverage, then **compress** into what matters  
+- Use **“so what”** implications tied to mechanisms or rough value levers  
+- If no events found in a category, note "No significant developments in this period"  
+- Prioritize material events over minor announcements  
 
 
 ## Example Queries to User

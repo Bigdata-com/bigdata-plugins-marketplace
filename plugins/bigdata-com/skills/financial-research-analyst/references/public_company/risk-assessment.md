@@ -9,11 +9,13 @@ Comprehensive risk analysis covering regulatory/legal exposure, competitive thre
 - User requests risk analysis or risk factors
 - User wants to understand key vulnerabilities
 
+**Optional depth:** For **accounting / manipulation** and **forensic** risk, supplement with [../equity-analysis/financial-analysis/red-flags-checklist.md](../equity-analysis/financial-analysis/red-flags-checklist.md).
+
 ## Workflow Steps
 
 ### Step 1: Identify the Company
 
-Call `find_companies` with the company name to get the RavenPack entity_id.
+Call `find_securities` with the company name to get the RavenPack entity_id.
 
 ### Step 2: Analyze Financial Health Baseline
 
@@ -25,6 +27,23 @@ Call `bigdata_company_tearsheet` with the entity_id to analyze:
 - **Interest coverage:** Ability to service debt
 
 This establishes financial risk baseline.
+
+### Step 2b: Financial distress quick screen
+
+When **leverage is elevated**, **interest coverage is thin**, **FCF is weak vs debt service**, or **liquidity is tight**, add a quantitative flag:
+
+- **Altman Z-Score (simplified):** compute from tearsheet / latest filing inputs when possible (working capital, retained earnings, EBIT, equity, total liabilities, sales, total assets). If inputs are incomplete, state **data gaps** and give a **qualitative distress read** instead.  
+- **Beneish / manipulation context:** if accruals or earnings quality look aggressive, point to [../equity-analysis/financial-analysis/red-flags-checklist.md](../equity-analysis/financial-analysis/red-flags-checklist.md); optional use of `earnings_quality.py` only if the user wants script output—workflows default to tearsheet + judgment.
+
+### Step 2c: Moat and competitive durability
+
+Identify **moat type** (if any) and **erosion** risks using [../equity-analysis/competitive-analysis/moat-taxonomy.md](../equity-analysis/competitive-analysis/moat-taxonomy.md). Consider:
+
+- **Pricing power** trend vs peers  
+- **Share** shifts to entrants or substitutes  
+- **ROIC** compression vs history and vs cost of capital  
+
+Use `bigdata_search` if needed: "[Company Name] pricing power market share competition ROIC".
 
 ### Step 3: Extract Official Risk Disclosures
 
@@ -61,11 +80,24 @@ Use `bigdata_search` to find recent risk-related news:
 
 Conduct 4-6 targeted searches covering different risk categories.
 
+### Step 5b: Management and governance signals
+
+Use `bigdata_search` for governance and incentives (especially for concentrated-holding or founder-led names):
+
+- "[Company Name] CEO chairman combined role board independence"
+- "[Company Name] insider selling stock compensation"
+- "[Company Name] activist shareholder governance"
+- "[Company Name] related party transactions"
+
+Cross-check patterns with [../equity-analysis/management/capital-allocation.md](../equity-analysis/management/capital-allocation.md) (governance and incentive red flags).
+
 ### Step 6: Categorize and Rate Risks
 
-Organize findings into five risk categories, rating each by:
+Organize findings into **six** risk categories, rating each by:
 - **Likelihood:** High / Medium / Low
 - **Impact:** High / Medium / Low
+
+Tie **competitive** risks to **moat erosion** where relevant. Connect the **likelihood × impact** view to a **brief scenario bridge** (bull/base/bear **narrative** for value drivers—not full DCF) in the output.
 
 ## Risk Categories
 
@@ -76,12 +108,15 @@ Organize findings into five risk categories, rating each by:
 - Changes in regulatory framework
 - Product liability or recall risks
 
-### 2. Competitive Threats
-- Market share erosion or intensifying competition
-- New entrants or disruptive technologies
-- Pricing pressure or margin compression
-- Loss of key customers or contracts
-- Competitive product launches
+### 2. Competitive Threats (include moat erosion)
+
+- **Moat type** the business relies on (network, switching costs, cost advantage, intangibles, efficient scale) and **how it could erode**  
+- Market share erosion or intensifying competition  
+- New entrants or disruptive technologies  
+- Pricing pressure or margin compression (often **first signal of moat damage**)  
+- Loss of key customers or contracts  
+- Competitive product launches  
+- **ROIC vs WACC** compression vs history (tie to long-term structural risk)
 
 ### 3. Operational Vulnerabilities
 - Supply chain disruptions or dependencies
@@ -91,11 +126,12 @@ Organize findings into five risk categories, rating each by:
 - Quality control or operational execution issues
 
 ### 4. Financial/Balance Sheet Risks
-- Debt refinancing requirements or covenant concerns
-- Liquidity constraints or working capital issues
-- Currency or interest rate exposure
-- Pension or benefit plan obligations
-- Off-balance sheet liabilities
+- Debt refinancing requirements or covenant concerns  
+- Liquidity constraints or working capital issues  
+- Currency or interest rate exposure  
+- Pension or benefit plan obligations  
+- Off-balance sheet liabilities  
+- **Distress / bankruptcy remoteness:** incorporate Step 2b findings (Z-Score, cash conversion)
 
 ### 5. Macro/Market Headwinds
 - Economic cycle sensitivity or recession exposure
@@ -103,6 +139,13 @@ Organize findings into five risk categories, rating each by:
 - Industry-wide challenges or secular decline
 - Commodity price volatility
 - Regulatory or policy changes affecting industry
+
+### 6. Management & Governance
+- Board independence, **dual CEO/Chair**, classified board, related-party exposure  
+- **Compensation** design vs performance; equity grant dilution  
+- **Insider buying/selling** patterns (context-aware, not mechanical)  
+- Capital allocation credibility (M&A, buybacks, dividends) and **guidance** track record  
+- Succession and key-person risk  
 
 ## Output Format
 
@@ -115,7 +158,7 @@ Structure the report as:
 Assessment Date: [Date]
 
 ## Executive Summary
-[2-3 sentences on overall risk profile and key vulnerabilities]
+[2-3 sentences: **top risks that matter** for value—apply ./analytical-frameworks.md]
 
 ## Financial Health Baseline
 
@@ -130,6 +173,18 @@ Assessment Date: [Date]
 ### Key Financial Observations
 - [Observation 1]
 - [Observation 2]
+
+### Financial distress screen (if leverage or coverage is weak)
+| Signal | Value / read | Note |
+|--------|----------------|------|
+| Altman Z (if computable) | | [Zone: safe / grey / distress] |
+| Cash conversion vs earnings | | |
+| Covenant / maturity (if known) | | |
+
+## Moat and competitive durability
+- **Primary moat type(s):** [per moat taxonomy]  
+- **Erosion warning signs:** [pricing, share, ROIC vs WACC, other]  
+- **Narrative:** [1 short paragraph]
 
 ## Risk Category Analysis
 
@@ -156,6 +211,8 @@ Assessment Date: [Date]
 
 ### 2. Competitive Threats
 
+**Moat link:** Each major competitive risk should state **how it could damage the moat or ROIC spread** (not only “more competition”).
+
 **Identified Risks:**
 1. **[Risk Name]**
    - Description: [Detailed explanation]
@@ -230,6 +287,27 @@ Assessment Date: [Date]
 2. **[Risk Name]**
    - Description: [Detailed explanation]
    - Source: [10-K / 8-K / News with date]
+   - Likelihood: **[High/Medium/Low]**
+   - Impact: **[High/Medium/Low]**
+   - Mitigation Status: [Known mitigations if disclosed]
+
+**Category Risk Score:** [High/Medium/Low based on aggregate likelihood × impact]
+
+---
+
+### 6. Management & Governance
+
+**Identified Risks:**
+1. **[Risk Name]**
+   - Description: [Detailed explanation]
+   - Source: [Filing / News / Tearsheet with date]
+   - Likelihood: **[High/Medium/Low]**
+   - Impact: **[High/Medium/Low]**
+   - Mitigation Status: [Known mitigations if disclosed]
+
+2. **[Risk Name]**
+   - Description: [Detailed explanation]
+   - Source: [Filing / News / Tearsheet with date]
    - Likelihood: **[High/Medium/Low]**
    - Impact: **[High/Medium/Low]**
    - Mitigation Status: [Known mitigations if disclosed]
@@ -271,6 +349,18 @@ Assessment Date: [Date]
 ### Gap Analysis
 - [Areas where mitigation appears inadequate or unclear]
 
+## Scenario bridge (valuation / outcomes)
+
+Connect risks to **forward outcomes** (narrative + rough probabilities—**not** a full model unless the user asks):
+
+| Scenario | Probability (indicative) | Key drivers | Implication for multiples / earnings power |
+|----------|-------------------------|-------------|-------------------------------------------|
+| Bull | | | |
+| Base | | | |
+| Bear | | | |
+
+For methodology depth: [../equity-analysis/variant-perception/thesis-construction.md](../equity-analysis/variant-perception/thesis-construction.md).
+
 ## Investment Implications
 
 ### Overall Risk Profile
@@ -288,6 +378,8 @@ Assessment Date: [Date]
 ### Valuation Considerations
 [How risk profile should affect valuation multiples or required return]
 
+**Closing (structured):** Net assessment: [Positive/Negative/Neutral] on risk-adjusted attractiveness because [specific]; key risk: [X]; next catalyst: [Y].
+
 ## Sources
   ALWAYS include a "Sources" section at the end listing ALL documents referenced with:
    - Reference number matching the inline Superscript Numbers
@@ -302,18 +394,25 @@ Assessment Date: [Date]
 ---
 
 **Powered by Bigdata.com** - https://bigdata.com
+
+## Disclaimer
+
+This output is for informational and research-assistance purposes only. It does **not** constitute investment, legal, tax, accounting, or other professional advice, and it is **not** a recommendation to buy, sell, or hold any security or instrument or to pursue any strategy. Information may be incomplete, estimated, delayed, or inaccurate. Past performance does not guarantee future results. Verify material facts independently and consult qualified advisors before making decisions.
 ```
 
 ## Best Practices
 
-- **Start with official disclosures** (10-K risk factors) as authoritative baseline
-- **Validate with recent filings** (8-K) to catch emerging risks
-- **Supplement with news** for real-time developments not yet in SEC filings
-- **Be objective in rating** likelihood and impact - use evidence-based assessment
-- **Distinguish materiality** - focus on risks that could significantly impact business/valuation
-- **Note mitigation status** - what company is doing to address risks
-- **Prioritize actionable insights** - top 5 risks should guide investment decisions
-- **Update quarterly** - risk profile changes with new 10-Q/10-K filings
+- Apply [analytical-frameworks.md](./analytical-frameworks.md): **prioritize** what moves the name  
+- **Start with official disclosures** (10-K risk factors) as authoritative baseline  
+- **Validate with recent filings** (8-K) to catch emerging risks  
+- **Supplement with news** for real-time developments not yet in SEC filings  
+- **Moat and governance** are first-order—use Steps 2c and 5b  
+- **Distress screen** when leverage/coverage is weak (Step 2b)  
+- **Be objective in rating** likelihood and impact—evidence-based  
+- **Distinguish materiality**—focus on risks that could significantly impact business/valuation  
+- **Note mitigation status**—what the company is doing to address risks  
+- **Scenario bridge** makes the assessment actionable vs descriptive  
+- **Update quarterly**—risk profile changes with new 10-Q/10-K filings  
 
 ## Likelihood and Impact Rating Guide
 
