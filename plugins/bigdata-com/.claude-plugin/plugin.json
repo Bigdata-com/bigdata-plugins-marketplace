@@ -1,7 +1,7 @@
 {
   "name": "bigdata-com",
   "description": "Official Bigdata.com plugin providing financial research, analytics, and intelligence tools powered by Bigdata MCP.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": {
     "name": "RavenPack",
     "email": "support@bigdata.com"
