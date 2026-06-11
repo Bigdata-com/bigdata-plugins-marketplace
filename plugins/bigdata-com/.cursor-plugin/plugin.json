@@ -2,11 +2,11 @@
   "name": "bigdata-com",
   "displayName": "Bigdata.com",
   "description": "Financial research and market intelligence on stocks, companies, sectors, and economies. Run valuation snapshots, peer comparables, and investment memos; preview, digest, and analyze earnings (quality, reactions, surprises); assess risk, monitor catalysts, and review competitive moats and governance. Covers thematic and sector research, cross-sector and regional comparisons, country and macro analysis, G7 benchmarking, scenario analysis, and company briefs. Powered by Bigdata MCP.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "RavenPack",
     "email": "support@bigdata.com"
   },
-  "keywords": ["Bigdata", "finance", "RavenPack"],
+  "keywords": ["Bigdata", "finance", "RavenPack", "stocks", "companies", "sectors", "economies", "valuation", "peers", "investment memos", "earnings", "risk", "catalysts", "moats", "governance", "thematic research", "sector research", "cross-sector comparisons", "regional comparisons", "country analysis", "macro analysis", "G7 benchmarking", "scenario analysis", "company briefs"],
   "logo": "assets/bigdata-icon-black.svg"
 }

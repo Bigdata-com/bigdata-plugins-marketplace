@@ -112,18 +112,6 @@ setup instructions for your platform.
 
 ---
 
-## Architecture Context
-
-This module is part of:
-
-> **Bigdata.com**\
-> Official Claude plugin for institutional-grade research workflows.
-
-Future versions of the suite may include additional research, screening,
-macro, or analytics modules.
-
----
-
 ## License
 
 See the root `LICENSE` file of the plugin repository for details.

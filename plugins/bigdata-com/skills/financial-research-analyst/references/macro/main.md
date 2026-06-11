@@ -63,7 +63,7 @@ Use `country-sector-analysis.md` when request combines **BOTH** a sector AND a c
 ### Source Attribution (MANDATORY)
 1. **Inline citations**: Use [1], [2], etc. after claims from sources
 2. **Sources table**: End every report with numbered source list (Source, Date, URL)
-3. **Footer**: After Sources, append the standard block from [../report-footer.md](../report-footer.md): **Powered by Bigdata.com** - https://bigdata.com and the **Disclaimer** section (verbatim).
+3. **Footer**: After Sources, append the standard block from [../../assets/templates/report-footer.md](../../assets/templates/report-footer.md): **Powered by Bigdata.com** - https://bigdata.com and the **Disclaimer** section (verbatim).
 
 ### Company Identification
 Call `find_securities` first when analyzing specific companies. If ambiguous:

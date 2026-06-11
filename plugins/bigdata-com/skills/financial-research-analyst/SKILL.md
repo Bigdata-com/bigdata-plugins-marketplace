@@ -13,7 +13,7 @@ description: >
 
 # Bigdata.com financial analysis and equity research
 
-This skill combines **structured Bigdata.com workflows** (public company and macro deliverables) with **institutional-style equity analysis** (intrinsic value, variant perception, valuation, and quality checks). Use [Bigdata.com](https://bigdata.com) MCP tools for data; apply the equity layers when the user wants depth beyond a standard template.
+This skill combines **structured Bigdata.com workflows** (private/public company and macro deliverables) with **institutional-style equity analysis** (intrinsic value, variant perception, valuation, and quality checks). Use [Bigdata.com](https://bigdata.com) MCP tools for data; apply the equity layers when the user wants depth beyond a standard template.
 
 ### Identify the right company
 
@@ -28,6 +28,7 @@ Read the appropriate reference file for the request:
 | Category | When to use | Reference |
 |----------|-------------|-----------|
 | **Public company** | Briefs, previews, digests, risk, **valuation snapshot**; always apply [references/public_company/analytical-frameworks.md](./references/public_company/analytical-frameworks.md) before synthesizing | [references/public_company/main.md](./references/public_company/main.md) |
+| **Private company** | Upcoming (not-yet-listed) IPOs, S-1/F-1 analysis, planned listings — balanced bull/bear note, **no buy/avoid call** | [references/private_company/pre-ipo-analysis.md](./references/private_company/pre-ipo-analysis.md) |
 | **Macro economics** | Sector/country/regional/thematic analysis, rotation, cross-asset views | [references/macro/main.md](./references/macro/main.md) |
 | **Institutional equity** | Deep thesis, full DCF/SOTP write-ups, forensic accounting, sector playbooks, **advanced special situations** | [references/equity-analysis/main.md](./references/equity-analysis/main.md) |
 
@@ -36,6 +37,8 @@ Read the appropriate reference file for the request:
 - "Create an earnings preview for NVIDIA" → **Public company**
 - "Risk assessment for Tesla" → **Public company**
 - "What's happening with Apple?" → **Public company**
+- "Analyze the IPO of [company]", "S-1 analysis", "upcoming listing for [company]" → **Private company**
+- "Post-IPO day 1 for [company]", "NASDAQ-100 inclusion impact", "180-day lock-up expiry", "366-day founder lock-up / float expansion" → **Public company** (post-IPO event notes — see [references/public_company/post-ipo-common.md](./references/public_company/post-ipo-common.md))
 - "Analyze the US technology sector" → **Macro economics**
 - "Economic outlook for Germany" → **Macro economics**
 - "Compare G7 economies" → **Macro economics**
@@ -123,6 +126,11 @@ Build **bull/base/bear** with explicit assumptions and probability weights where
 | Comprehensive "analyze [company]" / investment memo | [assets/templates/investment-memo.md](./assets/templates/investment-memo.md) |
 | "Quick view" / "what do you think of [stock]" | [assets/templates/quick-take.md](./assets/templates/quick-take.md) |
 | Post-earnings reaction note | [assets/templates/earnings-reaction.md](./assets/templates/earnings-reaction.md) |
+| Pre-IPO / upcoming-listing research note | [assets/templates/pre-ipo-report-template.md](./assets/templates/pre-ipo-report-template.md) |
+| Post-IPO day-1 reaction note | [assets/templates/post-ipo-day1-report-template.md](./assets/templates/post-ipo-day1-report-template.md) |
+| Post-IPO day-14 NASDAQ-100 inclusion note | [assets/templates/post-ipo-day14-report-template.md](./assets/templates/post-ipo-day14-report-template.md) |
+| Post-IPO day-179 (180-day lock-up expiry) note | [assets/templates/post-ipo-day179-report-template.md](./assets/templates/post-ipo-day179-report-template.md) |
+| Post-IPO day-365 (366-day founder lock-up / float expansion) note | [assets/templates/post-ipo-day365-report-template.md](./assets/templates/post-ipo-day365-report-template.md) |
 
 **Sector playbooks:** after you know the industry, use [references/equity-analysis/sector-routing.md](./references/equity-analysis/sector-routing.md).
 
@@ -179,7 +187,7 @@ When a user says **"Can you help me with a financial report?"** or similar, resp
 - **Markdown** — Default. At the end, you may ask whether the user wants a report.  
 - **Word (.docx)** — Formal memos.  
 - **Presentation** — Deck-ready structure.  
-- **Footer** — Every workflow deliverable must end with the **Powered by Bigdata.com** attribution and **Disclaimer** in [references/report-footer.md](./references/report-footer.md) (verbatim).
+- **Footer** — Every workflow deliverable must end with the **Powered by Bigdata.com** attribution and **Disclaimer** in [assets/templates/report-footer.md](./assets/templates/report-footer.md) (verbatim).
 
 For macro workflows, follow source attribution rules in [references/macro/main.md](./references/macro/main.md) where they apply.
 
