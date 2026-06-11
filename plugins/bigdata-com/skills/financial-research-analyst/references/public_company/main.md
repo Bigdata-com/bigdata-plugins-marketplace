@@ -32,7 +32,7 @@ For full **conviction / variant perception / scenario** discipline on thesis-sty
 
 ## Universal report footer (mandatory)
 
-End every user-facing deliverable with the **Powered by Bigdata.com** line and **Disclaimer** exactly as specified in [../report-footer.md](../report-footer.md) (same text as in each workflow output template).
+End every user-facing deliverable with the **Powered by Bigdata.com** line and **Disclaimer** exactly as specified in [../../assets/templates/report-footer.md](../../assets/templates/report-footer.md) (same text as in each workflow output template).
 
 ## Core Workflows
 
@@ -55,6 +55,18 @@ Comprehensive risk evaluation with SEC filings and likelihood/impact ratings.
 ### Valuation snapshot
 What the market is paying for vs history/peers and implied expectations—using tearsheet and search (no standalone model required).
 **See:** [valuation-snapshot.md](./valuation-snapshot.md)
+
+### Post-IPO event notes
+Event-driven, balanced notes (no buy/avoid call) anchored to the post-IPO timeline of a recently listed company. Read [post-ipo-common.md](./post-ipo-common.md) first for shared scope rules, data foundation, and verify checklist.
+
+| Catalyst | Run on | Workflow |
+|----------|--------|----------|
+| First-trading-day reaction | Day 1 | [post-ipo-day1.md](./post-ipo-day1.md) |
+| NASDAQ-100 fast-track inclusion | Day 14 | [post-ipo-day14.md](./post-ipo-day14.md) |
+| 180-day lock-up expiry | Day 179 | [post-ipo-day179.md](./post-ipo-day179.md) |
+| 366-day founder/investor lock-up & float expansion | Day 365 | [post-ipo-day365.md](./post-ipo-day365.md) |
+
+For an **upcoming** (not yet listed) IPO, use the pre-IPO workflow instead: [../private_company/pre-ipo-analysis.md](../private_company/pre-ipo-analysis.md).
 
 ## Optional: institutional equity layer
 
