@@ -1,0 +1,13 @@
+interface:
+  display_name: Bigdata Earnings Digest
+  short_description: Analyze reported earnings with cited breakdowns
+  default_prompt: Use $bigdata-earnings-digest to analyze the latest earnings of
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
