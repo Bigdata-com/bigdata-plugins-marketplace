@@ -5,9 +5,4 @@ interface:
   icon_small: assets/bigdata-icon-black.svg
   icon_large: assets/bigdata-icon-black.svg
 policy:
-  products:
-  - chatgpt
-  - codex
-  - api
-  - atlas
   allow_implicit_invocation: true
