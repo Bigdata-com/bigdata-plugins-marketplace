@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Post-IPO Day 1
+  short_description: Analyze a first-trading-day IPO debut
+  default_prompt: Use $bigdata-post-ipo-day1 for a first-trading-day post-IPO reaction note.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

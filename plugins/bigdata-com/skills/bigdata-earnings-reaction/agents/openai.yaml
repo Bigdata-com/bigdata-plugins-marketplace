@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Earnings Reaction
+  short_description: Write a post-earnings reaction note against a thesis
+  default_prompt: Use $bigdata-earnings-reaction for a post-earnings reaction note.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

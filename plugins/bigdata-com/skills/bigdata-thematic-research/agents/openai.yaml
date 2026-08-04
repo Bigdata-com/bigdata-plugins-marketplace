@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Thematic Research
+  short_description: Research a macro investment theme end to end
+  default_prompt: Use $bigdata-thematic-research to research a macro investment theme.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

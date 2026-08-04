@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Earnings Quality Screen
+  short_description: Screen reported earnings for accounting red flags
+  default_prompt: Use $bigdata-earnings-quality-screen to screen a company's earnings quality.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

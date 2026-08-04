@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Regional Comparison
+  short_description: Compare regions and allocate across them
+  default_prompt: Use $bigdata-regional-comparison to compare regional economies and markets.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

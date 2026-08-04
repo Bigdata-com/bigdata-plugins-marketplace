@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Valuation Snapshot
+  short_description: Answer what a company is worth, with cited evidence
+  default_prompt: Use $bigdata-valuation-snapshot to value a public company.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

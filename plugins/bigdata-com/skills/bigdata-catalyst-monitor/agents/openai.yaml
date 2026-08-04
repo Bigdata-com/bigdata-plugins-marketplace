@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Catalyst Monitor
+  short_description: Map upcoming catalysts and watch points
+  default_prompt: Use $bigdata-catalyst-monitor to map a company's upcoming catalysts.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

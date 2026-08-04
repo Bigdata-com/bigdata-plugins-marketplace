@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Company Brief
+  short_description: Generate cited 30-day company development briefs
+  default_prompt: Use $bigdata-company-brief to create a 30-day company brief for
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Variant Perception
+  short_description: State where your view differs from consensus
+  default_prompt: Use $bigdata-variant-perception to define a variant perception versus consensus.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

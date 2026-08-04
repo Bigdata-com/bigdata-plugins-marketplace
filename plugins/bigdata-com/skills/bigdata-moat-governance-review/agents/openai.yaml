@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Moat & Governance Review
+  short_description: Assess moat durability and management quality
+  default_prompt: Use $bigdata-moat-governance-review to assess a company's moat and governance.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

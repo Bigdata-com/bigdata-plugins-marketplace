@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Pre-IPO Analysis
+  short_description: Research an upcoming IPO from its S-1
+  default_prompt: Use $bigdata-pre-ipo-analysis to research an upcoming IPO.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

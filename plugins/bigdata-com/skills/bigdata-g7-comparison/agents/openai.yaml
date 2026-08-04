@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata G7 Comparison
+  short_description: Benchmark the G7 economies side by side
+  default_prompt: Use $bigdata-g7-comparison to compare the G7 economies.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

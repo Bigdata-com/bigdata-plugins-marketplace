@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Post-IPO Day 179
+  short_description: Size the 180-day IPO lock-up overhang
+  default_prompt: Use $bigdata-post-ipo-day179 for a 180-day lock-up expiry note.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

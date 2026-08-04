@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Country Analysis
+  short_description: Produce a deep country economic analysis
+  default_prompt: Use $bigdata-country-analysis to analyze a country's economy.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

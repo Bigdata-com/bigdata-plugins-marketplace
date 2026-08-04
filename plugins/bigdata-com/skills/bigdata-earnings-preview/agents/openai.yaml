@@ -1,0 +1,9 @@
+interface:
+  display_name: "Bigdata Earnings Preview"
+  short_description: "Create cited, forward-looking earnings previews"
+  default_prompt: "Use $bigdata-earnings-preview to create an earnings preview for
+    a public company."
+  icon_small: "./assets/bigdata-icon-black.svg"
+  icon_large: "./assets/bigdata-icon-black.svg"
+policy:
+  allow_implicit_invocation: true

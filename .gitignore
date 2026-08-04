@@ -1,2 +1,6 @@
 # Plugin build artifacts
 plugins/bigdata-com/dist/
+
+# Local editor / agent settings
+.claude/
+.cursor/

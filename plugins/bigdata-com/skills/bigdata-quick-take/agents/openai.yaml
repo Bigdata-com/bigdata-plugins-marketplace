@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Quick Take
+  short_description: Give a fast PM-style view on a stock
+  default_prompt: Use $bigdata-quick-take for a fast PM-style view on a stock.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Post-IPO Day 14
+  short_description: Assess NASDAQ-100 fast-track inclusion impact
+  default_prompt: Use $bigdata-post-ipo-day14 for a NASDAQ-100 fast-track inclusion note.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

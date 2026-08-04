@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Sector Analysis
+  short_description: Analyze a sector's performance, valuation and catalysts
+  default_prompt: Use $bigdata-sector-analysis to analyze a market sector.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true
