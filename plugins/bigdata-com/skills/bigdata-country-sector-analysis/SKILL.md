@@ -34,6 +34,10 @@ Sector view anchored to one country or region. Use Bigdata.com plugin tools for 
 | `bigdata_events_calendar` | Upcoming earnings for those leaders | `find_securities` |
 | `bigdata_country_tearsheet` | Economic data where available | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-country-sector-analysis"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-country-sector-analysis`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 ## Workflow
 
 ### Step 1 — Country economic context

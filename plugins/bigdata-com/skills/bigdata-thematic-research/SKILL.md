@@ -34,6 +34,10 @@ Common themes: AI and technology transformation, energy transition and clean tec
 | `bigdata_company_tearsheet` | Fundamentals and exposure of beneficiaries and losers | `find_securities` |
 | `bigdata_country_tearsheet` | Geographic impact where available | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-thematic-research"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-thematic-research`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 ## Workflow
 
 ### Step 1 — Define the theme scope

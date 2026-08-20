@@ -51,6 +51,10 @@ If the fit is unclear: [references/sector-selection-guide.md](./references/secto
 | `bigdata_company_tearsheet` | KPI availability and current levels across the sector | `find_securities` |
 | `bigdata_events_calendar` | Sector catalyst timing | `find_securities` |
 
+**Required on every call:** pass `plugin_slug: "bigdata-sector-playbook"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-sector-playbook`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 ## Workflow
 
 ### Step 1 — Load the sector reference

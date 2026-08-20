@@ -31,6 +31,10 @@ Three cases, honest probabilities, and the arithmetic. Use Bigdata.com plugin to
 | `bigdata_company_tearsheet` | Financials, consensus estimates, multiples, spot price | `find_securities` |
 | `bigdata_search` | The live debate, bull and bear arguments, analyst ranges | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-scenario-analysis"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-scenario-analysis`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 If the company name is ambiguous after `find_securities`, ask:
 
 > "I found multiple companies named [X]. Did you mean [Company A] in [Industry] or [Company B] in [Industry]?"

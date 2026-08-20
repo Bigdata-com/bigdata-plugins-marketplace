@@ -36,6 +36,10 @@ These two topics belong together: a wide moat run by poor capital allocators lea
 | `bigdata_company_tearsheet` | Returns, margins, reinvestment, buybacks, dividends, insider summary | `find_securities` |
 | `bigdata_search` | Competitive position, share, pricing, governance, capital allocation history | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-moat-governance-review"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-moat-governance-review`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 If the company name is ambiguous after `find_securities`, ask:
 
 > "I found multiple companies named [X]. Did you mean [Company A] in [Industry] or [Company B] in [Industry]?"

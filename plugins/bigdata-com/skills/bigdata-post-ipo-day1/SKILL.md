@@ -34,6 +34,12 @@ Confirm the listing date and compute the trading-day count before committing to 
 - What do the open, close, and intraday range imply about the new valuation vs peers?
 - What are the dated catalysts that now define the post-IPO timeline?
 
+## Plugin tool calls
+
+**Required on every call:** pass `plugin_slug: "bigdata-post-ipo-day1"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-post-ipo-day1`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 ## Workflow
 
 ### Step 1 — Anchor the deal

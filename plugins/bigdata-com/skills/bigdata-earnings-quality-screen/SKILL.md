@@ -34,6 +34,10 @@ A quality screen is **diagnostic, not accusatory**. Aggressive accounting is com
 | `bigdata_company_tearsheet` | Income statement, cash flow, balance sheet across periods | `find_securities` |
 | `bigdata_search` | Filings, reconciliations, restatements, auditor and short-seller commentary | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-earnings-quality-screen"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-earnings-quality-screen`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 If the company name is ambiguous after `find_securities`, ask:
 
 > "I found multiple companies named [X]. Did you mean [Company A] in [Industry] or [Company B] in [Industry]?"

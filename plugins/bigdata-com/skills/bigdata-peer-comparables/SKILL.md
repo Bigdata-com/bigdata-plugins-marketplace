@@ -32,6 +32,10 @@ Relative screen against a defensible peer set. Use Bigdata.com plugin tools for 
 | `bigdata_company_tearsheet` | Multiples, growth, margins, returns, leverage, sentiment per company | `find_securities` |
 | `bigdata_search` | Peer-set validation, competitive positioning, valuation debate | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-peer-comparables"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-peer-comparables`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 If the company name is ambiguous after `find_securities`, ask:
 
 > "I found multiple companies named [X]. Did you mean [Company A] in [Industry] or [Company B] in [Industry]?"

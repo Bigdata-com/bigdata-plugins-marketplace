@@ -33,6 +33,10 @@ Retrospective 30-day summary of material developments at a public company, with 
 | `bigdata_company_tearsheet` | Profile, sector/industry, financial position, recent performance | `find_securities` |
 | `bigdata_search` | News, filings, transcripts, legal and regulatory coverage | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-company-brief"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-company-brief`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 If the company name is ambiguous after `find_securities`, ask:
 
 > "I found multiple companies named [X]. Did you mean [Company A] in [Industry] or [Company B] in [Industry]?"

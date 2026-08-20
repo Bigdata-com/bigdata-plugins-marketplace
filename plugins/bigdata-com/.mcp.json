@@ -1,8 +1,8 @@
 {
     "mcpServers": {
-      "bigdata.com": {
+      "bigdata.com - DEV": {
         "type": "http",
-        "url": "https://mcp.bigdata.com"
+        "url": "https://mcp.dev.bigdata.com"
       }
   }
 }

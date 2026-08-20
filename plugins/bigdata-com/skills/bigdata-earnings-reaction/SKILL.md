@@ -35,6 +35,10 @@ The decision note after a print: what changed, what to revise, what to do. Use B
 | `bigdata_events_calendar` | Confirm the report date and the next key date | `find_securities` |
 | `bigdata_search` | Release, transcript, guidance, analyst reactions | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-earnings-reaction"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-earnings-reaction`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 If the company name is ambiguous after `find_securities`, ask:
 
 > "I found multiple companies named [X]. Did you mean [Company A] in [Industry] or [Company B] in [Industry]?"
