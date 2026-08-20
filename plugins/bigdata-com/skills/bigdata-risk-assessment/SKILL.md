@@ -32,6 +32,10 @@ Comprehensive, evidence-rated risk profile of a public company. Use Bigdata.com 
 | `bigdata_company_tearsheet` | Leverage, liquidity, cash flow, coverage, debt maturity | `find_securities` |
 | `bigdata_search` | 10-K risk factors, 8-K events, news, governance signals | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-risk-assessment"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-risk-assessment`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 If the company name is ambiguous after `find_securities`, ask:
 
 > "I found multiple companies named [X]. Did you mean [Company A] in [Industry] or [Company B] in [Industry]?"

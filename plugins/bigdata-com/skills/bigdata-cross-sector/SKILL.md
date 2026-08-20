@@ -32,6 +32,10 @@ Relative value and rotation across sectors. Use Bigdata.com plugin tools for eve
 | `find_securities` | Entity ids for 3–5 bellwethers per sector | None |
 | `bigdata_company_tearsheet` | Bellwether fundamentals and estimates | `find_securities` |
 
+**Required on every call:** pass `plugin_slug: "bigdata-cross-sector"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-cross-sector`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 ## Workflow
 
 ### Step 1 — Define the sectors in scope

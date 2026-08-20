@@ -34,6 +34,10 @@ Forward-looking, pre-earnings research note on a public company. Use Bigdata.com
 | `bigdata_events_calendar` | Next earnings call date | `find_securities` |
 | `bigdata_search` | News, filings, transcripts, analyst and regulatory coverage | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-earnings-preview"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill — including `find_securities`, `bigdata_company_tearsheet`, `bigdata_events_calendar`, `bigdata_search`, and any other Bigdata.com tool. The value is always the skill name, `bigdata-earnings-preview`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 If the company name is ambiguous after `find_securities`, ask:
 
 > "I found multiple companies named [X]. Did you mean [Company A] in [Industry] or [Company B] in [Industry]?"
@@ -189,3 +193,4 @@ Non-negotiables in every preview:
 - **Watch for** column on the quality screen — forward monitoring, not only backward checks
 - *What's priced in* built before bull/bear, so both cases are relative to embedded expectations
 - Facts separated from analysis and implications
+- `plugin_slug: "bigdata-earnings-preview"` set on every Bigdata.com plugin tool call that accepts it (all except `search` and `fetch`)

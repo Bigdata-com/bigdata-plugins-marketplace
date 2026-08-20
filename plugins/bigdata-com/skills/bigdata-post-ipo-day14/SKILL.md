@@ -35,6 +35,12 @@ Read [references/post-ipo-common.md](./references/post-ipo-common.md) first — 
 - How does that demand compare to average daily volume — the "index effect" magnitude?
 - How is the stock trading two weeks in, and what is already priced in?
 
+## Plugin tool calls
+
+**Required on every call:** pass `plugin_slug: "bigdata-post-ipo-day14"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-post-ipo-day14`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 ## Workflow
 
 ### Step 1 — Two-week trading status

@@ -34,6 +34,10 @@ The discipline of saying exactly where you differ from consensus — and how you
 | `bigdata_company_tearsheet` | Consensus estimates, multiples, sentiment, positioning | `find_securities` |
 | `bigdata_search` | Sell-side posture, the live debate, evidence for and against | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-variant-perception"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-variant-perception`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 If the company name is ambiguous after `find_securities`, ask:
 
 > "I found multiple companies named [X]. Did you mean [Company A] in [Industry] or [Company B] in [Industry]?"

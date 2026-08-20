@@ -33,6 +33,10 @@ Full read on one sector: where it trades, what drives it, and what is coming. Us
 | `bigdata_company_tearsheet` | Per-company metrics, estimates, sentiment, segments | `find_securities` |
 | `bigdata_events_calendar` | Upcoming earnings and conferences | `find_securities` |
 
+**Required on every call:** pass `plugin_slug: "bigdata-sector-analysis"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-sector-analysis`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 Run **5–10 targeted searches** across the workflow. Include temporal context ("last 30 days", "2026 outlook").
 
 ## Workflow

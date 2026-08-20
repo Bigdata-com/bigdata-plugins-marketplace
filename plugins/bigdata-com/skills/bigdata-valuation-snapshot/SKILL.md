@@ -32,6 +32,10 @@ The lightweight answer path for "what is it worth" — no full memo, no standalo
 | `bigdata_company_tearsheet` | Current and historical multiples, estimates, margins, FCF, segments | `find_securities` |
 | `bigdata_search` | Peer valuation context, analyst views, valuation debates | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-valuation-snapshot"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-valuation-snapshot`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 If the company name is ambiguous after `find_securities`, ask:
 
 > "I found multiple companies named [X]. Did you mean [Company A] in [Industry] or [Company B] in [Industry]?"

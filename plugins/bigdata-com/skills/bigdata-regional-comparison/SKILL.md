@@ -29,6 +29,10 @@ Cross-region economic and market comparison with an allocation call. Use Bigdata
 | `bigdata_country_tearsheet` | Economic data and comparisons where available | None |
 | `bigdata_search` | Regional indicators, comparative analysis, cross-asset views | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-regional-comparison"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-regional-comparison`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 If `bigdata_country_tearsheet` is unavailable or fails, complete the analysis with `bigdata_search` alone.
 
 ## Workflow

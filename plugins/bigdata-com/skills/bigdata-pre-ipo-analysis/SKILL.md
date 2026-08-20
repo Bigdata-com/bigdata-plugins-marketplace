@@ -37,6 +37,10 @@ Institutional-style research note on an **upcoming** listing. Use Bigdata.com pl
 | `bigdata_company_tearsheet` | Financial baseline where the entity is covered | `find_securities` |
 | Web search | S-1/F-1 terms, financials, comparables, recent debuts | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-pre-ipo-analysis"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-pre-ipo-analysis`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 **Fallback:** if Bigdata.com tools are unavailable, complete every step with web search alone and note in the footer that sentiment data was limited to public news.
 
 ## Workflow

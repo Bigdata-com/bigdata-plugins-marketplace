@@ -35,6 +35,12 @@ Read [references/post-ipo-common.md](./references/post-ipo-common.md) first — 
 - Are insiders and VCs signaling intent to sell (secondary filings, 10b5-1 plans)?
 - How has positioning — short interest, borrow, options skew — set up into the date?
 
+## Plugin tool calls
+
+**Required on every call:** pass `plugin_slug: "bigdata-post-ipo-day179"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-post-ipo-day179`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 ## Workflow
 
 ### Step 1 — Lock-up terms recap (cite the filing)

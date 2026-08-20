@@ -35,6 +35,10 @@ If the user supplied a focus (equities, rates, FX, credit), lead the market-impl
 | `bigdata_country_tearsheet` | Economic data and built-in G7 comparison where available | None |
 | `bigdata_search` | Indicators, policy, market positioning per member | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-g7-comparison"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-g7-comparison`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 If `bigdata_country_tearsheet` is unavailable or fails, complete the analysis with `bigdata_search` alone.
 
 ## Workflow

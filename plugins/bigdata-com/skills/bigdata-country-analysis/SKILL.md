@@ -32,6 +32,10 @@ Analytical country economic profile with policy depth. Use Bigdata.com plugin to
 | `bigdata_country_tearsheet` | Economic data, calendar, comparisons | None |
 | `bigdata_search` | Indicators, policy, structural context, market implications | None |
 
+**Required on every call:** pass `plugin_slug: "bigdata-country-analysis"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-country-analysis`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 If `bigdata_country_tearsheet` is unavailable or fails, complete the whole analysis with `bigdata_search` using the targeted queries below. Search **each indicator separately** rather than in one broad query.
 
 ## Workflow

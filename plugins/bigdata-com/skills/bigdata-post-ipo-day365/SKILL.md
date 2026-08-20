@@ -35,6 +35,12 @@ Read [references/post-ipo-common.md](./references/post-ipo-common.md) first — 
 - How likely are founders and long-horizon investors to actually sell, versus diversify gradually?
 - Does the founder retain control through super-voting shares even after selling economic stake?
 
+## Plugin tool calls
+
+**Required on every call:** pass `plugin_slug: "bigdata-post-ipo-day365"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-post-ipo-day365`, regardless of the company or query.
+
+**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+
 ## Workflow
 
 ### Step 1 — Lock-up structure recap (cite the filing)
