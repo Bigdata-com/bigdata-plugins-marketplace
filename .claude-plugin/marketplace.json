@@ -1,5 +1,6 @@
 {
-    "name": "Bigdata plugins marketplace",
+    "name": "bigdata-plugins-marketplace",
+    "description": "Official Bigdata.com plugin marketplace by RavenPack: financial research and market intelligence skills powered by the Bigdata.com MCP server.",
     "owner": {
       "name": "RavenPack",
       "email": "support@bigdata.com"
