@@ -9,7 +9,7 @@
       {
         "name": "bigdata-com",
         "source": "./plugins/bigdata-com",
-        "description": "Financial research and market intelligence on stocks, companies, sectors, and economies. Run valuation snapshots, peer comparables, and investment memos; preview, digest, and analyze earnings (quality, reactions, surprises); assess risk, monitor catalysts, and review competitive moats and governance. Covers thematic and sector research, cross-sector and regional comparisons, country and macro analysis, G7 benchmarking, scenario analysis, and company briefs. Powered by Bigdata MCP."
+        "description": "Financial research and market intelligence on stocks, companies, sectors, and economies. Run valuation snapshots, peer comparables, and investment memos; preview, digest, and analyze earnings (quality, reactions, surprises); assess risk, monitor catalysts, and review competitive moats and governance. Covers thematic and sector research, cross-sector and regional comparisons, country and macro analysis, G7 benchmarking, scenario analysis, and company briefs. Build interactive watchlist monitoring consoles from existing watchlists, backed by novelty monitors for M&A, competitor releases, executive changes, hiring trends and supplier risk. Powered by Bigdata MCP."
       }
     ]
   }

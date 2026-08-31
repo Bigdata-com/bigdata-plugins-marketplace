@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata Watchlist Console
+  short_description: Build a monitoring console from your Bigdata.com watchlists
+  default_prompt: Use $bigdata-watchlist-console-builder to build a monitoring console from my Bigdata.com watchlists.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,1057 @@
+<title>Watchlist Console</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&family=Roboto:wght@600&display=swap">
+
+<style>
+/* ─────────────────────────────────────────────────────────────────────────
+   Bigdata.com platform palette. Transpiled from the brand design system
+   (_ds/tokens/platform.css) — token names kept verbatim so brand updates
+   can be re-applied by name.
+
+   Theme contract: the complete palette is defined on bare :root (cream),
+   and the ink/dark swap is redefined under BOTH prefers-color-scheme and
+   [data-theme] so an explicit choice wins in either direction. No colour
+   has its only definition inside a media query.
+   ───────────────────────────────────────────────────────────────────────── */
+:root{
+  --pf-bg:#FFFDF5;
+  --pf-rail:#FAF7ED;
+  --pf-hair:rgba(33,33,33,.11);
+  --pf-hair-soft:rgba(33,33,33,.07);
+  --pf-surf:rgba(33,33,33,.028);
+  --pf-surf-2:rgba(33,33,33,.05);
+  --pf-surf-3:rgba(33,33,33,.08);
+  --pf-tx:#212121;
+  --pf-tx-mid:rgba(33,33,33,.64);
+  --pf-tx-dim:rgba(33,33,33,.44);
+  --pf-accent:#5A60D0;
+  --pf-btn:#5A60D0;
+  --pf-btn-tx:#FFFDF5;
+  --pf-green:#0F9B70;
+  --pf-red:#C43F38;
+  --pf-purple:#7A48C4;
+  --pf-dot:rgba(90,96,208,.16);
+  --pf-scroll:rgba(33,33,33,.16);
+
+  --pf-ui:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --pf-kicker:'Roboto',system-ui,sans-serif;
+  /* ModernoFB Condensed is licensed to Bigdata/RavenPack and is NOT shipped
+     with this skill — see references/console-customization.md to swap it back
+     in for internal builds. */
+  --pf-display:Georgia,'Times New Roman',ui-serif,serif;
+  /* Apercu Pro Mono is likewise licensed and not shipped. */
+  --pf-mono:ui-monospace,'SF Mono','Cascadia Mono',Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --pf-bg:#0D0E12;
+    --pf-rail:#0A0B0E;
+    --pf-hair:rgba(255,253,245,.09);
+    --pf-hair-soft:rgba(255,253,245,.06);
+    --pf-surf:rgba(255,253,245,.035);
+    --pf-surf-2:rgba(255,253,245,.06);
+    --pf-surf-3:rgba(255,253,245,.09);
+    --pf-tx:#FFFDF5;
+    --pf-tx-mid:rgba(255,253,245,.62);
+    --pf-tx-dim:rgba(255,253,245,.40);
+    --pf-accent:#9FA4F2;
+    --pf-green:#2DE3A8;
+    --pf-red:#E0564F;
+    --pf-purple:#9662DE;
+    --pf-dot:rgba(159,164,242,.13);
+    --pf-scroll:rgba(255,253,245,.12);
+  }
+}
+:root[data-theme="dark"]{
+  --pf-bg:#0D0E12;
+  --pf-rail:#0A0B0E;
+  --pf-hair:rgba(255,253,245,.09);
+  --pf-hair-soft:rgba(255,253,245,.06);
+  --pf-surf:rgba(255,253,245,.035);
+  --pf-surf-2:rgba(255,253,245,.06);
+  --pf-surf-3:rgba(255,253,245,.09);
+  --pf-tx:#FFFDF5;
+  --pf-tx-mid:rgba(255,253,245,.62);
+  --pf-tx-dim:rgba(255,253,245,.40);
+  --pf-accent:#9FA4F2;
+  --pf-green:#2DE3A8;
+  --pf-red:#E0564F;
+  --pf-purple:#9662DE;
+  --pf-dot:rgba(159,164,242,.13);
+  --pf-scroll:rgba(255,253,245,.12);
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  margin:0;background:var(--pf-bg);color:var(--pf-tx);
+  font-family:var(--pf-ui);font-size:15px;font-weight:300;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--pf-accent);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit;color:inherit}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:var(--pf-scroll);border-radius:99px;border:3px solid transparent;background-clip:content-box}
+.mono{font-family:var(--pf-mono);white-space:nowrap}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ── shell ─────────────────────────────────────────────────────────────── */
+.bd-shell{display:grid;grid-template-columns:266px minmax(0,1fr);min-height:100vh}
+@media (max-width:880px){
+  .bd-shell{grid-template-columns:1fr}
+  .bd-aside{display:none}
+}
+.bd-aside{background:var(--pf-rail);border-right:1px solid var(--pf-hair);display:flex;flex-direction:column;padding:20px 14px 14px;gap:16px}
+/* Bigdata.com lockup — assets/bigdata-logo-on-dark.svg, inlined into the icon
+   sprite as #bd-lg so the console stays a single self-contained file and both
+   placements share one copy. The wordmark takes currentColor (ink) and the
+   glyph knocked out of the mark takes --bd-lg-knock, set to whatever surface
+   the lockup sits on, so it flips correctly between the cream and ink themes. */
+.bd-logo{display:flex;align-items:center;gap:9px;padding:4px 8px 0;color:var(--pf-tx-dim)}
+.bd-logo-by{font-family:var(--pf-display);font-style:italic;font-size:13px;letter-spacing:.005em}
+.bd-lg{width:130px;height:auto;flex:none;fill:var(--pf-tx);--bd-lg-knock:var(--pf-rail)}
+.bd-logo-foot{padding:0 0 2px;--bd-lg-knock:var(--pf-bg)}
+.bd-logo-foot .bd-lg{width:112px}
+.bd-navh{font-family:var(--pf-kicker);font-size:10px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--pf-tx-dim);padding:0 10px;margin:0 0 6px}
+.bd-wl{display:flex;align-items:center;gap:9px;width:100%;text-align:left;padding:7px 10px;border:0;border-radius:10px;background:transparent;font-size:13.5px;font-weight:500;color:var(--pf-tx-mid);cursor:pointer}
+.bd-wl:hover{background:var(--pf-surf)}
+.bd-wl[aria-current="true"]{background:var(--pf-surf-2);color:var(--pf-tx)}
+.bd-wl-n{margin-left:auto;font-family:var(--pf-mono);font-size:11px;color:var(--pf-accent)}
+
+.bd-main{display:flex;flex-direction:column;min-width:0;position:relative}
+.bd-dots{position:absolute;inset:0;background-image:radial-gradient(var(--pf-dot) 1.1px,transparent 1.1px);background-size:22px 22px;-webkit-mask-image:radial-gradient(120% 70% at 50% 0%,#000 0%,transparent 65%);mask-image:radial-gradient(120% 70% at 50% 0%,#000 0%,transparent 65%);pointer-events:none}
+.bd-topbar{min-height:58px;flex:none;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 22px;border-bottom:1px solid var(--pf-hair-soft);position:relative;z-index:2}
+.bd-crumb{font-size:13.5px;font-weight:500}
+.bd-crumb span{color:var(--pf-tx-dim);font-weight:300}
+.bd-tools{margin-left:auto;display:flex;align-items:center;gap:8px}
+.bd-btn{display:inline-flex;align-items:center;gap:7px;height:33px;padding:0 12px;border-radius:9px;border:1px solid var(--pf-hair);background:transparent;color:var(--pf-tx-mid);font-size:13px;font-weight:500;cursor:pointer}
+.bd-btn:hover{background:var(--pf-surf);color:var(--pf-tx)}
+.bd-btn:disabled{opacity:.45;cursor:default}
+.bd-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6}
+.bd-btn-icon{width:33px;height:33px;padding:0;justify-content:center}
+.bd-menu-wrap{position:relative;display:inline-flex}
+.bd-menu{position:absolute;top:calc(100% + 6px);right:0;z-index:30;min-width:170px;background:var(--pf-rail);border:1px solid var(--pf-hair);border-radius:12px;padding:5px;box-shadow:0 20px 44px -18px rgba(0,0,0,.45);display:none}
+.bd-menu[data-local-open="1"]{display:block}
+.bd-menu button{display:block;width:100%;text-align:left;padding:8px 12px;border:0;border-radius:8px;background:transparent;color:var(--pf-tx-mid);font-size:13px;cursor:pointer}
+.bd-menu button[aria-current="true"]{background:var(--pf-surf-2);color:var(--pf-tx);font-weight:500}
+.bd-menu button:hover{background:var(--pf-surf-2);color:var(--pf-tx)}
+
+.bd-scroll{flex:1;position:relative;z-index:1;padding:30px 32px 40px}
+.bd-wrap{max-width:1320px;margin:0 auto}
+.bd-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid var(--pf-hair)}
+.bd-head h1{font-family:var(--pf-display);font-weight:400;font-size:44px;line-height:1.04;letter-spacing:-.005em;margin:0 0 8px}
+.bd-head p{margin:0;font-size:14.5px;font-weight:300;color:var(--pf-tx-mid);max-width:560px}
+.bd-legend{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-family:var(--pf-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--pf-tx-dim);padding-bottom:4px}
+.bd-legend i{display:flex;align-items:center;gap:6px;font-style:normal}
+.bd-legend i span{width:5px;height:14px;border-radius:1.5px}
+
+/* ── holdings table ────────────────────────────────────────────────────── */
+.bd-tablewrap{margin-top:4px;overflow-x:auto}
+.bd-tablemin{min-width:900px}
+.bd-grid{display:grid;grid-template-columns:34px 158px 96px 74px 62px 92px 84px minmax(0,1fr) auto 18px;align-items:center;gap:12px}
+.bd-colhead{align-items:end;padding:12px 10px 9px 4px;border-bottom:1px solid var(--pf-hair);font-family:var(--pf-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--pf-tx-dim);line-height:1.4}
+.bd-colhead .bd-mon{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.bd-row{border-bottom:1px solid var(--pf-hair-soft)}
+.bd-rowhead{width:100%;text-align:left;padding:13px 10px 13px 4px;border:0;border-radius:10px;background:transparent;cursor:pointer;color:var(--pf-tx)}
+.bd-rowhead:hover{background:var(--pf-surf)}
+.bd-row[data-local-open="1"] .bd-rowhead{background:var(--pf-surf)}
+.bd-ini{width:32px;height:32px;border-radius:9px;background:var(--pf-surf-2);border:1px solid var(--pf-hair);display:grid;place-items:center;font-family:var(--pf-mono);font-size:12.5px;color:var(--pf-tx-mid)}
+.bd-id{min-width:0}
+.bd-tk{display:block;font-family:var(--pf-mono);font-size:13.5px;letter-spacing:.02em;color:var(--pf-tx)}
+.bd-nm{display:block;font-size:12px;font-weight:300;color:var(--pf-tx-mid);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bd-num{font-family:var(--pf-mono);white-space:nowrap;font-size:12.5px;color:var(--pf-tx)}
+.bd-num small{font-size:9px;color:var(--pf-tx-dim)}
+.bd-num[data-na="1"]{color:var(--pf-tx-dim)}
+.bd-up{color:var(--pf-green)}
+.bd-down{color:var(--pf-red)}
+.bd-rail{display:flex;align-items:center;gap:3px}
+.bd-tick{display:block;height:14px;width:5px;border-radius:1.5px;background:var(--pf-accent)}
+.bd-tick[data-state="viewed"]{background:var(--pf-surf-3)}
+.bd-tick[data-state="flag"]{background:var(--pf-red)}
+.bd-tick[data-state="off"]{background:var(--pf-surf-2)}
+.bd-cap{font-family:var(--pf-mono);font-size:10.5px;color:var(--pf-tx-dim);margin-left:10px;letter-spacing:.04em;white-space:nowrap}
+.bd-count{font-family:var(--pf-mono);font-size:12.5px;color:var(--pf-accent)}
+.bd-count[data-empty="1"]{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--pf-tx-dim)}
+.bd-chev{width:9px;height:9px;border-right:1.5px solid var(--pf-tx-dim);border-bottom:1.5px solid var(--pf-tx-dim);transform:rotate(45deg);transition:transform .22s ease;justify-self:center}
+.bd-row[data-local-open="1"] .bd-chev{transform:rotate(-135deg)}
+
+/* toggle */
+.bd-tog{display:inline-flex;align-items:center;flex:none;width:28px;height:16px;border-radius:999px;padding:2px;border:0;cursor:pointer;background:var(--pf-btn);transition:background .15s ease}
+.bd-tog[aria-pressed="false"]{background:var(--pf-surf-3)}
+.bd-tog i{display:block;width:12px;height:12px;border-radius:99px;background:#FFFDF5;transition:transform .18s ease;transform:translateX(12px)}
+.bd-tog[aria-pressed="false"] i{transform:translateX(0)}
+
+/* ── drawer ────────────────────────────────────────────────────────────── */
+.bd-drawer{background:var(--pf-surf);border:1px solid var(--pf-hair);border-radius:14px;margin:2px 0 16px;overflow:hidden}
+.bd-row:not([data-local-open="1"]) .bd-drawer{display:none}
+.bd-tabs{display:flex;gap:6px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--pf-hair-soft)}
+.bd-tab{font-size:12.5px;font-weight:500;padding:7px 14px;border-radius:999px;border:1px solid var(--pf-hair);background:transparent;color:var(--pf-tx-mid);cursor:pointer}
+.bd-tab:hover{color:var(--pf-tx)}
+.bd-tab[aria-selected="true"]{border-color:transparent;background:var(--pf-tx);color:var(--pf-bg)}
+.bd-pane{display:none}
+.bd-pane[data-active="1"]{display:block}
+.bd-pane-scroll{overflow-x:auto}
+
+/* pane states: ok | nomonitor | inactive | pending | empty | error.
+   `inactive` is a monitor that exists but is switched off — it will never
+   produce a run, so collapsing it into `pending` would spin forever. */
+.bd-state{display:none;padding:28px 20px;text-align:center}
+.bd-pane:not([data-state="ok"]) .bd-body{display:none}
+.bd-pane[data-state="nomonitor"] .bd-state-nomonitor,
+.bd-pane[data-state="inactive"]  .bd-state-inactive,
+.bd-pane[data-state="pending"]   .bd-state-pending,
+.bd-pane[data-state="empty"]     .bd-state-empty,
+.bd-pane[data-state="error"]     .bd-state-error{display:block}
+.bd-state p{margin:0 0 14px;font-size:13.5px;color:var(--pf-tx-mid)}
+.bd-state .bd-kicker{font-family:var(--pf-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--pf-tx-dim);margin-bottom:8px}
+.bd-cta{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 16px;border-radius:999px;border:0;background:var(--pf-btn);color:var(--pf-btn-tx);font-size:13px;font-weight:500;cursor:pointer}
+.bd-cta:disabled{opacity:.5;cursor:default}
+.bd-spin{width:16px;height:16px;border-radius:50%;border:2px solid var(--pf-surf-3);border-top-color:var(--pf-accent);animation:bd-spin .8s linear infinite;display:inline-block;vertical-align:-3px;margin-right:8px}
+@keyframes bd-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.bd-spin{animation-duration:2.4s}}
+.bd-err{color:var(--pf-red)}
+
+/* event table */
+.bd-evt{border-collapse:collapse;width:100%;min-width:1020px}
+.bd-evt th{padding:0;text-align:left;border-bottom:1px solid var(--pf-hair);background:var(--pf-surf)}
+.bd-sort{display:flex;align-items:center;gap:6px;width:100%;padding:11px 12px;border:0;background:transparent;cursor:pointer;font-family:var(--pf-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;color:var(--pf-tx-dim)}
+.bd-sort[aria-sort]{color:var(--pf-accent)}
+.bd-sort i{width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;flex:none;display:none;transform:rotate(45deg) translateY(-2px)}
+.bd-sort[aria-sort] i{display:block}
+.bd-sort[aria-sort="ascending"] i{transform:rotate(-135deg) translateY(2px)}
+.bd-evt td{padding:12px;border-bottom:1px solid var(--pf-hair-soft);vertical-align:top}
+.bd-evt tbody tr:hover{background:var(--pf-surf)}
+.bd-evt tr[data-seen="1"]{opacity:.5}
+.bd-evt tr[hidden]{display:none}
+.bd-cp{font-weight:500;font-size:13.8px;letter-spacing:-.005em}
+.bd-cpid{display:block;font-family:var(--pf-mono);font-size:9.5px;margin-top:3px;letter-spacing:.05em;color:var(--pf-tx-dim)}
+.bd-cpid[data-unresolved="1"]{font-style:italic}
+.bd-pill{display:inline-block;font-family:var(--pf-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap;border:1px solid var(--pf-hair);color:var(--pf-tx-mid)}
+.bd-pill[data-stage="agreed"],.bd-pill[data-stage="completed"]{border-color:transparent;background:color-mix(in srgb,var(--pf-btn) 22%,transparent);color:var(--pf-accent)}
+.bd-pill[data-stage="announced"]{border-color:color-mix(in srgb,var(--pf-accent) 40%,transparent);color:var(--pf-accent)}
+.bd-pill[data-stage="withdrawn"],.bd-pill[data-stage="rumoured"]{border-color:transparent;background:color-mix(in srgb,var(--pf-red) 14%,transparent);color:var(--pf-red)}
+.bd-pill[data-level="high"]{border-color:transparent;background:color-mix(in srgb,var(--pf-red) 14%,transparent);color:var(--pf-red)}
+.bd-pill[data-level="medium"]{border-color:transparent;background:color-mix(in srgb,var(--pf-purple) 16%,transparent);color:var(--pf-purple)}
+.bd-pill[data-level="low"]{border-color:transparent;background:color-mix(in srgb,var(--pf-green) 12%,transparent);color:var(--pf-green)}
+.bd-why{display:block;max-width:360px;font-size:12.8px;font-weight:300;line-height:1.5;color:var(--pf-tx-mid)}
+.bd-why[data-na="1"]{color:var(--pf-tx-dim);font-style:italic}
+.bd-asset{margin-top:6px;font-family:var(--pf-mono);font-size:10px;color:var(--pf-tx-dim);line-height:1.45;display:block}
+.bd-flag{align-items:center;gap:5px;margin-top:7px;font-family:var(--pf-mono);font-size:9.5px;letter-spacing:.04em;color:var(--pf-red);background:color-mix(in srgb,var(--pf-red) 12%,transparent);border-radius:6px;padding:3px 7px;display:inline-flex}
+.bd-flag svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;flex:none}
+.bd-acts{display:flex;align-items:center;gap:4px}
+.bd-iconbtn{display:grid;place-items:center;width:26px;height:26px;border-radius:7px;border:0;cursor:pointer;background:transparent;color:var(--pf-tx-dim)}
+.bd-iconbtn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6}
+.bd-iconbtn:hover{background:var(--pf-surf-2);color:var(--pf-accent)}
+.bd-iconbtn[aria-pressed="true"]{background:color-mix(in srgb,var(--pf-btn) 20%,transparent);color:var(--pf-accent)}
+.bd-del:hover{background:color-mix(in srgb,var(--pf-red) 14%,transparent);color:var(--pf-red)}
+
+/* list panes */
+.bd-list{padding:4px 8px 8px}
+.bd-li{display:grid;gap:14px;padding:13px 12px;border-bottom:1px solid var(--pf-hair-soft);align-items:baseline}
+.bd-li-comp{grid-template-columns:90px 120px minmax(0,1fr)}
+.bd-li-sup{grid-template-columns:170px 90px minmax(0,1fr)}
+.bd-li-exec{grid-template-columns:90px minmax(0,1fr)}
+.bd-li-jobs{grid-template-columns:190px 80px 70px minmax(0,1fr);align-items:center}
+@media (max-width:720px){.bd-li{grid-template-columns:1fr!important}}
+.bd-d{font-family:var(--pf-mono);font-size:11px;color:var(--pf-tx-dim)}
+.bd-w{font-size:13.8px;font-weight:500}
+.bd-t{display:block;font-size:13.5px;font-weight:400}
+.bd-sub{display:block;font-size:12.5px;font-weight:300;color:var(--pf-tx-mid);margin-top:2px}
+.bd-bar{display:block;height:4px;border-radius:99px;background:var(--pf-surf-3)}
+.bd-bar i{display:block;height:4px;border-radius:99px;background:var(--pf-accent)}
+.bd-foot-note{padding:8px 12px 6px;font-family:var(--pf-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--pf-tx-dim)}
+
+/* notes + pricing */
+.bd-note{padding:16px 20px 20px}
+.bd-note textarea{width:100%;min-height:140px;resize:vertical;background:var(--pf-bg);border:1px solid var(--pf-hair);border-radius:12px;padding:14px 16px;color:var(--pf-tx);font-family:var(--pf-ui);font-size:13.5px;font-weight:300;line-height:1.6;outline:none}
+.bd-note textarea:focus{border-color:var(--pf-accent)}
+.bd-chart{padding:18px 20px 12px}
+.bd-chart svg{width:100%;display:block}
+.bd-chart .grid{stroke:var(--pf-hair-soft);stroke-width:1}
+.bd-chart .base{stroke:var(--pf-hair);stroke-width:1}
+.bd-chart .line{fill:none;stroke:var(--pf-accent);stroke-width:1.8}
+.bd-chart text{font-family:var(--pf-mono);font-size:9px;fill:var(--pf-tx-dim)}
+
+/* freshness + footer */
+.bd-fresh{font-family:var(--pf-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--pf-tx-dim)}
+.bd-fresh[data-stale="1"]{color:var(--pf-red)}
+.bd-banner{display:none;margin:0 0 18px;padding:12px 16px;border:1px solid var(--pf-hair);border-radius:12px;background:var(--pf-surf);font-size:13px;color:var(--pf-tx-mid)}
+.bd-banner[data-show="1"]{display:block}
+.bd-footer{border-top:1px solid var(--pf-hair);padding:22px 32px 30px;font-size:12px;color:var(--pf-tx-dim);line-height:1.6}
+.bd-footer strong{color:var(--pf-tx-mid)}
+.bd-footer .bd-disc{margin-top:10px;max-width:900px}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="bd-lg"><rect width="152.67" height="152.67" rx="36.44" ry="36.44"/><g><circle cx="287.86" cy="31.38" r="8.72"/><path d="M971.96,42.86l-1.04.04v.02c-7.49.28-14.52,3.54-19.59,9.09-5.32-5.8-12.77-9.11-20.64-9.11-4.79,0-9.58,1.8-13.23,4.91v-2.08h-14.8v71.4h14.8v-46.09c0-8.12,5.19-13.37,13.23-13.37s13.27,5.5,13.27,13.37v46.09h14.8v-46.09c0-7.37,5.92-13.37,13.21-13.37,8.66,0,13.23,4.62,13.23,13.37v46.09h14.8v-46.09c0-16.59-11.53-28.17-28.04-28.17Z"/><path d="M330.27,152.37h1.03c1.78.02,3.18.02,4.45.02,1.16,0,2.22,0,3.37,0,1.39,0,2.92,0,4.93,0,23.68,0,40.23-16.57,40.23-40.29V46.97h-14.94v4.51c-7.09-5.57-15.25-8.62-23.18-8.62-21.03,0-38.14,17.11-38.14,38.14s17.11,38.14,38.14,38.14c8.11,0,16.27-2.94,23.18-8.33v1.28c0,6.11-1.44,12.4-5.55,17.09-3.18,3.63-7.76,6.06-12.46,7.01-6.6,1.33-14.38,1.2-21.07,1.27v14.92ZM346.76,104.19h-.44c-7.11-.13-13.55-3.5-17.72-9.27-4.54-6.29-5.66-14.4-3.06-22.27,2.41-7.3,8.52-12.78,15.94-14.3,7.37-1.52,14.76.19,20.28,4.69,5.37,4.38,8.33,10.76,8.33,17.96,0,13-10.25,23.18-23.33,23.18Z"/><rect x="280.39" y="46.97" width="14.94" height="70.15"/><path d="M229.57,42.85c-7.93,0-16.08,3.05-23.18,8.62v-28.82h-14.95v94.46h14.95v-6.32c6.91,5.39,15.06,8.33,23.18,8.33,21.03,0,38.14-17.11,38.14-38.14s-17.11-38.14-38.14-38.14ZM247.13,94.91c-4.17,5.78-10.62,9.14-17.73,9.28h-.44c-13.09,0-23.34-10.18-23.34-23.18,0-7.19,2.95-13.56,8.31-17.94,4.2-3.43,9.5-5.25,15.05-5.25,1.73,0,3.48.18,5.23.53,7.41,1.52,13.53,7,15.96,14.28,2.61,7.86,1.5,15.98-3.04,22.27Z"/><path d="M599.17,22.62h-15v24.11h-9.75v14.75h9.75v28.07c0,15.18,12.35,27.54,27.54,27.54h9.43v-15h-9.43c-6.91,0-12.53-5.62-12.53-12.53v-28.07h21.96v-14.75h-21.96v-24.11Z"/><path d="M729.02,101.68c-4.81,0-8.73,3.91-8.73,8.72s3.91,8.72,8.73,8.72,8.72-3.91,8.72-8.72-3.91-8.72-8.72-8.72Z"/><path d="M851.94,42.87h0c-19.82.63-36.39,17.24-36.94,37.03-.3,10.36,3.53,20.18,10.79,27.64,7.26,7.47,16.96,11.58,27.31,11.58,21.02,0,38.13-17.1,38.13-38.13,0-10.13-4.26-20.07-11.68-27.28-7.5-7.29-17.3-11.14-27.62-10.85ZM866.72,99.14c-5.5,4.27-12.59,5.71-19.44,3.94l-.58-.13c-6.94-1.99-12.63-7.49-14.95-14.47-2.41-7.23-1.28-14.87,3.11-20.95,4.28-5.94,11.1-9.48,18.24-9.48,12.44,0,22.57,10.27,22.57,22.89,0,7.06-3.34,13.86-8.94,18.2Z"/><path d="M689.74,51.48c-7.09-5.57-15.25-8.62-23.18-8.62-21.03,0-38.14,17.11-38.14,38.14s17.11,38.14,38.14,38.14c8.12,0,16.27-2.94,23.18-8.33v6.32h14.94V46.97h-14.94v4.51ZM667.16,104.19h-.44c-7.11-.13-13.54-3.49-17.72-9.27-4.54-6.29-5.66-14.4-3.06-22.27,2.41-7.3,8.52-12.78,15.94-14.3,7.37-1.52,14.76.19,20.28,4.69,5.37,4.38,8.33,10.76,8.33,17.96,0,13.22-10.03,23.18-23.34,23.18Z"/><path d="M780.62,58.1l1.06.04c5.97,0,11.81,2.5,16.02,6.85l.73.76,11.11-10.94-.74-.74c-8.86-8.86-21.09-12.72-33.53-10.61-15.58,2.61-27.99,14.79-30.89,30.3-2.12,11.33.84,22.84,8.1,31.58,7.28,8.77,17.98,13.8,29.34,13.8,10.18,0,19.74-3.96,26.94-11.15l.74-.74-11.11-10.94-.73.75c-5.43,5.58-13.17,7.95-20.71,6.34-7.79-1.65-14.35-7.6-16.7-15.18-2.29-7.21-1.08-14.79,3.32-20.8,4.07-5.56,10.38-8.98,17.06-9.31Z"/><path d="M457.1,51.48c-7.09-5.57-15.25-8.62-23.18-8.62-21.03,0-38.14,17.11-38.14,38.14s17.11,38.14,38.14,38.14c8.12,0,16.27-2.94,23.18-8.33v6.32h14.94V22.66h-14.94v28.82ZM434.51,104.19h-.44c-7.11-.13-13.54-3.5-17.72-9.27-4.54-6.29-5.66-14.4-3.06-22.27,2.41-7.3,8.52-12.78,15.94-14.3,7.37-1.52,14.76.19,20.28,4.69,5.37,4.38,8.33,10.76,8.33,17.96,0,13-10.25,23.18-23.34,23.18Z"/><path d="M546.93,51.48c-7.09-5.57-15.25-8.62-23.18-8.62-21.03,0-38.14,17.11-38.14,38.14s17.11,38.14,38.14,38.14c8.12,0,16.27-2.94,23.18-8.33v6.32h14.94V46.97h-14.94v4.51ZM524.34,104.19h-.44c-7.11-.13-13.54-3.49-17.72-9.27-4.54-6.29-5.66-14.4-3.06-22.27,2.41-7.3,8.52-12.78,15.94-14.3,7.37-1.52,14.76.19,20.28,4.69,5.37,4.38,8.33,10.76,8.33,17.96,0,13.22-10.03,23.18-23.34,23.18Z"/></g><path style="fill:var(--bd-lg-knock)" d="M124.69,78.62c-5.56-6.02-13.25-9.34-21.64-9.34h-12.12v14.04h10.08c4.7,0,9.08,1.84,12.35,5.18,3.26,3.32,5.06,7.76,5.06,12.51s-1.8,9.19-5.06,12.52c-3.26,3.34-7.65,5.18-12.35,5.18-9.69,0-17.27-7.77-17.27-17.68v-49.36c0-8.45-3.38-16.41-9.51-22.43-6.11-5.99-14.14-9.29-22.62-9.29s-16.53,3.3-22.62,9.3c-6.22,6.12-9.51,13.87-9.51,22.43s3,16.5,8.46,22.4c5.56,6.02,13.25,9.34,21.64,9.34h12.16v-14.04h-10.11c-4.7,0-9.08-1.84-12.35-5.18-3.26-3.34-5.06-7.78-5.06-12.52s1.8-9.19,5.06-12.52c3.27-3.34,7.65-5.18,12.35-5.18,9.69,0,17.27,7.77,17.27,17.68v49.36c0,8.45,3.38,16.41,9.51,22.43,6.1,5.99,14.13,9.29,22.6,9.3h.02c8.49,0,16.52-3.31,22.61-9.3,6.22-6.12,9.51-13.87,9.51-22.43s-3-16.51-8.46-22.4Z"/></g>
+<g id="i-eye"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"></path><circle cx="12" cy="12" r="3"></circle></g>
+<g id="i-chevd"><path d="m6 9 6 6 6-6"></path></g>
+<g id="i-cal"><path d="M3.5 5h17v16h-17z"></path><path d="M8 2.5V7m8-4.5V7M3.5 10.5h17"></path></g>
+<g id="i-refresh"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 2.5V7h-4.5"></path></g>
+<g id="i-flag"><path d="M6 21V3.5m0 0h12l-3 4.5 3 4.5H6"></path></g>
+<g id="i-trash"><path d="M4.5 7h15M9.5 7V4h5v3M6.5 7l1 14h9l1-14M10 11v6m4-6v6"></path></g>
+<g id="i-plus"><path d="M12 5v14M5 12h14"></path></g>
+</defs></svg>
+
+<div class="bd-shell">
+
+<aside class="bd-aside">
+  <div class="bd-logo">
+    <span class="bd-logo-by">Powered by</span>
+    <svg class="bd-lg" viewBox="0 0 1000 152.67" role="img" aria-label="Bigdata.com"><use href="#bd-lg"></use></svg>
+  </div>
+  <nav>
+    <h4 class="bd-navh">Workspace</h4>
+    <!-- BD:RAIL — one .bd-wl button per watchlist. Exactly one carries
+         aria-current="true". data-wl is the watchlist id; the count span is
+         the unviewed-event total for that list (from the archive for lists
+         not yet loaded). Emit nothing else here. -->
+    <div id="bd-rail"></div>
+  </nav>
+</aside>
+
+<div class="bd-main">
+  <div class="bd-dots"></div>
+
+  <div class="bd-topbar">
+    <span class="bd-crumb">Watchlists <span id="bd-crumb-wl"></span></span>
+    <div class="bd-tools">
+      <span class="bd-fresh" id="bd-fresh"></span>
+      <button class="bd-btn" id="bd-markall"><svg viewBox="0 0 24 24"><use href="#i-eye"></use></svg>Mark all as viewed</button>
+      <span class="bd-menu-wrap">
+        <button class="bd-btn" id="bd-period-btn" aria-expanded="false"><svg viewBox="0 0 24 24"><use href="#i-cal"></use></svg><span id="bd-period-label">Last 24 hours</span><svg viewBox="0 0 24 24" style="width:12px;height:12px"><use href="#i-chevd"></use></svg></button>
+        <span class="bd-menu" id="bd-period-menu" data-local-open="0">
+          <button data-period="24h" aria-current="true">Last 24 hours</button>
+          <button data-period="7d">Last 7 days</button>
+          <button data-period="30d">Last 30 days</button>
+        </span>
+      </span>
+      <button class="bd-btn bd-btn-icon" id="bd-refresh" title="Refresh now"><svg viewBox="0 0 24 24"><use href="#i-refresh"></use></svg></button>
+    </div>
+  </div>
+
+  <div class="bd-scroll">
+    <div class="bd-wrap">
+
+      <div class="bd-banner" id="bd-banner" data-show="0"></div>
+
+      <div class="bd-head">
+        <div>
+          <!-- BD:TITLE — active watchlist name in the h1, its description (or
+               the member count if it has none) in the p. -->
+          <h1 id="bd-title"></h1>
+          <p id="bd-desc"></p>
+        </div>
+        <div class="bd-legend">
+          <i><span style="background:var(--pf-accent)"></span> new</i>
+          <i><span style="background:var(--pf-red)"></span> might be wrong</i>
+          <i><span style="background:var(--pf-surf-3)"></span> viewed</i>
+        </div>
+      </div>
+
+      <div class="bd-tablewrap">
+        <div class="bd-tablemin">
+          <div class="bd-grid bd-colhead">
+            <span></span><span></span>
+            <span>Latest</span>
+            <span>1D Chg %</span>
+            <span>Actual EPS</span>
+            <span>Price target</span>
+            <span class="bd-mon">News monitor
+              <button class="bd-tog" id="bd-mon-all" aria-pressed="true" title="Disable news monitor for all holdings"><i></i></button>
+            </span>
+            <span></span><span></span><span></span>
+          </div>
+
+          <!-- BD:ROWS — one .bd-row per security in the active watchlist,
+               built from the markup contract in references/live-console.md.
+               Never emit a row from a JS object at runtime: the rows ARE the
+               document, and a viewer's gesture on them is what persists. -->
+          <div id="bd-rows"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bd-footer">
+    <div class="bd-logo bd-logo-foot">
+      <span class="bd-logo-by">Powered by</span>
+      <svg class="bd-lg" viewBox="0 0 1000 152.67" role="img" aria-label="Bigdata.com"><use href="#bd-lg"></use></svg>
+    </div>
+    <div class="bd-disc">
+      This output is for informational and research-assistance purposes only. It does <strong>not</strong> constitute investment, legal, tax, accounting, or other professional advice, and it is <strong>not</strong> a recommendation to buy, sell, or hold any security or instrument or to pursue any strategy. Information may be incomplete, estimated, delayed, or inaccurate. Past performance does not guarantee future results. Verify material facts independently and consult qualified advisors before making decisions.
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- BD:CONFIG — configuration for the live layer. Config only: ids, names and
+     the connector to call. Never displayed content — that lives in the markup
+     above so the live doc can persist gestures against it. -->
+<script type="application/json" id="bd-config">
+{
+  "server": null,
+  "tools": [],
+  "activeWatchlist": null,
+  "watchlists": [],
+  "monitors": {},
+  "createRequests": {},
+  "topics": ["ma","comp","exec","jobs","sup"],
+  "refetchIntervalMs": 300000,
+  "generatedAt": null,
+  "store": null,
+  "createObserved": false
+}
+</script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   Watchlist Console — interaction + live layer.
+
+   TWO STATE CLASSES, and the difference is the whole design:
+
+   PERSISTED (live doc)  A viewer gesture that mutates the DOM is saved as that
+     viewer and reaches every view. Used for: data-seen on an event row, the
+     hidden attribute on a dismissed row, data-mon on a security, and the notes
+     textarea value. Never write these from script on load, a timer, or an mcp
+     delivery — only from a real event handler.
+
+   LOCAL (per viewer)  data-local-* attributes: which drawer is open, which tab
+     is active, the sort order, the period. Not shared, not saved.
+
+   THE MERGE RULE  An mcp refresh may add rows and update their content. It must
+     never touch data-seen or hidden. A viewed event stays viewed when its
+     monitor run is re-delivered.
+   ═══════════════════════════════════════════════════════════════════════════ */
+(() => {
+  'use strict';
+
+  const $  = (sel, root) => (root || document).querySelector(sel);
+  const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
+
+  let CFG = {};
+  try { CFG = JSON.parse($('#bd-config').textContent) || {}; } catch (_) { CFG = {}; }
+
+  const TOPIC_LABEL = { ma:'M&A', comp:'Competitor releases', exec:'Executives',
+                        jobs:'Jobs trending', sup:'Supplier risks' };
+
+  /* ── row bookkeeping ─────────────────────────────────────────────────── */
+
+  // "N to view" caption + the tick rail state for one security.
+  function refreshRow(row) {
+    const on   = row.getAttribute('data-mon') !== '0';
+    const rows = $$('.bd-evt tbody tr', row).filter(tr => !tr.hidden);
+    const unseen = rows.filter(tr => tr.getAttribute('data-seen') !== '1');
+
+    $$('.bd-tick', row).forEach(t => {
+      const tr = rows.find(r => r.dataset.key === t.dataset.key);
+      if (!tr) { t.hidden = true; return; }
+      t.hidden = false;
+      t.setAttribute('data-state',
+        !on ? 'off'
+        : tr.getAttribute('data-seen') === '1' ? 'viewed'
+        : tr.dataset.flag ? 'flag' : 'new');
+    });
+
+    const cap = $('.bd-cap', row);
+    if (cap) cap.textContent = !on ? 'monitoring off'
+      : rows.length ? (unseen.length ? unseen.length + ' to view' : 'all viewed') : '';
+
+    const count = $('.bd-count', row);
+    if (count) {
+      count.textContent = rows.length ? String(rows.length) : 'no events';
+      count.setAttribute('data-empty', rows.length ? '0' : '1');
+    }
+    return unseen.length;
+  }
+
+  // Rail counts follow the rows currently in the document.
+  function refreshRail() {
+    let total = 0;
+    $$('.bd-row').forEach(r => { total += refreshRow(r); });
+    const active = $('.bd-wl[aria-current="true"] .bd-wl-n');
+    if (active) active.textContent = total ? String(total) : '';
+  }
+
+  /* ── gestures: persisted ─────────────────────────────────────────────── */
+
+  document.addEventListener('click', ev => {
+    const seenBtn = ev.target.closest('.bd-seen');
+    if (seenBtn) {
+      const tr = seenBtn.closest('tr');
+      const now = tr.getAttribute('data-seen') === '1' ? '0' : '1';
+      tr.setAttribute('data-seen', now);                     // persisted
+      seenBtn.setAttribute('aria-pressed', now === '1' ? 'true' : 'false');
+      seenBtn.title = now === '1' ? 'Mark as unviewed' : 'Mark as viewed';
+      refreshRail();
+      return;
+    }
+
+    const delBtn = ev.target.closest('.bd-del');
+    if (delBtn) {
+      delBtn.closest('tr').hidden = true;                    // persisted
+      refreshRail();
+      return;
+    }
+
+    const monBtn = ev.target.closest('.bd-tog');
+    if (monBtn) {
+      ev.stopPropagation();
+      if (monBtn.id === 'bd-mon-all') {
+        const turnOn = monBtn.getAttribute('aria-pressed') === 'false';
+        monBtn.setAttribute('aria-pressed', turnOn ? 'true' : 'false');
+        monBtn.title = (turnOn ? 'Disable' : 'Enable') + ' news monitor for all holdings';
+        $$('.bd-row').forEach(r => {
+          r.setAttribute('data-mon', turnOn ? '1' : '0');     // persisted
+          const t = $('.bd-tog', r);
+          if (t) t.setAttribute('aria-pressed', turnOn ? 'true' : 'false');
+        });
+      } else {
+        const row = monBtn.closest('.bd-row');
+        const turnOn = monBtn.getAttribute('aria-pressed') === 'false';
+        monBtn.setAttribute('aria-pressed', turnOn ? 'true' : 'false');
+        row.setAttribute('data-mon', turnOn ? '1' : '0');     // persisted
+      }
+      refreshRail();
+      return;
+    }
+
+    if (ev.target.closest('#bd-markall')) {
+      $$('.bd-evt tbody tr').forEach(tr => {
+        if (tr.hidden) return;
+        tr.setAttribute('data-seen', '1');                    // persisted
+        const b = $('.bd-seen', tr);
+        if (b) { b.setAttribute('aria-pressed', 'true'); b.title = 'Mark as unviewed'; }
+      });
+      refreshRail();
+      return;
+    }
+
+    /* ── gestures: local only ──────────────────────────────────────────── */
+
+    const head = ev.target.closest('.bd-rowhead');
+    if (head) {
+      const row  = head.closest('.bd-row');
+      const open = row.getAttribute('data-local-open') !== '1';
+      row.setAttribute('data-local-open', open ? '1' : '0');
+      // Monitor feeds are subscribed per open drawer — see live.watchRow.
+      if (open) live.watchRow(row); else live.unwatchRow(row);
+      return;
+    }
+
+    const tab = ev.target.closest('.bd-tab');
+    if (tab) {
+      const drawer = tab.closest('.bd-drawer');
+      const key = tab.dataset.tab;
+      drawer.setAttribute('data-local-tab', key);
+      $$('.bd-tab', drawer).forEach(t => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
+      $$('.bd-pane', drawer).forEach(p => p.setAttribute('data-active', p.dataset.tab === key ? '1' : '0'));
+      return;
+    }
+
+    const sortBtn = ev.target.closest('.bd-sort');
+    if (sortBtn) { sortTable(sortBtn); return; }
+
+    const pbtn = ev.target.closest('#bd-period-btn');
+    if (pbtn) {
+      const menu = $('#bd-period-menu');
+      const open = menu.getAttribute('data-local-open') === '1';
+      menu.setAttribute('data-local-open', open ? '0' : '1');
+      pbtn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      return;
+    }
+
+    const pick = ev.target.closest('#bd-period-menu button');
+    if (pick) {
+      $$('#bd-period-menu button').forEach(b => b.setAttribute('aria-current', b === pick ? 'true' : 'false'));
+      $('#bd-period-label').textContent = pick.textContent;
+      document.documentElement.setAttribute('data-local-period', pick.dataset.period);
+      $('#bd-period-menu').setAttribute('data-local-open', '0');
+      $('#bd-period-btn').setAttribute('aria-expanded', 'false');
+      live.repoll();
+      return;
+    }
+
+    if (!ev.target.closest('.bd-menu-wrap')) {
+      const m = $('#bd-period-menu');
+      if (m) m.setAttribute('data-local-open', '0');
+    }
+
+    const wl = ev.target.closest('.bd-wl');
+    if (wl) { live.switchWatchlist(wl.dataset.wl); return; }
+
+    const cta = ev.target.closest('.bd-create');
+    if (cta) { live.createMonitor(cta); return; }
+
+    if (ev.target.closest('#bd-refresh')) { live.refreshNow(); return; }
+  });
+
+  /* Notes: input state on a textarea is a persisted gesture. */
+  document.addEventListener('change', ev => {
+    const ta = ev.target.closest('.bd-note textarea');
+    if (ta) ta.setAttribute('data-filled', ta.value ? '1' : '0');
+  });
+
+  /* ── sorting (local) ─────────────────────────────────────────────────── */
+
+  const STAGES = ['rumoured','exploring','announced','agreed','regulatory_review','completed','withdrawn'];
+  const TEXT_FIRST = new Set(['cp','type','role','why']);
+
+  function cellValue(tr, key) {
+    const td = $('[data-col="' + key + '"]', tr);
+    if (!td) return null;
+    if (td.dataset.sortValue !== undefined && td.dataset.sortValue !== '') {
+      const n = Number(td.dataset.sortValue);
+      return Number.isNaN(n) ? td.dataset.sortValue : n;
+    }
+    if (key === 'stage') return STAGES.indexOf((td.textContent || '').trim().replace(/ /g, '_'));
+    const t = (td.textContent || '').trim();
+    return t === '' || t === '—' ? null : t;
+  }
+
+  function sortTable(btn) {
+    const table = btn.closest('table');
+    const key   = btn.dataset.col;
+    const prev  = btn.getAttribute('aria-sort');
+    const dir   = prev ? (prev === 'ascending' ? 'descending' : 'ascending')
+                       : (TEXT_FIRST.has(key) ? 'ascending' : 'descending');
+
+    $$('.bd-sort', table).forEach(b => b.removeAttribute('aria-sort'));
+    btn.setAttribute('aria-sort', dir);
+    table.closest('.bd-pane').setAttribute('data-local-sort', key + ':' + dir);
+
+    const body = $('tbody', table);
+    const rows = $$('tr', body);
+    rows.sort((a, b) => {
+      const x = cellValue(a, key), y = cellValue(b, key);
+      const xe = x === null || x === '', ye = y === null || y === '';
+      if (xe && ye) return 0;
+      if (xe) return 1;
+      if (ye) return -1;
+      const c = (typeof x === 'number' && typeof y === 'number')
+        ? x - y
+        : String(x).localeCompare(String(y), 'en', { sensitivity:'base', numeric:true });
+      return dir === 'ascending' ? c : -c;
+    });
+    rows.forEach(r => body.appendChild(r));
+  }
+
+  /* ── live layer ──────────────────────────────────────────────────────── */
+
+  const live = {
+    mcp: null,
+    unsubs: [],            // page-level: the grid
+    rowSubs: new Map(),    // entity -> [unsubscribe] for an open drawer
+    rowOrder: [],          // least-recently-opened first, for eviction
+    maxRowWatch: 48,       // 64 is the per-view budget; leave headroom
+    inflight: new Set(),
+
+    banner(msg, isError) {
+      const el = $('#bd-banner');
+      if (!el) return;
+      el.innerHTML = '';
+      el.appendChild(document.createTextNode(msg));
+      el.className = 'bd-banner' + (isError ? ' bd-err' : '');
+      el.setAttribute('data-show', msg ? '1' : '0');
+    },
+
+    /* One place that maps an error code to what the viewer can actually do.
+       Never a single catch-all: each code with a distinct fix gets its own. */
+    describe(err) {
+      const server = (err && err.server) || 'Bigdata.com';
+      switch (err && err.code) {
+        case 'needs_reauth':
+          return { text: 'Reconnect ' + server + ' in claude.ai Settings → Connectors.', retract: true };
+        case 'server_not_connected':
+          return { text: 'Add ' + server + ' in claude.ai Settings → Connectors.', retract: true };
+        case 'selection_required':
+          return { text: 'Choose which ' + server + ' connector to use, then reload.', retract: true };
+        case 'blocked_by_policy':
+          return { text: 'Your organization blocks this ' + server + ' tool.', retract: true };
+        case 'approval_required':
+          return { text: 'This tool needs per-call approval, which artifacts cannot request yet.', retract: true };
+        case 'not_in_manifest':
+          return { text: 'This console was not published with access to that tool.', retract: true };
+        case 'not_granted':
+        case 'capability_disabled':
+        case 'capability_removed':
+          return { text: '', silent: true };                  // snapshot-only, no noise
+        case 'server_unavailable':
+          return { text: server + ' is unreachable — showing the last data received.', transient: true };
+        case 'tool_error':
+          return { text: (err.message || 'The tool reported a failure.'), transient: true };
+        case 'rate_limited':
+          return { text: 'Too many requests — pausing briefly.', transient: true };
+        default:
+          return { text: 'Could not refresh — showing the last data received.', transient: true };
+      }
+    },
+
+    // Freshness comes from the result's own cache marker, never from a clock.
+    stamp(result) {
+      const el = $('#bd-fresh');
+      if (!el) return;
+      const storedAt = result && result.cache && result.cache.storedAt;
+      if (!storedAt) { el.textContent = 'live'; el.setAttribute('data-stale', '0'); return; }
+      const mins = Math.max(0, Math.round((Date.now() - storedAt) / 60000));
+      el.textContent = mins < 1 ? 'updated just now' : 'updated ' + mins + 'm ago';
+      el.setAttribute('data-stale', mins > 60 ? '1' : '0');
+    },
+
+    async boot() {
+      // use() answers one question: can this view run the capability's code?
+      // null is indistinguishable between "not served", "not granted" and
+      // "failed to load" by design — so treat it as absence and stop.
+      let art = null;
+      try { art = await window.claude.use('artifact'); } catch (_) {}
+      if (!art) {
+        // No live doc: gestures will not survive a reload. Say so once, and
+        // hide anything that writes to the user's account.
+        $$('.bd-create').forEach(b => { b.disabled = true; b.title = 'Read-only view'; });
+      }
+
+      try { this.mcp = await window.claude.use('mcp'); } catch (_) { this.mcp = null; }
+      if (!this.mcp) return;                    // snapshot-only, silently
+
+      if (!CFG.server) return;
+
+      // Adapt to what the viewer actually has before calling anything.
+      let available = null;
+      try {
+        const listed = await this.mcp.listTools();
+        const info = (listed.servers || []).find(s => s.server === CFG.server) || null;
+        available = info ? new Set((info.tools || []).map(t => t.name)) : new Set();
+        if (!info || available.size === 0) {
+          const d = this.describe({ code: 'server_not_connected', server: CFG.server });
+          this.banner(d.text, true);
+          return;
+        }
+        // watchTool refuses tools a connector declares as writes.
+        this.readOnly = new Set((info.tools || [])
+          .filter(t => !t.annotations || t.annotations.readOnlyHint !== false)
+          .map(t => t.name));
+        this.availableSet = available;
+      } catch (err) {
+        const d = this.describe(err);
+        if (!d.silent) this.banner(d.text, !d.transient);
+        return;
+      }
+
+      if (!CFG.createObserved) {
+        // The agent never observed a real create response this session, so a
+        // create button would be a guess. It stays disabled.
+        $$('.bd-create').forEach(b => { b.disabled = true; b.title = 'Create from the chat instead'; });
+      }
+
+      this.watchAll(available);
+    },
+
+    watch(tool, input, handler, bucket) {
+      if (!this.mcp || !this.readOnly.has(tool)) return null;
+      // Store the unsubscribe before the first delivery can fire.
+      const un = this.mcp.watchTool(CFG.server, tool, input, handler,
+        { refetchInterval: CFG.refetchIntervalMs || 300000 });
+      (bucket || this.unsubs).push(un);
+      return un;
+    },
+
+    // Only the ACTIVE watchlist is watched, and only its GRID. Monitor feeds
+    // are per company per topic — 25 names × 5 topics is 125 feeds against a
+    // budget of 64 — so a monitor is watched only while its drawer is open.
+    watchAll(available) {
+      this.teardown();
+      const wl  = CFG.activeWatchlist;
+      const ids = ((CFG.watchlists || []).find(w => w.id === wl) || {}).items || [];
+
+      if (ids.length && available.has('bigdata_portfolio_tearsheet')) {
+        const metrics = ids.length > 100 ? ['PRICE','PRICE_CHANGE_1D']
+                                        : ['PRICE','PRICE_CHANGE_1D','EPS','PRICE_TARGET'];
+        this.watch('bigdata_portfolio_tearsheet',
+          { rp_entity_ids: ids.slice(0, ids.length > 100 ? 3000 : 100), metrics },
+          ev => {
+            if (ev.type === 'error') return this.onSectionError($('#bd-rows'), ev.error);
+            this.stamp(ev.result);
+            this.applyGrid(ev.result.payload);
+          });
+      }
+
+      // Drawers left open across a repoll keep their feeds.
+      $$('.bd-row[data-local-open="1"]').forEach(row => this.watchRow(row));
+    },
+
+    /* One subscription per pane of an OPEN drawer. The pane carries its own
+       monitor id, so a delivery lands on exactly one (company, topic) — there
+       is no shared feed to filter by entity any more. */
+    watchRow(row) {
+      if (!this.mcp || !row || !this.availableSet) return;
+      if (!this.availableSet.has('bigdata_fetch_monitor_runs')) return;
+      const entity = row.dataset.entity;
+      if (!entity || this.rowSubs.has(entity)) return;
+
+      // An inactive monitor produces no new runs; polling it is pure waste.
+      const panes = $$('.bd-pane[data-monitor]', row)
+        .filter(p => p.getAttribute('data-mon-status') !== 'inactive');
+      if (!panes.length) return;
+
+      let cost = 0;
+      this.rowSubs.forEach(b => { cost += b.length; });
+      while (this.rowOrder.length && cost + panes.length > this.maxRowWatch) {
+        // Evict the least-recently-opened row. Its rendered rows stay put —
+        // they are still the last-good data, just no longer refreshing.
+        cost -= this.unwatchRow(this.rowOrder[0]);
+      }
+
+      const bucket = [];
+      panes.forEach(pane => {
+        this.watch('bigdata_fetch_monitor_runs',
+          { monitor_id: pane.dataset.monitor, include_events: true, limit: 5 },
+          ev => {
+            if (ev.type === 'error') return this.onSectionError(pane, ev.error);
+            this.stamp(ev.result);
+            this.applyRuns(pane, ev.result.payload);
+          }, bucket);
+      });
+      if (!bucket.length) return;
+      this.rowSubs.set(entity, bucket);
+      this.rowOrder.push(entity);
+    },
+
+    unwatchRow(rowOrEntity) {
+      const entity = typeof rowOrEntity === 'string'
+        ? rowOrEntity : (rowOrEntity && rowOrEntity.dataset ? rowOrEntity.dataset.entity : null);
+      const bucket = entity && this.rowSubs.get(entity);
+      const i = entity ? this.rowOrder.indexOf(entity) : -1;
+      if (i !== -1) this.rowOrder.splice(i, 1);
+      if (!bucket) return 0;
+      bucket.forEach(u => { try { u(); } catch (_) {} });
+      this.rowSubs.delete(entity);
+      return bucket.length;
+    },
+
+    teardown() {
+      this.unsubs.forEach(u => { try { u(); } catch (_) {} });
+      this.unsubs = [];
+      this.rowSubs.forEach(b => b.forEach(u => { try { u(); } catch (_) {} }));
+      this.rowSubs.clear();
+      this.rowOrder = [];
+    },
+
+    onSectionError(section, err) {
+      const d = this.describe(err);
+      if (d.silent || !section) return;
+      if (d.retract) {
+        // An authz denial means the rendered data may no longer be ours to
+        // show. Retract it rather than leaving it looking current.
+        const pane = section.closest ? section.closest('.bd-pane') : null;
+        if (pane) {
+          pane.setAttribute('data-state', 'error');
+          const slot = $('.bd-state-error', pane);
+          if (slot) slot.textContent = d.text;
+        } else {
+          this.banner(d.text, true);
+        }
+        return;
+      }
+      // Transient: keep last-good data, mark it stale.
+      const el = $('#bd-fresh');
+      if (el) { el.textContent = 'stale — ' + (err.code || 'error'); el.setAttribute('data-stale', '1'); }
+      this.banner(d.text, false);
+    },
+
+    /* Update existing cells in place. Adds nothing the viewer can persist,
+       and touches no persisted attribute. */
+    applyGrid(payload) {
+      const rows = (payload && (payload.rows || payload.companies || payload.data)) || [];
+      if (!Array.isArray(rows)) return;
+      rows.forEach(r => {
+        const id = r.rp_entity_id || r.entity_id || r.id;
+        const row = id && $('.bd-row[data-entity="' + CSS.escape(String(id)) + '"]');
+        if (!row) return;
+        const set = (col, val, opts) => {
+          const el = $('[data-cell="' + col + '"]', row);
+          if (!el) return;
+          const has = val !== null && val !== undefined && val !== '';
+          el.textContent = has ? String(val) : '—';
+          el.setAttribute('data-na', has ? '0' : '1');
+          if (opts && opts.signed && has) {
+            const neg = String(val).trim().startsWith('-');
+            el.classList.toggle('bd-down', neg);
+            el.classList.toggle('bd-up', !neg);
+          }
+        };
+        set('px', r.price != null ? r.price : r.PRICE);
+        set('chg', r.price_change_1d != null ? r.price_change_1d : r.PRICE_CHANGE_1D, { signed:true });
+        set('eps', r.eps != null ? r.eps : r.EPS);
+        set('pt',  r.price_target != null ? r.price_target : r.PRICE_TARGET);
+      });
+    },
+
+    /* THE MERGE RULE lives here: an event already in the table keeps its
+       data-seen and its hidden attribute. Only content is refreshed, and new
+       keys are appended. */
+    applyRuns(pane, payload) {
+      const runs = (payload && (payload.runs || payload.items)) || [];
+      if (!Array.isArray(runs) || !pane) return;
+      const completed = runs.filter(r => (r.status || '').toUpperCase() === 'COMPLETED');
+      const runIdOf = r => r && (r.run_id || r.execution_id || r.id) || '';
+
+      if (!completed.length) {
+        // No run yet. Which empty state that is depends on the monitor, not
+        // on the feed: a switched-off monitor is never going to produce one.
+        pane.setAttribute('data-state',
+          pane.getAttribute('data-mon-status') === 'inactive' ? 'inactive' : 'pending');
+        return;
+      }
+
+      // The pane points at the newest run it has read — half of the
+      // (monitor_id, run_id) pointer back to the full event payload.
+      const newest = runIdOf(completed[0]);
+      if (newest) pane.setAttribute('data-run', String(newest));
+
+      // The monitor covers exactly this company and this topic, so every
+      // event it returns belongs to this pane. No entity filtering.
+      const events = [];
+      completed.forEach(run => (run.events || []).forEach(e => events.push([e, runIdOf(run)])));
+
+      if (!events.length) { pane.setAttribute('data-state', 'empty'); return; }
+
+      const body = $('tbody', pane) || $('.bd-body', pane);
+      if (!body) { pane.setAttribute('data-state', 'ok'); return; }
+
+      events.forEach(pair => {
+        const e = pair[0], runId = pair[1];
+        const key = e.id || e.event_id;
+        if (!key) return;
+        const existing = $('[data-key="' + CSS.escape(String(key)) + '"]', body);
+        if (existing) {
+          // Content only. data-seen and hidden are the viewer's, not ours.
+          $$('[data-live]', existing).forEach(cell => {
+            const v = e[cell.dataset.live];
+            if (v !== undefined && v !== null && v !== '') cell.textContent = String(v);
+          });
+          if (runId) existing.setAttribute('data-run', String(runId));
+        } else if (body.dataset.rowTemplate) {
+          const tpl = document.createElement('template');
+          tpl.innerHTML = body.dataset.rowTemplate.trim();
+          const tr = tpl.content.firstElementChild;
+          if (!tr) return;
+          tr.dataset.key = key;
+          if (runId) tr.setAttribute('data-run', String(runId));
+          $$('[data-live]', tr).forEach(cell => {
+            const v = e[cell.dataset.live];
+            cell.textContent = (v === undefined || v === null || v === '') ? '—' : String(v);
+          });
+          body.appendChild(tr);
+        }
+      });
+
+      pane.setAttribute('data-state', 'ok');
+      refreshRail();
+    },
+
+    /* A create is an ACTION and a WRITE. Three rules from the mcp contract:
+       one call per gesture, never auto-retried, and an ambiguous failure is
+       resolved by RE-READING rather than calling again — a rejection is not
+       proof the monitor was not created. */
+    async createMonitor(btn) {
+      if (!this.mcp || btn.disabled) return;
+      const pane   = btn.closest('.bd-pane');
+      const topic  = pane && pane.dataset.tab;
+      const row    = btn.closest('.bd-row');
+      const entity = row && row.dataset.entity;
+      // One monitor per company per topic, so the baked payload is keyed by
+      // both — never by watchlist.
+      const req    = ((CFG.createRequests || {})[entity] || {})[topic];
+      if (!req) { btn.disabled = true; btn.title = 'No request payload was baked for this company'; return; }
+
+      const guard = entity + ':' + topic;
+      if (this.inflight.has(guard)) return;          // no double-fire
+      this.inflight.add(guard);
+      btn.disabled = true;
+      const label = btn.textContent;
+      btn.textContent = 'Creating…';
+
+      try {
+        const res  = await this.mcp.callTool(CFG.server, 'bigdata_configure_monitor', req);
+        const body = (res && res.payload) || {};
+        const id   = body.id || body.monitor_id;
+        // Read the status back rather than assuming create leaves it running.
+        const status = String(body.status || '').toLowerCase() === 'inactive' ? 'inactive' : 'active';
+        if (id) {
+          CFG.monitors = CFG.monitors || {};
+          CFG.monitors[entity] = CFG.monitors[entity] || {};
+          CFG.monitors[entity][topic] = { id: id, status: status };
+          pane.setAttribute('data-monitor', id);
+          pane.setAttribute('data-mon-status', status);
+        }
+        // Drop cached reads so the watched sections refetch against reality.
+        try { await this.mcp.invalidate(CFG.server, 'bigdata_fetch_monitors'); } catch (_) {}
+        // An inactive monitor never runs, so 'pending' would spin forever.
+        pane.setAttribute('data-state', status === 'inactive' ? 'inactive' : 'pending');
+        if (status === 'active' && row) { this.unwatchRow(row); this.watchRow(row); }
+      } catch (err) {
+        const ambiguous = err && (err.code === 'server_unavailable' ||
+                                  err.code === 'upstream_error' ||
+                                  err.code === 'cancelled');
+        if (ambiguous) {
+          // Outcome unknown. Find out before offering anything again.
+          let exists = false;
+          try {
+            const check = await this.mcp.callTool(CFG.server, 'bigdata_fetch_monitors', {},
+                                                  { cache: { refresh: true } });
+            // The monitor name carries both halves of its identity, so look
+            // for this company AND this topic — not the topic alone.
+            const txt = JSON.stringify((check && check.payload) || '');
+            exists = txt.indexOf(String(entity)) !== -1 &&
+                     txt.indexOf(TOPIC_LABEL[topic] || topic) !== -1;
+          } catch (_) {}
+          const slot = $('.bd-state-error', pane);
+          pane.setAttribute('data-state', 'error');
+          if (slot) slot.textContent = exists
+            ? 'The monitor was created despite the error — reload to see its first run.'
+            : 'The request failed and no monitor was created. Try again from the chat.';
+        } else {
+          const d = this.describe(err);
+          pane.setAttribute('data-state', 'error');
+          const slot = $('.bd-state-error', pane);
+          if (slot) slot.textContent = d.text;
+        }
+      } finally {
+        this.inflight.delete(guard);
+        btn.textContent = label;
+        // Deliberately left disabled: re-arming needs a fresh page state, not
+        // a second click on a button whose outcome we could not determine.
+      }
+    },
+
+    async refreshNow() {
+      if (!this.mcp) return;
+      try { await this.mcp.invalidate(CFG.server); } catch (_) {}
+      this.repoll();
+    },
+
+    repoll() {
+      if (!this.mcp) return;
+      if (this.availableSet) this.watchAll(this.availableSet);
+    },
+
+    switchWatchlist(id) {
+      if (!id || id === CFG.activeWatchlist) return;
+      // Rows for other lists are not in this document; the agent rebuilds and
+      // republishes on switch. Mark intent and let the rail reflect it.
+      $$('.bd-wl').forEach(b => b.setAttribute('aria-current', b.dataset.wl === id ? 'true' : 'false'));
+      this.banner('Ask Claude to load this watchlist — the console builds one list at a time.', false);
+    }
+  };
+
+  /* ── init ────────────────────────────────────────────────────────────── */
+  refreshRail();
+  if (window.claude && typeof window.claude.use === 'function') {
+    live.boot().catch(() => {});   // absence is a normal state, not an error
+  }
+})();
+</script>
