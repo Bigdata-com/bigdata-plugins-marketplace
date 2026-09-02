@@ -106,17 +106,18 @@ console preserves it. Never drop a name.
 ### Step 3 — Monitor discovery
 
 Read `monitors.json` from the store first — that is the mapping, already resolved. Then call
-`bigdata_fetch_monitors` with `{name: "[BDC]"}` to pick up monitors created outside this store, and
-match names against the convention:
+`bigdata_fetch_monitors` with `{name: "[Watchlist]"}` to pick up monitors created outside this store,
+and match names against the convention:
 
 ```
-[BDC] <TICKER> · <Company name> · <Topic> · <rp_entity_id>
+[Watchlist] <TICKER> · <Topic>
 ```
 
-Parse **right to left**: the last ` · ` segment is the entity id, the one before it is the topic label,
-and everything before those is a human label that is never parsed. The pair `(rp_entity_id, topic)` is
-what tells the console which monitor feeds which drawer tab — the watchlist plays no part, so a company
-covered from another list needs nothing created.
+The topic is the last ` · ` segment; everything before it (the ticker, or the company name when there is
+no ticker) is a human label that is never parsed. The entity id is **not** in the name — read it from
+the monitor's own `config.entity_watchlist[0].rp_entity_id` in the `bigdata_fetch_monitors` response.
+The pair `(rp_entity_id, topic)` is what tells the console which monitor feeds which drawer tab — the
+watchlist plays no part, so a company covered from another list needs nothing created.
 
 Record every `(company, topic)` cell that has no monitor, and every monitor whose reported `status` is
 `inactive` — those two states are different and stay different downstream.

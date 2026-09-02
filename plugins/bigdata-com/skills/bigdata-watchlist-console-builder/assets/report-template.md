@@ -32,7 +32,7 @@ uncovered names under "What is outside coverage".
 
 | Security | Topic | Monitor name | Schedule | Status | First run |
 |----------|-------|--------------|----------|--------|-----------|
-| [TICKER] | [Topic] | `[BDC] NVDA · NVIDIA Corporation · M&A · D8442A` | [6h] | [active / inactive] | [pending / backfilled via simulation] |
+| [TICKER] | [Topic] | `[Watchlist] NVDA · M&A` | [6h] | [active / inactive] | [pending / backfilled via simulation] |
 
 Monitor names carry the company and the topic, not the watchlist — the same monitor serves every list
 that security appears on.

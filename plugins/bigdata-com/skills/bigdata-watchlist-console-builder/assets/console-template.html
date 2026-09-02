@@ -1003,8 +1003,9 @@ button{font-family:inherit;color:inherit}
           try {
             const check = await this.mcp.callTool(CFG.server, 'bigdata_fetch_monitors', {},
                                                   { cache: { refresh: true } });
-            // The monitor name carries both halves of its identity, so look
-            // for this company AND this topic — not the topic alone.
+            // The raw payload carries both halves of this monitor's identity
+            // (entity_watchlist for the company, the name for the topic), so
+            // look for this company AND this topic — not the topic alone.
             const txt = JSON.stringify((check && check.payload) || '');
             exists = txt.indexOf(String(entity)) !== -1 &&
                      txt.indexOf(TOPIC_LABEL[topic] || topic) !== -1;

@@ -72,7 +72,7 @@ The registry that replaces deriving the mapping from monitor names on every run.
 {
   "D8442A": {
     "ma": {
-      "monitor_id": "8f2c…", "name": "[BDC] NVDA · NVIDIA Corporation · M&A · D8442A",
+      "monitor_id": "8f2c…", "name": "[Watchlist] NVDA · M&A",
       "status": "active", "frequency": "6h",
       "last_run_id": "run_71b…", "last_run_at": "2026-08-27T06:00:00Z",
       "created_at": "2026-08-20T14:06:11Z", "created_by_console": true

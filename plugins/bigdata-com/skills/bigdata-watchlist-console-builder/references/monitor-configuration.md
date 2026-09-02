@@ -15,30 +15,31 @@ The cost is monitor count. See [Scale](#scale) before creating anything.
 ## Naming
 
 ```
-config.name = "[BDC] <TICKER> · <Company name> · <Topic> · <rp_entity_id>"
+config.name = "[Watchlist] <TICKER> · <Topic>"
 ```
 
 ```
-[BDC] NVDA · NVIDIA Corporation · M&A · D8442A
-[BDC] ASML · ASML Holding NV · Supplier risks · 4A6F8B
+[Watchlist] NVDA · M&A
+[Watchlist] ASML · Supplier risks
 ```
 
 Topic labels, verbatim: `M&A`, `Competitor releases`, `Executives`, `Jobs trending`,
 `Supplier risks`.
 
-- **Read it right to left.** The last ` · ` segment is the entity id, the one before it is the topic
-  label. Everything between `[BDC] ` and those two is a human label and is never parsed — a company
-  name may contain almost anything, including a separator.
-- **Ticker segment is dropped when the tearsheet has no ticker** — `[BDC] <Company name> · <Topic> ·
-  <id>`. Parsing from the right is what makes that safe.
-- Keep the whole string under ~80 characters; truncate the company name segment, never the id.
-- Both identifying segments are searchable: `bigdata_fetch_monitors` matches names case-insensitively
-  on a partial string, so `{name: "[BDC]"}` returns every console monitor and `{name: "<rp_entity_id>"}`
-  returns one company's monitors across all topics.
+- **Read it right to left.** The last ` · ` segment is the topic label. Everything before it —
+  normally the ticker, or the company name when there is no ticker — is a human label and is never
+  parsed.
+- **Ticker segment falls back to the company name when the tearsheet has no ticker** —
+  `[Watchlist] <Company name> · <Topic>`. Parsing from the right is what makes that safe.
+- Keep the whole string under ~80 characters; truncate the human-label segment, never the topic.
+- The entity id is **not** in the name. `bigdata_fetch_monitors` matches names case-insensitively on a
+  partial string, so `{name: "[Watchlist]"}` returns every console monitor; to scope to one company,
+  fetch that set and filter client-side on `config.entity_watchlist[0].rp_entity_id`.
 
 The watchlist name appears **nowhere** in the name. Mapping a monitor to a drawer tab is
-`(rp_entity_id, topic)` — read from the name's last two segments, and cached in
-`.bigdata-console.json` so later runs skip the derivation entirely.
+`(rp_entity_id, topic)` — topic read from the name's last segment, `rp_entity_id` read from
+`config.entity_watchlist[0]`, and both cached in `.bigdata-console.json` so later runs skip the
+derivation entirely.
 
 ## The create sequence
 
@@ -55,7 +56,7 @@ legitimises the console's create button.
 {"action": "create", "create_monitoring": true,
  "intent": "<per-topic intent, naming the company>",
  "config": {
-   "name": "[BDC] NVDA · NVIDIA Corporation · M&A · D8442A",
+   "name": "[Watchlist] NVDA · M&A",
    "schedule": {"frequency": "6h"},
    "entity_watchlist": [{"name": "NVIDIA Corporation", "rp_entity_id": "D8442A"}],
    "search_queries": ["{\"search_mode\":\"fast\",\"query\":{\"text\":\"…\"}}"]
