@@ -18,6 +18,7 @@ set -euo pipefail
 
 # Navigate to plugin root (parent of scripts/)
 cd "$(dirname "$0")/.."
+PLUGIN_ROOT="$(pwd)"
 
 SKILLS_ROOT="skills"
 OUTPUT_DIR="dist"
@@ -203,10 +204,14 @@ for skill_name in "${SKILLS[@]}"; do
   echo "Building ${output_file}"
   rm -f "${output_file}" "${zip_file}"
 
-  # zip the folder under its own directory name (keeps structure)
+  # zip the skill's contents at the archive root (no wrapping folder) so
+  # SKILL.md and the other skill folders (agents/, assets/, ...) are the
+  # top-level entries. Uploaders that create their own folder for the skill
+  # and extract into it would otherwise end up with a duplicated nested
+  # folder if the archive itself also wrapped everything in a folder.
   (
-    cd "${SKILLS_ROOT}"
-    zip -r -q "../${output_file}" "${skill_name}" \
+    cd "${skill_dir}"
+    zip -r -q "${PLUGIN_ROOT}/${output_file}" . \
       -x '*/.DS_Store' \
       -x '*/__pycache__/*' \
       -x '*.pyc' \
