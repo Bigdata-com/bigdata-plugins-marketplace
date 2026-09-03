@@ -198,9 +198,16 @@ any remembered API shape. The markup contract, the manifest, and every rule the 
 
 The essentials:
 
-- **Capabilities:** `{mcp: {servers: [{server, tools}]}, artifact: {}}`. Read `server` from the
-  Bigdata.com connector actually in use in this session — the segment between `mcp__` and the next
-  `__` — rather than hardcoding, since DEV, STG and Beta connectors exist alongside production.
+- **Capabilities:** `{mcp: {servers: [{server, tools}]}, artifact: {}}`. `server` must be the
+  connector's **display name exactly as claude.ai shows it** — `"Bigdata.com"`. **Get it by calling `ListConnectors`** (filter on
+  `bigdata`) and take the `name` of the entry that is `connected` and `enabledInChat`. Do **not**
+  derive it from your own tool-name prefix: the segment between `mcp__` and the next `__` is a
+  sanitized identifier (`Bigdata_com`) that is not a valid `server` value and does not exist as a
+  connector. **Declare exactly one server** — the one in use. A manifest is a viewer-consented grant,
+  so a speculative second entry shows the viewer a connector name that isn't real; if you are unsure
+  which name is right, call `ListConnectors` rather than declaring both. Have the page confirm the name
+  from `listTools()` at load (matching case- and punctuation-insensitively) so it still binds if the
+  display name is styled differently than expected.
 - **Content is markup.** Generate the rows and events as HTML into the markers. Never render displayed
   content from a JS object at runtime: the markup *is* the shared document, and a viewer's gesture on
   it is what persists.
