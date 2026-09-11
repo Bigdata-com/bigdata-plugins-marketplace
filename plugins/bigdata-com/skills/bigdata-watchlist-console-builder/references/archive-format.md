@@ -73,7 +73,7 @@ The registry that replaces deriving the mapping from monitor names on every run.
   "D8442A": {
     "ma": {
       "monitor_id": "8f2c…", "name": "[Watchlist] NVDA · M&A",
-      "status": "active", "frequency": "6h",
+      "status": "active", "frequency": "1h",
       "last_run_id": "run_71b…", "last_run_at": "2026-08-27T06:00:00Z",
       "created_at": "2026-08-20T14:06:11Z", "created_by_console": true
     }
@@ -120,7 +120,11 @@ deliberate exceptions travel alongside, not inside, `cells`:
 | `sort` | The `data-sort-value` a column renders with. Derived from the value, not extra data. |
 | `flag` | Renders as the red tick and the `.bd-flag` note. Empty string when clean. |
 | `source` | The citation the cell hyperlinks to. Title, url and published date only. |
-| `cp_id`-style id cells | Shown in the row as the resolved entity id, and marks unresolved references. |
+| `source.published` | The newest grounding document's publication timestamp, rendered in the summary cell's source label as `MMM DD, YYYY - Sources via bigdata.com`, not in the counterparty cell. Null where the feed gave no usable timestamp. |
+| `sources[]` | The distinct source names shown at the foot of the summary cell — name plus url, deduped by document id then by name. Store what the row displays, not the whole `grounding` array. |
+| `summary` | The event summary shown in the `sum` column. |
+| `event_date` | `{raw, display, precision}` — the source string as received, the normalised `MMM DD, YYYY` (or coarser) rendering, and which of day/month/quarter/year/text/none it resolved to. Keep `raw`: it is the only record of what the feed actually said. |
+| `cp_id`-style id cells | Carried on the cell as `data-cp-id` for later re-fetch and enrichment. Not displayed as a column, and its absence is what sets `data-unresolved`. |
 
 Not stored, by design: full event text, extraction confidence, the document chunk, entity lists beyond
 the displayed counterparty, the monitor's own config echo, and every field of the extraction schema

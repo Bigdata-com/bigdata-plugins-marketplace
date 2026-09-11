@@ -57,7 +57,7 @@ legitimises the console's create button.
  "intent": "<per-topic intent, naming the company>",
  "config": {
    "name": "[Watchlist] NVDA · M&A",
-   "schedule": {"frequency": "6h"},
+   "schedule": {"frequency": "1h"},
    "entity_watchlist": [{"name": "NVIDIA Corporation", "rp_entity_id": "D8442A"}],
    "search_queries": ["{\"search_mode\":\"fast\",\"query\":{\"text\":\"…\"}}"]
  }}
@@ -66,6 +66,23 @@ legitimises the console's create button.
 `config` on create accepts **only** `name`, `search_queries`, `schedule`, `extraction_instructions`
 and `entity_watchlist`. The object is `additionalProperties: false` — an extra key is rejected, not
 ignored.
+
+**Every schema must contain at least one `entity_reference` field.** It is what keys the monitor's
+deduplication, and the API rejects a schema without one:
+
+```
+at least one field must have field_type='entity_reference' — it keys the monitor's deduplication
+```
+
+**Enforcement is inconsistent.** Observed 2026-09-08: four executive monitors were accepted with a
+schema carrying no `entity_reference` at all, and the fifth identical call was rejected. Never rely
+on a schema being accepted because a previous identical one was — always include the field. If a
+batch is already half-built when the error appears, re-send the corrected schema to **every** monitor
+in the batch, or the drawer columns read different field names per company.
+
+Pick the field that makes deduplication meaningful: the entity whose recurrence means "same event".
+For M&A that is the counterparty; for a leadership change it is the person, not the company (a fixed
+company reference would key every row to the same entity and defeat novelty).
 
 **3 · Extraction schema.** `structured_output` is an **update-only** field. It cannot ride along on
 the create call. Send it immediately after:
@@ -108,7 +125,7 @@ together.
   unambiguous. A bare ticker alone is a bad query term.
 - The monitor sets its own time window per run, retrieves everything the query matches and does not
   rerank — so `max_chunks`, `timestamp` filters and reranker settings are dropped. Do not tune them.
-- **Schedule**: `{frequency: "<n><h|d|w>"}`. Default `6h` for M&A and competitor releases, `1d` for
+- **Schedule**: `{frequency: "<n><h|d|w>"}`. Default `1h` for M&A and competitor releases, `1d` for
   executives and supplier risks, `1w` for hiring trends. Match the topic's real pace.
 - **`text` fields never drive novelty.** Put free-form rationale and context in a `text` field so a
   reworded description does not resurface a known event as new.
@@ -160,8 +177,13 @@ intent: "Track senior executive and board changes at <Company> (<TICKER>) — ap
          role changes and succession announcements."
 ```
 
-Fields: `person` (`string`), `change_type` (`enum`: `appointment`, `departure`, `role_change`,
+Fields: `person` (**`entity_reference`** — this topic's deduplication key, so the same individual
+resurfacing is recognised as the same event; it is also what satisfies the mandatory
+`entity_reference` rule above), `change_type` (`enum`: `appointment`, `departure`, `role_change`,
 `succession`), `role` (`string`), `effective_date` (`datetime`), `context` (`text`).
+
+`person` arrives as an object (`{name, rp_entity_id}`) like any entity reference, so render
+`person.name` in the column — writing the object straight into a cell yields `[object Object]`.
 
 ### Jobs trending — `jobs`
 
@@ -173,7 +195,7 @@ intent: "Track hiring activity and job posting trends at <Company> (<TICKER>) by
 Fields: `area` (`string`), `openings` (`number`), `trend` (`string`), `direction`
 (`enum`: `expanding`, `flat`, `contracting`), `context` (`text`).
 
-A weekly schedule suits this one — hiring data moves slowly and a 6h monitor mostly re-reports.
+A weekly schedule suits this one — hiring data moves slowly and an hourly monitor mostly re-reports.
 
 ### Supplier risks — `sup`
 
@@ -197,9 +219,35 @@ nothing to show.
    sized to the period the user cares about (1–90 frequency-sized windows).
 2. Poll with `bigdata_fetch_monitor_runs`, filtering on the returned `simulation_id` and passing
    `include_events: true`. Re-call the tool every 10–15 seconds; never shell `sleep`.
+   - **Inventory before events.** A first pass with `include_events: false, limit: 20` returns every
+     window with its `status` and `event_count` for a fraction of the payload. Use it to confirm the
+     simulation is finished — all `number_of_runs` windows present and terminal — and to get the
+     expected event total, *then* fetch the events.
+   - **`limit` defaults to 1 and caps at 20.** Always pass a `limit` at least as large as
+     `number_of_runs`, or the read is truncated in a way that is indistinguishable from a quiet feed.
+   - If a `simulation_id`-filtered call comes back empty, retry **unfiltered** before concluding
+     there are no runs — the filter has been observed returning nothing for a monitor that had
+     completed runs.
+   - **The response envelope is not consistent.** With runs, the tool returns a **bare JSON array**;
+     with none, it returns `{"result": []}`. Accept both, plus the legacy `runs`/`items` keys:
+     `Array.isArray(p) ? p : (p.result || p.runs || p.items || [])`. Code that reads only one shape
+     silently sees an empty feed.
+   - **A run's execution id is `id`, never `run_id`.**
+   - **Scheduled runs are not aligned across monitors.** Each monitor's windows are offset by
+     seconds from its own creation time (`15:06:53` for one, `15:07:13` for another), so window
+     edges are not shared. Never derive one monitor's window boundaries from another's, and when
+     filtering by period, compare each row's own `window_end` against a single cutoff rather than
+     assuming rows fall into common buckets.
+   - **`is_simulation` distinguishes a backfill from a real run.** A monitor left running produces
+     scheduled runs (`is_simulation: false`) that accumulate between sessions; a returning session
+     should read those rather than re-simulating, and must re-anchor its reference clock to the
+     newest `window_end` instead of reusing the timestamp baked into an earlier build.
 3. Simulations analyse earlier baseline windows first so novelty can be measured against existing
    content. Extra earlier windows appear in the results — that is expected. Report the requested
    window and its events, not the backfill internals.
+4. **Reconcile before building.** Rows rendered for that (company, topic) must equal the summed
+   `event_count` from the inventory. A mismatch means the build under-read, not that the monitor is
+   quiet.
 
 Record the `run_id` of every run whose events reach the console. It is half the pointer that makes the
 stored display record re-expandable — see [archive-format.md](./archive-format.md).

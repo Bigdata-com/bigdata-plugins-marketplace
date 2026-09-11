@@ -28,11 +28,160 @@ Generate it as HTML at build time and mutate it in handlers.
 
 | Marker | Fill with |
 |---|---|
-| `<div id="bd-rail">` | One `.bd-wl` button per watchlist; exactly one `aria-current="true"` |
+| `<div id="bd-rail">` | One `.bd-wl` button per watchlist; exactly one `aria-current="true"`. Each holds `.bd-wl-i` (one-letter initial, the only label once the sidebar is collapsed), `.bd-wl-t` (name) and `.bd-wl-n` (unviewed count) |
 | `<h1 id="bd-title">` / `<p id="bd-desc">` | Active watchlist name; its description, or the member count |
 | `<span id="bd-crumb-wl">` | `/ <active watchlist name>` |
 | `<div id="bd-rows">` | One `.bd-row` per security — see §3 |
-| `<script id="bd-config">` | The config object — see §4 |
+| `<script id="bd-config">` | The config object — see §4. `monitors[entity][topic]` must include `frequency`, which the refresh button uses to size its read |
+| `<span id="bd-period-menu">` / `<span id="bd-period-label">` | One button per period the document can honour; the label shows the default |
+
+### The refresh button reads every monitor
+
+`#bd-refresh` fetches the latest runs for **every active monitor in the document**, not just the ones
+in an open drawer. Subscriptions are per open drawer, so a refresh that only re-subscribed left a
+console with all drawers closed refreshing the holdings grid and no monitor runs at all — the button
+appeared to work and fetched nothing.
+
+The read is sized from the widest offered period divided by the shortest monitor frequency, plus one
+window for a partial, capped at the tool's limit of 20. Inactive monitors are skipped: they produce
+no runs, so polling them is pure quota. After the runs land, `CFG.asOf` is re-anchored to the newest
+`window_end` now in the page and the period filter re-applied, so freshly arrived rows obey the
+selected window. Newly inserted rows get `data-detected` from their run's `window_end`; without it
+the filter cannot judge them and they would appear in every period.
+
+### Topic chips and Notes
+
+Each topic chip is a native `<button class="bd-tab">`. Nothing interactive is nested inside a chip —
+if that ever changes it must become `<div role="tab" tabindex="0">` with Enter and Space wired by
+hand, because a `<button>` inside a `<button>` is closed early by the parser and the trailing content
+falls out of place. That is the defect that once dropped four cells from the row head.
+
+**Notes is not a monitored topic.** It renders last, after a `<span class="bd-tabdiv">` whose
+`margin-left:auto` pushes it to the right of the strip, separated by a rule.
+
+### The two "ask Claude" states share one shape
+
+A pane with no monitor and a pane whose monitor is switched off both read the same way: a kicker, one
+sentence of fact, then one instruction line.
+
+```html
+<div class="bd-state bd-state-nomonitor"><div class="bd-kicker">No monitor yet</div>
+  <p>Nothing is watching Supplier risks for Figma Inc.</p>
+  <span class="bd-ask">Ask Claude to create the Supplier risks monitor</span></div>
+
+<div class="bd-state bd-state-inactive"><div class="bd-kicker">Monitor inactive</div>
+  <p>The Executives monitor for Figma Inc. exists but is switched off, so it will not run.</p>
+  <span class="bd-ask">Ask Claude to activate the Executives monitor</span></div>
+```
+
+Keep the fact and the instruction in separate elements, and name the topic in both — never fold them
+into one sentence, and never use a button. The page cannot activate or create a monitor: doing either
+properly needs a status update, a uniform `entity_reference` schema and a backfill, none of which it
+can verify.
+
+
+### The topbar button copies a refresh prompt
+
+`#bd-refresh` does **not** refresh in place. Rebuilding means inventorying each monitor's windows,
+reconciling the rendered rows against the summed `event_count`, and re-anchoring the clock — and a
+refresh that silently under-reads is indistinguishable from a quiet feed. The button copies a fully
+specified prompt and reports whether the copy succeeded.
+
+Both "ask Claude" states carry a copy button beside the instruction, so the line can be lifted into
+the chat without retyping:
+
+```html
+<span class="bd-ask"><span class="bd-ask-t">Ask Claude to activate the Executives monitor</span>
+  <button class="bd-askcopy" title="Copy this prompt">…</button></span>
+```
+
+The instruction text lives in its own `.bd-ask-t` span because the line doubles as the confirmation
+surface — on copy the text swaps to "Prompt copied — paste it in the chat", then reverts. Keep the
+button **outside** any other button, route its click **before** the `.bd-tab` handler, and derive the
+verb from the pane's `data-state` (`inactive` → Activate, `nomonitor` → Create) rather than from the
+text. Use one shared `copyToClipboard()` for every copy affordance in the page, and have it resolve
+false rather than throw, so a failure is reported instead of silently looking like success.
+
+**Keep the prompt short.** Monitor ids, entity ids and the tool sequence belong in the project's
+store mirror and in this skill, not in the button — repeating them there only creates a second copy
+to contradict the first when monitors are added or torn down. Carry only what the chat cannot already
+know about *this* document:
+
+- the **watchlist name**, so the right console is rebuilt;
+- the **selected period**, taken from `data-local-period` and rendered with the menu's own label, so
+  the refresh matches the scope on screen rather than a default;
+- the console's **`asOf`**, with a request for **only what changed** since it.
+
+This does assume the project's store mirror is current. A mirror left pointing at torn-down monitors
+sends the refresh after ids that no longer exist, so re-export it whenever monitors change.
+
+Copy via `navigator.clipboard`, falling back to a hidden textarea with `execCommand('copy')` — the
+async clipboard API is blocked in some embedded contexts. On failure say so; never report a copy that
+did not happen.
+
+### There is no create path in the page
+
+A pane whose topic has no monitor shows the `nomonitor` state with a plain line:
+
+```html
+<span class="bd-ask">Ask Claude to create the Supplier risks monitor</span>
+```
+
+No button, no click handler, no baked request payload. A bare `create` returns the monitor inactive
+with a generator-invented schema and no backfill, and the page can neither verify nor repair any of
+that — so creation belongs in the chat, where the update and simulate steps happen and get reported.
+Name the topic in the line so the reader can copy it straight into a message.
+
+
+### Normalising `event_date`
+
+The `date` column renders **`MMM DD, YYYY`** — but only where the source actually carries a day.
+`event_date` arrives as free text in many shapes, and the same feed produced all of these:
+
+| Raw | Rendered | `data-precision` |
+|---|---|---|
+| `2026-09-10`, `September 9, 2026`, `Wednesday, September 10, 2026`, `10 September 2026`, `09/10/2026`, `Sept. 3, 2026` | `Sep 10, 2026` etc. | `day` |
+| `December 2025`, `early September 2026` | `Dec 2025`, `Sep 2026` | `month` |
+| `Q2 2026` | `Q2 2026` | `quarter` |
+| `2025`, `2017` | `2025` | `year` |
+| `Earlier this year`, `last October`, `late last year` | unchanged | `text` |
+| `null`, `""` | `—` | `none` |
+
+Three rules:
+
+- **Never invent a day.** `December 2025` renders `Dec 2025`, not `Dec 01, 2025`. Padding a
+  month-precision value to a day asserts a fact the source did not give.
+- **Validate the calendar, not just the range.** A 1–31 day check accepts `February 30, 2026` and
+  renders it as a real date; round-trip the parts through a date constructor and fall back to `text`
+  when they do not survive.
+- **Keep the source's own words when nothing is derivable.** `Earlier this year` stays as written,
+  marked `data-precision="text"` and styled as approximate, rather than being blanked or guessed at.
+
+Leading weekdays and vague qualifiers (`early`, `mid`, `late`, `beginning of`) are stripped before
+parsing — they carry no date information, and dropping them is what lets `early September 2026`
+resolve to month precision. Slash dates are read US-style (`MM/DD/YYYY`), matching the feed's
+convention. `data-sort-value` carries the derived ISO prefix and is empty for `text` and `none`, so
+undated rows sort last instead of producing `NaN`.
+
+### The period control filters this document
+
+The topbar period is not decoration and not a fetch: it hides rows in the page. Three rules keep the
+label honest.
+
+- **Every `<tr>` carries `data-detected`** — the ISO `window_end` of the run that surfaced it. That is
+  *detection* time, not `event_date`: a 2017 divestiture reported for the first time today is news
+  today, and `event_date` is frequently free text or null, so it cannot drive a window.
+- **Only offer periods the backfill covers, and only from the fixed set `1h` / `12h` / `24h`
+  ("Last hour", "Last 12 hours", "Last 24 hours").** No other period is ever offered. A document
+  built from two 1h windows can honour `1h` only. Offering `24h` there invites the viewer to widen
+  into rows that were never read, and the page silently shows a fraction of the period it names.
+- **`CFG.asOf` is the reference clock**, set to the newest window read. The cutoff is measured from
+  it, never from `Date.now()` — a snapshot opened a week later would otherwise filter itself empty.
+
+Filtering marks rows `data-out-of-period="1"`, which is deliberately **not** the `hidden` attribute a
+dismissal uses, so the two can never be confused or overwrite each other. A pane whose rows are all
+outside the window takes the existing `empty` state, whose text already reads "No events in this
+period" — there is no sixth state.
 
 ## 3. Row markup
 
@@ -93,7 +242,7 @@ block, which the template already styles.
   <div class="bd-state bd-state-nomonitor">
     <div class="bd-kicker">No monitor yet</div>
     <p>Nothing is watching M&amp;A for NVIDIA Corporation.</p>
-    <button class="bd-cta bd-create"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-plus"></use></svg>Create this monitor</button>
+    <span class="bd-ask">Ask Claude to create the Supplier risks monitor</span><!-- was: <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><use href="#i-plus"></use></svg>Create this monitor</button>
   </div>
   <div class="bd-state bd-state-pending"><span class="bd-spin"></span>First run pending — results appear once the monitor completes a window.</div>
   <div class="bd-state bd-state-inactive">
@@ -114,7 +263,8 @@ block, which the template already styles.
       </tr></thead>
       <tbody>
         <tr data-key="evt-1" data-run="run_71b…" data-seen="0" data-flag="">
-          <td data-col="cp"><span class="bd-cp" data-live="counterparty">Marvell Technology Inc.</span><span class="bd-cpid" data-unresolved="0">E7D47B</span></td>
+          <td data-col="cp" data-cp-id="E7D47B" title="Marvell Technology Inc. · E7D47B"><span class="bd-cp" data-live="counterparty" data-unresolved="0">Marvell Technology Inc.</span></td>
+          <td data-col="sum"><span class="bd-sum" data-live="summary">Marvell gave Google warrants to purchase up to $12.2bn of Marvell shares…</span><span class="bd-flag"><svg viewBox="0 0 24 24"><use href="#i-flag"></use></svg>Counterparty unresolved</span><span class="bd-srcs"><span class="bd-srcs-lbl">Sep 10, 2026 - Sources via bigdata.com</span><a href="https://…" target="_blank" rel="noopener">Seeking Alpha</a><span class="bd-sep">·</span><a href="https://…" target="_blank" rel="noopener">Nasdaq</a></span></td>
           <td data-col="stage"><span class="bd-pill" data-stage="agreed">agreed</span></td>
           <td data-col="val" class="bd-num" data-sort-value="12180">$12.18bn</td>
           <td data-col="date" class="bd-num" data-sort-value="2026-08-18">2026-08-18</td>
@@ -153,13 +303,66 @@ last appeared two runs ago keeps pointing at the run that carried it. Together w
 
 | Topic | `data-col` values, in order |
 |---|---|
-| `ma` | `cp` (+ `cp_id` inside the cell), `stage`, `val`, `date` |
+| `ma` | `cp`, `sum`, `stage`, `val`, `date` |
 | `comp` | `competitor`, `title`, `date`, `overlap` |
 | `exec` | `person`, `change`, `role`, `date` |
 | `jobs` | `area`, `openings`, `direction`, `trend` |
 | `sup` | `supplier`, `level`, `risk`, `note` |
 
 Every table also ends with the unlabelled actions column holding `.bd-seen` and `.bd-del`.
+
+### The summary cell, and where attribution goes
+
+The `sum` cell holds three stacked pieces, each on its own line:
+
+1. **`.bd-sum`** — the event's `summary` text (`data-live="summary"`), block-level.
+
+   **When `summary` is empty, fall back to `rationale` — labelled.** A meaningful share of
+   extractions arrive with `summary: ""` while still carrying a counterparty, a stage and grounding,
+   so the row stays and an empty cell would tell the reader nothing. But `rationale` is *not* a
+   summary: it is the extractor reasoning about its own scope rules, and on an empty-summary row it
+   usually ends "Dropping this event." Prefix it with a `.bd-sum-lbl` reading
+   **`No summary — extractor note`**, set `data-fallback="1"`, and style it as secondary, so it can
+   never be read as a description of what happened. An empty summary whose rationale rejects the row
+   should also carry a flag. With neither summary nor rationale, render the em dash with
+   `data-na="1"`.
+2. **`.bd-flag`** — the "might be wrong" note, if any, on the line directly below the summary. It
+   lives here, **not** in the counterparty cell. Style it `display:flex; width:fit-content` — the
+   pill needs its own line but must hug its text rather than span the column, and `inline-flex`
+   would let it ride up onto the end of the summary text.
+3. **`.bd-srcs`** — separated from the flag by a clear blank line, holding a `.bd-srcs-lbl` label
+   and then the source names. The label is not a source: keep it outside the deduped list, never
+   mark it `data-extra`, and do not count it toward the six-name cap.
+
+**All attribution sits in the summary cell.** The `.bd-srcs-lbl` label carries the publication date
+of the newest grounding document and the provenance on one line:
+
+```
+MMM DD, YYYY - Sources via bigdata.com
+```
+
+uppercased by CSS, with the deduped source names on the lines below and **no dates attached to
+individual names** — repeating one date per source is noise when a single story is syndicated a dozen
+times. The counterparty cell holds the counterparty and nothing else. `event_date` keeps its own
+column and is a different thing entirely: often free text, and often the date of a years-old deal.
+
+Grounding timestamps arrive without a zone; treat them as UTC so the rendered day cannot drift. Where
+no source carried a usable timestamp, fall back to the bare `Sources via bigdata.com` — never a
+guessed date.
+
+**Dedupe the source list before rendering it.** `grounding` repeats the same article once per `cnum`,
+and publishers syndicate each other heavily: one NVDA event carried 40+ entries that collapse to
+about 30 distinct documents. Dedupe by document `id` first, then by source name, sorted newest first.
+Show the first six and put the rest behind a `+N more` button (`data-extra="1"` on the tail,
+`data-local-expanded` on the container — local state, never persisted), or one row's source list is
+taller than the whole table.
+
+**The counterparty entity id is not a displayed column.** It rides on the `cp` cell as
+`data-cp-id` (and in the cell's `title`) so the reference survives for later enrichment and for the
+local store, but the column renders the name alone. When the id could not be resolved, set
+`data-unresolved="1"` on the `.bd-cp` span — the name renders italic and dimmed, which is the signal
+that the extraction is weaker, without printing an id nobody reads. The same applies to
+`person`, `supplier` and `competitor` cells, which also carry entity references.
 
 Rules for the event table:
 
@@ -212,21 +415,18 @@ in the series, and never generate one. With fewer than two observations, omit th
   "activeWatchlist": "<watchlist id>",
   "watchlists": [{"id":"…","name":"My Portfolio","items":["D8442A","228D42"]}],
   "monitors": {"<rp_entity_id>": {"ma": {"id":"<uuid>","run":"<run id>","status":"active"}}},
-  "createRequests": {"<rp_entity_id>": {"ma": { "request": { "action":"create", "…":"…" } }}},
   "topics": ["ma","comp","exec","jobs","sup"],
   "refetchIntervalMs": 300000,
   "generatedAt": "2026-08-20T14:05:00Z",
   "store": "<root>",
-  "createObserved": true
+  "store": "<path or null>"
 }
 ```
 
-Config only — ids, names, and the request payloads the buttons send. Never displayed content.
+Config only — ids, names, and the request payloads the switches send. Never displayed content.
 
-**Both maps are keyed by `rp_entity_id`, not by watchlist.** A monitor covers one company and one
-topic and is shared by every watchlist that company sits on, so keying by watchlist would duplicate
-ids and drift the moment a name moves between lists. `createRequests[entity][topic].request` is the
-create payload baked for that exact company — the button never assembles one.
+`monitors` is keyed by `rp_entity_id` then topic, never by watchlist name: names drift the moment
+one moves between lists. Each entry carries `id`, `status`, `frequency` and the last `run` id.
 
 `plugin_slug` does **not** belong in any of these payloads. The tool schemas set
 `additionalProperties: false`, so an extra key is rejected; it is a request parameter, not a tool input.
@@ -247,8 +447,8 @@ Keep `tools` minimal: it is a viewer-consented grant.
 **Never publish a page that calls a connector tool without having observed one real request/response
 pair for that tool in this session.** Steps 2–5 of the workflow observe the read tools. For the write
 tool, the step 4 `create_monitoring: false` preview is a real call with no persistence — that is the one
-that legitimises the create button. No observation, no button: set `createObserved: false` and say so in
-your reply rather than shipping a guessed shape.
+Nothing in the page writes, so there is no request shape to legitimise — every tool call it
+makes is a read.
 
 ### watchTool vs callTool
 

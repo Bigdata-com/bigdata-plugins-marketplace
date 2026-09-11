@@ -6,6 +6,10 @@ content, write "None" rather than dropping it.
 
 ---
 
+<!-- Writing style: ASD-STE100 Simplified Technical English — simple, brief,
+     clear, human. One idea per sentence, one word per meaning, active voice,
+     articles kept, no idiom. See the Writing style section in SKILL.md. -->
+
 # Watchlist Console — [DATE]
 
 **Console:** [artifact URL]
@@ -32,7 +36,7 @@ uncovered names under "What is outside coverage".
 
 | Security | Topic | Monitor name | Schedule | Status | First run |
 |----------|-------|--------------|----------|--------|-----------|
-| [TICKER] | [Topic] | `[Watchlist] NVDA · M&A` | [6h] | [active / inactive] | [pending / backfilled via simulation] |
+| [TICKER] | [Topic] | `[Watchlist] NVDA · M&A` | [1h] | [active / inactive] | [pending / backfilled via simulation] |
 
 Monitor names carry the company and the topic, not the watchlist — the same monitor serves every list
 that security appears on.

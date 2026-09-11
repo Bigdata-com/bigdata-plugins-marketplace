@@ -2,7 +2,7 @@
 name: bigdata-watchlist-console-builder
 description: >
   Build an interactive monitoring console from a user's existing Bigdata.com watchlists — a published
-  HTML page with a holdings grid (price, 1-day change, EPS, price target), and topic drawers for M&A, competitor releases, executive changes, hiring trends and supplier risks fed by novelty monitors — one monitor per company per topic. The console re-queries Bigdata.com live, persists viewed marks and research notes across sessions, and keeps a compact local store of exactly what it displays plus the monitor and run ids to fetch the rest. It never creates a watchlist — it visualizes the ones that already exist. Triggers: "build a watchlist console", "watchlist console", "monitoring console for my
+  HTML page with a holdings grid (price, 1-day change, EPS, price target), and topic drawers for M&A, competitor releases, executive changes, hiring trends and supplier risks fed by novelty monitors. The console re-queries Bigdata.com live, persists viewed marks and research notes across sessions, and keeps a compact local store of exactly what it displays plus the monitor and run ids to fetch the rest. It visualizes the watchlists that already exist. Triggers: "build a watchlist console", "watchlist console", "portfolio console","monitoring console for my
   watchlist", "dashboard for my watchlist", "what's new across my portfolio", "visualize my
   watchlist", "monitor my holdings", "what changed on my watchlist".
 ---
@@ -130,7 +130,7 @@ or fewer companies — before asking for approval.
 
 Then, per approved gap:
 
-1. **Preview** — `action: "create"`, `create_monitoring: false`. Nothing is persisted, the generated
+1. **Preview** (Only if the monitor does not already exist)— `action: "create"`, `create_monitoring: false`. Nothing is persisted, the generated
    config is shown to the user, and the tool's real response envelope is observed. That observation is
    what makes shipping a create button in the page legitimate (see step 7).
 2. **Create** — the same payload with `create_monitoring: true`. Returns `id`.
@@ -168,6 +168,24 @@ For a monitor with no history, `bigdata_simulate_monitors` (with `end_timestamp`
 in the past), then poll by
 **calling `bigdata_fetch_monitor_runs` again** every 10–15 seconds. Never run a shell `sleep` and never
 block waiting.
+
+**A partial simulation looks exactly like a finished one.** `bigdata_fetch_monitor_runs` returns
+whatever windows exist *at that moment*, so an in-flight simulation returns a short list of
+`COMPLETED` runs with no marker saying more are coming. Treating that as the answer silently
+under-reads the feed. Before writing the store or generating any markup:
+
+1. **Take a window inventory first** — call with `include_events: false`, `limit: 20`. Cheap, and it
+   returns every window with its `status` and `event_count`.
+2. **Reconcile the count.** The number of runs returned must equal the `number_of_runs` you asked
+   `bigdata_simulate_monitors` for, and **every one must be terminal** (`COMPLETED` or `FAILED`). A
+   single `PENDING`, or a short list, means keep polling — not that the feed is thin.
+3. **Sum `event_count` across the windows and carry that total forward.** After building, the rows on
+   the page for that (company, topic) must match the sum. If they do not, the build under-read.
+4. **Never pass a `limit` below the window count.** `limit` defaults to **1** and caps at 20; a
+   16-window simulation read with `limit: 3` returns 3 windows and looks complete.
+
+Record the reconciled total in the handoff note per (company, topic), so a later session can tell a
+genuinely quiet monitor from a truncated read.
 
 Simulations analyse earlier baseline windows first so novelty can be measured. Extra earlier windows in
 the results are expected — do not report them as a problem.
@@ -211,12 +229,36 @@ The essentials:
 - **Content is markup.** Generate the rows and events as HTML into the markers. Never render displayed
   content from a JS object at runtime: the markup *is* the shared document, and a viewer's gesture on
   it is what persists.
-- **Set `createObserved: true` only if a real `bigdata_configure_monitor` response was seen this
-  session** (the step 4 preview counts). Otherwise leave it `false` — the page disables its create
-  buttons rather than calling a tool whose shape was guessed — and say so in your reply.
-- **Bake `createRequests`** with the exact request payload per **(company, topic)**, so the button
-  sends a shape you verified rather than one the page invents. `monitors` and `createRequests` are both
-  keyed by `rp_entity_id`.
+- **The page has no create path.** A pane with no monitor shows the line
+  `Ask Claude to create the <topic> monitor` — plain text, no button. A bare `create` call returns
+  the monitor inactive with a generator-invented schema and no backfill, and the page can neither
+  verify nor repair any of that, so creation belongs in the chat where those steps are done and
+  reported. Do not bake `createRequests` and do not add a button.
+### Keeping a published console current
+
+A console is a snapshot of the runs it was built from. Monitors keep running on schedule, so the page
+goes stale at the monitor's own frequency. Refreshing it is a rebuild, and it can be driven by a
+recurring task.
+
+**Derive the cadence from observed `window_end` values, never from the frequency alone.** Each
+monitor's windows are anchored to its own creation time, so a set of 1h monitors created minutes apart
+have edges seconds apart (`15:06:53`, `15:07:02`, `15:07:13` were all observed in one 8-monitor set).
+Take the **latest** `window_end` across the active monitors, add a margin, and use that as the slot:
+for a 1h set whose latest edge is `15:07`, a 10-minute margin gives a slot at **:17 past every hour**.
+
+Two things that make the margin necessary: a run is written at the close of its window, not before,
+and a task firing exactly on the edge reads the previous window. Ten minutes is enough for an hourly
+monitor. Mixed frequencies need one slot per frequency — a 1d monitor has one edge a day and does not
+belong in the hourly slot.
+
+The task prompt should name the watchlist and ask for the standard sequence: inventory the windows,
+reconcile the counts, rebuild, and report what changed rather than re-stating the whole console.
+
+- **Nothing in the page writes to Bigdata.com.** Every tool call it makes is a read
+  (`bigdata_portfolio_tearsheet`, `bigdata_fetch_monitors`, `bigdata_fetch_monitor_runs`). Do not add
+  monitor switches, create buttons, or any other control that mutates a monitor: activation also
+  wants a schema check and a backfill, and the page can verify none of it. The `nomonitor` and
+  `inactive` states ask the reader to have Claude do it instead.
 - **Watch on open, not on load.** 64 watches is the per-view budget and per-company monitors exceed it
   many times over: the page watches the grid always and a monitor only while its drawer is open.
 
@@ -256,12 +298,46 @@ Tell the user three things at publish time:
 - Which monitors were left **inactive**, if they declined activation — those tabs will stay empty until
   someone turns them on.
 
+## Writing style
+
+**ASD-STE100 Simplified Technical English — simple, brief, clear, human.** This applies to every word
+the skill produces: the handoff report, the empty-state text, the ask lines, captions, column headers
+and flag notes.
+
+What that means in practice:
+
+- **One idea per sentence.** Keep instructions under about 20 words and descriptions under about 25.
+  Split a long sentence rather than joining clauses with semicolons or dashes.
+- **One word, one meaning.** Pick a term and keep it. A monitor is a monitor everywhere — not a
+  "watcher", "feed" or "job". The same applies to window, run, event and flag.
+- **Active voice, named actor.** "The monitor found no events", not "no events were found".
+- **Keep the articles.** "The monitor is off", not "Monitor off". Telegraphic text reads as terse,
+  not clear.
+- **No noun stacks longer than three words.** "Monitor run window count" becomes "the number of
+  windows in the run".
+- **Say "must" for a requirement**, "can" for a possibility. Avoid "shall" and "should" where a
+  requirement is meant.
+- **No idiom, slang or metaphor**, and no cleverness in UI text. A reader who is scanning a flag note
+  at speed must not have to decode it.
+- **Human, not robotic.** Short does not mean clipped. Write as a careful colleague would speak:
+  plain sentences, no filler, no false enthusiasm, and no padding such as "it is worth noting that".
+
+Two rules carry extra weight here because this skill reports on data quality:
+
+- **Name what is uncertain in plain words.** "This may be wrong because the counterparty is the
+  company itself" beats "potential entity resolution anomaly".
+- **Never soften an empty result.** "No events in this period" is the whole sentence. Do not dress it
+  up, and do not apologise for it.
+
 ## Quality bar
 
 - **No watchlist is ever created**, no monitor without explicit approval, and **no monitor activated
   without a separate explicit yes**.
 - No invented watchlist ids, monitor ids, or entity ids.
 - **No synthetic data anywhere.** Empty means empty, and the five states above stay distinct.
+- **Every simulated window was read before the page was built.** All requested windows present and
+  terminal, `limit` at least the window count, and rendered rows reconciled against the summed
+  `event_count`. An under-read feed is indistinguishable from a quiet one on the finished page.
 - Every stored event carries its `monitor_id` and `run_id`, and every stored cell corresponds to
   something the page actually renders.
 - Every name in the active watchlist appears; missing data is a blank cell, never a dropped row.

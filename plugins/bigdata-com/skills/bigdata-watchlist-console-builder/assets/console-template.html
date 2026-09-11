@@ -99,7 +99,16 @@ button{font-family:inherit;color:inherit}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* ── shell ─────────────────────────────────────────────────────────────── */
-.bd-shell{display:grid;grid-template-columns:266px minmax(0,1fr);min-height:100vh}
+.bd-shell{display:grid;grid-template-columns:266px minmax(0,1fr);min-height:100vh;transition:grid-template-columns .18s ease}
+/* Sidebar collapse. This is LOCAL state — data-local-aside on .bd-shell — in
+   the same class as the open drawer, the active tab and the sort order: it is
+   per viewer and deliberately not persisted, so one viewer collapsing the rail
+   never changes what anyone else sees. Scoped to >=881px because below that
+   the aside is display:none already and the attribute selector would otherwise
+   out-specify the mobile single-column rule. */
+@media (min-width:881px){
+  .bd-shell[data-local-aside="1"]{grid-template-columns:60px minmax(0,1fr)}
+}
 @media (max-width:880px){
   .bd-shell{grid-template-columns:1fr}
   .bd-aside{display:none}
@@ -120,6 +129,31 @@ button{font-family:inherit;color:inherit}
 .bd-wl:hover{background:var(--pf-surf)}
 .bd-wl[aria-current="true"]{background:var(--pf-surf-2);color:var(--pf-tx)}
 .bd-wl-n{margin-left:auto;font-family:var(--pf-mono);font-size:11px;color:var(--pf-accent)}
+/* Watchlist initial: hidden while expanded, and the only label once collapsed. */
+.bd-wl-i{display:none;font-family:var(--pf-kicker);font-size:12px;font-weight:600}
+
+/* ── collapsed sidebar ─────────────────────────────────────────────────── */
+.bd-aside{cursor:pointer}
+.bd-shell[data-local-aside="1"] .bd-aside{padding:20px 8px 14px}
+/* The wordmark is a wide lockup and cannot shrink to 44px without becoming a
+   smear, so it is dropped when collapsed. Attribution still sits in the footer,
+   where it is required to stay verbatim. */
+.bd-shell[data-local-aside="1"] .bd-aside > .bd-logo,
+.bd-shell[data-local-aside="1"] .bd-navh,
+.bd-shell[data-local-aside="1"] .bd-wl-t,
+.bd-shell[data-local-aside="1"] .bd-wl-n,
+.bd-shell[data-local-aside="1"] .bd-asidetog-t{display:none}
+.bd-shell[data-local-aside="1"] .bd-wl{justify-content:center;padding:7px 0;gap:0}
+.bd-shell[data-local-aside="1"] .bd-wl-i{display:inline}
+
+.bd-asidetog{margin-top:auto;display:flex;align-items:center;gap:9px;width:100%;text-align:left;
+  padding:9px 10px 2px;border:0;border-top:1px solid var(--pf-hair-soft);background:transparent;
+  font-family:var(--pf-ui);font-size:12.5px;font-weight:400;color:var(--pf-tx-dim);cursor:pointer}
+.bd-asidetog:hover{color:var(--pf-tx)}
+.bd-asidetog svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;
+  transition:transform .18s ease}
+.bd-shell[data-local-aside="1"] .bd-asidetog{justify-content:center;padding:9px 0 2px;gap:0}
+.bd-shell[data-local-aside="1"] .bd-asidetog svg{transform:rotate(180deg)}
 
 .bd-main{display:flex;flex-direction:column;min-width:0;position:relative}
 .bd-dots{position:absolute;inset:0;background-image:radial-gradient(var(--pf-dot) 1.1px,transparent 1.1px);background-size:22px 22px;-webkit-mask-image:radial-gradient(120% 70% at 50% 0%,#000 0%,transparent 65%);mask-image:radial-gradient(120% 70% at 50% 0%,#000 0%,transparent 65%);pointer-events:none}
@@ -132,6 +166,13 @@ button{font-family:inherit;color:inherit}
 .bd-btn:disabled{opacity:.45;cursor:default}
 .bd-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6}
 .bd-btn-icon{width:33px;height:33px;padding:0;justify-content:center}
+.bd-btn svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2}
+/* The label is the button's own confirmation surface: swapped on copy, then
+   restored, so there is no separate toast to position or dismiss. */
+.bd-btn[data-said="ok"]{border-color:var(--pf-accent);color:var(--pf-accent)}
+.bd-btn[data-said="fail"]{border-color:var(--pf-red);color:var(--pf-red)}
+/* Below the grid breakpoint the strip is tight; the icon carries it. */
+@media (max-width:880px){ .bd-btn-t{display:none} }
 .bd-menu-wrap{position:relative;display:inline-flex}
 .bd-menu{position:absolute;top:calc(100% + 6px);right:0;z-index:30;min-width:170px;background:var(--pf-rail);border:1px solid var(--pf-hair);border-radius:12px;padding:5px;box-shadow:0 20px 44px -18px rgba(0,0,0,.45);display:none}
 .bd-menu[data-local-open="1"]{display:block}
@@ -151,9 +192,11 @@ button{font-family:inherit;color:inherit}
 /* ── holdings table ────────────────────────────────────────────────────── */
 .bd-tablewrap{margin-top:4px;overflow-x:auto}
 .bd-tablemin{min-width:900px}
-.bd-grid{display:grid;grid-template-columns:34px 158px 96px 74px 62px 92px 84px minmax(0,1fr) auto 18px;align-items:center;gap:12px}
+/* 9 tracks: initial, id, price, 1d, eps, target, rail, count, chevron.
+   The old "News monitor" column held a toggle that only muted the rail
+   cosmetically — it never stopped a monitor — so both are gone. */
+.bd-grid{display:grid;grid-template-columns:34px 158px 96px 74px 62px 92px minmax(0,1fr) auto 18px;align-items:center;gap:12px}
 .bd-colhead{align-items:end;padding:12px 10px 9px 4px;border-bottom:1px solid var(--pf-hair);font-family:var(--pf-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--pf-tx-dim);line-height:1.4}
-.bd-colhead .bd-mon{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
 .bd-row{border-bottom:1px solid var(--pf-hair-soft)}
 .bd-rowhead{width:100%;text-align:left;padding:13px 10px 13px 4px;border:0;border-radius:10px;background:transparent;cursor:pointer;color:var(--pf-tx)}
 .bd-rowhead:hover{background:var(--pf-surf)}
@@ -163,6 +206,12 @@ button{font-family:inherit;color:inherit}
 .bd-tk{display:block;font-family:var(--pf-mono);font-size:13.5px;letter-spacing:.02em;color:var(--pf-tx)}
 .bd-nm{display:block;font-size:12px;font-weight:300;color:var(--pf-tx-mid);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bd-num{font-family:var(--pf-mono);white-space:nowrap;font-size:12.5px;color:var(--pf-tx)}
+/* Coarser than a day, or not a date at all: shown as-is, styled as approximate
+   so a reader is not misled into treating it as exact. */
+.bd-num[data-precision="month"],.bd-num[data-precision="quarter"],
+.bd-num[data-precision="year"]{color:var(--pf-tx-mid)}
+.bd-num[data-precision="text"]{color:var(--pf-tx-dim);font-style:italic;
+  font-family:var(--pf-ui);white-space:normal}
 .bd-num small{font-size:9px;color:var(--pf-tx-dim)}
 .bd-num[data-na="1"]{color:var(--pf-tx-dim)}
 .bd-up{color:var(--pf-green)}
@@ -179,16 +228,22 @@ button{font-family:inherit;color:inherit}
 .bd-row[data-local-open="1"] .bd-chev{transform:rotate(-135deg)}
 
 /* toggle */
-.bd-tog{display:inline-flex;align-items:center;flex:none;width:28px;height:16px;border-radius:999px;padding:2px;border:0;cursor:pointer;background:var(--pf-btn);transition:background .15s ease}
-.bd-tog[aria-pressed="false"]{background:var(--pf-surf-3)}
-.bd-tog i{display:block;width:12px;height:12px;border-radius:99px;background:#FFFDF5;transition:transform .18s ease;transform:translateX(12px)}
-.bd-tog[aria-pressed="false"] i{transform:translateX(0)}
 
 /* ── drawer ────────────────────────────────────────────────────────────── */
 .bd-drawer{background:var(--pf-surf);border:1px solid var(--pf-hair);border-radius:14px;margin:2px 0 16px;overflow:hidden}
 .bd-row:not([data-local-open="1"]) .bd-drawer{display:none}
 .bd-tabs{display:flex;gap:6px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--pf-hair-soft)}
-.bd-tab{font-size:12.5px;font-weight:500;padding:7px 14px;border-radius:999px;border:1px solid var(--pf-hair);background:transparent;color:var(--pf-tx-mid);cursor:pointer}
+.bd-tab{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:500;
+  padding:7px 14px;border-radius:999px;border:1px solid var(--pf-hair);background:transparent;
+  color:var(--pf-tx-mid);cursor:pointer}
+/* .bd-tab is a native <button> again. It became a div[role=tab] only to hold a
+   nested monitor switch; that switch is gone, so the native element is back and
+   with it free keyboard handling. If anything interactive is ever nested in a
+   chip again it MUST return to div[role=tab] — a button inside a button is
+   closed early by the parser and the trailing content falls out of place. */
+/* Notes is not a monitored topic, so it sits apart: pushed right, past a rule. */
+.bd-tabdiv{margin-left:auto;align-self:stretch;width:1px;background:var(--pf-hair);flex:none}
+.bd-tab[data-tab="notes"]{margin-left:2px}
 .bd-tab:hover{color:var(--pf-tx)}
 .bd-tab[aria-selected="true"]{border-color:transparent;background:var(--pf-tx);color:var(--pf-bg)}
 .bd-pane{display:none}
@@ -207,15 +262,55 @@ button{font-family:inherit;color:inherit}
 .bd-pane[data-state="error"]     .bd-state-error{display:block}
 .bd-state p{margin:0 0 14px;font-size:13.5px;color:var(--pf-tx-mid)}
 .bd-state .bd-kicker{font-family:var(--pf-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--pf-tx-dim);margin-bottom:8px}
-.bd-cta{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 16px;border-radius:999px;border:0;background:var(--pf-btn);color:var(--pf-btn-tx);font-size:13px;font-weight:500;cursor:pointer}
-.bd-cta:disabled{opacity:.5;cursor:default}
+.bd-ask{display:flex;align-items:center;gap:7px;margin-top:9px;font-family:var(--pf-mono);
+  font-size:11px;letter-spacing:.03em;color:var(--pf-tx-mid)}
+.bd-askcopy{display:inline-flex;align-items:center;justify-content:center;flex:none;
+  width:22px;height:22px;padding:0;border-radius:6px;border:1px solid var(--pf-hair);
+  background:transparent;color:var(--pf-tx-dim);cursor:pointer}
+.bd-askcopy:hover{color:var(--pf-tx);border-color:var(--pf-tx-dim)}
+.bd-askcopy svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2}
+.bd-ask[data-said="ok"]{color:var(--pf-accent)}
+.bd-ask[data-said="ok"] .bd-askcopy{color:var(--pf-accent);border-color:var(--pf-accent)}
+.bd-ask[data-said="fail"]{color:var(--pf-red)}
+.bd-ask[data-said="fail"] .bd-askcopy{color:var(--pf-red);border-color:var(--pf-red)}
 .bd-spin{width:16px;height:16px;border-radius:50%;border:2px solid var(--pf-surf-3);border-top-color:var(--pf-accent);animation:bd-spin .8s linear infinite;display:inline-block;vertical-align:-3px;margin-right:8px}
 @keyframes bd-spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion: reduce){.bd-spin{animation-duration:2.4s}}
 .bd-err{color:var(--pf-red)}
 
 /* event table */
-.bd-evt{border-collapse:collapse;width:100%;min-width:1020px}
+.bd-evt{border-collapse:collapse;width:100%;min-width:1020px;table-layout:fixed}
+/* Summary is the widest column and the only one that wraps freely; the rest
+   stay narrow so a long summary cannot squeeze the numbers out of the row. */
+.bd-evt col.bd-c-cp{width:19%}
+.bd-evt col.bd-c-sum{width:44%}
+.bd-evt col.bd-c-stage{width:11%}
+.bd-evt col.bd-c-val{width:9%}
+.bd-evt col.bd-c-date{width:11%}
+.bd-evt col.bd-c-act{width:6%}
+.bd-sum{display:block;font-size:13px;line-height:1.5;color:var(--pf-tx)}
+.bd-sum[data-na="1"]{color:var(--pf-tx-dim);font-style:italic}
+/* Fallback text is the extractor's own reasoning, not a description of the
+   event — often an explanation of why it tried to drop the row. Labelled and
+   dimmed so it can never read as a summary. */
+.bd-sum[data-fallback="1"]{color:var(--pf-tx-mid);font-style:italic}
+.bd-sum-lbl{display:block;margin-bottom:2px;font-family:var(--pf-kicker);font-size:9px;
+  letter-spacing:.08em;text-transform:uppercase;font-style:normal;color:var(--pf-tx-dim)}
+/* Source names sit at the FOOT of the summary cell, after the flag. */
+/* A clear blank line separates the source block from the flag above it, so the
+   dashed rule that used to do that job is redundant. */
+.bd-srcs{display:block;margin-top:16px;font-size:11px;line-height:1.6;color:var(--pf-tx-dim)}
+/* Label always visible, never part of the deduped list or the hidden tail. */
+.bd-srcs-lbl{display:block;margin-bottom:3px;font-family:var(--pf-kicker);font-size:9.5px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--pf-tx-dim)}
+.bd-srcs a{color:var(--pf-tx-mid);text-decoration:none;border-bottom:1px solid var(--pf-hair)}
+.bd-srcs a:hover{color:var(--pf-accent);border-bottom-color:var(--pf-accent)}
+.bd-srcs .bd-sep{opacity:.5;margin:0 2px}
+.bd-srcs-more{cursor:pointer;font-family:var(--pf-mono);font-size:9.5px;letter-spacing:.04em;
+  color:var(--pf-accent);background:none;border:0;padding:0;margin-left:4px}
+.bd-srcs [data-extra="1"]{display:none}
+.bd-srcs[data-local-expanded="1"] [data-extra="1"]{display:inline}
+.bd-srcs[data-local-expanded="1"] .bd-srcs-more{display:none}
 .bd-evt th{padding:0;text-align:left;border-bottom:1px solid var(--pf-hair);background:var(--pf-surf)}
 .bd-sort{display:flex;align-items:center;gap:6px;width:100%;padding:11px 12px;border:0;background:transparent;cursor:pointer;font-family:var(--pf-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;color:var(--pf-tx-dim)}
 .bd-sort[aria-sort]{color:var(--pf-accent)}
@@ -226,9 +321,17 @@ button{font-family:inherit;color:inherit}
 .bd-evt tbody tr:hover{background:var(--pf-surf)}
 .bd-evt tr[data-seen="1"]{opacity:.5}
 .bd-evt tr[hidden]{display:none}
+/* Rows outside the selected period. A SEPARATE attribute from the `hidden`
+   used by a dismissal, so period filtering can never be mistaken for — or
+   overwrite — a viewer's gesture. */
+.bd-evt tbody tr[data-out-of-period="1"]{display:none}
 .bd-cp{font-weight:500;font-size:13.8px;letter-spacing:-.005em}
-.bd-cpid{display:block;font-family:var(--pf-mono);font-size:9.5px;margin-top:3px;letter-spacing:.05em;color:var(--pf-tx-dim)}
-.bd-cpid[data-unresolved="1"]{font-style:italic}
+/* The counterparty's RavenPack id is NOT displayed. It stays on the cell as
+   data-cp-id so later enrichment and the local store keep the reference, but
+   the column shows the name alone. An unresolved counterparty is still worth
+   seeing — it is weaker data — so the name goes italic and the cell carries a
+   title, rather than printing an id nobody reads. */
+.bd-cp[data-unresolved="1"]{font-style:italic;color:var(--pf-tx-mid)}
 .bd-pill{display:inline-block;font-family:var(--pf-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap;border:1px solid var(--pf-hair);color:var(--pf-tx-mid)}
 .bd-pill[data-stage="agreed"],.bd-pill[data-stage="completed"]{border-color:transparent;background:color-mix(in srgb,var(--pf-btn) 22%,transparent);color:var(--pf-accent)}
 .bd-pill[data-stage="announced"]{border-color:color-mix(in srgb,var(--pf-accent) 40%,transparent);color:var(--pf-accent)}
@@ -239,7 +342,10 @@ button{font-family:inherit;color:inherit}
 .bd-why{display:block;max-width:360px;font-size:12.8px;font-weight:300;line-height:1.5;color:var(--pf-tx-mid)}
 .bd-why[data-na="1"]{color:var(--pf-tx-dim);font-style:italic}
 .bd-asset{margin-top:6px;font-family:var(--pf-mono);font-size:10px;color:var(--pf-tx-dim);line-height:1.45;display:block}
-.bd-flag{align-items:center;gap:5px;margin-top:7px;font-family:var(--pf-mono);font-size:9.5px;letter-spacing:.04em;color:var(--pf-red);background:color-mix(in srgb,var(--pf-red) 12%,transparent);border-radius:6px;padding:3px 7px;display:inline-flex}
+.bd-flag{align-items:center;gap:5px;margin-top:8px;font-family:var(--pf-mono);font-size:9.5px;letter-spacing:.04em;color:var(--pf-red);background:color-mix(in srgb,var(--pf-red) 12%,transparent);border-radius:6px;padding:3px 7px;
+  /* flex (not inline-flex) so the pill takes its own line under the summary;
+     fit-content keeps it hugging its text instead of spanning the column. */
+  display:flex;width:fit-content}
 .bd-flag svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;flex:none}
 .bd-acts{display:flex;align-items:center;gap:4px}
 .bd-iconbtn{display:grid;place-items:center;width:26px;height:26px;border-radius:7px;border:0;cursor:pointer;background:transparent;color:var(--pf-tx-dim)}
@@ -289,11 +395,13 @@ button{font-family:inherit;color:inherit}
 <g id="bd-lg"><rect width="152.67" height="152.67" rx="36.44" ry="36.44"/><g><circle cx="287.86" cy="31.38" r="8.72"/><path d="M971.96,42.86l-1.04.04v.02c-7.49.28-14.52,3.54-19.59,9.09-5.32-5.8-12.77-9.11-20.64-9.11-4.79,0-9.58,1.8-13.23,4.91v-2.08h-14.8v71.4h14.8v-46.09c0-8.12,5.19-13.37,13.23-13.37s13.27,5.5,13.27,13.37v46.09h14.8v-46.09c0-7.37,5.92-13.37,13.21-13.37,8.66,0,13.23,4.62,13.23,13.37v46.09h14.8v-46.09c0-16.59-11.53-28.17-28.04-28.17Z"/><path d="M330.27,152.37h1.03c1.78.02,3.18.02,4.45.02,1.16,0,2.22,0,3.37,0,1.39,0,2.92,0,4.93,0,23.68,0,40.23-16.57,40.23-40.29V46.97h-14.94v4.51c-7.09-5.57-15.25-8.62-23.18-8.62-21.03,0-38.14,17.11-38.14,38.14s17.11,38.14,38.14,38.14c8.11,0,16.27-2.94,23.18-8.33v1.28c0,6.11-1.44,12.4-5.55,17.09-3.18,3.63-7.76,6.06-12.46,7.01-6.6,1.33-14.38,1.2-21.07,1.27v14.92ZM346.76,104.19h-.44c-7.11-.13-13.55-3.5-17.72-9.27-4.54-6.29-5.66-14.4-3.06-22.27,2.41-7.3,8.52-12.78,15.94-14.3,7.37-1.52,14.76.19,20.28,4.69,5.37,4.38,8.33,10.76,8.33,17.96,0,13-10.25,23.18-23.33,23.18Z"/><rect x="280.39" y="46.97" width="14.94" height="70.15"/><path d="M229.57,42.85c-7.93,0-16.08,3.05-23.18,8.62v-28.82h-14.95v94.46h14.95v-6.32c6.91,5.39,15.06,8.33,23.18,8.33,21.03,0,38.14-17.11,38.14-38.14s-17.11-38.14-38.14-38.14ZM247.13,94.91c-4.17,5.78-10.62,9.14-17.73,9.28h-.44c-13.09,0-23.34-10.18-23.34-23.18,0-7.19,2.95-13.56,8.31-17.94,4.2-3.43,9.5-5.25,15.05-5.25,1.73,0,3.48.18,5.23.53,7.41,1.52,13.53,7,15.96,14.28,2.61,7.86,1.5,15.98-3.04,22.27Z"/><path d="M599.17,22.62h-15v24.11h-9.75v14.75h9.75v28.07c0,15.18,12.35,27.54,27.54,27.54h9.43v-15h-9.43c-6.91,0-12.53-5.62-12.53-12.53v-28.07h21.96v-14.75h-21.96v-24.11Z"/><path d="M729.02,101.68c-4.81,0-8.73,3.91-8.73,8.72s3.91,8.72,8.73,8.72,8.72-3.91,8.72-8.72-3.91-8.72-8.72-8.72Z"/><path d="M851.94,42.87h0c-19.82.63-36.39,17.24-36.94,37.03-.3,10.36,3.53,20.18,10.79,27.64,7.26,7.47,16.96,11.58,27.31,11.58,21.02,0,38.13-17.1,38.13-38.13,0-10.13-4.26-20.07-11.68-27.28-7.5-7.29-17.3-11.14-27.62-10.85ZM866.72,99.14c-5.5,4.27-12.59,5.71-19.44,3.94l-.58-.13c-6.94-1.99-12.63-7.49-14.95-14.47-2.41-7.23-1.28-14.87,3.11-20.95,4.28-5.94,11.1-9.48,18.24-9.48,12.44,0,22.57,10.27,22.57,22.89,0,7.06-3.34,13.86-8.94,18.2Z"/><path d="M689.74,51.48c-7.09-5.57-15.25-8.62-23.18-8.62-21.03,0-38.14,17.11-38.14,38.14s17.11,38.14,38.14,38.14c8.12,0,16.27-2.94,23.18-8.33v6.32h14.94V46.97h-14.94v4.51ZM667.16,104.19h-.44c-7.11-.13-13.54-3.49-17.72-9.27-4.54-6.29-5.66-14.4-3.06-22.27,2.41-7.3,8.52-12.78,15.94-14.3,7.37-1.52,14.76.19,20.28,4.69,5.37,4.38,8.33,10.76,8.33,17.96,0,13.22-10.03,23.18-23.34,23.18Z"/><path d="M780.62,58.1l1.06.04c5.97,0,11.81,2.5,16.02,6.85l.73.76,11.11-10.94-.74-.74c-8.86-8.86-21.09-12.72-33.53-10.61-15.58,2.61-27.99,14.79-30.89,30.3-2.12,11.33.84,22.84,8.1,31.58,7.28,8.77,17.98,13.8,29.34,13.8,10.18,0,19.74-3.96,26.94-11.15l.74-.74-11.11-10.94-.73.75c-5.43,5.58-13.17,7.95-20.71,6.34-7.79-1.65-14.35-7.6-16.7-15.18-2.29-7.21-1.08-14.79,3.32-20.8,4.07-5.56,10.38-8.98,17.06-9.31Z"/><path d="M457.1,51.48c-7.09-5.57-15.25-8.62-23.18-8.62-21.03,0-38.14,17.11-38.14,38.14s17.11,38.14,38.14,38.14c8.12,0,16.27-2.94,23.18-8.33v6.32h14.94V22.66h-14.94v28.82ZM434.51,104.19h-.44c-7.11-.13-13.54-3.5-17.72-9.27-4.54-6.29-5.66-14.4-3.06-22.27,2.41-7.3,8.52-12.78,15.94-14.3,7.37-1.52,14.76.19,20.28,4.69,5.37,4.38,8.33,10.76,8.33,17.96,0,13-10.25,23.18-23.34,23.18Z"/><path d="M546.93,51.48c-7.09-5.57-15.25-8.62-23.18-8.62-21.03,0-38.14,17.11-38.14,38.14s17.11,38.14,38.14,38.14c8.12,0,16.27-2.94,23.18-8.33v6.32h14.94V46.97h-14.94v4.51ZM524.34,104.19h-.44c-7.11-.13-13.54-3.49-17.72-9.27-4.54-6.29-5.66-14.4-3.06-22.27,2.41-7.3,8.52-12.78,15.94-14.3,7.37-1.52,14.76.19,20.28,4.69,5.37,4.38,8.33,10.76,8.33,17.96,0,13.22-10.03,23.18-23.34,23.18Z"/></g><path style="fill:var(--bd-lg-knock)" d="M124.69,78.62c-5.56-6.02-13.25-9.34-21.64-9.34h-12.12v14.04h10.08c4.7,0,9.08,1.84,12.35,5.18,3.26,3.32,5.06,7.76,5.06,12.51s-1.8,9.19-5.06,12.52c-3.26,3.34-7.65,5.18-12.35,5.18-9.69,0-17.27-7.77-17.27-17.68v-49.36c0-8.45-3.38-16.41-9.51-22.43-6.11-5.99-14.14-9.29-22.62-9.29s-16.53,3.3-22.62,9.3c-6.22,6.12-9.51,13.87-9.51,22.43s3,16.5,8.46,22.4c5.56,6.02,13.25,9.34,21.64,9.34h12.16v-14.04h-10.11c-4.7,0-9.08-1.84-12.35-5.18-3.26-3.34-5.06-7.78-5.06-12.52s1.8-9.19,5.06-12.52c3.27-3.34,7.65-5.18,12.35-5.18,9.69,0,17.27,7.77,17.27,17.68v49.36c0,8.45,3.38,16.41,9.51,22.43,6.1,5.99,14.13,9.29,22.6,9.3h.02c8.49,0,16.52-3.31,22.61-9.3,6.22-6.12,9.51-13.87,9.51-22.43s-3-16.51-8.46-22.4Z"/></g>
 <g id="i-eye"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"></path><circle cx="12" cy="12" r="3"></circle></g>
 <g id="i-chevd"><path d="m6 9 6 6 6-6"></path></g>
+<g id="i-chevl"><path d="m14 6-6 6 6 6"></path></g>
 <g id="i-cal"><path d="M3.5 5h17v16h-17z"></path><path d="M8 2.5V7m8-4.5V7M3.5 10.5h17"></path></g>
 <g id="i-refresh"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 2.5V7h-4.5"></path></g>
 <g id="i-flag"><path d="M6 21V3.5m0 0h12l-3 4.5 3 4.5H6"></path></g>
 <g id="i-trash"><path d="M4.5 7h15M9.5 7V4h5v3M6.5 7l1 14h9l1-14M10 11v6m4-6v6"></path></g>
 <g id="i-plus"><path d="M12 5v14M5 12h14"></path></g>
+<g id="i-copy"><path d="M9 9h10.5v10.5H9z"></path><path d="M15 9V4.5H4.5V15H9"></path></g>
 </defs></svg>
 
 <div class="bd-shell">
@@ -306,11 +414,19 @@ button{font-family:inherit;color:inherit}
   <nav>
     <h4 class="bd-navh">Watchlists</h4>
     <!-- BD:RAIL — one .bd-wl button per watchlist. Exactly one carries
-         aria-current="true". data-wl is the watchlist id; the count span is
-         the unviewed-event total for that list (from the archive for lists
-         not yet loaded). Emit nothing else here. -->
+         aria-current="true". data-wl is the watchlist id; each button holds
+         .bd-wl-i (one-letter initial, the only label when the sidebar is
+         collapsed), .bd-wl-t (name) and .bd-wl-n (the unviewed-event total for
+         that list, from the archive for lists not yet loaded). Nothing else. -->
     <div id="bd-rail"></div>
   </nav>
+  <!-- Collapse control. Clicking this, or any empty part of the sidebar,
+       toggles data-local-aside on .bd-shell. -->
+  <button class="bd-asidetog" id="bd-aside-toggle" aria-expanded="true"
+          aria-controls="bd-rail" title="Collapse the sidebar">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevl"></use></svg>
+    <span class="bd-asidetog-t">Collapse</span>
+  </button>
 </aside>
 
 <div class="bd-main">
@@ -323,13 +439,22 @@ button{font-family:inherit;color:inherit}
       <button class="bd-btn" id="bd-markall"><svg viewBox="0 0 24 24"><use href="#i-eye"></use></svg>Mark all as viewed</button>
       <span class="bd-menu-wrap">
         <button class="bd-btn" id="bd-period-btn" aria-expanded="false"><svg viewBox="0 0 24 24"><use href="#i-cal"></use></svg><span id="bd-period-label">Last 24 hours</span><svg viewBox="0 0 24 24" style="width:12px;height:12px"><use href="#i-chevd"></use></svg></button>
-        <span class="bd-menu" id="bd-period-menu" data-local-open="0">
-          <button data-period="24h" aria-current="true">Last 24 hours</button>
-          <button data-period="7d">Last 7 days</button>
-          <button data-period="30d">Last 30 days</button>
-        </span>
+        <!-- BD:PERIOD — one button per period the DOCUMENT can actually
+             honour, chosen only from Last hour / Last 12 hours / Last 24 hours
+             (see PERIOD_HOURS below — no other period is ever offered),
+             exactly one aria-current="true", and #bd-period-label set to that
+             one's text. Never offer a period longer than the backfill that
+             was read: the control filters the rows in this document, it does
+             not fetch more. -->
+        <span class="bd-menu" id="bd-period-menu" data-local-open="0"></span>
       </span>
-      <button class="bd-btn bd-btn-icon" id="bd-refresh" title="Refresh now"><svg viewBox="0 0 24 24"><use href="#i-refresh"></use></svg></button>
+      <!-- BD:REFRESH — copies a prompt asking Claude to read the latest monitor
+     runs and rebuild. It does NOT refresh in place: a rebuild has to
+     inventory windows and reconcile counts, which the page cannot do. -->
+        <button class="bd-btn" id="bd-refresh"
+                title="Copies a prompt asking Claude to read the latest monitor runs and rebuild">
+          <svg viewBox="0 0 24 24"><use href="#i-copy"></use></svg>
+          <span class="bd-btn-t">Copy prompt to refresh view</span></button>
     </div>
   </div>
 
@@ -360,9 +485,6 @@ button{font-family:inherit;color:inherit}
             <span>1D Chg %</span>
             <span>Actual EPS</span>
             <span>Price target</span>
-            <span class="bd-mon">News monitor
-              <button class="bd-tog" id="bd-mon-all" aria-pressed="true" title="Disable news monitor for all holdings"><i></i></button>
-            </span>
             <span></span><span></span><span></span>
           </div>
 
@@ -399,12 +521,12 @@ button{font-family:inherit;color:inherit}
   "activeWatchlist": null,
   "watchlists": [],
   "monitors": {},
-  "createRequests": {},
-  "topics": ["ma","comp","exec","jobs","sup"],
+    "topics": ["ma","comp","exec","jobs","sup"],
+  "defaultPeriod": "24h",
+  "asOf": null,
   "refetchIntervalMs": 300000,
   "generatedAt": null,
-  "store": null,
-  "createObserved": false
+  "store": null
 }
 </script>
 
@@ -416,7 +538,7 @@ button{font-family:inherit;color:inherit}
 
    PERSISTED (live doc)  A viewer gesture that mutates the DOM is saved as that
      viewer and reaches every view. Used for: data-seen on an event row, the
-     hidden attribute on a dismissed row, data-mon on a security, and the notes
+     hidden attribute on a dismissed row, and the notes
      textarea value. Never write these from script on load, a timer, or an mcp
      delivery — only from a real event handler.
 
@@ -443,23 +565,35 @@ button{font-family:inherit;color:inherit}
 
   // "N to view" caption + the tick rail state for one security.
   function refreshRow(row) {
-    const on   = row.getAttribute('data-mon') !== '0';
-    const rows = $$('.bd-evt tbody tr', row).filter(tr => !tr.hidden);
+    const rows = $$('.bd-evt tbody tr', row)
+      .filter(tr => !tr.hidden && tr.getAttribute('data-out-of-period') !== '1');
     const unseen = rows.filter(tr => tr.getAttribute('data-seen') !== '1');
+
+    // FIX 5 — create missing ticks (capped at 20) before updating them.
+    const rail = $('.bd-rail', row);
+    if (rail) {
+      const have = new Set($$('.bd-tick', row).map(t => t.dataset.key));
+      rows.slice(0, 20).forEach(tr => {
+        if (have.has(tr.dataset.key)) return;
+        const t = document.createElement('span');
+        t.className = 'bd-tick';
+        t.dataset.key = tr.dataset.key;
+        rail.appendChild(t);
+      });
+    }
 
     $$('.bd-tick', row).forEach(t => {
       const tr = rows.find(r => r.dataset.key === t.dataset.key);
       if (!tr) { t.hidden = true; return; }
       t.hidden = false;
       t.setAttribute('data-state',
-        !on ? 'off'
-        : tr.getAttribute('data-seen') === '1' ? 'viewed'
+        tr.getAttribute('data-seen') === '1' ? 'viewed'
         : tr.dataset.flag ? 'flag' : 'new');
     });
 
     const cap = $('.bd-cap', row);
-    if (cap) cap.textContent = !on ? 'monitoring off'
-      : rows.length ? (unseen.length ? unseen.length + ' to view' : 'all viewed') : '';
+    if (cap) cap.textContent =
+      rows.length ? (unseen.length ? unseen.length + ' to view' : 'all viewed') : '';
 
     const count = $('.bd-count', row);
     if (count) {
@@ -477,6 +611,351 @@ button{font-family:inherit;color:inherit}
     if (active) active.textContent = total ? String(total) : '';
   }
 
+  /* NOTE: there is no in-page create path, by design. A bare `create` call
+     returns the monitor inactive with a generator-invented schema and no
+     backfill, and the page can neither verify nor repair any of that. The
+     nomonitor state carries a plain "Ask Claude to create the X monitor" line
+     instead. Do not add a button here. */
+
+  /* ── refresh prompt ──────────────────────────────────────────────────── */
+  /* The console is a snapshot of the runs it was built from. Refreshing it
+     means re-reading each monitor, reconciling the window counts and
+     rebuilding — work the page cannot verify — so the button copies a fully
+     specified prompt instead of pretending to refresh. The prompt is built
+     from CFG so it always names the monitors this document actually carries. */
+  function refreshPrompt() {
+    const wl = (CFG.watchlists || []).find(w => w.id === CFG.activeWatchlist)
+               || (CFG.watchlists || [])[0] || {};
+    // Deliberately short. The monitor and entity ids live in the project's
+    // store mirror, so repeating them here only risks contradicting it when
+    // monitors are added or torn down. What the chat CANNOT know is what this
+    // particular document already shows: its window and its cutoff.
+    const sel = document.documentElement.getAttribute('data-local-period')
+                || CFG.defaultPeriod || '';
+    const pBtn = sel && $('#bd-period-menu button[data-period="' + sel + '"]');
+    const period = pBtn ? pBtn.textContent.trim().toLowerCase()
+                        : (sel ? 'last ' + sel : 'the same period');
+    return 'Refresh the "' + (wl.name || 'watchlist') + '" console: read the ' +
+           'latest runs for the active monitors, reconcile the window counts, ' +
+           'and rebuild it for the ' + period + '.\n\n' +
+           'This build covers runs up to ' + (CFG.asOf || 'its build time') +
+           '. Report only what changed since then.';
+  }
+
+  /* One clipboard path for every copy affordance. Resolves false rather than
+     throwing, so callers can report failure instead of claiming a copy. */
+  function copyToClipboard(text) {
+    const legacy = () => {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.cssText = 'position:fixed;top:-1000px;opacity:0';
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand('copy');
+        ta.remove();
+        return ok;
+      } catch (_) { return false; }
+    };
+    // The async API is blocked in some embedded contexts; execCommand is the
+    // fallback, not the first choice.
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).then(() => true, () => legacy());
+    }
+    return Promise.resolve(legacy());
+  }
+
+  function copyRefreshPrompt() {
+    const btn = $('#bd-refresh');
+    const restore = btn && btn.title;
+    copyToClipboard(refreshPrompt()).then(ok => {
+      if (!btn) return;
+      btn.setAttribute('data-said', ok ? 'ok' : 'fail');
+      const lbl = $('.bd-btn-t', btn);
+      const was = lbl && lbl.textContent;
+      if (lbl) lbl.textContent = ok ? 'Prompt copied' : 'Could not copy';
+      clearTimeout(btn._t);
+      btn._t = setTimeout(() => {
+        btn.removeAttribute('data-said');
+        if (lbl) lbl.textContent = was;
+        btn.title = restore;
+      }, 3500);
+    });
+  }
+
+  /* The prompt behind an "Ask Claude to…" line. Same principle as the refresh
+     prompt: name the company, ticker, topic and watchlist, and leave the ids
+     and the tool sequence to the project's store and to this skill. */
+  function askPrompt(pane) {
+    const row = pane.closest('.bd-row');
+    const wl = (CFG.watchlists || []).find(w => w.id === CFG.activeWatchlist)
+               || (CFG.watchlists || [])[0] || {};
+    const tick = row ? row.dataset.ticker : '';
+    const name = (row && ($('.bd-nm', row) || {}).textContent) || tick;
+    const chip = row && $('.bd-tab[data-tab="' + pane.dataset.tab + '"] .bd-tab-t', row);
+    const topic = chip ? chip.textContent.trim() : pane.dataset.tab;
+    const verb = pane.getAttribute('data-state') === 'inactive' ? 'Activate' : 'Create';
+    return verb + ' the ' + topic + ' monitor for ' + name + ' (' + tick + ') on the "' +
+           (wl.name || 'watchlist') + '" console, then rebuild the console.';
+  }
+
+  function copyAskPrompt(btn) {
+    const ask = btn.closest('.bd-ask');
+    const pane = btn.closest('.bd-pane');
+    const lbl = ask && $('.bd-ask-t', ask);
+    if (!ask || !pane || !lbl) return;
+    const was = lbl.textContent;
+    copyToClipboard(askPrompt(pane)).then(ok => {
+      ask.setAttribute('data-said', ok ? 'ok' : 'fail');
+      lbl.textContent = ok ? 'Prompt copied — paste it in the chat'
+                           : 'Could not copy — ask Claude directly';
+      clearTimeout(ask._t);
+      ask._t = setTimeout(() => {
+        ask.removeAttribute('data-said');
+        lbl.textContent = was;
+      }, 3500);
+    });
+  }
+
+  /* ── citations ───────────────────────────────────────────────────────── */
+  /* Attribution format is "Source name - MMM DD, YYYY", linked to the source.
+     The date is the GROUNDING DOCUMENT's publication timestamp — when the
+     story ran — which is not event_date (often free text, often the date of a
+     years-old deal) and not the detection window. */
+  const CITE_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun',
+                       'Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  function citeDate(ts) {
+    if (!ts) return '';
+    // Bigdata.com grounding timestamps arrive without a zone; treat as UTC so
+    // the rendered day cannot drift by one against the stored value.
+    const iso = /Z$|[+-]\d\d:?\d\d$/.test(String(ts)) ? String(ts) : String(ts) + 'Z';
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return '';
+    return CITE_MONTHS[d.getUTCMonth()] + ' ' +
+           String(d.getUTCDate()).padStart(2, '0') + ', ' + d.getUTCFullYear();
+  }
+
+  function citeLabel(name, ts) {
+    const day = citeDate(ts);
+    // No usable timestamp: the source name alone, never an invented date.
+    return day ? (name + ' - ' + day) : name;
+  }
+
+  /* Render an event's grounding into the row: the newest publication date under
+     the counterparty, and the DISTINCT source names at the foot of the summary
+     cell. grounding repeats the same article once per `cnum`, and publishers
+     syndicate each other, so dedupe by document id first and by source name
+     second — otherwise one row's list is taller than the whole table. */
+  const SRC_VISIBLE = 6;
+  const SRC_LABEL = 'Sources via bigdata.com';
+
+  /* "SEP 10, 2026 - SOURCES VIA BIGDATA.COM" (the label is uppercased in CSS).
+     Falls back to the bare label when no source carried a usable timestamp. */
+  function sourcesLabel(ts) {
+    const day = citeDate(ts);
+    return day ? (day + ' - ' + SRC_LABEL) : SRC_LABEL;
+  }
+
+  function distinctSources(ev) {
+    const seenDoc = new Set(), seenName = new Set(), out = [];
+    (ev.grounding || []).slice()
+      .sort((a, b) => String(b.timestamp || '').localeCompare(String(a.timestamp || '')))
+      .forEach(g => {
+        if (!g) return;
+        const doc = g.id || '';
+        if (doc && seenDoc.has(doc)) return;
+        if (doc) seenDoc.add(doc);
+        const name = (g.source && g.source.name) || '';
+        if (!name || seenName.has(name)) return;
+        seenName.add(name);
+        out.push({ name: name, url: g.url || '', ts: g.timestamp || '' });
+      });
+    return out;
+  }
+
+  function applyGrounding(tr, ev) {
+    if (!tr || !ev) return;
+    const srcs = distinctSources(ev);
+
+    const box = tr.querySelector('.bd-srcs');
+    if (!box || !srcs.length) return;
+    box.textContent = '';
+    const lbl = document.createElement('span');
+    lbl.className = 'bd-srcs-lbl';
+    lbl.textContent = sourcesLabel(srcs[0].ts);
+    box.appendChild(lbl);
+    srcs.forEach((s, i) => {
+      if (i) {
+        const sep = document.createElement('span');
+        sep.className = 'bd-sep';
+        sep.textContent = '·';
+        if (i >= SRC_VISIBLE) sep.setAttribute('data-extra', '1');
+        box.appendChild(sep);
+      }
+      const node = s.url ? document.createElement('a') : document.createElement('span');
+      if (s.url) { node.href = s.url; node.target = '_blank'; node.rel = 'noopener'; }
+      node.textContent = s.name;                 // names only, dates live in the cp cell
+      if (i >= SRC_VISIBLE) node.setAttribute('data-extra', '1');
+      box.appendChild(node);
+    });
+    if (srcs.length > SRC_VISIBLE) {
+      const btn = document.createElement('button');
+      btn.className = 'bd-srcs-more';
+      btn.type = 'button';
+      btn.textContent = '+' + (srcs.length - SRC_VISIBLE) + ' more';
+      box.appendChild(btn);
+    }
+  }
+
+  /* ── summary, with a labelled fallback ───────────────────────────────── */
+  /* A meaningful number of extractions arrive with `summary: ""`. The event is
+     still real and still carries a counterparty, a stage and grounding, so the
+     row stays — but an empty cell tells the reader nothing.
+
+     `rationale` is the only other prose the feed provides, so it is the
+     fallback. It is NOT a summary: it is the extractor reasoning about its own
+     scope rules, and for an empty-summary row it usually ends "Dropping this
+     event." Presenting that as a description would misrepresent it, so it is
+     prefixed with a label and styled as secondary. An empty summary whose
+     rationale rejects the row should also carry a flag. */
+  function applySummary(cell, ev) {
+    const s = ev && ev.summary;
+    if (s && String(s).trim()) {
+      cell.textContent = String(s);
+      cell.setAttribute('data-na', '0');
+      cell.removeAttribute('data-fallback');
+      return;
+    }
+    const r = ev && ev.rationale;
+    if (r && String(r).trim()) {
+      cell.textContent = '';
+      const lbl = document.createElement('span');
+      lbl.className = 'bd-sum-lbl';
+      lbl.textContent = 'No summary — extractor note';
+      cell.appendChild(lbl);
+      cell.appendChild(document.createTextNode(String(r)));
+      cell.setAttribute('data-na', '0');
+      cell.setAttribute('data-fallback', '1');
+      return;
+    }
+    cell.textContent = '—';                     // neither: say nothing, clearly
+    cell.setAttribute('data-na', '1');
+    cell.removeAttribute('data-fallback');
+  }
+
+  /* ── event date normalisation ────────────────────────────────────────── */
+  /* `event_date` arrives as free text in wildly different shapes: ISO,
+     "September 9, 2026", "Wednesday, September 10, 2026", "10 September 2026",
+     "09/10/2026", "December 2025", "early September 2026", "2025",
+     "Earlier this year", null. Normalise to `MMM DD, YYYY` — but only to the
+     precision the source actually carries. "December 2025" has no day, so it
+     renders "Dec 2025"; padding it to "Dec 01, 2025" would invent a fact. */
+  const EV_MON = { jan:1, feb:2, mar:3, apr:4, may:5, jun:6,
+                   jul:7, aug:8, sep:9, oct:10, nov:11, dec:12 };
+  const pad2 = n => String(n).padStart(2, '0');
+
+  function evDay(y, mo, dd) {
+    if (!(mo >= 1 && mo <= 12) || !(dd >= 1 && dd <= 31)) return null;
+    // Range-checking 1-31 is not enough: "February 30, 2026" would pass and
+    // render as a real date. Round-trip through UTC to reject impossible days.
+    const dt = new Date(Date.UTC(y, mo - 1, dd));
+    if (dt.getUTCFullYear() !== y || dt.getUTCMonth() !== mo - 1 ||
+        dt.getUTCDate() !== dd) return null;
+    return { text: CITE_MONTHS[mo - 1] + ' ' + pad2(dd) + ', ' + y,
+             iso: y + '-' + pad2(mo) + '-' + pad2(dd), precision: 'day' };
+  }
+
+  function normEventDate(raw) {
+    if (raw === null || raw === undefined || String(raw).trim() === '')
+      return { text: '—', iso: '', precision: 'none' };
+    let t = String(raw).trim().replace(/\.$/, '');
+    // Leading weekday and vague qualifiers carry no date information.
+    t = t.replace(/^(mon|tues?|wed(nes)?|thur?s?|fri|satur?|sun)[a-z]*,\s*/i, '');
+    t = t.replace(/^(early|mid|late|end of|beginning of)\s+/i, '');
+    let m, mo, r;
+    if ((m = /^(\d{4})-(\d{1,2})-(\d{1,2})/.exec(t)))
+      { r = evDay(+m[1], +m[2], +m[3]); if (r) return r; }
+    // Slash dates are read US-style (MM/DD/YYYY) — the feed's convention.
+    if ((m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(t)))
+      { r = evDay(+m[3], +m[1], +m[2]); if (r) return r; }
+    if ((m = /^([A-Za-z]{3,})\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})$/.exec(t))) {
+      mo = EV_MON[m[1].slice(0, 3).toLowerCase()];
+      if (mo) { r = evDay(+m[3], mo, +m[2]); if (r) return r; }
+    }
+    if ((m = /^(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]{3,})\.?,?\s+(\d{4})$/.exec(t))) {
+      mo = EV_MON[m[2].slice(0, 3).toLowerCase()];
+      if (mo) { r = evDay(+m[3], mo, +m[1]); if (r) return r; }
+    }
+    if ((m = /^([A-Za-z]{3,})\.?\s+(\d{4})$/.exec(t))) {
+      mo = EV_MON[m[1].slice(0, 3).toLowerCase()];
+      if (mo) return { text: CITE_MONTHS[mo - 1] + ' ' + m[2],
+                       iso: m[2] + '-' + pad2(mo), precision: 'month' };
+    }
+    if ((m = /^Q([1-4])\s+(\d{4})$/i.exec(t)))
+      return { text: 'Q' + m[1] + ' ' + m[2], iso: m[2] + '-Q' + m[1], precision: 'quarter' };
+    if ((m = /^(\d{4})$/.exec(t)))
+      return { text: m[1], iso: m[1], precision: 'year' };
+    // Unresolvable ("Earlier this year", "last October"): keep the source's own
+    // words rather than guessing, and mark it so it reads as approximate.
+    return { text: String(raw), iso: '', precision: 'text' };
+  }
+
+  function applyEventDate(cell, raw) {
+    if (!cell) return;
+    const n = normEventDate(raw);
+    cell.textContent = n.text;
+    cell.setAttribute('data-sort-value', n.iso);
+    cell.setAttribute('data-precision', n.precision);
+    cell.setAttribute('data-na', n.precision === 'none' ? '1' : '0');
+  }
+
+  /* ── period filter ───────────────────────────────────────────────────── */
+  /* The period control FILTERS THE ROWS IN THIS DOCUMENT. It used to only call
+     live.repoll(), which re-subscribed the feeds and changed nothing on screen
+     — so the page could claim "Last 24 hours" while showing four days.
+
+     The cutoff is measured from CFG.asOf, the newest window this document was
+     built from, NOT from the wall clock: on a snapshot that has sat for a week,
+     Date.now() would push every row out of period and empty the page. */
+  const PERIOD_HOURS = { '1h': 1, '12h': 12, '24h': 24 };
+
+  function applyPeriod(period) {
+    const hrs  = PERIOD_HOURS[period];
+    const asOf = Date.parse(CFG.asOf || '');
+    document.documentElement.setAttribute('data-local-period', period);
+
+    $$('.bd-evt tbody tr').forEach(tr => {
+      const det = Date.parse(tr.getAttribute('data-detected') || '');
+      // No cutoff, no reference clock or no detection stamp => never filter.
+      // Hiding a row we cannot date would be worse than showing it.
+      // `<=`, not `<`: a window ENDING exactly at the cutoff covers a span
+      // entirely outside the period, so it is out. With `<` a "Last hour"
+      // view showed two 1h windows — twice the period it named.
+      const out = hrs && !Number.isNaN(asOf) && !Number.isNaN(det)
+        && det <= asOf - hrs * 3600000;
+      if (out) tr.setAttribute('data-out-of-period', '1');
+      else     tr.removeAttribute('data-out-of-period');
+    });
+
+    // A pane holding rows that are all outside the period is exactly the
+    // existing `empty` state — "No events in this period." No sixth state.
+    // Only ok/empty are touched: nomonitor, inactive and error are about the
+    // monitor, not the window, and must not be overwritten.
+    $$('.bd-pane').forEach(p => {
+      const st = p.getAttribute('data-state');
+      if (st !== 'ok' && st !== 'empty') return;
+      const all = $$('.bd-evt tbody tr', p);
+      if (!all.length) return;
+      const vis = all.filter(tr => !tr.hidden &&
+                                   tr.getAttribute('data-out-of-period') !== '1');
+      p.setAttribute('data-state', vis.length ? 'ok' : 'empty');
+    });
+
+    refreshRail();
+  }
+
   /* ── gestures: persisted ─────────────────────────────────────────────── */
 
   document.addEventListener('click', ev => {
@@ -488,6 +967,7 @@ button{font-family:inherit;color:inherit}
       seenBtn.setAttribute('aria-pressed', now === '1' ? 'true' : 'false');
       seenBtn.title = now === '1' ? 'Mark as unviewed' : 'Mark as viewed';
       refreshRail();
+      persist.save();
       return;
     }
 
@@ -495,28 +975,7 @@ button{font-family:inherit;color:inherit}
     if (delBtn) {
       delBtn.closest('tr').hidden = true;                    // persisted
       refreshRail();
-      return;
-    }
-
-    const monBtn = ev.target.closest('.bd-tog');
-    if (monBtn) {
-      ev.stopPropagation();
-      if (monBtn.id === 'bd-mon-all') {
-        const turnOn = monBtn.getAttribute('aria-pressed') === 'false';
-        monBtn.setAttribute('aria-pressed', turnOn ? 'true' : 'false');
-        monBtn.title = (turnOn ? 'Disable' : 'Enable') + ' news monitor for all holdings';
-        $$('.bd-row').forEach(r => {
-          r.setAttribute('data-mon', turnOn ? '1' : '0');     // persisted
-          const t = $('.bd-tog', r);
-          if (t) t.setAttribute('aria-pressed', turnOn ? 'true' : 'false');
-        });
-      } else {
-        const row = monBtn.closest('.bd-row');
-        const turnOn = monBtn.getAttribute('aria-pressed') === 'false';
-        monBtn.setAttribute('aria-pressed', turnOn ? 'true' : 'false');
-        row.setAttribute('data-mon', turnOn ? '1' : '0');     // persisted
-      }
-      refreshRail();
+      persist.save();
       return;
     }
 
@@ -528,6 +987,7 @@ button{font-family:inherit;color:inherit}
         if (b) { b.setAttribute('aria-pressed', 'true'); b.title = 'Mark as unviewed'; }
       });
       refreshRail();
+      persist.save();
       return;
     }
 
@@ -542,6 +1002,9 @@ button{font-family:inherit;color:inherit}
       if (open) live.watchRow(row); else live.unwatchRow(row);
       return;
     }
+
+    const askCopy = ev.target.closest('.bd-askcopy');
+    if (askCopy) { copyAskPrompt(askCopy); return; }
 
     const tab = ev.target.closest('.bd-tab');
     if (tab) {
@@ -572,7 +1035,8 @@ button{font-family:inherit;color:inherit}
       document.documentElement.setAttribute('data-local-period', pick.dataset.period);
       $('#bd-period-menu').setAttribute('data-local-open', '0');
       $('#bd-period-btn').setAttribute('aria-expanded', 'false');
-      live.repoll();
+      applyPeriod(pick.dataset.period);      // filter what is already here
+      live.repoll();                         // then refresh the feeds
       return;
     }
 
@@ -581,19 +1045,40 @@ button{font-family:inherit;color:inherit}
       if (m) m.setAttribute('data-local-open', '0');
     }
 
+    /* Reveal the truncated tail of a source list. Local state, not persisted. */
+    const more = ev.target.closest('.bd-srcs-more');
+    if (more) {
+      const box = more.closest('.bd-srcs');
+      if (box) box.setAttribute('data-local-expanded', '1');
+      return;
+    }
+
+    /* Sidebar collapse: the button, or any empty part of the sidebar. Local
+       state only — never written to #bd-state, so it does not travel to other
+       viewers. Clicks on a watchlist button fall through to the handler below. */
+    const asideTog = ev.target.closest('#bd-aside-toggle');
+    if (asideTog || (ev.target.closest('.bd-aside') && !ev.target.closest('.bd-wl'))) {
+      const shell = $('.bd-shell');
+      const now = shell.getAttribute('data-local-aside') === '1' ? '0' : '1';
+      shell.setAttribute('data-local-aside', now);
+      const b = $('#bd-aside-toggle');
+      if (b) {
+        b.setAttribute('aria-expanded', now === '1' ? 'false' : 'true');
+        b.title = (now === '1' ? 'Expand' : 'Collapse') + ' the sidebar';
+      }
+      return;
+    }
+
     const wl = ev.target.closest('.bd-wl');
     if (wl) { live.switchWatchlist(wl.dataset.wl); return; }
 
-    const cta = ev.target.closest('.bd-create');
-    if (cta) { live.createMonitor(cta); return; }
-
-    if (ev.target.closest('#bd-refresh')) { live.refreshNow(); return; }
+    if (ev.target.closest('#bd-refresh')) { copyRefreshPrompt(); return; }
   });
 
   /* Notes: input state on a textarea is a persisted gesture. */
   document.addEventListener('change', ev => {
     const ta = ev.target.closest('.bd-note textarea');
-    if (ta) ta.setAttribute('data-filled', ta.value ? '1' : '0');
+    if (ta) { ta.setAttribute('data-filled', ta.value ? '1' : '0'); persist.save(); }
   });
 
   /* ── sorting (local) ─────────────────────────────────────────────────── */
@@ -641,6 +1126,80 @@ button{font-family:inherit;color:inherit}
   }
 
   /* ── live layer ──────────────────────────────────────────────────────── */
+
+  /* FIX 4 (cont.) — the persistence layer. */
+  const persist = {
+    art: null,
+    baseline: null,       // the document as captured BEFORE any live delivery
+    timer: null,
+    attach(art) {
+      this.art = art || null;
+      // Capture the baseline immediately, while the DOM is still exactly what
+      // the agent published.
+      this.baseline = document.documentElement.outerHTML;
+      this.restore();
+      if (!this.art) {
+        const cap = $('#bd-note-cap');
+        if (cap) cap.textContent =
+          'Static export — marks and notes in this copy are not saved';
+      }
+    },
+    read() {
+      try { return JSON.parse($('#bd-state').textContent) || {}; } catch (_) { return {}; }
+    },
+    // Apply saved marks on load. This is script, not a gesture, so it is not
+    // itself persisted — which is exactly why the merge rule holds.
+    restore() {
+      const st = this.read();
+      Object.keys(st.seen || {}).forEach(k => {
+        const tr = $('[data-key="' + CSS.escape(k) + '"].bd-evt tbody tr, tbody [data-key="' + CSS.escape(k) + '"]');
+        if (!tr) return;
+        tr.setAttribute('data-seen', '1');
+        const b = $('.bd-seen', tr);
+        if (b) { b.setAttribute('aria-pressed', 'true'); b.title = 'Mark as unviewed'; }
+      });
+      Object.keys(st.hidden || {}).forEach(k => {
+        const tr = $('tbody [data-key="' + CSS.escape(k) + '"]');
+        if (tr) tr.hidden = true;
+      });
+      Object.keys(st.notes || {}).forEach(e => {
+        const row = $('.bd-row[data-entity="' + CSS.escape(e) + '"]');
+        const ta = row && $('.bd-note textarea', row);
+        if (ta) { ta.value = st.notes[e]; ta.setAttribute('data-filled', '1'); }
+      });
+      refreshRail();
+    },
+    collect() {
+      const st = { seen: {}, hidden: {}, notes: {} };
+      $$('.bd-evt tbody tr').forEach(tr => {
+        if (tr.getAttribute('data-seen') === '1') st.seen[tr.dataset.key] = 1;
+        if (tr.hidden) st.hidden[tr.dataset.key] = 1;
+      });
+      $$('.bd-row').forEach(r => {
+        const ta = $('.bd-note textarea', r);
+        if (ta && ta.value) st.notes[r.dataset.entity] = ta.value;
+      });
+      return st;
+    },
+    save() {
+      if (!this.art || !this.baseline) return;
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        const state = JSON.stringify(this.collect());
+        // Republish the BASELINE with an updated state block — never the live
+        // DOM, which would bake live-delivered rows into the saved version.
+        const next = this.baseline.replace(
+          /(<script type="application\/json" id="bd-state">)[\s\S]*?(<\/script>)/,
+          '$1\n' + state.replace(/\$/g, '$$$$') + '\n$2');
+        try {
+          const r = this.art.publish
+            ? this.art.publish({ html: '<!DOCTYPE html>' + next })
+            : null;
+          if (r && typeof r.catch === 'function') r.catch(() => {});
+        } catch (_) {}
+      }, 900);
+    }
+  };
 
   const live = {
     mcp: null,
@@ -708,16 +1267,28 @@ button{font-family:inherit;color:inherit}
       // "failed to load" by design — so treat it as absence and stop.
       let art = null;
       try { art = await window.claude.use('artifact'); } catch (_) {}
+      // FIX 4 — the template assumed a live doc auto-persists whatever a
+      // gesture changes in the DOM. It does not: the page must publish itself,
+      // or every viewed mark, dismissal, mute and note is lost on reload.
+      // Marks live in #bd-state; displayed CONTENT stays in the markup, and we
+      // republish a pristine baseline captured before any live delivery so a
+      // live-delivered row is never baked into the saved document.
+      persist.attach(art);
       if (!art) {
         // No live doc: gestures will not survive a reload. Say so once, and
         // hide anything that writes to the user's account.
-        $$('.bd-create').forEach(b => { b.disabled = true; b.title = 'Read-only view'; });
       }
 
       try { this.mcp = await window.claude.use('mcp'); } catch (_) { this.mcp = null; }
-      if (!this.mcp) return;                    // snapshot-only, silently
-
-      if (!CFG.server) return;
+      // FIX 6 — disable the writes BEFORE any early return. Previously a view
+      // with artifact but no mcp kept buttons that looked live and whose
+      // handler bailed on the first line.
+      if (!this.mcp || !CFG.server) {
+        // Nothing here writes, so there is no control to disable: the page
+        // simply stays the snapshot it was published as.
+        this.snapshotOnly = true;
+        return;                                 // snapshot-only, silently
+      }
 
       // Adapt to what the viewer actually has before calling anything.
       let available = null;
@@ -739,12 +1310,6 @@ button{font-family:inherit;color:inherit}
         const d = this.describe(err);
         if (!d.silent) this.banner(d.text, !d.transient);
         return;
-      }
-
-      if (!CFG.createObserved) {
-        // The agent never observed a real create response this session, so a
-        // create button would be a guess. It stays disabled.
-        $$('.bd-create').forEach(b => { b.disabled = true; b.title = 'Create from the chat instead'; });
       }
 
       this.watchAll(available);
@@ -865,8 +1430,19 @@ button{font-family:inherit;color:inherit}
     /* Update existing cells in place. Adds nothing the viewer can persist,
        and touches no persisted attribute. */
     applyGrid(payload) {
-      const rows = (payload && (payload.rows || payload.companies || payload.data)) || [];
+      // FIX 2 — the tool returns {structured:[...]} with nested price/eps/
+      // price_target objects and change_1d_pct at the top level, not the
+      // rows/companies/data with flat scalars the template assumed. Accept
+      // every shape observed rather than betting on one.
+      const rows = Array.isArray(payload) ? payload
+        : (payload && (payload.structured || payload.rows ||
+                       payload.companies || payload.data)) || [];
       if (!Array.isArray(rows)) return;
+      const num = v => {
+        if (v === null || v === undefined) return null;
+        if (typeof v === 'object') return num(v.value !== undefined ? v.value : v.amount);
+        return v;
+      };
       rows.forEach(r => {
         const id = r.rp_entity_id || r.entity_id || r.id;
         const row = id && $('.bd-row[data-entity="' + CSS.escape(String(id)) + '"]');
@@ -875,18 +1451,38 @@ button{font-family:inherit;color:inherit}
           const el = $('[data-cell="' + col + '"]', row);
           if (!el) return;
           const has = val !== null && val !== undefined && val !== '';
-          el.textContent = has ? String(val) : '—';
+          let txt = has ? String(val) : '—';
+          // Test for an existing '%', NOT for a leading sign: every negative
+          // raw number starts with '-', which would skip formatting and drop
+          // the percent sign entirely.
+          if (has && opts && opts.signed && !/%\s*$/.test(txt)) {
+            const n = Number(txt);
+            if (!Number.isNaN(n)) txt = (n > 0 ? '+' : '') + n.toFixed(2) + '%';
+          }
+          el.textContent = txt;
           el.setAttribute('data-na', has ? '0' : '1');
-          if (opts && opts.signed && has) {
-            const neg = String(val).trim().startsWith('-');
+          // The currency <small> is part of the price cell and is wiped by
+          // textContent, so it has to be re-appended.
+          if (col === 'px' && has) {
+            const ccy = (r.price && r.price.currency) || r.currency || r.ccy;
+            if (ccy) {
+              const s = document.createElement('small');
+              s.textContent = ' ' + ccy;
+              el.appendChild(s);
+            }
+          }
+          if (col === 'chg' && has) {
+            const neg = txt.trim().startsWith('-');
             el.classList.toggle('bd-down', neg);
             el.classList.toggle('bd-up', !neg);
           }
         };
-        set('px', r.price != null ? r.price : r.PRICE);
-        set('chg', r.price_change_1d != null ? r.price_change_1d : r.PRICE_CHANGE_1D, { signed:true });
-        set('eps', r.eps != null ? r.eps : r.EPS);
-        set('pt',  r.price_target != null ? r.price_target : r.PRICE_TARGET);
+        set('px', num(r.price !== undefined ? r.price : r.PRICE));
+        set('chg', r.change_1d_pct !== undefined ? r.change_1d_pct
+              : num(r.price_change_1d !== undefined ? r.price_change_1d : r.PRICE_CHANGE_1D),
+            { signed: true });
+        set('eps', num(r.eps !== undefined ? r.eps : r.EPS));
+        set('pt',  num(r.price_target !== undefined ? r.price_target : r.PRICE_TARGET));
       });
     },
 
@@ -894,10 +1490,14 @@ button{font-family:inherit;color:inherit}
        data-seen and its hidden attribute. Only content is refreshed, and new
        keys are appended. */
     applyRuns(pane, payload) {
-      const runs = (payload && (payload.runs || payload.items)) || [];
+      // FIX 3 — observed this session: the tool returns a BARE ARRAY when it
+      // has runs and {"result": []} when it does not, and each run's execution
+      // id is `id`, never `run_id`. The template handled neither.
+      const runs = Array.isArray(payload) ? payload
+        : (payload && (payload.result || payload.runs || payload.items)) || [];
       if (!Array.isArray(runs) || !pane) return;
       const completed = runs.filter(r => (r.status || '').toUpperCase() === 'COMPLETED');
-      const runIdOf = r => r && (r.run_id || r.execution_id || r.id) || '';
+      const runIdOf = r => (r && (r.id || r.run_id || r.execution_id)) || '';
 
       if (!completed.length) {
         // No run yet. Which empty state that is depends on the monitor, not
@@ -915,7 +1515,7 @@ button{font-family:inherit;color:inherit}
       // The monitor covers exactly this company and this topic, so every
       // event it returns belongs to this pane. No entity filtering.
       const events = [];
-      completed.forEach(run => (run.events || []).forEach(e => events.push([e, runIdOf(run)])));
+      completed.forEach(run => (run.events || []).forEach(e => events.push([e, runIdOf(run), run])));
 
       if (!events.length) { pane.setAttribute('data-state', 'empty'); return; }
 
@@ -923,14 +1523,20 @@ button{font-family:inherit;color:inherit}
       if (!body) { pane.setAttribute('data-state', 'ok'); return; }
 
       events.forEach(pair => {
-        const e = pair[0], runId = pair[1];
+        const e = pair[0], runId = pair[1], run = pair[2];
         const key = e.id || e.event_id;
         if (!key) return;
         const existing = $('[data-key="' + CSS.escape(String(key)) + '"]', body);
         if (existing) {
+          applyGrounding(existing, e);
           // Content only. data-seen and hidden are the viewer's, not ours.
           $$('[data-live]', existing).forEach(cell => {
-            const v = e[cell.dataset.live];
+            if (cell.dataset.live === 'event_date') return applyEventDate(cell, e.event_date);
+            if (cell.dataset.live === 'summary')    return applySummary(cell, e);
+            let v = e[cell.dataset.live];
+            // counterparty is {name, rp_entity_id}; String() would render
+            // "[object Object]" straight into the column.
+            if (v && typeof v === 'object') v = v.name;
             if (v !== undefined && v !== null && v !== '') cell.textContent = String(v);
           });
           if (runId) existing.setAttribute('data-run', String(runId));
@@ -942,9 +1548,29 @@ button{font-family:inherit;color:inherit}
           tr.dataset.key = key;
           if (runId) tr.setAttribute('data-run', String(runId));
           $$('[data-live]', tr).forEach(cell => {
-            const v = e[cell.dataset.live];
+            if (cell.dataset.live === 'event_date') return applyEventDate(cell, e.event_date);
+            if (cell.dataset.live === 'summary')    return applySummary(cell, e);
+            let v = e[cell.dataset.live];
+            if (v && typeof v === 'object') v = v.name;
             cell.textContent = (v === undefined || v === null || v === '') ? '—' : String(v);
           });
+          applyGrounding(tr, e);
+          // A new row needs its detection stamp, or the period filter cannot
+          // judge it and it would show in every window.
+          const we = run && run.window_end;
+          if (we) tr.setAttribute('data-detected', String(we));
+          const cpc = tr.querySelector('[data-col="cp"]');
+          const cpe = e.counterparty && (e.counterparty.rp_entity_id || e.counterparty.entity_id);
+          if (cpc) {
+            cpc.setAttribute('data-cp-id', cpe || '');
+            const nm = (e.counterparty && e.counterparty.name) || '';
+            cpc.setAttribute('title', nm + (cpe ? ' · ' + cpe : ' · unresolved'));
+            const sp = cpc.querySelector('.bd-cp');
+            if (sp) {
+              sp.setAttribute('data-unresolved', cpe ? '0' : '1');
+              if (nm) sp.textContent = nm;      // counterparty arrives as an object
+            }
+          }
           body.appendChild(tr);
         }
       });
@@ -953,87 +1579,23 @@ button{font-family:inherit;color:inherit}
       refreshRail();
     },
 
-    /* A create is an ACTION and a WRITE. Three rules from the mcp contract:
-       one call per gesture, never auto-retried, and an ambiguous failure is
-       resolved by RE-READING rather than calling again — a rejection is not
-       proof the monitor was not created. */
-    async createMonitor(btn) {
-      if (!this.mcp || btn.disabled) return;
-      const pane   = btn.closest('.bd-pane');
-      const topic  = pane && pane.dataset.tab;
-      const row    = btn.closest('.bd-row');
-      const entity = row && row.dataset.entity;
-      // One monitor per company per topic, so the baked payload is keyed by
-      // both — never by watchlist.
-      const req    = ((CFG.createRequests || {})[entity] || {})[topic];
-      if (!req) { btn.disabled = true; btn.title = 'No request payload was baked for this company'; return; }
+    /* NOTE: the in-page createMonitor() was removed deliberately. A bare
+       `create` call leaves the monitor inactive with a generator-invented
+       schema and no backfill, and the page can neither verify nor repair any
+       of that — so the nomonitor pane asks the reader to have Claude do it.
+       Do not reinstate an in-page create path. */
 
-      const guard = entity + ':' + topic;
-      if (this.inflight.has(guard)) return;          // no double-fire
-      this.inflight.add(guard);
-      btn.disabled = true;
-      const label = btn.textContent;
-      btn.textContent = 'Creating…';
+    /* NOTE: no control in this page writes to Bigdata.com. Per-topic monitor
+       switches were removed deliberately — activating a monitor is a status
+       update that also wants a schema check and a backfill, none of which the
+       page can verify. Both the nomonitor and inactive states ask the reader to
+       have Claude do it. Every remaining tool call is a read. */
 
-      try {
-        const res  = await this.mcp.callTool(CFG.server, 'bigdata_configure_monitor', req);
-        const body = (res && res.payload) || {};
-        const id   = body.id || body.monitor_id;
-        // Read the status back rather than assuming create leaves it running.
-        const status = String(body.status || '').toLowerCase() === 'inactive' ? 'inactive' : 'active';
-        if (id) {
-          CFG.monitors = CFG.monitors || {};
-          CFG.monitors[entity] = CFG.monitors[entity] || {};
-          CFG.monitors[entity][topic] = { id: id, status: status };
-          pane.setAttribute('data-monitor', id);
-          pane.setAttribute('data-mon-status', status);
-        }
-        // Drop cached reads so the watched sections refetch against reality.
-        try { await this.mcp.invalidate(CFG.server, 'bigdata_fetch_monitors'); } catch (_) {}
-        // An inactive monitor never runs, so 'pending' would spin forever.
-        pane.setAttribute('data-state', status === 'inactive' ? 'inactive' : 'pending');
-        if (status === 'active' && row) { this.unwatchRow(row); this.watchRow(row); }
-      } catch (err) {
-        const ambiguous = err && (err.code === 'server_unavailable' ||
-                                  err.code === 'upstream_error' ||
-                                  err.code === 'cancelled');
-        if (ambiguous) {
-          // Outcome unknown. Find out before offering anything again.
-          let exists = false;
-          try {
-            const check = await this.mcp.callTool(CFG.server, 'bigdata_fetch_monitors', {},
-                                                  { cache: { refresh: true } });
-            // The raw payload carries both halves of this monitor's identity
-            // (entity_watchlist for the company, the name for the topic), so
-            // look for this company AND this topic — not the topic alone.
-            const txt = JSON.stringify((check && check.payload) || '');
-            exists = txt.indexOf(String(entity)) !== -1 &&
-                     txt.indexOf(TOPIC_LABEL[topic] || topic) !== -1;
-          } catch (_) {}
-          const slot = $('.bd-state-error', pane);
-          pane.setAttribute('data-state', 'error');
-          if (slot) slot.textContent = exists
-            ? 'The monitor was created despite the error — reload to see its first run.'
-            : 'The request failed and no monitor was created. Try again from the chat.';
-        } else {
-          const d = this.describe(err);
-          pane.setAttribute('data-state', 'error');
-          const slot = $('.bd-state-error', pane);
-          if (slot) slot.textContent = d.text;
-        }
-      } finally {
-        this.inflight.delete(guard);
-        btn.textContent = label;
-        // Deliberately left disabled: re-arming needs a fresh page state, not
-        // a second click on a button whose outcome we could not determine.
-      }
-    },
+    /* NOTE: there is no in-page refresh. The topbar button copies a prompt
+       instead — see copyRefreshPrompt(). Rebuilding needs a window inventory
+       and a reconciliation the page cannot perform, and a refresh that
+       silently under-reads is indistinguishable from a quiet feed. */
 
-    async refreshNow() {
-      if (!this.mcp) return;
-      try { await this.mcp.invalidate(CFG.server); } catch (_) {}
-      this.repoll();
-    },
 
     repoll() {
       if (!this.mcp) return;
@@ -1049,10 +1611,33 @@ button{font-family:inherit;color:inherit}
     }
   };
 
+  /* FIX 1 — .bd-rowhead is a div[role=button], not a <button>, because the
+     monitor toggle nested inside it made the parser close the outer button
+     early and drop the last four grid cells. Keyboard activation and
+     aria-expanded therefore have to be wired by hand. */
+  document.addEventListener('keydown', ev => {
+    const head = ev.target.closest && ev.target.closest('.bd-rowhead');
+    if (!head || (ev.key !== 'Enter' && ev.key !== ' ')) return;
+    ev.preventDefault();
+    head.click();
+  });
+  new MutationObserver(muts => {
+    muts.forEach(m => {
+      if (m.attributeName !== 'data-local-open') return;
+      const head = $('.bd-rowhead', m.target);
+      if (head) head.setAttribute('aria-expanded',
+        m.target.getAttribute('data-local-open') === '1' ? 'true' : 'false');
+    });
+  }).observe($('#bd-rows'), { attributes: true, subtree: true,
+                              attributeFilter: ['data-local-open'] });
+
   /* ── init ────────────────────────────────────────────────────────────── */
-  refreshRail();
+  applyPeriod(CFG.defaultPeriod || '24h');   // also calls refreshRail()
   if (window.claude && typeof window.claude.use === 'function') {
     live.boot().catch(() => {});   // absence is a normal state, not an error
+  } else {
+    // No capability surface at all: still a usable snapshot, but say so.
+    persist.attach(null);
   }
 })();
 </script>
