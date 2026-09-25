@@ -1,0 +1,35 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.bigdata/bigdata-mcp",
+  "title": "Bigdata.com",
+  "description": "Financial search, tearsheets, screens and monitors, grounded in news, filings and transcripts.",
+  "version": "1.0.1",
+  "websiteUrl": "https://docs.bigdata.com/mcp-reference/introduction",
+  "repository": {
+    "url": "https://github.com/Bigdata-com/bigdata-plugins-marketplace",
+    "source": "github"
+  },
+  "icons": [
+    {
+      "src": "https://app.bigdata.com/icons/logo-squared-production-512x512.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.bigdata.com/",
+      "headers": [
+        {
+          "name": "x-api-key",
+          "description": "API key from https://platform.bigdata.com/api-keys. Not required when the host connects with OAuth.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
