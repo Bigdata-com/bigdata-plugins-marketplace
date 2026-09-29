@@ -1,0 +1,104 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.30/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.30",
+  "version": "1.2.1",
+  "id": "6d4a8014-f316-55e4-8cb4-a8037f11dab5",
+  "developer": {
+    "name": "RavenPack",
+    "websiteUrl": "https://bigdata.com",
+    "privacyUrl": "https://bigdata.com/privacy-policy",
+    "termsOfUseUrl": "https://bigdata.com/terms-and-conditions"
+  },
+  "name": {
+    "short": "Bigdata.com",
+    "full": "Bigdata.com financial research"
+  },
+  "description": {
+    "short": "Bigdata.com financial research on companies, sectors, earnings and economies",
+    "full": "Financial research on stocks, companies, sectors and economies with Bigdata.com skills and the Bigdata.com MCP server. Covers valuation, peer comparables, investment memos, earnings, risk, catalysts, thematic and sector research, country analysis and scenario analysis."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#1F1F1F",
+  "agentSkills": [
+    {
+      "folder": "./skills/bigdata-catalyst-monitor"
+    },
+    {
+      "folder": "./skills/bigdata-company-brief"
+    },
+    {
+      "folder": "./skills/bigdata-country-analysis"
+    },
+    {
+      "folder": "./skills/bigdata-country-sector-analysis"
+    },
+    {
+      "folder": "./skills/bigdata-cross-sector"
+    },
+    {
+      "folder": "./skills/bigdata-earnings-digest"
+    },
+    {
+      "folder": "./skills/bigdata-earnings-preview"
+    },
+    {
+      "folder": "./skills/bigdata-earnings-quality-screen"
+    },
+    {
+      "folder": "./skills/bigdata-investment-memo"
+    },
+    {
+      "folder": "./skills/bigdata-moat-governance-review"
+    },
+    {
+      "folder": "./skills/bigdata-peer-comparables"
+    },
+    {
+      "folder": "./skills/bigdata-quick-take"
+    },
+    {
+      "folder": "./skills/bigdata-regional-comparison"
+    },
+    {
+      "folder": "./skills/bigdata-risk-assessment"
+    },
+    {
+      "folder": "./skills/bigdata-scenario-analysis"
+    },
+    {
+      "folder": "./skills/bigdata-sector-analysis"
+    },
+    {
+      "folder": "./skills/bigdata-thematic-research"
+    },
+    {
+      "folder": "./skills/bigdata-valuation-snapshot"
+    }
+  ],
+  "agentConnectors": [
+    {
+      "id": "bigdata-com",
+      "displayName": "Bigdata.com",
+      "description": "Search news, filings, transcripts and market data, and get company, sector and country tearsheets from Bigdata.com.",
+      "toolSource": {
+        "remoteMcpServer": {
+          "mcpServerUrl": "https://mcp.bigdata.com/",
+          "authorization": {
+            "type": "OAuthPluginVault",
+            "referenceId": "NWZiN2Y4YTMtOTNlOC00NjUxLTg4M2QtMWY2ZGIwZmY5ZTdkIyNjMTMxZWI4OC1kOWEyLTRiYWUtOGJmZi02NmI2NGI3ZmM1ZjE="
+          }
+        }
+      }
+    }
+  ],
+  "validDomains": [
+    "app.bigdata.com",
+    "content.bigdata.com",
+    "files.prod.nvirginia.common.ravenpack.com",
+    "cdn.prod.nvirginia.common.ravenpack.com",
+    "s3.amazonaws.com"
+  ]
+}

@@ -10,6 +10,8 @@ This repository serves as the registry for all official plugins available in the
 |--------|-------------|---------------|
 | **bigdata-com** | MCP tools to retrieve structured and unstructured financial data from Bigdata.com services. Includes the Bigdata MCP Connector and the Financial Research Analyst skill. | [View docs](https://docs.bigdata.com/mcp-reference/plugins/bigdata-com) |
 
+The bigdata-com plugin is also packaged for Microsoft 365 Copilot Cowork. See [plugins/bigdata-com/cowork](plugins/bigdata-com/cowork/README.md).
+
 ## About Bigdata.com
 
 Bigdata.com is the definitive data layer for AI in finance. It unifies the world's most valuable financial content — news, filings, transcripts, financials, press releases, expert calls, and more — making it ready for agentic workflows. Features include:
