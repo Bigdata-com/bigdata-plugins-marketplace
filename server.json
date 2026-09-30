@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "com.bigdata/bigdata-mcp",
   "title": "Bigdata.com",
-  "description": "Financial search, tearsheets, screens and monitors, grounded in news, filings and transcripts.",
+  "description": "Licensed, cited financial data for AI agents: news, filings, transcripts, research and tearsheets.",
   "version": "1.2.1",
   "websiteUrl": "https://docs.bigdata.com/mcp-reference/introduction",
   "repository": {
