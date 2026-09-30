@@ -6,8 +6,8 @@ Endpoint: `https://mcp.bigdata.com/` (Streamable HTTP).
 
 Authentication, one of:
 
-- API key: create one at https://platform.bigdata.com/api-keys and send it as the `x-api-key` header. Use this in Cline and any client that configures headers.
-- OAuth (authorization code with PKCE): hosts with an official Bigdata.com connector, app or tool (Claude.ai and Claude Desktop, ChatGPT, Microsoft Copilot Studio) connect by signing in, without an API key.
+- API key: create one at https://platform.bigdata.com/api-keys and send it as the `x-api-key` header.
+- OAuth: The Bigdata MCP server is already supported natively in several agentic platforms like Claude, ChatGPT, and Microsoft. Users only need to sign up or log in with their Bigdata credentials. Any other platforms that support the official OAuth flow can create their own client_id and client_secret in the Bigdata Developer Platform > [OAuth Clients](https://platform.bigdata.com/oauth-clients).
 
 Configuration for any client that takes an `mcpServers` map:
 

@@ -3,7 +3,7 @@
   "name": "com.bigdata/bigdata-mcp",
   "title": "Bigdata.com",
   "description": "Financial search, tearsheets, screens and monitors, grounded in news, filings and transcripts.",
-  "version": "1.0.1",
+  "version": "1.2.1",
   "websiteUrl": "https://docs.bigdata.com/mcp-reference/introduction",
   "repository": {
     "url": "https://github.com/Bigdata-com/bigdata-plugins-marketplace",

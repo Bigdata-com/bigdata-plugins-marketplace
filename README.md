@@ -9,7 +9,7 @@ The server itself is a hosted service at `https://mcp.bigdata.com/`. There is no
 | | |
 |---|---|
 | Endpoint | `https://mcp.bigdata.com/` (Streamable HTTP) |
-| Authentication | OAuth (authorization code with PKCE) on hosts with an official Bigdata.com connector, app or tool, or an API key in the `x-api-key` header |
+| Authentication | OAuth: native in Claude, ChatGPT and Microsoft Copilot Studio, and available to other hosts through a client created under [OAuth Clients](https://platform.bigdata.com/oauth-clients); or an API key in the `x-api-key` header |
 | API keys | [platform.bigdata.com/api-keys](https://platform.bigdata.com/api-keys) |
 | Registry name | `com.bigdata/bigdata-mcp` |
 | Documentation | [MCP reference](https://docs.bigdata.com/mcp-reference/introduction), [tools](https://docs.bigdata.com/mcp-reference/introduction#tools), [skills](https://docs.bigdata.com/skills-reference/introduction) |
@@ -42,8 +42,8 @@ Prepare an earnings preview for Broadcom with inline citations.
 
 | Host | Method | Notes |
 |---|---|---|
-| Claude.ai, Claude Desktop | OAuth | Official connector in the Claude directory. Sign in with your Bigdata.com account. |
-| ChatGPT | OAuth | Official app in the ChatGPT directory. Sign in with your Bigdata.com account. |
+| Claude.ai, Claude Desktop | OAuth | Official [connector](https://claude.ai/directory/connectors/bigdata) and [plugin](https://claude.ai/customize/plugins/id/bigdata-com%40knowledge-work-plugins) in the Claude directory: [Web link](https://claude.com/marketplace/connectors/bigdata). Sign in with your Bigdata.com account. |
+| ChatGPT | OAuth | [Official plugin](https://chatgpt.com/plugins/plugin_asdk_app_69491eceef3c8191beb70788b7840429) in the OpenAI plugin directory: [Web page link](https://openai.com/business/plugins/bigdata-com/). Sign in with your Bigdata.com account. |
 | Microsoft Copilot Studio | OAuth | Listed in the Copilot Studio tool catalog as Bigdata.com MCP. |
 | Cursor, VS Code, Copilot CLI, Claude Code, Codex, Snowflake Cortex Code, Qwen Code, Grok, Cline and any other MCP client | API key | Send the key as the `x-api-key` header. |
 
@@ -96,9 +96,9 @@ copilot plugin install bigdata-com@bigdata-plugins-marketplace
 
 ### Claude.ai and Claude Desktop
 
-Bigdata.com is an official connector. Team and Enterprise admins add it under **Organization settings, Connectors, Browse Connectors**; each user then clicks **Connect** and signs in to Bigdata.com. Guide: [Claude MCP Integration](https://docs.bigdata.com/mcp-reference/oauth-integrations/claude-mcp-integration).
+Bigdata.com is an official [connector](https://claude.ai/directory/connectors/bigdata) ([web page](https://claude.com/marketplace/connectors/bigdata)). Team and Enterprise admins add it under **Organization settings, Connectors, Browse Connectors**; each user then clicks **Connect** and signs in to Bigdata.com. Guide: [Claude MCP Integration](https://docs.bigdata.com/mcp-reference/oauth-integrations/claude-mcp-integration).
 
-The plugin with the research skills is in the [Claude plugin directory](https://claude.com/plugins/bigdata-com).
+The [plugin](https://claude.ai/customize/plugins/id/bigdata-com%40knowledge-work-plugins) with the research skills is in the Claude directory.
 
 ### Claude Code
 
@@ -110,7 +110,7 @@ Then run `/plugins` inside Claude Code and install the Bigdata plugin from the o
 
 ### ChatGPT
 
-Bigdata.com is an official app. Workspace admins enable it under **Workspace settings, Apps**; users add it from **Settings, Apps, Add more**. Guide: [ChatGPT MCP Integration](https://docs.bigdata.com/mcp-reference/oauth-integrations/chatgpt-mcp-integration). The research skills ship as a [ChatGPT plugin](https://chatgpt.com/plugins/plugin_asdk_app_69491eceef3c8191beb70788b7840429).
+Bigdata.com is an [official plugin](https://chatgpt.com/plugins/plugin_asdk_app_69491eceef3c8191beb70788b7840429) in the OpenAI plugin directory ([web page](https://openai.com/business/plugins/bigdata-com/)). Workspace admins enable it under **Workspace settings, Apps**; users add it from **Settings, Apps, Add more**. Guide: [ChatGPT MCP Integration](https://docs.bigdata.com/mcp-reference/oauth-integrations/chatgpt-mcp-integration).
 
 ### Codex CLI and ChatGPT desktop
 
@@ -123,6 +123,8 @@ env_http_headers = { "x-api-key" = "BIGDATA_API_KEY" }
 ```
 
 Export `BIGDATA_API_KEY` in your shell, or replace `env_http_headers` with `http_headers = { "x-api-key" = "YOUR_API_KEY" }`.
+
+To sign in with OAuth instead, create a client under [OAuth Clients](https://platform.bigdata.com/oauth-clients) and add the server with `codex mcp add bigdata_com --url https://mcp.bigdata.com/ --oauth-client-id YOUR_CLIENT_ID`, then run `codex mcp login bigdata_com`.
 
 ### Cursor
 
