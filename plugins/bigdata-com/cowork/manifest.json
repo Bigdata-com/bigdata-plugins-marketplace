@@ -22,7 +22,6 @@
     "outline": "outline.png"
   },
   "accentColor": "#1F1F1F",
-  "publisherDocsUrl": "https://docs.bigdata.com/mcp-reference/plugins/bigdata-com",
   "agentSkills": [
     {
       "folder": "./skills/bigdata-catalyst-monitor"
