@@ -4,7 +4,7 @@
   "version": "1.2.1",
   "id": "6d4a8014-f316-55e4-8cb4-a8037f11dab5",
   "developer": {
-    "name": "RavenPack",
+    "name": "RAVENPACK INTERNATIONAL SL.",
     "websiteUrl": "https://bigdata.com",
     "privacyUrl": "https://bigdata.com/privacy-policy",
     "termsOfUseUrl": "https://bigdata.com/terms-and-conditions"
@@ -15,7 +15,7 @@
   },
   "description": {
     "short": "AI grounding layer for finance: markets, filings, earnings and news, all cited",
-    "full": "Bigdata.com brings institutional research infrastructure to Microsoft Copilot: SEC filings, earnings transcripts, broker research, financial statements and estimates, sentiment signals, macro data, and premium news. RavenPack's financial knowledge graph resolves entities and grounds every claim in a source citation. Ask in plain language to build an initiation report, compare two 10-Ks, or run a pre-FOMC briefing. Built for analysts at hedge funds, asset managers, and investment banks."
+    "full": "Bigdata.com brings institutional research infrastructure to Microsoft Copilot: SEC filings, earnings transcripts, broker research, financial statements and estimates, sentiment signals, macro data, and premium news. RavenPack's financial knowledge graph resolves entities and grounds every claim in a source citation. Ask in plain language to build an initiation report, compare two 10-Ks, or run a pre-FOMC briefing. Built for analysts at hedge funds, asset managers, and investment banks.\n\nTo use this app, you need an active Bigdata.com account.\n\nSign up: https://app.bigdata.com/\nGet started and help: https://docs.bigdata.com/mcp-reference/introduction\nSupport: support@bigdata.com"
   },
   "icons": {
     "color": "color.png",
@@ -98,7 +98,6 @@
     "app.bigdata.com",
     "content.bigdata.com",
     "files.prod.nvirginia.common.ravenpack.com",
-    "cdn.prod.nvirginia.common.ravenpack.com",
-    "s3.amazonaws.com"
+    "cdn.prod.nvirginia.common.ravenpack.com"
   ]
 }
