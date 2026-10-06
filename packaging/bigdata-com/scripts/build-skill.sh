@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-# Build a standalone, self-contained skill package from skills/<name>/.
+# Build a standalone, self-contained skill package from plugins/bigdata-com/skills/<name>/.
 # Emits the same archive twice: <name>_<version>.skill and <name>_<version>.zip.
 #
 # Usage:
@@ -13,15 +13,16 @@ set -euo pipefail
 #   scripts/build-skill.sh -v 1.0.0 bigdata-earnings-preview
 #   scripts/build-skill.sh --all
 #
-# VERSION defaults to the version in .claude-plugin/plugin.json.
+# VERSION defaults to the version in plugins/bigdata-com/.claude-plugin/plugin.json.
 # Each skill is validated before packaging; a failing skill aborts the build.
 
-# Navigate to plugin root (parent of scripts/)
 cd "$(dirname "$0")/.."
 
-SKILLS_ROOT="skills"
+PLUGIN_DIR="../../plugins/bigdata-com"
+
+SKILLS_ROOT="${PLUGIN_DIR}/skills"
 OUTPUT_DIR="dist"
-MANIFEST=".claude-plugin/plugin.json"
+MANIFEST="${PLUGIN_DIR}/.claude-plugin/plugin.json"
 VERSION=""
 BUILD_ALL=false
 
@@ -206,7 +207,7 @@ for skill_name in "${SKILLS[@]}"; do
   # zip the folder under its own directory name (keeps structure)
   (
     cd "${SKILLS_ROOT}"
-    zip -r -q "../${output_file}" "${skill_name}" \
+    zip -r -q "${OLDPWD}/${output_file}" "${skill_name}" \
       -x '*/.DS_Store' \
       -x '*/__pycache__/*' \
       -x '*.pyc' \
