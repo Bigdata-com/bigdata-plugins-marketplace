@@ -1,5 +1,5 @@
 # Plugin build artifacts
-plugins/bigdata-com/dist/
+packaging/bigdata-com/dist/
 
 # Local editor / agent settings
 .claude/

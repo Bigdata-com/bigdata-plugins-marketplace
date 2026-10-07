@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.30/MicrosoftTeams.schema.json",
   "manifestVersion": "1.30",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "id": "6d4a8014-f316-55e4-8cb4-a8037f11dab5",
   "developer": {
     "name": "RAVENPACK INTERNATIONAL SL.",

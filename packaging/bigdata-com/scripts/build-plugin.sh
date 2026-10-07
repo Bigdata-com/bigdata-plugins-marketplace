@@ -3,9 +3,11 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+PLUGIN_DIR="../../plugins/bigdata-com"
+
 PLUGIN_ID="claude-plugin-bigdata-com"
 OUTPUT_DIR="dist"
-MANIFEST=".claude-plugin/plugin.json"
+MANIFEST="${PLUGIN_DIR}/.claude-plugin/plugin.json"
 
 if [ ! -f "${MANIFEST}" ]; then
   echo "ERROR: Plugin manifest not found: ${MANIFEST}" >&2
@@ -20,10 +22,9 @@ mkdir -p "${OUTPUT_DIR}"
 echo "Building plugin package: ${OUTPUT_FILE}"
 rm -f "${OUTPUT_FILE}"
 
-zip -r "${OUTPUT_FILE}" \
-  .claude-plugin/ \
-  .mcp.json \
-  commands/ \
-  skills/
+(
+  cd "${PLUGIN_DIR}"
+  zip -r -q "${OLDPWD}/${OUTPUT_FILE}" .claude-plugin/ .mcp.json skills/
+)
 
 echo "Created: ${OUTPUT_FILE}"

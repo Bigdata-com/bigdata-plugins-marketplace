@@ -1,14 +1,14 @@
 # Microsoft 365 Copilot Cowork plugin
 
-This folder holds the Microsoft 365 Copilot Cowork version of the bigdata-com plugin. The package connects Cowork to the Bigdata.com MCP server and adds a selection of the skills in `../skills/`.
+This folder holds the Microsoft 365 Copilot Cowork version of the bigdata-com plugin. The package connects Cowork to the Bigdata.com MCP server and adds a selection of the skills in `plugins/bigdata-com/skills/`.
 
 ## Build
 
 ```bash
-plugins/bigdata-com/scripts/build-cowork.sh
+packaging/bigdata-com/scripts/build-cowork.sh
 ```
 
-The script writes `plugins/bigdata-com/dist/cowork-plugin-bigdata-com_<version>.zip`. It takes the version from `.claude-plugin/plugin.json` and the skill list from `manifest.json`.
+The script writes `packaging/bigdata-com/dist/cowork-plugin-bigdata-com_<version>.zip`. It takes the version from `plugins/bigdata-com/.claude-plugin/plugin.json` and the skill list from `manifest.json`.
 
 The script stops with an error if the package breaks a Cowork limit, e.g., more than 20 skills. It leaves out the files Cowork does not use: `README.md`, `agents/` and `.svg` files.
 
@@ -18,11 +18,11 @@ The script stops with an error if the package breaks a Cowork limit, e.g., more 
 2. Sign in to Bigdata.com when Cowork asks.
 3. Ask for something that needs a tool and shows a widget, e.g., "Give me the Apple company tearsheet".
 
-Cowork refuses an upload whose version is not higher than the installed one. Delete the installed plugin first, or raise the version in `.claude-plugin/plugin.json`.
+Cowork refuses an upload whose version is not higher than the installed one. Delete the installed plugin first, or raise the version in `plugins/bigdata-com/.claude-plugin/plugin.json`.
 
 ## Change the skills
 
-The `agentSkills` list in `manifest.json` decides which skills ship. Cowork allows at most 20 skills in one package. The build prints the skills in `../skills/` that the package leaves out, so you can see when a new skill is missing.
+The `agentSkills` list in `manifest.json` decides which skills ship. Cowork allows at most 20 skills in one package. The build prints the skills in `plugins/bigdata-com/skills/` that the package leaves out, so you can see when a new skill is missing.
 
 ## What the manifest holds
 

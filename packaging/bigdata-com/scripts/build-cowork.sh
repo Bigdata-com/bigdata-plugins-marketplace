@@ -1,22 +1,25 @@
 #!/bin/bash
 set -euo pipefail
 
-# Build the Microsoft 365 Copilot Cowork plugin package from cowork/ and skills/.
+# Build the Microsoft 365 Copilot Cowork plugin package from cowork/ and the
+# skills in plugins/bigdata-com/skills/.
 # Writes dist/cowork-plugin-bigdata-com_<version>.zip, ready to upload to Cowork.
 #
 # Usage:
 #   scripts/build-cowork.sh
 #
 # The package ships the skills listed in cowork/manifest.json (agentSkills),
-# with the version taken from .claude-plugin/plugin.json.
+# with the version taken from plugins/bigdata-com/.claude-plugin/plugin.json.
 # The build fails on anything Cowork would reject at upload.
 
 cd "$(dirname "$0")/.."
 
+PLUGIN_DIR="../../plugins/bigdata-com"
+
 PLUGIN_ID="cowork-plugin-bigdata-com"
 OUTPUT_DIR="dist"
 COWORK_DIR="cowork"
-MANIFEST=".claude-plugin/plugin.json"
+MANIFEST="${PLUGIN_DIR}/.claude-plugin/plugin.json"
 
 if [ ! -f "${MANIFEST}" ]; then
   echo "ERROR: Plugin manifest not found: ${MANIFEST}" >&2
@@ -29,7 +32,7 @@ OUTPUT_FILE="${OUTPUT_DIR}/${PLUGIN_ID}_${VERSION}.zip"
 STAGING=$(mktemp -d)
 trap 'rm -rf "${STAGING}"' EXIT
 
-python3 - "${COWORK_DIR}" "skills" "${STAGING}" "${VERSION}" <<'PYEOF'
+python3 - "${COWORK_DIR}" "${PLUGIN_DIR}/skills" "${STAGING}" "${VERSION}" <<'PYEOF'
 import json, os, re, shutil, struct, sys
 
 cowork_dir, skills_root, staging, version = sys.argv[1:5]

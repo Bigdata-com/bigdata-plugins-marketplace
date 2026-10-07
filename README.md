@@ -203,7 +203,7 @@ Manifests: `.claude-plugin/marketplace.json` (Claude Code and Copilot CLI), `.cu
 
 `server.json` at the root is the record published to the official MCP Registry under `com.bigdata/bigdata-mcp`. The GitHub MCP Registry lists servers from that registry once GitHub has onboarded them.
 
-The bigdata-com plugin is also packaged for Microsoft 365 Copilot Cowork. See [plugins/bigdata-com/cowork](plugins/bigdata-com/cowork/README.md).
+The bigdata-com plugin is also packaged for Microsoft 365 Copilot Cowork. See [packaging/bigdata-com/cowork](packaging/bigdata-com/cowork/README.md).
 
 ## About Bigdata.com
 
