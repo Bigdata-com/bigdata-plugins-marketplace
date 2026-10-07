@@ -3,7 +3,7 @@
   "name": "com.bigdata/bigdata-mcp",
   "title": "Bigdata.com",
   "description": "Licensed, cited financial data for AI agents: news, filings, transcripts, research and tearsheets.",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "websiteUrl": "https://docs.bigdata.com/mcp-reference/introduction",
   "repository": {
     "url": "https://github.com/Bigdata-com/bigdata-plugins-marketplace",
