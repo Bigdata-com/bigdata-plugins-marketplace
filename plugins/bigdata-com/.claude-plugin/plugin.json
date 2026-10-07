@@ -3,6 +3,8 @@
   "description": "Financial research and market intelligence on stocks, companies, sectors, and economies. Run valuation snapshots, peer comparables, and investment memos; preview, digest, and analyze earnings (quality, reactions, surprises); assess risk, monitor catalysts, and review competitive moats and governance. Covers thematic and sector research, cross-sector and regional comparisons, country and macro analysis, G7 benchmarking, scenario analysis, and company briefs. Powered by Bigdata MCP.",
   "version": "1.2.2",
   "icon": "./.claude-plugin/icon.png",
+  "homepage": "https://claude.com/marketplace/plugins/bigdata-com",
+  "repository": "https://github.com/Bigdata-com/bigdata-plugins-marketplace/tree/main/plugins/bigdata-com",
   "documentationUrl": "https://docs.bigdata.com/mcp-reference/plugins/bigdata-com",
   "supportUrl": "https://docs.bigdata.com/support",
   "privacyPolicyUrl": "https://bigdata.com/privacy-policy",
