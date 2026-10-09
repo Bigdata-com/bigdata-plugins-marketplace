@@ -48,8 +48,12 @@ List every document referenced, numbered to match the inline citations:
 - Source name and publication date (MMM DD, YYYY) hyperlinked to the URL
 
 **Example:**
-[1] (NVIDIA Q3 2026 Earnings Call - Nov 19, 2025)[https://www.benzinga.com/node/...]
-[2] (Benzinga - Nov 20, 2025)[https://www.benzinga.com/node/...]
+[1] [NVIDIA Q3 2026 Earnings Call - Nov 19, 2025](https://www.benzinga.com/node/...)
+[2] [Benzinga - Nov 20, 2025](https://www.benzinga.com/node/...)
+
+Figures you computed from Bigdata.com data that has no document behind it (prices, estimates, earnings history, screens) go in one **Data** line after the numbered sources. Name the data and the date you retrieved it:
+
+Data: Bigdata.com daily prices and earnings history (retrieved Oct 09, 2026).
 
 ---
 

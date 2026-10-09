@@ -40,7 +40,7 @@ Use this to plan a task, and to answer when the user asks what Bigdata.com can d
 1. **Resolve first.** Identify every company, security or other entity the task names. If a name could mean more than one, ask which one before you go further.
 2. **Plan the data needs.** Decide what the task must establish (the facts, the period, the comparison) before you gather anything. Gather only that.
 3. **Keep facts apart from analysis.** State what the data shows, then what it means and what to do about it.
-4. **Cite every sourced claim** with inline numbers `[1]`, `[2]`, linked to the document.
+4. **Cite every sourced claim** with inline numbers `[1]`, `[2]`, linked to the document. For figures you computed from Bigdata.com data with no document behind them, name the data in a **Data** line under Sources.
 5. **Name the gaps.** If Bigdata.com cannot answer part of the task, say so. Do not fill the gap from memory or web search without telling the user.
 
 ## Output
