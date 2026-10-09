@@ -2,7 +2,7 @@
 
 [Bigdata.com](https://bigdata.com/) is the financial data layer for AI agents, built by [RavenPack](https://www.ravenpack.com/). Its remote MCP server gives any MCP client cited search over licensed news, regulatory filings, earnings call transcripts, broker research and private documents, plus company, country, market, ETF, sentiment and portfolio tearsheets, screens and an events calendar.
 
-This repository is the public home of that server: the install guide for every host, the [official MCP Registry](https://registry.modelcontextprotocol.io/v0.1/servers/com.bigdata%2Fbigdata-mcp/versions/latest) entry (`server.json`), and the official **bigdata-com** plugin with 27 financial research skills for Claude, VS Code, Copilot CLI and Cursor team marketplaces.
+This repository is the public home of that server: the install guide for every host, the [official MCP Registry](https://registry.modelcontextprotocol.io/v0.1/servers/com.bigdata%2Fbigdata-mcp/versions/latest) entry (`server.json`), and the official **bigdata-com** plugin with 28 financial research skills for Claude, VS Code, Copilot CLI and Cursor team marketplaces.
 
 The server itself is a hosted service at `https://mcp.bigdata.com/`. There is nothing to run locally.
 
@@ -195,7 +195,7 @@ Grouped by job. The authoritative list, with parameters and examples, is the [MC
 
 | Plugin | Description | Documentation |
 |--------|-------------|---------------|
-| **bigdata-com** | 27 financial research skills on top of the MCP tools: company briefs, earnings previews, digests and reactions, valuation snapshots, peer comparables, investment memos, risk assessments, catalyst monitors, moat and governance reviews, sector, thematic, country and regional analysis, scenario analysis and post-IPO reviews. Includes the MCP connector configuration. | [View docs](https://docs.bigdata.com/mcp-reference/plugins/bigdata-com) |
+| **bigdata-com** | 28 financial research skills on top of the MCP tools: company briefs, earnings previews, digests and reactions, valuation snapshots, peer comparables, investment memos, risk assessments, catalyst monitors, moat and governance reviews, sector, thematic, country and regional analysis, scenario analysis and post-IPO reviews. Includes the MCP connector configuration. | [View docs](https://docs.bigdata.com/mcp-reference/plugins/bigdata-com) |
 
 Manifests: `.claude-plugin/marketplace.json` (Claude Code and Copilot CLI), `.cursor-plugin/marketplace.json` (Cursor), `plugins/bigdata-com/.mcp.json` (the connector).
 

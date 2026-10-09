@@ -24,6 +24,9 @@
   "accentColor": "#1F1F1F",
   "agentSkills": [
     {
+      "folder": "./skills/bigdata"
+    },
+    {
       "folder": "./skills/bigdata-catalyst-monitor"
     },
     {
