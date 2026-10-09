@@ -63,8 +63,8 @@ Horizon: [Next 2-4 quarters, through [Date]]
    - Source name and publication date (MMM DD, YYYY) hyperlinked to the URL
 
    **Example:**
-   [1] (NVIDIA Q3 2026 Earnings Call - Nov 19, 2025)[https://www.benzinga.com/node/...]
-   [2] (Benzinga - Nov 20, 2025)[https://www.benzinga.com/node/...]
+   [1] [NVIDIA Q3 2026 Earnings Call - Nov 19, 2025](https://www.benzinga.com/node/...)
+   [2] [Benzinga - Nov 20, 2025](https://www.benzinga.com/node/...)
 
 ---
 
