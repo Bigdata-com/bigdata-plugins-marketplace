@@ -4,8 +4,8 @@ Turn a research task into a skill the user can rerun. The skill describes the us
 
 ## How to run the build
 
-1. **Start from what you know.** If the build follows a task you just delivered, use that task as the first draft: its data needs, its method and its output. Ask only about what is missing.
-2. **Interview the user, one question at a time.** Wait for each answer before the next question. Give your recommended answer with each question, so the user can accept it in one word. Cover:
+1. **Start from what you know.** If the build follows a task you just delivered, use that task and the user's own instructions for it as the first draft: its data needs, its method and its output. Ask only about what is missing.
+2. **Interview the user, one question at a time.** If the host has its own tool for asking the user a question (one that shows choices to pick from), use it for every question, with your recommended answer as the first choice. Otherwise ask in plain text and give your recommended answer, so the user can accept it in one word. Wait for each answer before the next question. Cover:
    - the job the skill does and the deliverable it produces;
    - what the user will say to start it;
    - one company or a list;

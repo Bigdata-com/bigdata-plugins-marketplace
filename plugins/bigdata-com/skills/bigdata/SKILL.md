@@ -51,7 +51,14 @@ Markdown by default. Offer a Word document for a formal deliverable.
 
 ## After you deliver
 
-If the task carries a repeatability signal, offer in one line:
+Offer to turn the task into a skill only when both are true:
+
+- the user gave substantial guidance of their own on how to do it: what to gather, the steps or judgment calls, or how to present the result;
+- the user is likely to run the same task again.
+
+A task that is only likely to recur does not qualify. Typing "latest news on X" again is no harder than typing a skill name, so a skill adds nothing. A skill earns its place when it saves the user from repeating their own instructions.
+
+When it qualifies, offer in one line:
 
 > "Want this as a skill you can rerun? I'll ask a few questions, one at a time."
 
