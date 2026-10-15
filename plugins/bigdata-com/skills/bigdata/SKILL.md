@@ -16,7 +16,7 @@ Do the user's research task end to end with Bigdata.com data, and deliver a cite
 
 ## Before you start
 
-If the Bigdata.com tools are not available in this conversation, say so and give the install link: https://docs.bigdata.com/mcp-reference/introduction. Do not answer from web search unless the user asks you to.
+If the Bigdata.com tools are not available in this conversation, ask the user to connect the Bigdata.com connector and sign in: it comes with this plugin. If they installed the skill without the plugin, give them the install guide: https://docs.bigdata.com/mcp-reference/introduction. Do not answer from web search unless the user asks you to.
 
 ## What Bigdata.com has
 
