@@ -45,7 +45,7 @@ Use this to plan a task, and to answer when the user asks what Bigdata.com can d
 
 ## Output
 
-Follow [assets/report-template.md](./assets/report-template.md). Size the deliverable to the question: a direct answer for a quick question, the full template for a research task. Every deliverable ends with **Sources**, then the **Powered by Bigdata.com** line and the **Disclaimer**, verbatim.
+If the user asked for a structure, length or format, follow it. Otherwise follow [assets/report-template.md](./assets/report-template.md), sized to the question: a direct answer for a quick question, the full template for a research task. In every case, cite inline and end with **Sources**, then the **Powered by Bigdata.com** line and the **Disclaimer**, verbatim.
 
 Markdown by default. Offer a Word document for a formal deliverable.
 
@@ -53,10 +53,10 @@ Markdown by default. Offer a Word document for a formal deliverable.
 
 Offer to turn the task into a skill only when both are true:
 
-- the user gave substantial guidance of their own on how to do it: what to gather, the steps or judgment calls, or how to present the result;
+- the user has shaped how the task is done with preferences of their own (scope, sources, method or format), in the first request or in follow-ups. Count everything they have said about this task in the conversation;
 - the user is likely to run the same task again.
 
-A task that is only likely to recur does not qualify. Typing "latest news on X" again is no harder than typing a skill name, so a skill adds nothing. A skill earns its place when it saves the user from repeating their own instructions.
+A task that is only likely to recur does not qualify: "latest news on X" with nothing added needs no skill. A skill earns its place when it saves the user from restating their preferences.
 
 When it qualifies, offer in one line:
 

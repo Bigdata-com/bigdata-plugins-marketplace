@@ -1,6 +1,6 @@
 # Bigdata.com research — report template
 
-Follow this structure for a research task. For a quick question, give the direct answer with its citations, then Sources, the footer and the Disclaimer. Add inline citations `[1]`, `[2]` immediately after claims, hyperlinked to the document URL. Where a section has no data, write "Not available" rather than dropping it.
+Follow this structure for a research task, unless the user asked for their own structure or format: then use theirs and keep only the inline citations, Sources, the footer and the Disclaimer from this template. For a quick question, give the direct answer with its citations, then Sources, the footer and the Disclaimer. Add inline citations `[1]`, `[2]` immediately after claims, hyperlinked to the document URL. Where a section has no data, write "Not available" rather than dropping it.
 
 ---
 
