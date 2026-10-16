@@ -1,0 +1,8 @@
+interface:
+  display_name: Bigdata.com Research
+  short_description: Research any company, market or economy with Bigdata.com data
+  default_prompt: Use $bigdata to research [your question] with Bigdata.com.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

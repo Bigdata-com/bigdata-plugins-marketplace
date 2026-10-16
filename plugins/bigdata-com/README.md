@@ -1,6 +1,6 @@
 # Bigdata.com plugin
 
-Financial research and market intelligence for Claude, built by [RavenPack](https://www.ravenpack.com/). The plugin connects Claude to the [Bigdata.com](https://bigdata.com/) MCP server and adds 27 research skills that turn its tools into finished analyst work: company briefs, earnings previews and digests, valuation snapshots, peer comparables, investment memos, risk assessments, catalyst monitors, sector and macro analysis, and IPO reviews.
+Financial research and market intelligence for Claude, built by [RavenPack](https://www.ravenpack.com/). The plugin connects Claude to the [Bigdata.com](https://bigdata.com/) MCP server and adds 28 research skills that turn its tools into finished analyst work: company briefs, earnings previews and digests, valuation snapshots, peer comparables, investment memos, risk assessments, catalyst monitors, sector and macro analysis, and IPO reviews.
 
 Every skill grounds its output in licensed sources with citations: premium news, regulatory filings, earnings call transcripts, broker research, financial statements and estimates, sentiment signals, macro data, and your own uploaded documents.
 
@@ -27,6 +27,9 @@ Prepare an earnings preview for Broadcom with inline citations.
 ## Skills
 
 Each skill is a workflow with a defined structure, sourcing rules and output format. Ask in plain language and Claude picks the matching skill.
+
+**Start here**
+- `bigdata`: any research task with Bigdata.com data, what Bigdata.com can do, and building your own skill from a task you repeat.
 
 **Company research**
 - `bigdata-company-brief`: what happened at a company in the last 30 days and why it matters.
