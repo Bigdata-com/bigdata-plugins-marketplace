@@ -97,8 +97,8 @@ Report Date: [Date]
    - Source name and publication date (MMM DD, YYYY) hyperlinked to the URL
 
    **Example:**
-   [1] (NVIDIA FY2026 10-K - Feb 26, 2026)[https://www.sec.gov/...]
-   [2] (Benzinga - Nov 20, 2025)[https://www.benzinga.com/node/...]
+   [1] [NVIDIA FY2026 10-K - Feb 26, 2026](https://www.sec.gov/...)
+   [2] [Benzinga - Nov 20, 2025](https://www.benzinga.com/node/...)
 
 ---
 

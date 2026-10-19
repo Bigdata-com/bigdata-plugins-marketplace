@@ -124,9 +124,9 @@ Reporting for: [Quarter and Fiscal Year]
    - Source name and Publication date (MMM DD, YYYY format) with a hyperlink to the URL
 
    **Example:**
-   [1] (NVIDIA Q3 2026 Earnings Call - Nov 19, 2025)[https://www.benzinga.com/node/...]
-   [2] (Benzinga - Nov 20, 2025)[https://www.benzinga.com/node/...]
-   [3] (Yahoo! Finance - Jan 18, 2026)[https://finance.yahoo.com/news/...]
+   [1] [NVIDIA Q3 2026 Earnings Call - Nov 19, 2025](https://www.benzinga.com/node/...)
+   [2] [Benzinga - Nov 20, 2025](https://www.benzinga.com/node/...)
+   [3] [Yahoo! Finance - Jan 18, 2026](https://finance.yahoo.com/news/...)
 
 
 ---
