@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Build the Microsoft 365 Copilot Cowork plugin package from microsoft/ and the
 # skills in plugins/bigdata-com/skills/.
-# Writes dist/cowork-plugin-bigdata-com_<version>.zip, ready to upload to Cowork.
+# Writes dist/microsoft-cowork-plugin-bigdata-com_<version>.zip, ready to upload to Cowork.
 #
 # Usage:
 #   scripts/build-microsoft-plugin-zip.sh
@@ -16,9 +16,9 @@ cd "$(dirname "$0")/.."
 
 PLUGIN_DIR="../../plugins/bigdata-com"
 
-PLUGIN_ID="cowork-plugin-bigdata-com"
+PLUGIN_ID="microsoft-cowork-plugin-bigdata-com"
 OUTPUT_DIR="dist"
-COWORK_DIR="microsoft"
+MICROSOFT_DIR="microsoft"
 MANIFEST="${PLUGIN_DIR}/.claude-plugin/plugin.json"
 
 if [ ! -f "${MANIFEST}" ]; then
@@ -32,10 +32,10 @@ OUTPUT_FILE="${OUTPUT_DIR}/${PLUGIN_ID}_${VERSION}.zip"
 STAGING=$(mktemp -d)
 trap 'rm -rf "${STAGING}"' EXIT
 
-python3 - "${COWORK_DIR}" "${PLUGIN_DIR}/skills" "${STAGING}" "${VERSION}" <<'PYEOF'
+python3 - "${MICROSOFT_DIR}" "${PLUGIN_DIR}/skills" "${STAGING}" "${VERSION}" <<'PYEOF'
 import json, os, re, shutil, struct, sys
 
-cowork_dir, skills_root, staging, version = sys.argv[1:5]
+microsoft_dir, skills_root, staging, version = sys.argv[1:5]
 errors = []
 
 # Cowork limits: https://learn.microsoft.com/microsoft-365/copilot/cowork/cowork-plugin-development
@@ -52,7 +52,7 @@ EXCLUDED_DIRS = {"agents", "__pycache__"}
 EXCLUDED_EXTENSIONS = {".svg", ".pyc"}
 ICON_SIZES = {"color.png": (192, 192), "outline.png": (32, 32)}
 
-manifest = json.load(open(os.path.join(cowork_dir, "manifest.json"), encoding="utf-8"))
+manifest = json.load(open(os.path.join(microsoft_dir, "manifest.json"), encoding="utf-8"))
 manifest["version"] = version
 
 skills = [entry["folder"].removeprefix("./skills/") for entry in manifest["agentSkills"]]
@@ -105,7 +105,7 @@ for skill in skills:
             errors.append(f"{skill}: SKILL.md links to {link}, which is not in the package")
 
 for icon, expected in ICON_SIZES.items():
-    path = os.path.join(cowork_dir, icon)
+    path = os.path.join(microsoft_dir, icon)
     with open(path, "rb") as handle:
         header = handle.read(24)
     size = struct.unpack(">II", header[16:24])
