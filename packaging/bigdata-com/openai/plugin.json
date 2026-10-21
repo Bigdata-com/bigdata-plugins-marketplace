@@ -1,0 +1,91 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "app-69491eceef3c8191beb70788b7840429",
+  "version": "10.0.2",
+  "description": "Bigdata.com brings cited market data, news, filings, transcripts, fundamentals, sentiment, and financial research into ChatGPT.",
+  "author": {
+    "name": "RavenPack",
+    "url": "https://bigdata.com"
+  },
+  "homepage": "https://bigdata.com/connectors",
+  "keywords": [
+    "finance",
+    "financial",
+    "research",
+    "news",
+    "transcripts",
+    "fundamentals",
+    "filings",
+    "sentiment",
+    "financial research",
+    "stock research",
+    "equity research",
+    "investment research",
+    "company research",
+    "market intelligence",
+    "financial news",
+    "stock news",
+    "market news",
+    "premium news",
+    "SEC filings",
+    "10-K",
+    "10-Q",
+    "earnings transcripts",
+    "earnings call transcripts",
+    "analyst research",
+    "analyst ratings",
+    "broker research",
+    "sell-side research",
+    "news sentiment",
+    "sentiment analysis",
+    "market data",
+    "financial data",
+    "macroeconomic data",
+    "economic data",
+    "economic analysis",
+    "investor relations",
+    "portfolio research",
+    "portfolio management",
+    "watchlists",
+    "sector analysis",
+    "investment memo",
+    "private documents",
+    "Bigdata.com",
+    "Bigdata",
+    "RavenPack"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Bigdata.com",
+        "shortDescription": "Finance research, news & data",
+        "longDescription": "Bigdata.com is the AI grounding layer for finance, bringing cited financial research directly into ChatGPT. Research stocks and companies, follow the latest news on your portfolio, and query market data, fundamentals, SEC filings, earnings call transcripts, broker and analyst research, sentiment signals, and premium news using real, citable sources.\n\nSearch billions of documents spanning 25+ years. Depending on account entitlements and source availability, coverage may include 10M+ new public news documents monthly; 200+ premium news sources such as Financial Times, Benzinga, MT Newswires, CNBC, and more; filings across 50+ countries; 30+ years of fundamentals; expert interviews; and podcasts. RavenPack's financial knowledge graph helps resolve company and entity names automatically, so a plain-language question can surface relevant filings, transcripts, news, and data. This reduces manual ticker matching and helps you verify numbers and quotes against their cited sources.\n\nBuilt for anyone making a financial decision, from individual investors researching a stock or tracking a portfolio to analysts at hedge funds, asset managers, and investment banks. Run an initiation report, compare two 10-Ks, prepare a pre-earnings or pre-FOMC briefing, track a competitor, monitor a sentiment shift as it develops, or build a sourced brief before a call, all within one grounded research workflow.\n\nGo beyond public data by bringing your own research into the picture. With appropriate permissions, upload and search private notes, internal analysis, artifacts, and files alongside public filings and market data. This combines proprietary insight with external evidence in a single query.\n\nConnect through ChatGPT without writing code. Once connected, start searching cited financial data with a plain-language prompt.\n\nSource coverage varies by account and entitlement. Bigdata.com provides research, not investment advice; review cited sources before making investment decisions.",
+        "developerName": "RavenPack",
+        "category": "Finance",
+        "capabilities": [
+          "Search cited financial news, filings, transcripts, and research",
+          "Research stocks, public companies, securities, ETFs, markets, and economies",
+          "Analyze market data, fundamentals, sentiment, and portfolio holdings",
+          "Review company, country, market, ETF, portfolio, and sentiment tearsheets",
+          "Track financial events, watchlists, competitors, and research monitors",
+          "Search and manage private research documents alongside public sources"
+        ],
+        "websiteURL": "https://bigdata.com",
+        "supportURL": "https://docs.bigdata.com/support",
+        "privacyPolicyURL": "https://bigdata.com/privacy-policy",
+        "termsOfServiceURL": "https://bigdata.com/mcp-terms-and-conditions",
+        "defaultPrompt": [
+          "Research NVIDIA's latest earnings using filings, transcripts, news, and company financials.",
+          "Compare the valuation, growth, and sentiment of Microsoft, Amazon, and Alphabet.",
+          "Show upcoming earnings and economic events that could affect my watchlist."
+        ],
+        "brandColorDark": "#FFFFFF",
+        "composerIcon": "./assets/bigdata-icon-black.svg",
+        "logo": "./assets/bigdata-icon-black.svg"
+      },
+      "publication": {
+        "release_notes": "Declares the Bigdata.com MCP endpoint in the package; authentication is already configured in the MCP submission. Improves directory discoverability with expanded keywords, starter prompts, and clearer coverage language. Adds the general Bigdata skill for financial research, guidance on available data, and building personalized research skills."
+      }
+    }
+  }
+}

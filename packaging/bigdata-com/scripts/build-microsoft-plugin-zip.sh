@@ -1,14 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
-# Build the Microsoft 365 Copilot Cowork plugin package from cowork/ and the
+# Build the Microsoft 365 Copilot Cowork plugin package from microsoft/ and the
 # skills in plugins/bigdata-com/skills/.
 # Writes dist/cowork-plugin-bigdata-com_<version>.zip, ready to upload to Cowork.
 #
 # Usage:
-#   scripts/build-cowork.sh
+#   scripts/build-microsoft-plugin-zip.sh
 #
-# The package ships the skills listed in cowork/manifest.json (agentSkills),
+# The package ships the skills listed in microsoft/manifest.json (agentSkills),
 # with the version taken from plugins/bigdata-com/.claude-plugin/plugin.json.
 # The build fails on anything Cowork would reject at upload.
 
@@ -18,7 +18,7 @@ PLUGIN_DIR="../../plugins/bigdata-com"
 
 PLUGIN_ID="cowork-plugin-bigdata-com"
 OUTPUT_DIR="dist"
-COWORK_DIR="cowork"
+COWORK_DIR="microsoft"
 MANIFEST="${PLUGIN_DIR}/.claude-plugin/plugin.json"
 
 if [ ! -f "${MANIFEST}" ]; then
@@ -118,7 +118,7 @@ left_out = [
     if name not in skills and os.path.isfile(os.path.join(skills_root, name, "SKILL.md"))
 ]
 if left_out:
-    print(f"  NOTE  not in cowork/manifest.json, so left out: {', '.join(left_out)}")
+    print(f"  NOTE  not in microsoft/manifest.json, so left out: {', '.join(left_out)}")
 
 for error in errors:
     print(f"  ERROR {error}", file=sys.stderr)

@@ -5,7 +5,7 @@ This folder holds the Microsoft 365 Copilot Cowork version of the bigdata-com pl
 ## Build
 
 ```bash
-packaging/bigdata-com/scripts/build-cowork.sh
+packaging/bigdata-com/scripts/build-microsoft-plugin-zip.sh
 ```
 
 The script writes `packaging/bigdata-com/dist/cowork-plugin-bigdata-com_<version>.zip`. It takes the version from `plugins/bigdata-com/.claude-plugin/plugin.json` and the skill list from `manifest.json`.
