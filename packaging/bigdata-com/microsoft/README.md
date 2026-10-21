@@ -4,11 +4,13 @@ This folder holds the Microsoft 365 Copilot Cowork version of the bigdata-com pl
 
 ## Build
 
+The script needs `python3` and `zip`.
+
 ```bash
-packaging/bigdata-com/scripts/build-cowork.sh
+packaging/bigdata-com/scripts/build-microsoft-plugin-zip.sh
 ```
 
-The script writes `packaging/bigdata-com/dist/cowork-plugin-bigdata-com_<version>.zip`. It takes the version from `plugins/bigdata-com/.claude-plugin/plugin.json` and the skill list from `manifest.json`.
+The script writes `packaging/bigdata-com/dist/microsoft-cowork-plugin-bigdata-com_<version>.zip`. It takes the version from `plugins/bigdata-com/.claude-plugin/plugin.json` and the skill list from `manifest.json`.
 
 The script stops with an error if the package breaks a Cowork limit, e.g., more than 20 skills. It leaves out the files Cowork does not use: `README.md`, `agents/` and `.svg` files.
 
