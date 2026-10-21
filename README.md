@@ -205,6 +205,8 @@ Manifests: `.claude-plugin/marketplace.json` (Claude Code and Copilot CLI), `.cu
 
 The bigdata-com plugin is also packaged for Microsoft 365 Copilot Cowork. See [packaging/bigdata-com/microsoft](packaging/bigdata-com/microsoft/README.md).
 
+The bigdata-com plugin is also packaged for OpenAI. See [packaging/bigdata-com/openai](packaging/bigdata-com/openai/README.md).
+
 ## About Bigdata.com
 
 Bigdata.com is the definitive data layer for AI in finance. It unifies the world's most valuable financial content, news, filings, transcripts, financials, press releases, expert calls and more, making it ready for agentic workflows.
