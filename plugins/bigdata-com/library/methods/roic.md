@@ -1,7 +1,5 @@
 # Return on invested capital
 
-## Purpose
-
 This method answers what the company earns on the capital its operations use, how that compares with its cost of capital, and where that return is heading. ROIC moves by a factor of two or more on definitions alone (Procter and Gamble 2006: 10.6 percent with goodwill in capital, 26.2 percent without; Damodaran 2007, pp. 43-45), so the method fixes each choice, states it, and applies it identically to peers. Starting ROIC is already in the price; a stock moves on changes in returns against expectations (Mauboussin and Callahan 2013, Economic Returns, pp. 2-7). The output is a definition line, a ROIC bridge, a spread over a stated cost of capital and a reasoned reversion path, never a rating.
 
 ## When a skill loads this file
@@ -145,6 +143,7 @@ Near-term length follows the advantage's explicit life (a patent with six years 
 
 ## Sources
 
+- Notes: roic-moat.md (papers A to D, Parts 3 and 4); mckinsey-part1.md (chapters 2, 4, 6 to 11, sections 3 and 4); mckinsey-part2.md (chapters 25, 27, 28); base-rates.md (1.4, 2.7).
 - Damodaran, A., "Return on Capital (ROC), Return on Invested Capital (ROIC) and Return on Equity (ROE): Measurement and Implications", July 2007, pp. 3-65.
 - Mauboussin, M. and Callahan, D., "Calculating Return on Invested Capital", Credit Suisse, 4 June 2014, pp. 1-15.
 - Mauboussin, M. and Callahan, D., "Estimating the Cost of Capital", Credit Suisse, 8 Oct 2013, pp. 2-34.

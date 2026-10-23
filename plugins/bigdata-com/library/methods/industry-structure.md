@@ -1,7 +1,5 @@
 # Industry structure and moat
 
-## Purpose
-
 This method decides whether a company's return above its cost of capital is likely to last, by testing the structure of its industry first and the company's own advantage second, in the sequence of Mauboussin and Callahan's "Measuring the Moat" (2013). A moat has two dimensions: magnitude (the spread over the cost of capital times the capital that can earn it) and duration (how long the spread lasts). Advantage needs two tests passed over a full cycle: a return above the cost of capital, and a return above competitors (pp. 3-4). The output is a balance of evidence, an assumed duration in years and what would change it. It is never a moat rating or score.
 
 ## When a skill loads this file
@@ -27,9 +25,9 @@ Not in the sources and not in the tearsheet: industry totals and private-company
 2. **Draw the industry map.** Suppliers, customers, complementors, regulators and potential entrants; firms in order of dominance; payment terms and incentives between them; labor and regulation (p. 11). Done when the map table names each party and how it touches profit.
 3. **Build the profit pool.** Width = each firm's share of industry invested capital, height = ROIC minus WACC, area = economic profit. Use three to five year averages, for today and five and ten years ago (p. 13; Profit Pools 2016, pp. 1-2). Add the four-firm revenue ratio and the top-ten share of capital. Read it as: is the pool positive on average, who holds the width, are high-spread firms gaining width or only spread, which wide firms destroy value. Done when the table shows who gained or lost width and spread.
 4. **Test share stability** (formula below). Done when one number and a verdict are stated.
-5. **Test pricing power.** Five-year price trend of the product; split each margin change into price, mix and volume (p. 16; Operating Leverage 2016, pp. 8-10). Stable or rising real prices go with a stable industry, falling prices with a fast-cycle one. Ask whether the industry passed on supplier cost increases. Done when the price evidence is dated and cited.
+5. **Test pricing power.** Five-year price trend of the product; split each margin change into price, mix and volume (p. 16; Operating Leverage 2016, pp. 8-10). Stable or rising prices go with a stable, slow-cycle industry, falling prices with a fast-cycle one. Ask whether the industry passed on supplier cost increases. Done when the price evidence is dated and cited.
 6. **Test rivalry.** HHI or four-firm ratio; similarity of goals and ownership (public, private, private equity); asset specificity, which keeps firms in; demand variability with high fixed costs, which brings capacity at the peak and price wars in the trough; industry growth, since slow growth makes share gains zero-sum (pp. 25-27). Done when each item has evidence or a gap.
-7. **Test entry and exit first among the forces.** Threat of entry is the most important force (pp. 19-25); Greenwald's version is that low entry barriers drive returns to the cost of capital whatever the other forces say, so test barriers before the rest. Use the base rates and the barrier list below. An entrant weighs the incumbent's likely reaction (asset specificity, scale, excess capacity, reputation) and its own payoff (precommitment contracts, patents, learning curve, network effects). Done when barriers are named with evidence and recent entrants and exits are listed.
+7. **Test entry and exit first among the forces.** Threat of entry is the most important force (pp. 19-25), so test barriers before the rest: where they are low, entry pushes returns toward the cost of capital whatever the other forces show. Use the base rates and the barrier list below. An entrant weighs the incumbent's likely reaction (asset specificity, scale, excess capacity, reputation) and its own payoff (precommitment contracts, patents, learning curve, network effects). Done when barriers are named with evidence and recent entrants and exits are listed.
 8. **Run the remaining forces as root-cause tests**, not as an attractiveness label (p. 18):
    - Suppliers: more concentrated than the industry; no substitutes; high switching cost; the industry is a small share of their sales; the input is critical; credible forward integration.
    - Buyers: concentration against sellers; the product's share of the buyer's cost; differentiation; switching cost; information; credible backward integration; price sensitivity of end users.
@@ -97,7 +95,7 @@ Barrier checklist (pp. 19-25): asset specificity; minimum efficient scale agains
 
 ## Interpretation and limits
 
-- Industry is not destiny: the best industries contain value destroyers and the worst contain creators (p. 8; Profit Pools, p. 2). Industry explains most of the persistence of high profits; for below-average firms, firm-specific factors explain 90 percent or more. Show the dispersion inside the industry.
+- Industry is not destiny: the best industries contain value destroyers and the worst contain creators (p. 8; Profit Pools, p. 2). Industry is the largest single factor in sustaining high profits (44 percent of the variance); for below-average firms, segment-specific factors explain 90 percent or more. Show the dispersion inside the industry.
 - Duration is a judgment bounded by base rates: the sector's four-year CFROI persistence in `references/roic.md` (staples 0.78 slowest, energy 0.35 fastest), listed-company half-life of about 10 years, and the market-implied period of about 8 years. A claim of a longer period needs moat evidence from steps 7 to 11.
 - Excess returns fade faster at high return levels and heavy reinvestment, and the average period of excess returns has been shrinking (p. 5). Slow-fade sectors: staples, health care; fast: technology, energy (Calculating ROIC 2014, pp. 14-15).
 - Never accept a moat from brand, size or market share alone. Require the spread over a full cycle and against peers, the margin and turnover signature, barrier evidence and the duration assumed.
@@ -127,6 +125,7 @@ Barrier checklist (pp. 19-25): asset specificity; minimum efficient scale agains
 
 ## Sources
 
+- Notes: roic-moat.md (paper E, steps 1 to 6 and the checklist); tam-leverage-profit-pools.md (sections 1.5, 2.3, 3, 4, 5); skill-market-structure.md (How Well Do You Compare, Triple Crown, energy cost curves); expectations-multiples-dcf.md (1.1, market-implied CAP); old skill bigdata-moat-governance-review references porter-five-forces.md and moat-taxonomy.md.
 - Mauboussin, M. and Callahan, D., "Measuring the Moat: Assessing the Magnitude and Sustainability of Value Creation", Credit Suisse, 22 July 2013, pp. 3-55 (page references without a title are to this paper).
 - Mauboussin, M. and Callahan, D., "Calculating Return on Invested Capital", Credit Suisse, 2014, pp. 12-15.
 - Mauboussin, M. et al., "Global Industry Profit Pools", Credit Suisse HOLT, July 2016; "Total Addressable Market", Sep 2015; "Operating Leverage", June 2016; "Corporate Longevity", Feb 2017; "The Incredible Shrinking Universe of Stocks", Mar 2017.

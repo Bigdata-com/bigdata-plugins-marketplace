@@ -2,7 +2,7 @@
 
 This method decides how much of a company's reported profit is backed by cash, how much will recur and whether it is fairly stated, and from that what earning power a valuation should use. It rebuilds operating profit from the notes, tests profit against cash flow and against the change in equity, counts "one-time" items that keep coming back, and normalises earnings over a cycle as Graham and Dodd describe. It computes no Beneish M-score or other fitted manipulation score, since none is in the sources. The tearsheet's Piotroski and Altman Z fields are quoted as reported, with no zones attached.
 
-## When a skill loads it
+## When a skill loads this file
 
 bigdata-earnings-quality runs the whole method. bigdata-earnings-review runs steps 2, 3, 5 and 7 on the quarter against the same quarter a year earlier and checks whether reserve releases, gains or accruals carried a beat. bigdata-deep-dive and bigdata-thesis report the flags table, the rebuilt EBITA and the normalised earning power. bigdata-risk uses the flags and severity. A narrow question ("is cash conversion healthy?") gets only the test it asks about: step 2 and the working-capital lines of step 7.
 
