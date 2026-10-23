@@ -236,6 +236,11 @@ order = []
 status = ('<p class="status"><strong>Status, ' + esc(datetime.date.today().strftime("%d %b %Y")) + '.</strong> Built on the local branch <code>skills-proposal-2026-10-23</code> at commit <code>' + esc(COMMIT) + '</code>: all 26 skill folders, the shared library (two shared files, 14 method files, 12 sector primers), the library sync and validation scripts, the three host packages, a 156-case trigger suite and live-connector cases. The sections "Skills as built", "Library as built", "Evaluation results" and "Packages built" show the result. Nothing is merged, pushed or published to any host.</p>')
 order.append(section("summary", "Summary", "Summary", status + md(sections[1][1])))
 order.append(section("decisions", "Decisions", "Decisions for Marko", md(sections[10][1])))
+tree = json.load(open(f"{PAGE}/plugin/tree.json"))
+browse_html = ('<p>The plugin as it stands on the branch, file by file: the manifest, the library, and every skill folder with its SKILL.md, its ChatGPT listing file and the references the build placed in it. Pick a file in the tree, or press Cmd+K and type its name. A reference inside a skill is a copy of a library file; the viewer says which one and shows it from the library, so the same text is not stored twenty times.</p>'
+    '<div class="fb"><div class="fb-side"><input id="fb-filter" type="search" placeholder="Filter files" aria-label="Filter files"><nav id="fb-tree" class="fb-tree" aria-label="Plugin files" data-check="skip"></nav></div>'
+    '<div class="fb-view"><div class="fb-head"><div class="fb-path" id="fb-path">Pick a file</div><div class="fb-meta" id="fb-meta"></div><div class="fb-nav"><button type="button" id="fb-prev">Previous</button><button type="button" id="fb-next">Next</button><button type="button" id="fb-raw">Raw</button></div></div><div class="fb-body doc" id="fb-body" data-check="skip"><p class="dim">The 26 skills, the library and the manifests are listed on the left. A SKILL.md opens as a document with its frontmatter in a box at the top.</p></div></div></div>')
+order.append(section("browse", "Browse the plugin", "Browse the plugin", browse_html))
 order.append(section("demand", "What users ask for", "What users ask for", re.sub(r'(<div class="tbl">.*?</div>)\s*(<div class="tbl">.*?</div>)', r'<div class="pair">\1\2</div>', md(sections[2][1]), count=1, flags=re.S)))
 order.append(section("rules", "Rules", "Rules every skill follows", md(sections[3][1])))
 skills_inner = md(s4_intro) + '<div id="skills-table" data-search="The 26 skills" data-search-hint="Table"></div><div id="skills-list" class="sk-list"></div>' + md(s4_rest)
@@ -247,32 +252,6 @@ order.append(section("evals", "Evaluation", "Evaluation", md(sections[8][1])))
 order.append(section("migration", "Migration", "Migration and release", md(sections[9][1])))
 
 spec_order = ["expectations", "base-rates", "roic", "valuation", "multiples-and-peers", "earnings-quality", "capital-allocation", "industry-structure", "operating-leverage-and-tam", "after-a-price-move", "downside-and-catalysts", "forecasting-discipline", "credit", "special-situations-arithmetic"]
-# The skills as built: one fold per skill with the rendered SKILL.md and its listing file
-skill_folds = []
-for r in rows:
-    b = built_skill(r["skill"])
-    if not b: continue
-    body = md(b["text"], gl=False, base_h=4)
-    yaml_block = "<h5>agents/openai.yaml</h5><pre>" + esc(b["yaml"]) + "</pre>" if b["yaml"] else ""
-    skill_folds.append(f'<details class="k-fold" id="skill-{r["skill"]}"><summary><span class="fold-name">{esc(r["skill"])}</span><span class="fold-job">{esc(r["group"])}: {esc(r["job"])}</span><small>{b["lines"]} lines</small></summary><div class="k-fold-body doc">{body}{yaml_block}</div></details>')
-order.append(section("built", "Skills as built", "The 26 skills as built",
-    f'<p>Every skill folder on the branch <code>skills-proposal-2026-10-23</code> at commit <code>{esc(COMMIT)}</code>: the SKILL.md rendered as a document, then its ChatGPT listing file. The references each skill carries are copies of the library files below, placed by the build.</p><div class="folds">' + "".join(skill_folds) + "</div>"))
-
-lib_folds = []
-for name in ["output-standard", "working-with-bigdata"]:
-    txt = rd(f"{PLUG}/library/{name}.md")
-    lib_folds.append(f'<details class="k-fold" id="lib-{name}"><summary>{esc(name)}.md <small>{len(txt.split()):,} words</small></summary><div class="k-fold-body doc">{md(txt, gl=False, base_h=4)}</div></details>')
-for name in spec_order:
-    p = f"{PLUG}/library/methods/{name}.md"
-    if not os.path.isfile(p): continue
-    txt = rd(p); gaps = txt.count("Not in the sources")
-    lib_folds.append(f'<details class="k-fold" id="method-{name}"><summary>methods/{esc(name)}.md <small>{len(txt.split()):,} words, {gaps} not-in-the-sources line{"s" if gaps != 1 else ""}</small></summary><div class="k-fold-body doc">{md(txt, gl=False, base_h=4)}</div></details>')
-for p in sorted(glob.glob(f"{PLUG}/library/sectors/*.md")):
-    name = os.path.basename(p)[:-3]; txt = rd(p)
-    lib_folds.append(f'<details class="k-fold" id="sector-{name}"><summary>sectors/{esc(name)}.md <small>{len(txt.split()):,} words</small></summary><div class="k-fold-body doc">{md(txt, gl=False, base_h=4)}</div></details>')
-order.append(section("library-built", "Library as built", "The library as built",
-    '<p>The two shared files, the fourteen method files and the twelve sector primers, as they stand on the branch. Each method file keeps the points where the source papers were silent as a "Not in the sources" line, so the writer of a skill states those as assumptions.</p><div class="folds">' + "".join(lib_folds) + "</div>"))
-
 CASE_LABELS = {"ep-micron": "Earnings preview, Micron", "ep-narrow": "Narrow question, Micron consensus and guidance", "sm-move": "Stock move, Micron this week", "qt-jpm": "Quick take, JPMorgan (a bank)", "qt-connector-off": "Quick take with the connector off", "dd-asml": "Deep dive, ASML (non-US)"}
 COUNTED = ("questions before", "Bigdata.com calls", "uses the method", "no call that changes")
 def eval_results_html():
@@ -400,7 +379,39 @@ details.k-fold > summary small {{ margin-left: auto; color: var(--muted); font-s
 .k-fold-body.doc h4 {{ font-size: 16px; margin-top: 20px; }}
 .k-fold-body.doc h5 {{ font-size: 14px; }}
 .k-fold-body.doc p, .k-fold-body.doc ul, .k-fold-body.doc ol {{ max-width: 76ch; }}
-#skills-table {{ margin: 16px 0 24px; }}\n.tbl.live td {{ vertical-align: top; }}\n.tbl.live td:first-child {{ white-space: normal; min-width: 180px; }}\nul.fails {{ margin: 0; padding-left: 18px; max-width: none; font-size: 13px; }}\nul.fails li {{ margin: 0 0 6px; }}\n.why {{ color: var(--fg-2); }}\n.dim {{ color: var(--fg-3); font-size: 13px; }}\n.ok {{ color: #04E0A9; font-weight: 600; }}\n.no {{ color: #FD8282; font-weight: 600; }}\n.tbl th.num {{ text-align: right; }}
+#skills-table {{ margin: 16px 0 24px; }}
+.fb {{ display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); height: 700px; overflow: hidden; }}
+.fb-side {{ border-right: 1px solid var(--line); padding: 10px; display: flex; flex-direction: column; gap: 8px; min-width: 0; min-height: 0; height: 100%; box-sizing: border-box; overflow: hidden; }}
+.fb-side input {{ background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; font: inherit; font-size: 13px; width: 100%; box-sizing: border-box; }}
+.fb-tree {{ overflow: auto; flex: 1 1 auto; min-height: 0; font-size: 13px; }}
+.fb-tree ul {{ list-style: none; margin: 0; padding-left: 14px; max-width: none; }}
+.fb-tree > ul {{ padding-left: 0; }}
+.fb-tree li {{ margin: 0; }}
+.fb-tree .fb-dir > span, .fb-tree .fb-file > a {{ display: block; padding: 3px 6px; border-radius: 4px; color: var(--ink-2); text-decoration: none; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
+.fb-tree .fb-dir > span {{ color: var(--ink); font-weight: 600; }}
+.fb-tree .fb-dir > span::before {{ content: ""; display: inline-block; width: 5px; height: 5px; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: rotate(45deg); margin: 0 8px 2px 2px; }}
+.fb-tree .fb-dir.closed > span::before {{ transform: rotate(-45deg); }}
+.fb-tree .fb-dir.closed > ul {{ display: none; }}
+.fb-tree .fb-file > a:hover {{ background: var(--surface-2); color: var(--ink); }}
+.fb-tree .fb-file.active > a {{ background: var(--overlay-blue); color: var(--ink); }}
+.fb-tree .fb-file.copy > a {{ color: var(--fg-3); }}
+.fb-view {{ padding: 12px 18px 18px; min-width: 0; min-height: 0; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden; }}
+.fb-head {{ display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 8px; margin-bottom: 12px; }}
+.fb-path {{ font-family: var(--font-mono); font-size: 13px; color: var(--ink); flex: 1 1 260px; min-width: 0; overflow-wrap: anywhere; }}
+.fb-meta {{ font-size: 12px; color: var(--fg-3); }}
+.fb-nav button {{ background: var(--surface-2); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 3px 10px; font: inherit; font-size: 12px; cursor: pointer; }}
+.fb-nav button:hover {{ border-color: var(--muted); }}
+.fb-body {{ flex: 1 1 auto; min-height: 0; overflow: auto; }}
+.fb-body h1 {{ font-family: var(--font-sans); font-size: 22px; font-weight: 600; margin: 0 0 10px; }}
+.fb-body h2 {{ font-size: 18px; margin: 20px 0 8px; }}
+.fb-body h3 {{ font-size: 16px; }}
+.fb-body p, .fb-body ul, .fb-body ol {{ max-width: 78ch; }}
+.fb-body .fm {{ background: var(--dp01); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin: 0 0 14px; }}
+.fb-body .fm dl {{ display: grid; grid-template-columns: 150px 1fr; gap: 4px 12px; font-size: 13px; margin: 0; }}
+.fb-body .fm dt {{ color: var(--fg-3); }} .fb-body .fm dd {{ margin: 0; overflow-wrap: anywhere; }}
+.fb-body pre {{ white-space: pre-wrap; }}
+.fb-body .copy-note {{ background: var(--overlay-blue); border-radius: 6px; padding: 6px 10px; font-size: 13px; margin: 0 0 12px; }}
+@media (max-width: 760px) {{ .fb {{ grid-template-columns: 1fr; height: auto; }} .fb-side {{ border-right: 0; border-bottom: 1px solid var(--line); height: auto; }} .fb-tree {{ max-height: 240px; }} .fb-view {{ height: auto; }} .fb-body {{ max-height: 560px; }} }}\n.tbl.live td {{ vertical-align: top; }}\n.tbl.live td:first-child {{ white-space: normal; min-width: 180px; }}\nul.fails {{ margin: 0; padding-left: 18px; max-width: none; font-size: 13px; }}\nul.fails li {{ margin: 0 0 6px; }}\n.why {{ color: var(--fg-2); }}\n.dim {{ color: var(--fg-3); font-size: 13px; }}\n.ok {{ color: #04E0A9; font-weight: 600; }}\n.no {{ color: #FD8282; font-weight: 600; }}\n.tbl th.num {{ text-align: right; }}
 .sk-list {{ display: none; flex-direction: column; gap: 6px; margin: 16px 0 24px; }}
 .sk-list details {{ border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }}
 .sk-list summary {{ cursor: pointer; padding: 8px 12px; list-style: none; display: flex; flex-direction: column; gap: 2px; }}
@@ -439,8 +450,10 @@ details.k-fold > summary small {{ margin-left: auto; color: var(--muted); font-s
 </header>
 {chr(10).join(order)}
 </main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script>
 var SKILLS = {rows_json};
+var TREE = {json.dumps(tree, ensure_ascii=True)};
 (function () {{
   function el(t, c, x) {{ var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }}
   function detail(r) {{
@@ -449,6 +462,7 @@ var SKILLS = {rows_json};
     row("Description", r.desc + " (" + r.chars + " characters)");
     row("Loads", r.refs ? r.refs + ", plus working-with-bigdata and output-standard" : "working-with-bigdata, output-standard");
     row("Replaces", r.replaces);
+    var dt = el("dt", null, "Files"), dd = el("dd"); var a = el("a", null, "Open SKILL.md in the browser"); a.href = "#f.skills." + r.skill + ".SKILL.md"; dd.appendChild(a); d.appendChild(dt); d.appendChild(dd);
     return d;
   }}
   var list = document.getElementById("skills-list"), lastGroup = null;
@@ -462,6 +476,70 @@ var SKILLS = {rows_json};
     body.appendChild(el("p", null, "Replaces: " + r.replaces));
     d.appendChild(body); list.appendChild(d);
   }});
+  // ---- file browser ----
+  (function () {{
+    var treeEl = document.getElementById("fb-tree"), body = document.getElementById("fb-body"), pathEl = document.getElementById("fb-path"), metaEl = document.getElementById("fb-meta"), filterEl = document.getElementById("fb-filter");
+    var files = TREE.filter(function (e) {{ return e.src; }}), order = files.map(function (e) {{ return e.path; }}), current = null, raw = false, cache = {{}};
+    function token(path) {{ return "f." + path.replace(/\\//g, "."); }}
+    function fromToken(tok) {{ var want = tok.slice(2); for (var i = 0; i < files.length; i++) if (files[i].path.replace(/\\//g, ".") === want) return files[i]; return null; }}
+    // nested tree
+    var root = {{ dirs: {{}}, files: [] }};
+    files.forEach(function (e) {{ var parts = e.path.split("/"), node = root; for (var i = 0; i < parts.length - 1; i++) {{ node.dirs[parts[i]] = node.dirs[parts[i]] || {{ dirs: {{}}, files: [] }}; node = node.dirs[parts[i]]; }} node.files.push(e); }});
+    function render(node, prefix, depth) {{
+      var ul = el("ul");
+      Object.keys(node.dirs).sort().forEach(function (name) {{
+        var li = el("li", "fb-dir" + ((depth >= 1 && prefix.indexOf("skills/") === 0) || name === "sectors" || name === "methods" ? " closed" : "")), label = el("span", null, name + "/"); li.appendChild(label);
+        label.addEventListener("click", function () {{ li.classList.toggle("closed"); }});
+        li.appendChild(render(node.dirs[name], prefix + name + "/", depth + 1)); ul.appendChild(li);
+      }});
+      node.files.sort(function (a, b) {{ return a.path < b.path ? -1 : 1; }}).forEach(function (e) {{
+        var li = el("li", "fb-file" + (e.src !== e.path ? " copy" : "")), a = el("a", null, e.path.split("/").pop()); a.href = "#" + token(e.path); a.setAttribute("data-path", e.path);
+        a.addEventListener("click", function (ev) {{ ev.preventDefault(); open(e); history.replaceState(null, "", "#" + token(e.path)); }});
+        li.appendChild(a); ul.appendChild(li);
+      }});
+      return ul;
+    }}
+    treeEl.appendChild(render(root, "", 0));
+    function renderMd(text) {{
+      var fm = null, m = text.match(/^---\\n([\\s\S]*?)\\n---\\n/);
+      if (m) {{ fm = m[1]; text = text.slice(m[0].length); }}
+      var html = window.marked ? marked.parse(text, {{ gfm: true, breaks: false }}) : "<pre>" + text.replace(/[&<>]/g, function (c) {{ return {{ "&": "&amp;", "<": "&lt;", ">": "&gt;" }}[c]; }}) + "</pre>";
+      var wrap = el("div"); wrap.innerHTML = html;
+      Array.prototype.forEach.call(wrap.querySelectorAll("table"), function (tb) {{ var d = el("div", "tbl"); tb.parentNode.insertBefore(d, tb); d.appendChild(tb); }});
+      Array.prototype.forEach.call(wrap.querySelectorAll("a[href]"), function (a) {{ if (/^https?:/.test(a.getAttribute("href"))) {{ a.target = "_blank"; a.rel = "noopener"; }} else {{ var c = el("code", null, a.textContent); a.parentNode.replaceChild(c, a); }} }});
+      var out = el("div");
+      if (fm) {{
+        var box = el("div", "fm"), dl = el("dl"), key = null, val = [];
+        function flush() {{ if (key) {{ var dt = el("dt", null, key), dd = el("dd", null, val.join(" ").replace(/\\s+/g, " ").trim()); dl.appendChild(dt); dl.appendChild(dd); }} key = null; val = []; }}
+        fm.split("\\n").forEach(function (line) {{ var km = line.match(/^(\\s*)([\\w-]+):\\s*(.*)$/); if (km && km[1].length <= 2 && !/^>-?$|^\|-?$/.test(km[3]) ) {{ flush(); key = (km[1] ? "  " : "") + km[2]; if (km[3] && !/^[>|]-?$/.test(km[3])) val.push(km[3]); }} else if (km && km[1].length <= 2) {{ flush(); key = km[2]; }} else {{ val.push(line.trim()); }} }});
+        flush(); box.appendChild(el("div", "fm-label", "Frontmatter")); box.appendChild(dl); out.appendChild(box);
+      }}
+      out.appendChild(wrap); return out;
+    }}
+    function show(e, text) {{
+      body.textContent = "";
+      if (e.src !== e.path) {{ var n = el("p", "copy-note", "This file is a copy of " + e.src + ", placed in the skill folder by the build; the library file is shown."); body.appendChild(n); }}
+      if (raw || !/\\.md$/.test(e.src)) {{ var pre = el("pre", null, text); body.appendChild(pre); }} else body.appendChild(renderMd(text));
+      pathEl.textContent = e.path; metaEl.textContent = text.split("\\n").length + " lines, " + Math.round(text.length / 1024) + " KB";
+      Array.prototype.forEach.call(treeEl.querySelectorAll(".fb-file"), function (li) {{ li.classList.toggle("active", li.firstChild.getAttribute("data-path") === e.path); }});
+      var li = treeEl.querySelector('.fb-file a[data-path="' + e.path + '"]'); if (li) {{ for (var n2 = li.parentElement; n2 && n2 !== treeEl; n2 = n2.parentElement) if (n2.classList && n2.classList.contains("fb-dir")) n2.classList.remove("closed"); li.scrollIntoView({{ block: "nearest" }}); }}
+      body.scrollTop = 0;
+    }}
+    function open(e) {{
+      current = e;
+      if (cache[e.src]) return show(e, cache[e.src]);
+      body.textContent = "Loading " + e.path;
+      fetch("plugin/" + e.src).then(function (r) {{ if (!r.ok) throw new Error(r.status); return r.text(); }}).then(function (txt) {{ cache[e.src] = txt; if (current === e) show(e, txt); }}).catch(function (err) {{ body.textContent = "Could not load " + e.path + " (" + err.message + ")."; }});
+    }}
+    document.getElementById("fb-prev").addEventListener("click", function () {{ if (!current) return; var i = order.indexOf(current.path); if (i > 0) open(files[i - 1]); }});
+    document.getElementById("fb-next").addEventListener("click", function () {{ var i = current ? order.indexOf(current.path) : -1; if (i < files.length - 1) open(files[i + 1]); }});
+    document.getElementById("fb-raw").addEventListener("click", function () {{ raw = !raw; this.textContent = raw ? "Rendered" : "Raw"; if (current) open(current); }});
+    filterEl.addEventListener("input", function () {{ var q = filterEl.value.trim().toLowerCase(); Array.prototype.forEach.call(treeEl.querySelectorAll(".fb-file"), function (li) {{ li.hidden = q ? li.firstChild.getAttribute("data-path").toLowerCase().indexOf(q) === -1 : false; }}); Array.prototype.forEach.call(treeEl.querySelectorAll(".fb-dir"), function (li) {{ var any = li.querySelector(".fb-file:not([hidden])"); li.hidden = q ? !any : false; if (q && any) li.classList.remove("closed"); }}); }});
+    function fromHash() {{ var h = location.hash.slice(1); if (h.indexOf("f.") === 0) {{ var e = fromToken(h); if (e) {{ open(e); var sec = document.getElementById("browse"); if (sec) sec.scrollIntoView(); }} }} }}
+    window.addEventListener("hashchange", fromHash); fromHash();
+    if (window.KSearch) files.forEach(function (e) {{ KSearch.add(e.path, "File", function () {{ open(e); location.hash = token(e.path); }}); }});
+    if (!location.hash) open(files.filter(function (e) {{ return e.path === "skills/bigdata-earnings-preview/SKILL.md"; }})[0] || files[0]);
+  }})();
   KTable.mount(document.getElementById("skills-table"), {{
     columns: [
       {{ key: "skill", label: "Skill" }},

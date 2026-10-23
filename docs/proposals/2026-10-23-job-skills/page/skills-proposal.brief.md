@@ -25,13 +25,14 @@
   - Four SKILL.md drafts: one click away (fold each, rendered as a document, not raw markdown).
   - Sources: fold at the end.
   - Dropped: the session's working notes, the tool-result paths, the agent fan-out details (reply only).
-- Type: plan / proposal.
+- Type: plan / proposal, with a file browser for the plugin (tree on the left, the selected file rendered on the right) so the 287 files can be reviewed one by one.
 - Existing page: none for this proposal. The onboarding plan page (https://claude.ai/artifact/HNEgzgUaizVqYBi6TZBFUo) is a different document and is linked from the summary.
 - Brand: bigdata-analytics:bigdata-design (tokens, fonts, logo image in the rail).
 - References:
   1. Stripe docs page (docs.stripe.com): the fixed contents rail with the current section marked, and the 65-character measure for prose.
   2. GitHub rendered RFC / design doc: tables that fit the column, headings as short labels, code blocks for file layouts.
   3. Linear's changelog page: density of a long document, section spacing, one accent.
+  4. GitHub's repository file browser and the VS Code explorer: a tree with folders collapsed by default, the file name as the click target, the open file's path shown above its content.
 - Components: the kit (tokens replaced by brand tokens, rail, fold, tooltip, table, search).
 - Spacing scale: base 4 px; steps 4, 8, 12, 16, 24, 32, 48; page gutter 24 px desktop, 16 px phone; section gap 48; title-to-content 12; row padding 6 x 10.
 - Loaded: artifact-design, visual-design (look.md, accessibility.md), bigdata-analytics:bigdata-design (Platform system: platform/README.md, platform/colors_and_type.css, fonts embedded, logo file), build-artifact references/defaults.md, references/documents.md, references/publishing.md, marko-comms:writing-core (lint run on the markdown source)
