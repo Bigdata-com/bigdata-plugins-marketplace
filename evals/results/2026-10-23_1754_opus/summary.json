@@ -1,0 +1,95 @@
+[
+  {
+    "case": "sm-move",
+    "run": 1,
+    "prompt": "Why did Micron move this week?",
+    "connector": "on",
+    "model": "opus",
+    "pass": false,
+    "counted_checks": [
+      {
+        "check": "questions before the first result <= 0",
+        "pass": true,
+        "value": 0
+      },
+      {
+        "check": "Bigdata.com calls >= 3",
+        "pass": true,
+        "value": 12
+      },
+      {
+        "check": "uses the method of bigdata-stock-move",
+        "pass": true,
+        "value": [
+          "bigdata-com:bigdata-stock-move"
+        ]
+      },
+      {
+        "check": "no call that changes the Bigdata.com account",
+        "pass": true,
+        "value": "none"
+      }
+    ],
+    "judge": [
+      {
+        "criterion": "The move and the index move over the same window are taken from Bigdata.com data, with the window stated.",
+        "pass": true,
+        "reason": "The headline states the window (Oct 19-23, 2026) and gives MU -0.15% against SPY -0.43% and SOXX -3.08%, all from Bigdata.com daily price data, with the window dates stated."
+      },
+      {
+        "criterion": "The trigger has a dated source, or the note says no company-specific trigger was found.",
+        "pass": true,
+        "reason": "The trigger is tied to dated sources (Lam Research Oct 22, Money Today Oct 23, Flush Financial Oct 23), and the note explicitly says the drop was sector-wide rather than Micron-specific."
+      },
+      {
+        "criterion": "The note says whether the trigger changed the long-term outlook (growth, margin, return or duration) or only the headline.",
+        "pass": true,
+        "reason": "The 'Headline or outlook' section says the week's news did not change long-term growth, margins or capital returns in a measurable way and describes the selloff as headline/sentiment-driven."
+      },
+      {
+        "criterion": "A historical base-rate row is quoted with N and the sample period, and the momentum, valuation and quality proxies are labelled derived.",
+        "pass": false,
+        "reason": "The base-rate row is quoted with N (1,041) and period (1990 to mid-2014), but the momentum proxy is labeled 'reported' rather than derived, and valuation and quality proxies are absent, so the derived-labeling requirement is not met."
+      },
+      {
+        "criterion": "No sentence recommends buying, selling, adding or trimming.",
+        "pass": true,
+        "reason": "No sentence recommends buying, selling, adding or trimming; the note says the historical averages are not a forecast and the disclaimer says it is not a recommendation."
+      }
+    ],
+    "questions_before_result": 0,
+    "bigdata_calls": 12,
+    "bigdata_tools": [
+      "find_securities",
+      "bigdata_company_tearsheet",
+      "bigdata_market_tearsheet",
+      "bigdata_search",
+      "bigdata_computer",
+      "bigdata_computer",
+      "bigdata_computer",
+      "bigdata_computer",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_sentiment_tearsheet"
+    ],
+    "calls_with_plugin_slug": 12,
+    "plugin_slugs": [
+      "bigdata-stock-move"
+    ],
+    "skills_used": [
+      "bigdata-com:bigdata-stock-move"
+    ],
+    "bigdata_skill_loaded": false,
+    "turns": 1,
+    "stops": [
+      "success"
+    ],
+    "denied_tools": [],
+    "cost_usd": {
+      "subject": 1.288,
+      "simulated_user": 0.0,
+      "judge": 0.039
+    }
+  }
+]

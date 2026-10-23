@@ -34,7 +34,9 @@ def inline(s):
         else:
             t = esc(p)
             t = re.sub(r"\[([^\]]+)\]\((https?://[^)]+)\)", r'<a href="\2" target="_blank" rel="noopener">\1</a>', t)
+            t = re.sub(r"\[([^\]]+)\]\((\.?/?[^)\s]+)\)", r"<code>\2</code>", t)
             t = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", t)
+            t = re.sub(r"(?<![\w*])\*([^*\n]+?)\*(?![\w*])", r"<em>\1</em>", t)
             t = re.sub(r"(?<![\"'>=])(https?://[^\s<>()]+[^\s<>().,;])", r'<a href="\1" target="_blank" rel="noopener">\1</a>', t)
             out.append(t)
     return "".join(out)
@@ -82,10 +84,10 @@ def md(text, gl=True, base_h=2):
             lvl = min(6, len(m.group(1)) - 1 + base_h); txt = re.sub(r"^\d+(\.\d+)* ", "", m.group(2).strip()) if gl else m.group(2).strip()
             hid = re.sub(r"[^a-z0-9]+", "-", txt.lower()).strip("-")[:60]
             out.append(f'<h{lvl} id="h-{hid}">{inline(txt)}</h{lvl}>'); i += 1; continue
-        if ln.startswith("|"):
+        if ln.lstrip().startswith("|"):
             flush_para(buf); buf = []
             rows = []
-            while i < len(lines) and lines[i].startswith("|"):
+            while i < len(lines) and lines[i].lstrip().startswith("|"):
                 rows.append([c.strip() for c in lines[i].strip().strip("|").split("|")]); i += 1
             if len(rows) >= 2 and all(re.match(r"^:?-+:?$", c) for c in rows[1] if c):
                 head = rows[0]; body = rows[2:]
@@ -147,6 +149,24 @@ main = xref(rd(f"{S}/proposal/2026-10-23-job-skills-proposal.md"))
 appA = rd(f"{S}/proposal/appendix-a-descriptions.md")
 appD = rd(f"{S}/proposal/appendix-d-sources.md")
 specs_dir = f"{S}/method-specs"; skills_dir = f"{S}/proposal/skills"
+W = "/Users/mkangrga/python_projects/bigdata-mcp/bigdata-plugins-marketplace/.claude/worktrees/skills-proposal"
+PLUG = f"{W}/plugins/bigdata-com"
+import glob, subprocess
+def built_skill(name):
+    p = f"{PLUG}/skills/{name}/SKILL.md"
+    if not os.path.isfile(p): return None
+    txt = rd(p); fm = re.match(r"^---\n(.*?)\n---\n", txt, re.S)
+    refs = re.search(r"bigdata-refs:\s*(.+)", fm.group(1) if fm else "")
+    primer = re.search(r"bigdata-sector-primer:\s*(\w+)", fm.group(1) if fm else "")
+    files = [f for f in glob.glob(f"{PLUG}/skills/{name}/**/*", recursive=True) if os.path.isfile(f)]
+    return {"text": txt, "lines": txt.count("\n") + 1, "refs": [r.strip() for r in refs.group(1).split(",")] if refs else [],
+            "primer": primer.group(1) if primer else "none", "files": len(files),
+            "yaml": rd(f"{PLUG}/skills/{name}/agents/openai.yaml") if os.path.isfile(f"{PLUG}/skills/{name}/agents/openai.yaml") else ""}
+COWORK = set(e["folder"].split("/")[-1] for e in json.load(open(f"{W}/packaging/bigdata-com/microsoft/manifest.json"))["agentSkills"])
+try:
+    COMMIT = subprocess.run(["git", "-C", W, "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
+except Exception:
+    COMMIT = "unknown"
 
 # split main into sections by "## N. Title"
 secs = re.split(r"^## (\d+)\. ", main, flags=re.M)
@@ -192,6 +212,11 @@ for r in rows:
     r["desc"] = desc.get(r["skill"], ""); r["chars"] = len(r["desc"])
     r["refs"] = ", ".join(refs.get(r["skill"], [])) or ("working-with-bigdata, skill-builder" if r["skill"] == "bigdata" else "")
     r["replaces"] = "; ".join(replaces.get(r["skill"], [])) or "none, a new skill"
+    b = built_skill(r["skill"])
+    r["lines"] = b["lines"] if b else 0; r["files"] = b["files"] if b else 0
+    r["cowork"] = "yes" if r["skill"] in COWORK else "no"
+    r["primer"] = b["primer"] if b else "none"
+    if b: r["refs"] = ", ".join(x for x in b["refs"] if x not in ("working-with-bigdata", "output-standard"))
 assert len(rows) == 26, len(rows)
 
 # section 4 body without the four group tables (the KTable replaces them)
@@ -208,7 +233,8 @@ def section(n, label, title, inner, cls=""):
     return f'<section id="{n}" data-rail="{esc(label)}" class="{cls}"><h2>{esc(title)}</h2>\n{inner}\n</section>'
 
 order = []
-order.append(section("summary", "Summary", "Summary", md(sections[1][1])))
+status = ('<p class="status"><strong>Status, ' + esc(datetime.date.today().strftime("%d %b %Y")) + '.</strong> Built on the local branch <code>skills-proposal-2026-10-23</code> at commit <code>' + esc(COMMIT) + '</code>: all 26 skill folders, the shared library (two shared files, 14 method files, 12 sector primers), the library sync and validation scripts, the three host packages, a 156-case trigger suite and live-connector cases. The sections "Skills as built", "Library as built", "Evaluation results" and "Packages built" show the result. Nothing is merged, pushed or published to any host.</p>')
+order.append(section("summary", "Summary", "Summary", status + md(sections[1][1])))
 order.append(section("decisions", "Decisions", "Decisions for Marko", md(sections[10][1])))
 order.append(section("demand", "What users ask for", "What users ask for", re.sub(r'(<div class="tbl">.*?</div>)\s*(<div class="tbl">.*?</div>)', r'<div class="pair">\1\2</div>', md(sections[2][1]), count=1, flags=re.S)))
 order.append(section("rules", "Rules", "Rules every skill follows", md(sections[3][1])))
@@ -220,24 +246,94 @@ order.append(section("packaging", "Packaging", "Packaging per host", md(sections
 order.append(section("evals", "Evaluation", "Evaluation", md(sections[8][1])))
 order.append(section("migration", "Migration", "Migration and release", md(sections[9][1])))
 
-# Appendix B: drafts
-drafts = []
-for name in ["bigdata-earnings-preview", "bigdata-stock-move", "bigdata-quick-take", "bigdata-deep-dive"]:
-    t = rd(f"{skills_dir}/{name}.SKILL.md")
-    lines = t.count("\n") + 1
-    drafts.append(f'<details class="k-fold" id="draft-{name}"><summary>{esc(name)}/SKILL.md <small>{lines} lines</small></summary><div class="k-fold-body doc">{md(t, gl=False, base_h=4)}</div></details>')
-order.append(section("drafts", "Skill drafts", "Four complete SKILL.md drafts",
-    "<p>The four skills written first, to the skeleton in section 6. Each opens as a rendered document.</p><div class=\"folds\">" + "".join(drafts) + "</div>"))
-
-# Appendix C: method specs
 spec_order = ["expectations", "base-rates", "roic", "valuation", "multiples-and-peers", "earnings-quality", "capital-allocation", "industry-structure", "operating-leverage-and-tam", "after-a-price-move", "downside-and-catalysts", "forecasting-discipline", "credit", "special-situations-arithmetic"]
-specs = []
+# The skills as built: one fold per skill with the rendered SKILL.md and its listing file
+skill_folds = []
+for r in rows:
+    b = built_skill(r["skill"])
+    if not b: continue
+    body = md(b["text"], gl=False, base_h=4)
+    yaml_block = "<h5>agents/openai.yaml</h5><pre>" + esc(b["yaml"]) + "</pre>" if b["yaml"] else ""
+    skill_folds.append(f'<details class="k-fold" id="skill-{r["skill"]}"><summary><span class="fold-name">{esc(r["skill"])}</span><span class="fold-job">{esc(r["group"])}: {esc(r["job"])}</span><small>{b["lines"]} lines</small></summary><div class="k-fold-body doc">{body}{yaml_block}</div></details>')
+order.append(section("built", "Skills as built", "The 26 skills as built",
+    f'<p>Every skill folder on the branch <code>skills-proposal-2026-10-23</code> at commit <code>{esc(COMMIT)}</code>: the SKILL.md rendered as a document, then its ChatGPT listing file. The references each skill carries are copies of the library files below, placed by the build.</p><div class="folds">' + "".join(skill_folds) + "</div>"))
+
+lib_folds = []
+for name in ["output-standard", "working-with-bigdata"]:
+    txt = rd(f"{PLUG}/library/{name}.md")
+    lib_folds.append(f'<details class="k-fold" id="lib-{name}"><summary>{esc(name)}.md <small>{len(txt.split()):,} words</small></summary><div class="k-fold-body doc">{md(txt, gl=False, base_h=4)}</div></details>')
 for name in spec_order:
-    t = rd(f"{specs_dir}/{name}.md"); t = re.sub(r"^# Spec: ", "# ", t)
-    gaps = t.count("GAP"); words = len(t.split())
-    specs.append(f'<details class="k-fold" id="spec-{name}"><summary>{esc(name)}.md <small>{words:,} words, {gaps} gap{"s" if gaps != 1 else ""}</small></summary><div class="k-fold-body doc">{md(t, gl=False, base_h=4)}</div></details>')
-order.append(section("specs", "Method specs", "Specification of each method file",
-    "<p>Each file's specification: inputs mapped to Bigdata.com fields, the procedure with a done condition per step, formulas, reference tables with source and period, interpretation rules, output lines and sources. A GAP line marks something the source papers do not give; the writer sources it elsewhere or leaves it as an assumption.</p><div class=\"folds\">" + "".join(specs) + "</div>"))
+    p = f"{PLUG}/library/methods/{name}.md"
+    if not os.path.isfile(p): continue
+    txt = rd(p); gaps = txt.count("Not in the sources")
+    lib_folds.append(f'<details class="k-fold" id="method-{name}"><summary>methods/{esc(name)}.md <small>{len(txt.split()):,} words, {gaps} not-in-the-sources line{"s" if gaps != 1 else ""}</small></summary><div class="k-fold-body doc">{md(txt, gl=False, base_h=4)}</div></details>')
+for p in sorted(glob.glob(f"{PLUG}/library/sectors/*.md")):
+    name = os.path.basename(p)[:-3]; txt = rd(p)
+    lib_folds.append(f'<details class="k-fold" id="sector-{name}"><summary>sectors/{esc(name)}.md <small>{len(txt.split()):,} words</small></summary><div class="k-fold-body doc">{md(txt, gl=False, base_h=4)}</div></details>')
+order.append(section("library-built", "Library as built", "The library as built",
+    '<p>The two shared files, the fourteen method files and the twelve sector primers, as they stand on the branch. Each method file keeps the points where the source papers were silent as a "Not in the sources" line, so the writer of a skill states those as assumptions.</p><div class="folds">' + "".join(lib_folds) + "</div>"))
+
+CASE_LABELS = {"ep-micron": "Earnings preview, Micron", "ep-narrow": "Narrow question, Micron consensus and guidance", "sm-move": "Stock move, Micron this week", "qt-jpm": "Quick take, JPMorgan (a bank)", "qt-connector-off": "Quick take with the connector off", "dd-asml": "Deep dive, ASML (non-US)"}
+COUNTED = ("questions before", "Bigdata.com calls", "uses the method", "no call that changes")
+def eval_results_html():
+    parts = []
+    trig = f"{PLUG}/evals/results/trigger-wave1.json"
+    if os.path.isfile(trig):
+        try:
+            d = json.load(open(trig)); cases = d.get("cases", [])
+            agg = d.get("aggregates", {})
+            passed = agg.get("casesPassed", 0); total = agg.get("casesTotal", len(cases))
+            parts.append(f"<p><strong>Trigger suite: {passed} of {total} cases passed.</strong> A case passes when the skill does what its prompt is meant to test: a <em>fires</em> case passes when the model invoked that skill on a prompt written for it, a <em>near miss</em> case passes when the model invoked the named neighbour and left this skill alone, and a <em>no fire</em> case passes when no Bigdata.com job skill was invoked on an unrelated prompt. Each skill has three fires, two near-miss and one no-fire prompt. The suite ran once per case (so a single run decides each case), with the plugin loaded and the Bigdata.com server mocked out, on the session's default model, at a list-price cost of ${d.get('costUsd', 0):.2f}. No baseline arm was run: the suite measures routing between the skills, and a run without the plugin could not invoke any of them. The prompts were written by the same team that wrote the skills, so the result says the descriptions route as designed, not how real users phrase things; that comes from usage after release.</p>")
+            exc = [c for c in cases if (c.get("aggregates", {}).get("score") or 0) < 1]
+            if exc:
+                rows_h = []
+                for c in exc:
+                    nm = c["name"]; pr = ""
+                    try: pr = open(f"{PLUG}/evals/{nm}/prompt.md").read().split("---")[-1].strip()
+                    except Exception: pass
+                    note = {"bigdata--fires-1": "The prompt was the literal /bigdata; a headless run cannot route a slash command. The prompt was replaced with a natural sentence and the case then passed 2 of 2.",
+                            "bigdata-macro-compare--fires-2": "A colloquial prompt that could be read as sport; on re-run it fired 1 of 2. Left as the one known soft spot."}.get(nm, "")
+                    rows_h.append(f"<tr><td>{esc(nm.split('--')[0])}</td><td>{esc(nm.split('--')[1].rsplit('-', 1)[0])}</td><td>{esc(pr)}</td><td>{esc(note)}</td></tr>")
+                parts.append("<p>The cases that did not pass on the first run:</p>" + '<div class="tbl"><table><thead><tr><th>Skill</th><th>Kind</th><th>Prompt</th><th>What happened</th></tr></thead><tbody>' + "".join(rows_h) + "</tbody></table></div>")
+        except Exception as e:
+            parts.append(f"<p>Trigger suite result could not be read: {esc(str(e))}</p>")
+    else:
+        parts.append("<p>Trigger suite: not yet run when this page was built.</p>")
+    live = sorted(glob.glob(f"{W}/evals/results/*/summary.json"))
+    if live:
+        recs = []
+        for f in live:
+            try: recs += json.load(open(f))
+            except Exception: pass
+        latest = {}
+        for r in recs: latest[r["case"]] = r
+        recs = [latest[k] for k in ["ep-micron", "ep-narrow", "sm-move", "qt-jpm", "qt-connector-off", "dd-asml"] if k in latest] + [v for k, v in latest.items() if k not in CASE_LABELS]
+        n_pass = sum(1 for r in recs if r["pass"])
+        parts.append(f"<p><strong>Live runs: {n_pass} of {len(recs)} cases passed every check.</strong> Each case sends one prompt to Claude Code headless on Opus with the plugin loaded and the production Bigdata.com connector connected, then grades the transcript twice: counted checks (questions asked before the first result, the number of Bigdata.com calls, whether the intended skill ran, no call that changes the account) and judged checks (a Sonnet judge reads the transcript against the method checklist for that skill, one item at a time). A case passes only when every check passes; the table lists each failed item in full. The latest run of each case is shown; earlier runs, with the fixes they led to, are in the repo under evals/results. Costs are the list price of the model calls for the run under test, in US dollars. The transcripts hold licensed content and stay on the machine.</p>")
+        rows_h = []
+        for r in recs:
+            cc = [(c["check"], c["pass"]) for c in r["counted_checks"]]; jj = [(g["criterion"], g["pass"], g.get("reason", "")) for g in r["judge"]]
+            passed = sum(1 for _, p in cc if p) + sum(1 for _, p, _ in jj if p); total = len(cc) + len(jj)
+            fails = [f"<li>{esc(c)} (counted)</li>" for c, p in cc if not p] + [f"<li>{esc(c)} <span class=\"why\">Judge: {esc(w)}</span></li>" for c, p, w in jj if not p]
+            verdict = '<span class="ok">pass</span>' if r["pass"] else '<span class="no">fail</span>'
+            rows_h.append(f'<tr><td>{esc(CASE_LABELS.get(r["case"], r["case"]))}<br><span class="dim">{esc(r["prompt"])}</span></td><td>{verdict}</td><td class="num">{passed} of {total}</td><td class="num">{r["bigdata_calls"]}</td><td>{"<ul class=\"fails\">" + "".join(fails) + "</ul>" if fails else "none"}</td><td class="num">${r["cost_usd"]["subject"]:.2f}</td></tr>')
+        parts.append('<div class="tbl live"><table><thead><tr><th>Case and prompt</th><th>Verdict</th><th class="num">Checks passed</th><th class="num">Bigdata.com calls</th><th>Failed checks</th><th class="num">Cost</th></tr></thead><tbody>' + "".join(rows_h) + "</tbody></table></div>")
+    else:
+        parts.append("<p>Live runs: none recorded when this page was built.</p>")
+    return "".join(parts)
+order.append(section("results", "Eval results", "Evaluation results", eval_results_html()))
+
+PKG_DESC = {"claude-plugin": ("Claude, development zip", "The plugin folder as claude.ai accepts it under Customize, Plugins, Upload, so a branch can be tried on claude.ai next to the released plugin. All 26 skills. The version is the plugin manifest's, with the commit in the name."),
+            "openai-plugin": ("ChatGPT and Codex", "The zip submitted to OpenAI's plugin directory: plugin.json, mcp.json, the assets and all 26 skills with their listing files. The OpenAI app has its own version line, 11.0.0 for this release."),
+            "microsoft-cowork": ("Microsoft 365 Copilot Cowork", "The zip uploaded to Cowork: manifest.json with agentSkills, the icons and the 20 skills the manifest names, because Cowork allows at most 20 per package. Left out for the first release: capital-allocation, comps, credit, macro-compare, screen and special-situations.")}
+pk = []
+for z in sorted(glob.glob(f"{W}/packaging/bigdata-com/dist/*.zip")):
+    base = os.path.basename(z); key = next((k for k in PKG_DESC if base.startswith(k)), None)
+    host, what = PKG_DESC.get(key, ("", ""))
+    pk.append(f'<tr><td>{esc(host)}</td><td><code>{esc(base)}</code></td><td>{esc(what)}</td><td class="num">{os.path.getsize(z)/1e6:.1f} MB</td></tr>')
+order.append(section("packages", "Packages", "Packages built",
+    '<p>The three host packages built from the branch by the scripts in <code>packaging/bigdata-com/scripts/</code>. The Microsoft package carries the twenty skills its manifest names; the other two carry all twenty-six.</p><div class="tbl"><table><thead><tr><th>Host</th><th>File</th><th>What it holds</th><th class="num">Size</th></tr></thead><tbody>' + "".join(pk) + "</tbody></table></div>"))
+
 order.append(section("sources", "Sources", "Sources", md(re.sub(r"^## Appendix D\. Sources\n", "", appD), gl=False, base_h=3)))
 
 rows_json = json.dumps(rows, ensure_ascii=True)
@@ -291,9 +387,10 @@ pre.code {{ white-space: pre; }}
 .tbl td:first-child code {{ white-space: nowrap; }}
 .tbl td code {{ white-space: nowrap; }}
 .term {{ border-bottom: 1px dotted var(--fg-3); cursor: default; }}
+p.status {{ background: var(--overlay-blue); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; max-width: none; }}
 ul.gaps li {{ background: var(--overlay-yellow); padding: 2px 8px; border-radius: 4px; list-style: none; margin-left: -22px; }}
 .folds {{ display: flex; flex-direction: column; gap: 8px; }}
-details.k-fold > summary {{ font-size: 15px; color: var(--ink); font-family: var(--font-mono); }}
+details.k-fold > summary {{ font-size: 15px; color: var(--ink); font-family: var(--font-mono); flex-wrap: wrap; }}\n.fold-name {{ flex: none; }}\n.fold-job {{ font-family: var(--font-sans); font-size: 13px; color: var(--fg-2); flex: 1 1 320px; min-width: 0; }}\n.k-fold-body.doc em {{ font-style: italic; }}
 details.k-fold > summary small {{ margin-left: auto; color: var(--muted); font-size: 12px; font-family: var(--font-sans); font-variant-numeric: tabular-nums; }}
 #skills-table .k-table tr.k-row > td:first-child {{ white-space: nowrap; }}
 #skills-table tr.k-click > td:first-child::before {{ content: ""; display: inline-block; width: 6px; height: 6px; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: rotate(-45deg); margin: 0 10px 2px 0; transition: transform 120ms; }}
@@ -303,7 +400,7 @@ details.k-fold > summary small {{ margin-left: auto; color: var(--muted); font-s
 .k-fold-body.doc h4 {{ font-size: 16px; margin-top: 20px; }}
 .k-fold-body.doc h5 {{ font-size: 14px; }}
 .k-fold-body.doc p, .k-fold-body.doc ul, .k-fold-body.doc ol {{ max-width: 76ch; }}
-#skills-table {{ margin: 16px 0 24px; }}
+#skills-table {{ margin: 16px 0 24px; }}\n.tbl.live td {{ vertical-align: top; }}\n.tbl.live td:first-child {{ white-space: normal; min-width: 180px; }}\nul.fails {{ margin: 0; padding-left: 18px; max-width: none; font-size: 13px; }}\nul.fails li {{ margin: 0 0 6px; }}\n.why {{ color: var(--fg-2); }}\n.dim {{ color: var(--fg-3); font-size: 13px; }}\n.ok {{ color: #04E0A9; font-weight: 600; }}\n.no {{ color: #FD8282; font-weight: 600; }}\n.tbl th.num {{ text-align: right; }}
 .sk-list {{ display: none; flex-direction: column; gap: 6px; margin: 16px 0 24px; }}
 .sk-list details {{ border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }}
 .sk-list summary {{ cursor: pointer; padding: 8px 12px; list-style: none; display: flex; flex-direction: column; gap: 2px; }}
@@ -337,7 +434,7 @@ details.k-fold > summary small {{ margin-left: auto; color: var(--muted); font-s
 <header class="top">
   <div class="eyebrow">Bigdata.com plugin, skills rewrite</div>
   <h1>Bigdata.com job skills</h1>
-  <div class="sub">Proposal for the rewrite: 25 job skills plus the entry skill, a shared method library, one package per host, and the evaluation that gates release. For review by Marko and the Bigdata.com product and MCP team.</div>
+  <div class="sub">The rewrite of the skills in the Bigdata.com plugin: 25 job skills plus the entry skill, a shared method library, one package per host, and the evaluation that gates release. The proposal first, then the skills and the library as built on the branch, with the eval results. For review by Marko and the Bigdata.com product and MCP team.</div>
   <div class="meta">Produced {esc(now)}. Press Cmd+K to search this page.</div>
 </header>
 {chr(10).join(order)}
