@@ -1,6 +1,6 @@
 interface:
   display_name: Quick Take
-  short_description: A one-page view on a stock: what is priced in, the drivers, the risks, the next date
+  short_description: A one-page view on a stock with what is priced in and the next date
   default_prompt: Use $bigdata-quick-take for a quick take on [company].
   icon_small: assets/bigdata-icon-black.svg
   icon_large: assets/bigdata-icon-black.svg

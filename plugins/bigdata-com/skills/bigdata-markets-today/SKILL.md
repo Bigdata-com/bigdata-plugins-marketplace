@@ -25,6 +25,8 @@ Fix three things from the request before gathering data.
 - **The region.** Global by default, with the US first, then Europe and Asia-Pacific. If the user names a region or a market ("European close", "how did Japan do"), lead with it and keep one line on the others.
 - **The angle.** If the user asks why the market moved, the "Why" section carries the answer and the rest is short. If they ask about one asset class (rates, oil, crypto), the wrap centres on it.
 
+A morning briefing before the US open reads the US 1D column as the previous session; lead with the Asia-Pacific and European sessions and say that US cash markets have not opened.
+
 Do not ask a question unless the region is unclear and the answer changes the wrap. State the window, the region and the time the data was pulled in the header. If a market was still trading when the data was pulled, say so, because the 1D column then reads a session in progress.
 
 ## Gather
@@ -53,6 +55,15 @@ Do not ask a question unless the region is unclear and the answer changes the wr
 7. **What comes next.** For each high-impact release or report in the next period: the date, the period it covers, the consensus and the previous figure, and the question from this window it answers (a rates move tested by the next inflation print, a growth scare tested by the next payrolls or purchasing-managers data). Done when each item names what it would confirm or contradict.
 
 8. **What it means for positioning questions.** One paragraph, no recommendation. It names the questions a book would ask after this window and what the data says about each: was the move driven by rates, earnings or flows; was it broad or narrow; which factor or sector carried it; which scheduled event is most likely to test it, and what reading would contradict the window's story. It never says to buy, sell, add, trim, rotate, hedge or over- or underweight. Done when every sentence in it is an observation from the data or a conditional tied to a dated event.
+
+Special cases that change how a row reads:
+
+- Crypto trades every day, so its 1D and 5D columns cover a different span from equities; say so when the wrap compares them.
+- A market closed for a holiday shows no move; write that it was closed, not that it was flat.
+- Currency pairs move in quote terms: USD/JPY up is a stronger dollar, EUR/USD up a weaker one. Write the move as the currency that strengthened.
+- Commodity rows are futures. A large one-day move near expiry can be the contract roll; check a source before explaining it as news.
+- The VIX is a level in points; quote the level and the change in points, not only the percent change.
+- Fixed-income ETF rows move inversely to yields and include credit spread changes; use the yield rows for rates and the ETF rows for credit.
 
 ## Write
 
@@ -111,6 +122,7 @@ Length: one to two pages. A narrow question ("why is oil up?") gets the row, the
 7. Each scheduled event says what it would confirm or contradict.
 8. The positioning paragraph contains no buy, sell, add, trim, rotate, hedge, overweight or underweight.
 9. Base-rate figures carry their sample, period and "(verify)".
+10. The Data line names the market tearsheet and calendar as data sets, with the retrieval time.
 
 ## Hand-offs
 

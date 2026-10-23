@@ -1,0 +1,8 @@
+interface:
+  display_name: Capital Allocation
+  short_description: Sources and uses, buyback, dividend and deal tests, and incentives
+  default_prompt: Use $bigdata-capital-allocation to judge how [company] has allocated capital over [period].
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true
