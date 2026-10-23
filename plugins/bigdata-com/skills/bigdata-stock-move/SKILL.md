@@ -49,7 +49,7 @@ Ask one question only when the ticker is ambiguous. Otherwise state the window a
 
 5. **The downside and the catalysts from here.** From `references/downside-and-catalysts.md`: who is selling and why (forced sellers after an index change or a rating downgrade, holders who owned it for the thing that just broke), what the floors are (net cash, asset value, private-market value where it applies), and the next dated event that resolves the question the move raised. Done when the note names the next date and the floor, or says neither exists.
 
-Moves under 5 percent against the index get steps 1 to 3 only, in a page, and the note says the base-rate tables do not apply. Moves with no identifiable trigger get steps 1, 3 and 4, and the note says the trigger was not found in Bigdata.com.
+Every note carries steps 1 to 4; step 4 is read from `references/after-a-price-move.md` in this run, never from memory, and when the move is under the 10 percent the tables cover, the note quotes the nearest row and says the move is below the studied threshold. Moves with no identifiable trigger get steps 1, 3 and 4, and the note says the trigger was not found in Bigdata.com.
 
 ## Write
 
