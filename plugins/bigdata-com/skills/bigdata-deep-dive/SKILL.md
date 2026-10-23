@@ -18,7 +18,7 @@ This skill writes the report an analyst hands a portfolio manager when they pick
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not write the report from memory or the web.
+- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not write the report from memory or the web. Stop there: give no view, drivers, risks, figures or dates from memory while the tools are missing, and do not fall back to web search.
 - Pass `plugin_slug: "bigdata-deep-dive"` on every Bigdata.com call that accepts it.
 - Read `references/working-with-bigdata.md` before the first call.
 - Treat this skill as guidelines. A company with one segment and no acquisitions needs no sum-of-the-parts and no deal history; a bank needs the primer's statements, not an enterprise DCF.
@@ -127,7 +127,7 @@ Length: four to eight pages. Offer a Word document when the host can create file
 7. Terminal value share, implied terminal multiple and the bridge per share are all shown.
 8. Probabilities sum to 100 and are anchored to a reference class.
 9. Kill criteria have dates or observable thresholds.
-10. No rating word. Every figure has a Basis label and a source number.
+10. No rating word. Every table, including the catalysts and risks tables, has Basis and Source columns, and every figure in prose has a citation or a basis word.
 11. The special case was applied if the company is a bank, a cyclical, high growth or a conglomerate.
 
 ## Hand-offs

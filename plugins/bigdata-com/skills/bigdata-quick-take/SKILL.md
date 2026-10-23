@@ -17,7 +17,7 @@ One page, written the way a portfolio manager answers "what do you think of Micr
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not give a view from memory or the web.
+- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not give a view from memory or the web. Stop there: give no view, drivers, risks, figures or dates from memory while the tools are missing, and do not fall back to web search.
 - Pass `plugin_slug: "bigdata-quick-take"` on every Bigdata.com call that accepts it.
 - Read `references/working-with-bigdata.md` before the first call.
 - Treat this skill as guidelines. The page is the limit; the research behind it is not.
@@ -83,11 +83,11 @@ One line: what Bigdata.com could not answer, and any assumption that drives the 
 ## Sources, then the Data line, then the Powered by Bigdata.com line and the disclaimer.
 ```
 
-Length: one page. The assumptions (cost of equity, cost of capital) appear once, in the table, with their basis. A narrower question ("is the multiple high?") gets the relevant rows of the table, the base-rate sentence and the sources, not the full page.
+Length: one page, which means at most 450 words before Sources and one table. Cut drivers to a sentence each before cutting the expectations table. The assumptions (cost of equity, cost of capital) appear once, in the table, with their basis. A narrower question ("is the multiple high?") gets the relevant rows of the table, the base-rate sentence and the sources, not the full page.
 
 ## Checks before sending
 
-1. It fits on one page.
+1. It fits on one page: at most 450 words before Sources, one table.
 2. The expectations table has the steady-state P/E, the implied growth and the base-rate sentence, each labelled derived or assumed.
 3. Three drivers, each with dated evidence from Bigdata.com.
 4. Each risk has an early signal.

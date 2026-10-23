@@ -19,7 +19,7 @@ Treat this skill as guidelines, not a script. Skip any step that does not apply 
 
 ## Before starting
 
-If the Bigdata.com tools are not available in this conversation, say so and ask the user to connect the Bigdata.com connector and sign in: it comes with this plugin. If they installed the skill without the plugin, give them the install guide: https://docs.bigdata.com/mcp-reference/introduction. Do not answer from memory or web search instead, unless the user asks for that: an unsourced answer looks like Bigdata.com data and is not.
+If the Bigdata.com tools are not available in this conversation, say so and ask the user to connect the Bigdata.com connector and sign in: it comes with this plugin. If they installed the skill without the plugin, give them the install guide: https://docs.bigdata.com/mcp-reference/introduction. Do not answer from memory or web search instead, unless the user asks for that: an unsourced answer looks like Bigdata.com data and is not. Stop there: give no view, figures or dates from memory while the tools are missing.
 
 Before the first Bigdata.com call, read [references/working-with-bigdata.md](./references/working-with-bigdata.md): which data answers which question, resolving companies, searching well, retrying a weak search, when to read a full document, and when to offer saving.
 

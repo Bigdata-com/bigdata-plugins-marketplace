@@ -17,7 +17,7 @@ This skill turns a profile the user describes into a shortlist worth an analyst'
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not answer from memory or the web instead: an unsourced answer looks like Bigdata.com data and is not.
+- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not answer from memory or the web instead: an unsourced answer looks like Bigdata.com data and is not. Stop there: give no view, drivers, risks, figures or dates from memory while the tools are missing, and do not fall back to web search.
 - Pass `plugin_slug: "bigdata-screen"` on every Bigdata.com call that accepts it.
 - Read `references/working-with-bigdata.md` before the first call.
 - Treat this skill as guidelines. Skip a step that does not apply, and research further where the task needs it.

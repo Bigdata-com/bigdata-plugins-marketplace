@@ -18,7 +18,7 @@ This skill catches a portfolio manager up on one company: every material event o
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not write the brief from memory or the web.
+- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not write the brief from memory or the web. Stop there: give no view, drivers, risks, figures or dates from memory while the tools are missing, and do not fall back to web search.
 - Pass `plugin_slug: "bigdata-company-brief"` on every Bigdata.com call that accepts it.
 - Read `references/working-with-bigdata.md` before the first call.
 - Treat this skill as guidelines. A quiet month needs a short brief that says it was quiet; a month with a deal and a guidance cut needs both read properly.

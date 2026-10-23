@@ -18,7 +18,7 @@ This skill gives a portfolio manager the morning check on a list of names: one t
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not check the list from memory or the web.
+- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not check the list from memory or the web. Stop there: give no view, drivers, risks, figures or dates from memory while the tools are missing, and do not fall back to web search.
 - Pass `plugin_slug: "bigdata-watchlist"` on every Bigdata.com call that accepts it.
 - Read `references/working-with-bigdata.md` before the first call.
 - Treat this skill as guidelines. A quiet day needs the table and one line; a day with three prints needs the three read properly.

@@ -17,7 +17,7 @@ This skill answers "why is it down" the way a portfolio manager wants it answere
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not explain the move from memory or the web.
+- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not explain the move from memory or the web. Stop there: give no view, drivers, risks, figures or dates from memory while the tools are missing, and do not fall back to web search.
 - Pass `plugin_slug: "bigdata-stock-move"` on every Bigdata.com call that accepts it.
 - Read `references/working-with-bigdata.md` before the first call.
 - Treat this skill as guidelines. A move explained by one filing needs one section, not six.
@@ -30,7 +30,7 @@ Ask one question only when the ticker is ambiguous. Otherwise state the window a
 
 ## Gather
 
-1. **Tearsheet.** `bigdata_company_tearsheet` with `sections` set to `company_overview, analyst_ratings, latest_earnings, earnings_calendar, analyst_estimates, financial_statements, financial_ratios, key_metrics`. Done when the move over the window, the index move over the same window, the consensus with its 30-day change, the target and rating counts, the last report date and the next one are in hand.
+1. **Tearsheet.** `bigdata_company_tearsheet` with `sections` set to `company_overview, analyst_ratings, latest_earnings, earnings_calendar, analyst_estimates, financial_statements, financial_ratios, key_metrics`. Then `bigdata_market_tearsheet`, for the index's move over the same standard windows, so the stock and the index are compared over one window. Done when the move over the window, the index move over the same window, the consensus with its 30-day change, the target and rating counts, the last report date and the next one are in hand.
 2. **The trigger.** `bigdata_search` for news on the company in the window, then a second search for the company's own filings and releases in the window (8-K, pre-announcement, guidance change, management change, financing). Done when the earliest dated item that explains the move is identified, with its source, or the search shows no company-specific item.
 3. **Sell-side and holders.** `bigdata_search` for research and news that quote analyst reactions in the window (target changes, rating changes, estimate cuts). Done when the revisions are listed with dates, or marked as none found.
 4. **If the trigger was earnings.** `bigdata_fetch_document` on the transcript and the release. Done when guidance and the exchange that moved the stock are quoted.

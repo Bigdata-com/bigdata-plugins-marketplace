@@ -17,7 +17,7 @@ This skill writes the market wrap a portfolio manager reads before the open or a
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not write the wrap from memory or the web: an unsourced wrap looks like Bigdata.com data and is not.
+- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not write the wrap from memory or the web: an unsourced wrap looks like Bigdata.com data and is not. Stop there: give no view, drivers, risks, figures or dates from memory while the tools are missing, and do not fall back to web search.
 - Pass `plugin_slug: "bigdata-markets-today"` on every Bigdata.com call that accepts it.
 - Read `references/working-with-bigdata.md` before the first call.
 - Treat this skill as guidelines. Skip a step that does not apply, and research further where the window needs it.
