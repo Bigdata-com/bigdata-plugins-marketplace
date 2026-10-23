@@ -6,8 +6,9 @@ description: >-
   value, then the two or three that matter most. Use when the user asks what is happening with a
   company, to catch them up on a name, for recent developments, or for a summary of the last
   month. Not for a view on the stock, which bigdata-quick-take covers, or for one day's price
-  move, which bigdata-stock-move covers.metadata:
-  bigdata-refs: working-with-bigdata, output-standard, expectations, downside-and-catalysts
+  move, which bigdata-stock-move covers.
+metadata:
+  bigdata-refs: working-with-bigdata, output-standard, expectations, downside-and-catalysts, after-a-price-move
   bigdata-sector-primer: auto
 ---
 
@@ -28,17 +29,17 @@ Resolve the company with `find_securities`. Take the window from the user ("last
 
 For a window longer than about three months, split each search by month or quarter, because one search per period returns fuller coverage than one search across a long span (`references/working-with-bigdata.md`, "Search well").
 
-Ask one question only if the name is ambiguous. If the company is Private, the price, estimate and target sections do not exist; write the brief from documents and say so in the header.
+Ask one question only if the name is ambiguous. If the company is Private, the price, estimate and target sections do not exist; write the brief from documents and say so in the header. Done when the company is resolved, the window is fixed and the header states both.
 
 ## Gather
 
-1. **Tearsheet, in two calls.** `bigdata_company_tearsheet` with `sections` set to `company_overview, price_performance, analyst_data, latest_earnings, events_calendar, estimates`, then `fundamentals, revenue_segmentation`. Done when the price move over the window against the index, consensus for the next two fiscal years with its 30-day change and its vintage, the target and rating counts, the last report and the next date, and the revenue, margin and segment base needed to size an event are in hand.
+1. **Tearsheet, in two calls.** `bigdata_company_tearsheet` with `sections` set to `company_overview, analyst_ratings, latest_earnings, earnings_calendar, analyst_estimates`, then `financial_statements, financial_ratios, key_metrics, revenue_segmentation`. Done when the price move over the window against the index, consensus for the next two fiscal years with its 30-day change and its vintage, the target and rating counts, the last report and the next date, and the revenue, margin and segment base needed to size an event are in hand.
 2. **The events, one aspect per search.** `bigdata_search` over the window, keeping the user's time words: the company's news; its own filings and releases (8-K or local equivalent, press releases, investor presentations); results and guidance if it reported in the window; deals, partnerships and financing; products and contracts; regulatory and legal matters, searched on their own so they are not buried under earnings headlines; management and board changes. Done when each aspect has its dated items or an explicit "none found".
 3. **The documents that carry the numbers.** `bigdata_fetch_document` on the release, filing or call transcript when the excerpt leaves out the figure an event turns on (a guidance range, a deal price, a contract value, a fine). If the company reported in the window, read the call for guidance and for the exchange that moved the stock. Done when each material event has its figure.
 4. **The Street's reaction.** `bigdata_search` over research and news for target, rating and estimate changes in the window. Done when the changes are dated and sourced, or recorded as none found.
 5. **Peers and the industry.** One or two searches for events at competitors, suppliers or customers in the window that bear on the company (a rival's launch or price cut, a peer's print, a regulatory change across the industry). Done when the competitive context can be written in two to four sentences with sources.
 6. **Sentiment.** `bigdata_sentiment_tearsheet` for the window. Done when the direction and the stories behind it are known.
-7. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its "metrics that matter" section, so each event is tied to the sector's own drivers.
+7. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its "metrics that matter" section, so each event is tied to the sector's own drivers. Done when the sector's drivers are noted, or no primer applies.
 
 ## Analyse
 
@@ -48,7 +49,7 @@ Ask one question only if the name is ambiguous. If the company is Private, the p
 
 3. **Say which drivers matter for this company.** Where the company earns near its cost of capital, events that change the return on new investment move value and growth news does not; where it earns well above it, sales growth moves value (`references/expectations.md`, formula 4; use the FactSet ROIC against a stated, assumed cost of capital). Done when the brief says in one sentence which kind of event this company's value is most sensitive to, and weighs the events by it.
 
-4. **Run the long-term outlook test.** The price capitalises many years of cash flow, so an event matters to value when it changes cash flow beyond the next year, not when it changes the quarter's accounting line ("A Long Look at Short-Termism", 2014, p.10; `references/expectations.md`). For each material event ask: did guidance, FY+2 consensus or long-term growth change; is the effect recurring or one-time; does cash flow move with the earnings line; is the item diagnostic (it changes the odds that the drivers play out) or does it only look causal (an EPS-dilution headline on an acquisition whose synergies exceed the premium; "Cultivating Your Judgment Skills", 2013, p.10). Done when each material event is classed long-term, near-term or unclear, with the evidence.
+4. **Run the long-term outlook test.** The price capitalises many years of cash flow, so an event matters to value when it changes cash flow beyond the next year, not when it changes the quarter's accounting line (`references/after-a-price-move.md`, rule 1). For each material event ask: did guidance, FY+2 consensus or long-term growth change; is the effect recurring or one-time; does cash flow move with the earnings line; is the item diagnostic (it changes the odds that the drivers play out) or does it only look causal (an EPS-dilution headline on an acquisition whose synergies exceed the premium). Done when each material event is classed long-term, near-term or unclear, with the evidence.
 
 5. **Set the events against the price and the estimates.** The move over the window against the index; the change in next-year and FY+2 consensus; the target and rating changes. Price down with estimates down reads as a fundamental revision; price down with estimates flat as a multiple or positioning move; a move with no event to explain it is said to be unexplained, not given a story. A one-day move of 10 percent or more against the index is named and handed to `bigdata-stock-move`. Done when the table of measures at the start and end of the window is complete.
 
@@ -101,6 +102,8 @@ on the company.
 Two to four observable conditions, dated where possible.
 
 ## Gaps
+Categories with no result, a private company's missing price and estimates, and anything the sources did not settle.
+
 ## Sources, then the Data line, then the Powered by Bigdata.com line and the disclaimer.
 ```
 

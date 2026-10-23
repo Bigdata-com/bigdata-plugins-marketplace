@@ -80,25 +80,28 @@ Read it. Most errors name the argument that was wrong; fix it and retry once. If
 
 ## The company tearsheet in detail
 
-The company tearsheet is large. Ask for the sections the task needs with the tool's `sections` argument, and split a full pull into two or three calls so no response is too big to use.
+The company tearsheet is large. Ask for the sections the task needs with the tool's `sections` argument (its values are listed below), and split a full pull into two or three calls so no response is too big to use. The `interval` argument chooses five quarters (the default) or five fiscal years of statements; there is no period offset, so ten years of statements is not available from this tool.
 
-| Section | What it carries |
+| Section value | What it carries |
 |---|---|
-| `company_overview`, `c_level_leadership` | Description, sector, listing, executives |
-| `price_performance` | Price moves over standard windows against the market |
-| `analyst_data` | Price targets (mean, high, low) and rating counts |
+| `company_overview` | Profile, description, the real-time quote and price performance (52-week range, moving averages, price changes over standard windows) |
+| `c_level_leadership` | Executives, board composition, management stats (needs FactSet access) |
+| `financial_statements` | FactSet income statement, balance sheet and cash flow for five periods, with stock-based compensation split out, gross and net PP&E, goodwill and intangibles, invested capital, capex, buybacks, dividends |
+| `financial_ratios` | Gross margin, P/E, P/B, debt ratios, ROIC, ROE, cash conversion cycle, Altman Z, Piotroski (trailing twelve months) |
+| `key_metrics` | Market cap, enterprise value, EV/EBITDA, free cash flow yield, net debt (trailing twelve months) |
+| `analyst_estimates` | Consensus for sales, EBIT, EBITDA, EPS, free cash flow, capex and long-term growth, with the actual where reported, the surprise in percent, and the company's guidance (low, mid, high) where the company gives it |
+| `analyst_ratings` | Rating counts and price targets (consensus, median, high, low) |
 | `latest_earnings` | The last reported quarter against consensus |
-| `events_calendar` | The next earnings date and other scheduled events |
-| `fundamentals` | FactSet statements for five fiscal periods (income statement, balance sheet, cash flow, with stock-based compensation split out, gross and net PP&E, goodwill and intangibles, invested capital, capex, buybacks, dividends), ratios (ROIC, ROE, margins, cash conversion cycle, Altman Z, Piotroski) and key metrics (market cap, enterprise value, EV/EBITDA, P/E, FCF yield, net debt) |
-| `estimates` | Consensus for about a hundred metrics to four fiscal years out (sales, EBIT, EBITDA, EPS, free cash flow, capex, long-term growth), each with the mean, the actual where reported, the surprise in percent, and the company's guidance (low, mid, high) where the company gives it; annual guidance exists for a few metrics such as capex |
-| `revenue_segmentation` | Five years of revenue by product and by geography |
-| `company_funds_holders`, `fund_trends_history` | 13F holders and their changes over years |
-| `mergers_acquisitions` | Deal history |
-| `dividends`, `esg_data`, `jobs_data` | As named |
+| `earnings_calendar` | The next earnings date |
+| `revenue_segmentation` | Revenue by product and by geography |
+| `fund_trends_history` | 13F holders, top buyers and sellers, position changes, options activity |
+| `dividends`, `esg_performance`, `hiring_trends`, `mergers_acquisitions` | As named; M&A needs FactSet access |
+
+The tool's own description says to omit `sections` for a general tearsheet request. A skill that needs three sections for a specific step is such a request: pass them.
 
 Rules that follow from the data:
 
-- Five fiscal periods come back per call. Read the tool description for the period controls before asking for more; if the tool cannot go further back, work with five and say so in the Gaps line.
+- Five periods come back per call, quarterly or annual by `interval`. For a ten-year view, use the annual statements and say in the Gaps line that the series stops at five years.
 - The FactSet ROIC field and a hand-built ROIC differ by definition (tax rate, goodwill, leases). Say which one the report quotes and never mix them in one table.
 - Not in Bigdata.com: a cost of capital or WACC, short interest, options data, intraday prices. State the cost of capital as an assumption with its basis and show a sensitivity. Say in the Gaps line when positioning data would have mattered.
 - Consensus has a vintage: the date in the estimates section. Quote it next to any consensus figure, with the number of estimates when given.
@@ -109,7 +112,7 @@ Rules that follow from the data:
 - Guidance for the next quarter is given on the call for the quarter just reported. To read the guidance for Q1 FY2027, fetch the Q4 FY2026 call, never a later one. A smart search that resolves to a call that has not happened yet has read the period wrong; retry in fast mode with the reporting period filter set to the quarter of the call you need (fiscal year and quarter).
 - Quote guidance verbatim with its range and the date of the call, then the consensus next to it.
 - Research notes and news carry sell-side reactions (target changes, rating changes, the reasons). Until broker research is available in the account, search for those when a skill needs the Street's view, and label them as press or research summaries.
-- Use `reporting_periods` (fiscal year and quarter) on fast searches for transcripts and filings so the period is fixed rather than inferred.
+- Use `reporting_periods` (fiscal year and fiscal quarter) with a `document_type` of TRANSCRIPT and subtype EARNINGS_CALL on fast searches, so the period is fixed rather than inferred; the `sections` filter picks the prepared remarks (MANAGEMENT-DISCUSSION) or the Q&A (QUESTION-ANSWER).
 
 ## The skill slug
 

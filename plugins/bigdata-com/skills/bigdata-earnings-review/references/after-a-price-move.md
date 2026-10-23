@@ -13,10 +13,10 @@ Load it for a stock-move note, an earnings review when the print moved the stock
 | Event date, stock and index returns, 60 monthly returns for beta, daily returns for the windows | `bigdata_computer` on price series; the tearsheet carries performance fields only. Index: the S&P 500 as in the papers, or the home-market index (state which) | reported, then derived |
 | Event type: scheduled earnings release or not | `bigdata_events_calendar`; `bigdata_search` over filings and news for the event date | reported |
 | Cause stated by the company or the press | `bigdata_search` over news, filings and transcripts for the event date | reported |
-| Momentum proxies | `price_performance` (52-week relative performance, excluding the event); `estimates` (13-week change in consensus EPS and EBIT); `analyst_data` (target and rating changes) | derived |
-| Valuation proxies | `fundamentals` key metrics: EV/EBITDA, P/E, FCF yield, price to book, dividend yield, against sector peers | derived |
-| Quality proxies | `fundamentals` ratios (FactSet ROIC) and five fiscal periods of margins and invested capital | derived |
-| Change in the long-term outlook | `estimates` for FY+2 to FY+4 and long-term growth before and after the event; guidance; cash flow statement | reported, then derived |
+| Momentum proxies | `company_overview` (52-week relative performance, excluding the event); `analyst_estimates` (13-week change in consensus EPS and EBIT); `analyst_ratings` (target and rating changes) | derived |
+| Valuation proxies | `financial_statements, financial_ratios, key_metrics` key metrics: EV/EBITDA, P/E, FCF yield, price to book, dividend yield, against sector peers | derived |
+| Quality proxies | `financial_statements, financial_ratios, key_metrics` ratios (FactSet ROIC) and five fiscal periods of margins and invested capital | derived |
+| Change in the long-term outlook | `analyst_estimates` for FY+2 to FY+4 and long-term growth before and after the event; guidance; cash flow statement | reported, then derived |
 | Cost of capital for the quality spread | Not in Bigdata.com. Choose it and state it | assumed |
 
 Not in the sources: whether the tearsheet exposes the history of consensus estimates. If it does not, take the 13-week revisions from research and news searches covering the 13 weeks before the event, and say so.

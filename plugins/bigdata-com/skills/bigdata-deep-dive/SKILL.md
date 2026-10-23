@@ -6,7 +6,8 @@ description: >-
   valuation range, risks, catalysts and what to watch, with every figure sourced. Use when the
   user asks for a deep dive, an initiation, an investment memo, full research on a company, or to
   understand a business properly. Not for a one-page view, which bigdata-quick-take covers, or for
-  the thesis alone, which bigdata-thesis covers.metadata:
+  the thesis alone, which bigdata-thesis covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, roic, valuation, multiples-and-peers, earnings-quality, capital-allocation, industry-structure, downside-and-catalysts, forecasting-discipline
   bigdata-sector-primer: auto
 ---
@@ -24,7 +25,7 @@ This skill writes the report an analyst hands a portfolio manager when they pick
 
 ## Scope the request
 
-Resolve the company with `find_securities`. Establish the user's angle if they gave one (a long idea, a short idea, a peer to compare against, a question they want answered) and the depth: a full report by default, or the sections they named. Ask one question only if the name is ambiguous or the user asked for something the report does not cover.
+Resolve the company with `find_securities`. Establish the user's angle if they gave one (a long idea, a short idea, a peer to compare against, a question they want answered) and the depth: a full report by default, or the sections they named. Ask one question only if the name is ambiguous or the user asked for something the report does not cover. Done when the company is resolved and the angle and depth are fixed.
 
 If the company is Private, offer `bigdata` for a document-based profile instead; the tearsheet, estimates and price-implied sections do not exist.
 
@@ -32,13 +33,13 @@ If the company is Private, offer `bigdata` for a document-based profile instead;
 
 The report rests on the tearsheet, the last three calls, the latest annual filing, the deal history and the peers. Each step says what it must produce.
 
-1. **Tearsheet, all sections, in calls of two or three sections each** so no response is too large: `company_overview, c_level_leadership, analyst_data`; `price_performance, latest_earnings, events_calendar`; `fundamentals` (five periods), then `fundamentals` again with the period offset for the five before, so ten years of statements are in hand; `estimates`; `revenue_segmentation`; `company_funds_holders, fund_trends_history`; `mergers_acquisitions`; `jobs_data`. Done when ten years of statements, five years of segments, consensus to the horizon, holders, deals and the calendar are in hand.
+1. **Tearsheet, all sections, in calls of two or three sections each** so no response is too large: `company_overview, c_level_leadership, analyst_ratings`; `company_overview, latest_earnings, earnings_calendar`; `financial_statements, financial_ratios, key_metrics` (five periods, then earlier periods only if the tool offers a period control); `analyst_estimates`; `revenue_segmentation`; `fund_trends_history`; `mergers_acquisitions`; `hiring_trends`. Done when the statements (ten years if the tool provides them, otherwise the five returned, noted for the Gaps line), five years of segments, consensus to the horizon, holders, deals and the calendar are in hand.
 2. **The last three earnings calls**, by `bigdata_search` with the reporting period filter and `bigdata_fetch_document`. Done when guidance history, the recurring questions and management's own framing of the drivers are known.
 3. **The latest annual filing**, by search and fetch, read for the business description, the segment economics, the risk factors that changed from the prior year, related-party items, the pension and lease notes, and the share-count and compensation notes. Done when each of those is noted with the page or section.
-4. **Industry evidence.** Three to six searches, one aspect each: market shares and their stability, pricing in the industry, new entrants and exits, regulation, the suppliers and customers with power, the technology that could change the structure. Done when each step of the moat method has evidence or an explicit gap.
-5. **Peers.** `bigdata_screen_companies` on the industry and size, then `bigdata_company_tearsheet` with `key_metrics, estimates, fundamentals` for four to eight peers chosen by value drivers. Done when the peer table in the comps method can be filled.
+4. **Industry evidence.** Three to six searches, one aspect each: market shares and their stability, pricing in the industry, new entrants and exits, regulation, the suppliers and customers with power, the technology that could change the structure. Done when each item of the `references/industry-structure.md` method has evidence or an explicit gap.
+5. **Peers.** `bigdata_screen_companies` on the industry and size, then `bigdata_company_tearsheet` with `key_metrics, analyst_estimates, financial_statements, financial_ratios` for four to eight peers chosen by value drivers. Done when the peer table in `references/multiples-and-peers.md` can be filled.
 6. **Sell-side and news.** Searches for research notes and news over the last twelve months on the company's strategy, its capital allocation and its controversies. Done when the controversies are listed.
-7. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read it before analysing.
+7. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read it before analysing. Done when the sector's metrics and accounting traps are noted.
 
 ## Analyse
 
@@ -46,7 +47,7 @@ Each step names its reference file. Each ends in what it must produce.
 
 1. **The business.** How the company makes money by segment and geography, from the segment table and the filing: revenue, growth, margin and capital employed by segment where disclosed. Done when a reader can see where the profit comes from and how that has shifted over five years.
 
-2. **The economics.** From `references/roic.md`: NOPAT at the operating tax rate, invested capital built from both sides, ROIC with and without goodwill, with leases and capitalised R&D where they matter, ROIC as margin times turnover, ROIIC over the last three and five years, and the spread over a stated cost of capital. Compare with the FactSet ROIC field and say which one the report quotes. Done when the ten-year ROIC series is tabled with the decomposition and the spread.
+2. **The economics.** From `references/roic.md`: NOPAT at the operating tax rate, invested capital built from both sides, ROIC with and without goodwill, with leases and capitalised R&D where they matter, ROIC as margin times turnover, ROIIC over the last three and five years, and the spread over a stated cost of capital. Compare with the FactSet ROIC field and say which one the report quotes. Done when the ROIC series (ten years if the statements allow, else five) is tabled with the decomposition and the spread.
 
 3. **Industry structure and moat.** From `references/industry-structure.md`: the industry map, the profit pool and its direction, share stability, pricing power, concentration, entry and exit, the five forces with evidence, the source of advantage, the disruption test, and a judgment on how long the advantage lasts, bounded by the sector's persistence figures in `references/base-rates.md`. Done when each item in the method's output checklist is stated with evidence or a gap.
 
@@ -60,7 +61,7 @@ Each step names its reference file. Each ends in what it must produce.
 
 8. **Risks and the downside.** From `references/downside-and-catalysts.md`: the risks ranked by probability and size, what breaks each driver, the floors, the balance sheet under stress, and the kill criteria with dates. Done when each risk has an early signal and the kill criteria are observable.
 
-9. **Catalysts and what to watch.** The dated events over the next twelve months, each with mechanism, direction, size and certainty, and the five metrics that tell whether the cases are on track. Done when every catalyst has a date or a window.
+9. **Catalysts and what to watch.** From `references/downside-and-catalysts.md` table 2: the dated events over the next twelve months, each with mechanism, direction, size and certainty, and the five metrics that tell whether the cases are on track. Done when every catalyst has a date or a window.
 
 ## Write
 
@@ -70,16 +71,16 @@ Follow `references/output-standard.md`. The report:
 # <Company> (<ticker>): deep dive, <date>
 Data as of: price <date>; estimates <date>; statements <period>; newest document <date>.
 
-## Summary
+## What the evidence shows
 Six to ten sentences in prose: what the business is, how good its economics are, what protects
 them, whether the earnings are clean, what management does with the cash, what the price
 implies, the value range and expected value, the main risk, and the next date. No rating.
 
 ## The business
-Segment table, geography table, five-year trend. Basis and Source columns.
+Segment table, geography table, five-year trend. Every table carries Basis and Source columns.
 
 ## Economics
-Ten-year ROIC table with decomposition, ROIIC, spread. Which ROIC is quoted.
+ROIC table with decomposition, ROIIC, spread. Which ROIC is quoted.
 
 ## Industry structure and moat
 The checklist items, each with evidence. The duration judgment with its bounds.
@@ -105,20 +106,24 @@ Ranked table; floors; kill criteria with dates.
 Catalyst table; the five metrics.
 
 ## What would change this view
+Two to five observable conditions, dated where possible, tied to the drivers and kill criteria.
+
 ## Gaps
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+Statement years not available, assumptions that drive the range, and data not in Bigdata.com.
+
+## Sources, then the Data line, then the Powered by Bigdata.com line and the disclaimer.
 ```
 
-Length: four to eight pages. Offer a Word document when the host can create files.
+Length: four to eight pages. Offer a Word document when the host can create files. A narrow question ("what is the ROIC trend?") gets the relevant section and the sources, not the full report.
 
 ## Checks before sending
 
-1. Ten years of statements were used, or the report says why fewer.
+1. Ten years of statements were used, or the Gaps line says why fewer.
 2. The ROIC quoted is named (hand-built or FactSet) and the two are reconciled in one line.
 3. Every moat checklist item has evidence or a stated gap.
 4. One-offs are counted by recurrence, and the EBITA rebuild is shown.
 5. The buyback return is computed at the prices paid, net of issuance.
-6. "What the price implies" precedes the valuation and the summary reads consistently with it.
+6. "What the price implies" precedes the valuation and the opening section reads consistently with it.
 7. Terminal value share, implied terminal multiple and the bridge per share are all shown.
 8. Probabilities sum to 100 and are anchored to a reference class.
 9. Kill criteria have dates or observable thresholds.

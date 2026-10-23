@@ -10,9 +10,9 @@ Valuation, deep dives, memos, scenarios, earnings reviews that revise value, and
 
 | Input | Where in Bigdata.com | Basis |
 |---|---|---|
-| Statements, PP&E gross and net, invested capital, capex, leases, stock-based compensation, net debt, market cap, EV | `bigdata_company_tearsheet`, `fundamentals`, five periods per call | reported |
-| Price, 52-week range, performance | `price_performance` | reported |
-| Consensus sales, EBIT, EBITDA, capex, FCF, long-term growth to four years out, with vintage | `estimates` | reported |
+| Statements, PP&E gross and net, invested capital, capex, leases, stock-based compensation, net debt, market cap, EV | `bigdata_company_tearsheet`, `financial_statements, financial_ratios, key_metrics`, five periods per call | reported |
+| Price, 52-week range, performance | `company_overview` | reported |
+| Consensus sales, EBIT, EBITDA, capex, FCF, long-term growth to four years out, with vintage | `analyst_estimates` | reported |
 | Tax, pension, option and RSU notes; restricted and overseas cash; share count; minorities; litigation and restructuring accruals | `bigdata_search`, `bigdata_fetch_document` on filings | reported |
 | Risk-free rate, equity risk premium, beta, credit spread, target weights | Not in Bigdata.com | assumed, each with source and date |
 

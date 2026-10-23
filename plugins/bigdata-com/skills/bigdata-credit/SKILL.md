@@ -1,11 +1,13 @@
 ---
 name: bigdata-credit
 description: >-
-  Credit view on a company from Bigdata.com financial statements, filings and news: leverage,
-  coverage, free cash flow to debt, maturities, covenants where disclosed, comparisons with rating
-  medians, and distress signals, for a bondholder or an equity holder watching the balance sheet.
-  Use when the user asks about a company's debt, credit quality, leverage, refinancing risk, or
-  bankruptcy risk. Not for equity downside more broadly, which bigdata-risk covers.metadata:
+  Writes a credit view on a company from Bigdata.com financial statements, filings and news:
+  leverage, coverage, free cash flow to debt, maturities, covenants where disclosed, comparisons
+  with rating medians, and distress signals, for a bondholder or an equity holder watching the
+  balance sheet. Use when the user asks about a company's debt, credit quality, leverage,
+  refinancing risk, or bankruptcy risk. Not for equity downside more broadly, which bigdata-risk
+  covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, credit, earnings-quality, capital-allocation
   bigdata-sector-primer: auto
 ---
@@ -19,7 +21,7 @@ This skill writes the credit note a portfolio manager reads before owning a comp
 - If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not answer from memory or the web instead: an unsourced answer looks like Bigdata.com data and is not.
 - Pass `plugin_slug: "bigdata-credit"` on every Bigdata.com call that accepts it.
 - Read `references/working-with-bigdata.md` before the first call.
-- Treat this skill as guidelines. Skip a step that does not apply, and research further where the task needs it. A company with net cash and no maturities for five years needs a page, not the recovery analysis.
+- Treat this skill as guidelines. Skip a step that does not apply, and research further where the task needs it.
 
 ## Scope the request
 
@@ -31,13 +33,13 @@ If the company is a bank or an insurer, the leverage and coverage tests in this 
 
 ## Gather
 
-1. **Tearsheet, in two calls.** `bigdata_company_tearsheet` with `sections` set to `company_overview, fundamentals` first, then `estimates, price_performance, dividends, events_calendar`. Done when five fiscal periods of debt, leases, cash, current assets and liabilities, EBIT, EBITDA, interest expense, cash from operations, capex, depreciation, dividends, buybacks and issuance are in hand, with the market cap, net debt, Altman Z and Piotroski fields, consensus EBIT and EBITDA to the furthest year given, and the next report date. If the tool can return earlier periods, take them; the stability judgment wants a full cycle.
+1. **Tearsheet, in two calls.** `bigdata_company_tearsheet` with `sections` set to `company_overview, financial_statements, financial_ratios, key_metrics` first, then `analyst_estimates, company_overview, dividends, earnings_calendar`. Done when five fiscal periods of debt, leases, cash, current assets and liabilities, EBIT, EBITDA, interest expense, cash from operations, capex, depreciation, dividends, buybacks and issuance are in hand, with the market cap, net debt, Altman Z and Piotroski fields, consensus EBIT and EBITDA to the furthest year given, and the next report date. If the tool can return earlier periods, take them; the stability judgment wants a full cycle.
 2. **Credit signals.** `bigdata_get_credit_factor` for the company. Read the tool description first and record what it returns. Done when the note can say whether Bigdata.com carries bond prices, yields or spreads for this issuer; if it does not, the layer comparison in step 10 of the method goes in the Gaps line.
 3. **The debt note and the credit agreement.** `bigdata_search` in fast mode for the latest annual filing and the latest quarterly filing, with the reporting period filter, then `bigdata_fetch_document` on each to read the debt, lease, pension, commitments and contingencies notes, and the liquidity section of MD&A. Search separately for the credit agreement or its amendments (an 8-K exhibit or a news item). Done when every instrument has an amount, a coupon or margin, a maturity date, a rank and an obligor; undrawn facilities and their expiry are listed; covenant terms and current headroom are quoted where disclosed; leases, the pension deficit, guarantees, receivables sold or factored and deconsolidated entities are each found or marked not found.
 4. **Rating actions and market access.** `bigdata_search` for rating agency actions on the company over the last two years, then a second search for new issuance, tenders, exchange offers, amend-and-extend deals and drawn revolvers. Done when the latest reported rating from each agency is dated with its source, or the note says none was found, and each recent financing event is dated.
 5. **What management says.** `bigdata_search` for the last earnings call with the reporting period filter and `bigdata_fetch_document` on it. Done when the stated leverage target, the refinancing plan, the capital allocation priorities and any comment on covenants or ratings are quoted verbatim with the date.
-6. **Peers, when the comparison matters.** `bigdata_screen_credit_factor` across the company's sector, or `bigdata_company_tearsheet` with `fundamentals` for three to six named peers. Done when the company's coverage and leverage sit next to a peer median built the same way.
-7. **Sector primer.** Read the company's section in `references/sector-primers.md` for how the sector's statements differ and which leverage measure the sector uses.
+6. **Peers, when the comparison matters.** `bigdata_screen_credit_factor` across the company's sector, or `bigdata_company_tearsheet` with `financial_statements, financial_ratios, key_metrics` for three to six named peers. Done when the company's coverage and leverage sit next to a peer median built the same way.
+7. **Sector primer.** Read the company's section in `references/sector-primers.md` for how the sector's statements differ and which leverage measure the sector uses. Done when the sector's leverage measure is noted, or its absence is stated.
 
 ## Analyse
 
@@ -99,25 +101,25 @@ A note under the table names any EBITDA adjustment and its source.
 Then the reported rating(s) with dates, and one sentence on the gap.
 
 ## Stress test
-| Case | EBIT shock | Coverage after | Level needed for bucket | Basis |
+| Case | EBIT shock | Coverage after | Level needed for bucket | Basis | Source |
 
 ## Maturities and liquidity
-| Instrument | Obligor | Rank | Amount | Coupon | Maturity | Funding source | Source |
+| Instrument | Obligor | Rank | Amount | Coupon | Maturity | Funding source | Basis | Source |
 Cash, undrawn facilities and their expiry, covenant terms and headroom, current and quick ratios.
 One sentence on dependence on market access.
 
 ## Claims outside the debt line
-| Item | Amount | Status | Source |
+| Item | Amount | Status | Basis | Source |
 
 ## Cash flow and payouts
 Free cash flow, capex against depreciation, dividends and buybacks against free cash flow, by year.
 
 ## Distress signals
-| Signal | Present / absent / unknown | Evidence | Source |
+| Signal | Present / absent / unknown | Evidence | Basis | Source |
 Altman Z and Piotroski as reported by FactSet.
 
 ## Recovery (stressed cases only)
-| Layer | Claim at face | Recovery at EV A | Recovery at EV B | Basis |
+| Layer | Claim at face | Recovery at EV A | Recovery at EV B | Basis | Source |
 The fulcrum security; the layer comparison if prices exist.
 
 ## For a bondholder / For an equity holder
@@ -130,7 +132,8 @@ an EBITDA level that breaks a coverage threshold.
 ## Gaps
 Bond prices, yields and spreads if not returned; covenant terms not disclosed; anything else.
 
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+## Sources
+Numbered sources, the Data line, then the footer verbatim.
 ```
 
 Length: two to four pages. A narrow question gets its step in the method with the relevant table and the sources, and keeps the footer.

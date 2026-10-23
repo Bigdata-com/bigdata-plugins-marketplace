@@ -5,7 +5,8 @@ description: >-
   with break prices, spin-offs, rights issues, restructurings, liquidations and exchange offers,
   each as a probability-weighted payoff with the dates. Use when the user asks about a spin-off,
   an arbitrage spread, a rights issue, a restructuring, a tender offer, or an event-driven trade.
-  Not for the strategic merits of a deal, which bigdata-deal-analysis covers.metadata:
+  Not for the strategic merits of a deal, which bigdata-deal-analysis covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, special-situations-arithmetic, downside-and-catalysts, credit
   bigdata-sector-primer: none
 ---
@@ -31,7 +32,7 @@ The arithmetic depends on the documents. If the governing document (merger agree
 
 ## Gather
 
-1. **Prices and holders.** `bigdata_company_tearsheet` for each listed party with `sections` set to `company_overview, price_performance, fundamentals, dividends, events_calendar`, plus `company_funds_holders` and `revenue_segmentation` for a spin-off. Then `bigdata_computer` on the daily price series from before the first rumour or announcement through today. Done when the current price, the unaffected price with its date, dividends due during the hold, the share count, the balance sheet and, for a spin-off, the holder base and the segments are in hand.
+1. **Prices and holders.** `bigdata_company_tearsheet` for each listed party with `sections` set to `company_overview, financial_statements, financial_ratios, key_metrics, dividends, earnings_calendar`, plus `fund_trends_history` and `revenue_segmentation` for a spin-off. Then `bigdata_computer` on the daily price series from before the first rumour or announcement through today. Done when the current price, the unaffected price with its date, dividends due during the hold, the share count, the balance sheet and, for a spin-off, the holder base and the segments are in hand.
 2. **The governing document.** `bigdata_search` for the document that sets the terms, then `bigdata_fetch_document` on it: the merger agreement, proxy or tender offer; the Form 10 or information statement; the rights offering prospectus; the exchange offer memorandum; the plan of reorganisation and disclosure statement; the plan of liquidation. Done when the consideration and its pieces, conditions, termination fees, the outside or expiry date, proration and election terms, subscription ratio and price, the capitalisation of each entity, and the classes of claims are quoted with sources, as far as the situation has them.
 3. **The dates.** `bigdata_events_calendar` for the parties, and the document's own timetable. Done when the vote, record, ex-date, expiry, regulatory deadline, court hearing, distribution or outside date that the payoff depends on is listed with its source.
 4. **What could stop or delay it.** Searches, one aspect each: regulatory progress; financing; shareholder or creditor opposition and litigation; a competing bid; for a bankruptcy, the creditors' committee, objections to the plan and blocking positions. Done when each risk is dated with a source, or marked none found.
@@ -122,7 +123,8 @@ The probability-weighted return and its annualised form, the loss case beside it
 Completion base rates, spread history and recovery rates are not in the sources; bond prices if
 not returned; any term not found in a governing document.
 
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+## Sources
+Numbered sources, then the Data line, then the footer verbatim from references/output-standard.md.
 ```
 
 Length: two to four pages for a single merger, spin-off or rights issue; up to eight for a bankruptcy with several classes. A narrow question gets the relevant table and the sources, and keeps the footer.

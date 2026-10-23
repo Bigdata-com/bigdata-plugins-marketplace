@@ -6,7 +6,8 @@ description: >-
   next event for each name, as one table plus the items worth reading. Use when the user names
   several companies and asks what changed, what they should know today, or for a daily or weekly
   check on their holdings or watchlist. Not for a single company in depth, which
-  bigdata-company-brief covers.metadata:
+  bigdata-company-brief covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, after-a-price-move, expectations
   bigdata-sector-primer: auto
 ---
@@ -30,18 +31,18 @@ Establish the list and the window.
 - **A saved list** ("my watchlist", "my holdings", a list name). Call `bigdata_get_watchlist` with no id to list the user's own watchlists, pick the one the user named, then call it again with that id to load the entity ids. Do not ask the user to retype the names. If several saved lists fit and the user named none, ask which one: this is the one question worth asking.
 - **The window.** Today by default; "this week" is the trailing five trading days; "since Friday" or "since earnings" is taken as said. State it in the header.
 
-If the user gives position sizes or weights with the names, use them only to order the table; the skill does not size, rebalance or judge positions.
+If the user gives position sizes or weights with the names, use them only to order the table; the skill does not size, rebalance or judge positions. Done when the list is resolved, unresolved names are noted for the Gaps line, and the window is fixed.
 
 Size the calls to the list. The portfolio tearsheet returns earnings, targets and sentiment for up to 100 names, and price columns alone for up to 3,000. For a longer list, take the price grid for all names and the full grid for a shortlist (the movers, the names with news, the names reporting in the window), and say so in the header.
 
 ## Gather
 
 1. **The grid.** `bigdata_portfolio_tearsheet` with the list's entity ids and all metrics (or price, 1-day change, after-hours and market cap only, for lists above 100). Done when each row has its price and when it was set, the 1-day move, the last reported EPS against its estimate with the fiscal period, the consensus target with its low, median and high, the sentiment score with its direction, and the market cap.
-2. **The window move, when the window is longer than a day.** The grid carries the 1-day move only. Take each name's move over the window from `price_performance` in `bigdata_company_tearsheet`, or from a price series through `bigdata_computer`, and the home index's move over the same window from `bigdata_market_tearsheet`. Done when each name has its move and its move against the index, labelled derived.
+2. **The window move, when the window is longer than a day.** The grid carries the 1-day move only. Take each name's move over the window from `company_overview` in `bigdata_company_tearsheet`, or from a price series through `bigdata_computer`, and the home index's move over the same window from `bigdata_market_tearsheet`. Done when each name has its move and its move against the index, labelled derived.
 3. **The news.** `bigdata_watchlist_search` in fast mode, with the saved list's id or the inline entity ids, a timestamp filter for the window, and the default budget of five excerpts per name (fewer per name for a long list; cost scales with names times excerpts). Run one query for material company news (results, guidance, deals, management, regulation, litigation) and one for analyst reactions (target and rating changes, estimate cuts), with the research and news categories. Done when each name has its items for the window, or an explicit "no items found" (with a per-name budget an empty group does mean nothing matched).
 4. **Next dates.** `bigdata_events_calendar` with `calendar_type` set to `corporate_calendar`, the entity ids, and a window running to the next 30 days. Done when each name has its next earnings date or conference, or "none in the next 30 days".
-5. **Drill-down on flagged names only** (Analyse step 1). For each: `bigdata_company_tearsheet` with `estimates, analyst_data` for the 30-day consensus revision and the rating counts; `bigdata_fetch_document` on the release, filing or call that carries the news when the excerpt leaves out the number that matters; `bigdata_sentiment_tearsheet` when sentiment turned and the reason is not in the news. Done when each flagged item has its figure, its date and its source.
-6. **Sector primer.** For a flagged name in a sector with a section in `references/sector-primers.md`, read its "metrics that matter" section, so a bank's item is read on net interest income and provisions rather than on EPS alone.
+5. **Drill-down on flagged names only** (Analyse step 1). For each: `bigdata_company_tearsheet` with `analyst_estimates, analyst_ratings` for the 30-day consensus revision and the rating counts; `bigdata_fetch_document` on the release, filing or call that carries the news when the excerpt leaves out the number that matters; `bigdata_sentiment_tearsheet` when sentiment turned and the reason is not in the news. Done when each flagged item has its figure, its date and its source.
+6. **Sector primer.** For a flagged name in a sector with a section in `references/sector-primers.md`, read its "metrics that matter" section, so a bank's item is read on net interest income and provisions rather than on EPS alone. Done when each flagged name in such a sector has the primer's metrics noted for the read.
 
 ## Analyse
 

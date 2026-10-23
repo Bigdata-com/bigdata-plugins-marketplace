@@ -1,12 +1,13 @@
 ---
 name: bigdata-earnings-quality
 description: >-
-  Earnings quality and accounting red flags from Bigdata.com financial statements and filings:
-  accruals, an EBITA rebuild, one-offs that recur, provisions, revenue recognition,
-  capitalisation, stock compensation, the earnings-to-equity reconciliation, and each flag with
-  its severity. Use when the user asks whether earnings are real, about accounting quality, red
-  flags, aggressive accounting, or cash conversion. Not for the results of one quarter, which
-  bigdata-earnings-review covers.metadata:
+  Tests earnings quality from Bigdata.com financial statements and filings: accruals, an EBITA
+  rebuild, one-offs that recur, provisions, revenue recognition, capitalisation, stock
+  compensation, the earnings-to-equity reconciliation, and each flag with its severity. Use when
+  the user asks whether earnings are real, about accounting quality, red flags, aggressive
+  accounting, or cash conversion. Not for the results of one quarter, which
+  bigdata-earnings-review covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, earnings-quality, roic
   bigdata-sector-primer: auto
 ---
@@ -32,20 +33,18 @@ If `find_securities` returns the company as Private, say that the tearsheet carr
 
 ## Gather
 
-Each step says what it must produce.
-
-1. **Tearsheet.** `bigdata_company_tearsheet` with `sections` set to `company_overview, latest_earnings, events_calendar` first, then `fundamentals`. Read the tool description for the period controls and request the five fiscal periods before those when the window needs them; if the tool cannot go further back, work with five and say so in the Gaps line. Done when revenue, operating income, net income, CFO, capex, depreciation, receivables, inventory, payables, deferred revenue, gross and net PP&E, goodwill and intangibles, total assets, equity, dividends, buybacks, issuance, SBC and leases are in hand for every period, with the FactSet Altman Z and Piotroski fields.
+1. **Tearsheet.** `bigdata_company_tearsheet` with `sections` set to `company_overview, latest_earnings, earnings_calendar` first, then `financial_statements, financial_ratios, key_metrics`. Use `interval` annual for five fiscal years; there is no period offset, so a longer window is noted in the Gaps line. Done when revenue, operating income, net income, CFO, capex, depreciation, receivables, inventory, payables, deferred revenue, gross and net PP&E, goodwill and intangibles, total assets, equity, dividends, buybacks, issuance, SBC and leases are in hand for every period, with the FactSet Altman Z and Piotroski fields.
 2. **The latest annual report and the one before it.** `bigdata_search` in fast mode for the annual filing with the reporting period filter, then `bigdata_fetch_document`. Read the notes this method needs: special items and restructuring, the provisions roll-forward, pensions, leases, the tax reconciliation, the revenue recognition policy, capitalised development, SBC, the statement of changes in equity and OCI, factoring or securitised receivables, related parties, and the auditor's report. Compare the revenue and capitalisation policies with the prior year's wording. Done when each note is recorded with its page or section, or marked not found.
 3. **Year-to-date figures for the last twelve months.** Search and fetch the latest quarterly filing. Done when LTM revenue, operating profit, net income and CFO are computed with formula 9 of `references/earnings-quality.md`.
 4. **Non-GAAP reconciliations.** One search per fiscal year for the company's adjusted earnings reconciliation in its results releases. Done when every adjustment type is listed by year, so recurrence can be counted.
 5. **Management's explanations.** Search and fetch the last two earnings calls. Done when management's explanation of any working-capital swing, reserve movement, one-off or margin change is quoted, or marked as not discussed.
 6. **Governance and disclosure events.** One search each, over the window: auditor resignation or dismissal; restatements or material weakness; late filings or regulatory inquiries into the accounts; related-party dealings; short-seller or forensic research on the company; KPIs, segments or interim data dropped. Done when each is marked present with a source, absent, or not found.
-7. **Peers.** Three to six peers named in the filing or found with `bigdata_screen_companies` on industry and size, then `bigdata_company_tearsheet` with `fundamentals` for each. Done when peer medians for the accrual ratio, CFO to net income, DSO, DIO, DPO, depreciation rate and goodwill to equity can be computed.
-8. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its accounting-traps section before analysing.
+7. **Peers.** Three to six peers named in the filing or found with `bigdata_screen_companies` on industry and size, then `bigdata_company_tearsheet` with `financial_statements, financial_ratios, key_metrics` for each. Done when peer medians for the accrual ratio, CFO to net income, DSO, DIO, DPO, depreciation rate and goodwill to equity can be computed.
+8. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its accounting-traps section before analysing. Done when the sector's traps are noted, or their absence is stated.
 
 ## Analyse
 
-Load `references/earnings-quality.md` before step 1 and `references/roic.md` before step 12. Each step ends in what it must produce.
+Load `references/earnings-quality.md` before step 1 and `references/roic.md` before step 12.
 
 1. **Window and LTM.** Set the window and compute LTM with formula 9 (prior fiscal year plus current year-to-date minus prior year-to-date). Done when the window and LTM figures are stated.
 
@@ -71,7 +70,7 @@ Load `references/earnings-quality.md` before step 1 and `references/roic.md` bef
 
 12. **What it does to returns.** From `references/roic.md`: recompute NOPAT from adjusted EBITA at the operating tax rate and ROIC with and without goodwill, before and after the lease and capitalised R&D adjustments, and name which figure the FactSet ROIC field corresponds to, if any. Never put the FactSet field and the hand-built figure in one comparison. Flag a ROIC lifted by write-offs that shrink capital. Done when ROIC on reported and on adjusted profit sit side by side.
 
-13. **Flags and severity.** Run the flags in table 2 of the method (profit above cash, receivables build, inventory build, payables stretch, receivables sold, capitalised cost, light depreciation, recurring special items, gains in operating profit, smoothing provisions, write-off then clean slate, pension credit, tax gap, equity bypass, goodwill load, EPS against revenue, non-GAAP drift, disclosure dropped, governance events). For each triggered flag give the number, the period, the source and the company's explanation with whether the numbers support it. Assign a level from table 3 (0 no flags to 4 evidence of manipulation): take the highest level triggered, and raise it one step when two flags sit at that level. The scale was designed for these skills and the report says so. At level 4, say the figures cannot be adjusted and should not be relied on, as Graham and Dodd do. Done when every triggered flag has its row and the level has a one-line reason.
+13. **Flags and severity.** Run the flags in table 2 of the method (profit above cash, receivables build, inventory build, payables stretch, receivables sold, capitalised cost, light depreciation, recurring special items, gains in operating profit, smoothing provisions, write-off then clean slate, pension credit, tax gap, equity bypass, goodwill load, EPS against revenue, non-GAAP drift, disclosure dropped, governance events). For each triggered flag give the number, the period, the source and the company's explanation with whether the numbers support it. Assign a level from table 3 (0 no flags to 4 evidence of manipulation): take the highest level triggered, and raise it one step when two flags sit at that level (an assumed rule). The scale was designed for these skills and the report says so. At level 4, say the figures cannot be adjusted and should not be relied on, as Graham and Dodd do. Done when every triggered flag has its row and the level has a one-line reason.
 
 14. **What each flag means for the valuation inputs.** Map every flag at level 2 or above to the input it changes: recurring one-offs, pension credits, smoothing releases and gains change EBITA and NOPAT; capitalised costs, light depreciation, capitalised R&D and leases change invested capital and ROIC; SBC, payables stretch and sold receivables change free cash flow; unfunded pensions, leases and sold receivables add debt-like claims to the equity bridge; normalised earning power replaces the latest year as the earnings base for a multiple. Done when each input shows the reported and the adjusted figure and the flag behind the change.
 
@@ -98,10 +97,10 @@ it changes in the valuation inputs. Flags framed as questions with the company's
 From reported operating profit to adjusted EBITA, one row per adjustment.
 
 ## One-offs that recur
-| Charge type | Years with a charge (n of 5) | Average % of revenue | Treatment | Source |
+| Charge type | Years with a charge (n of 5) | Average % of revenue | Treatment | Basis | Source |
 
 ## Provisions and reserves
-| Provision | Type | Opening | Charge | Utilised | Released | Closing | Effect on EBITA | Source |
+| Provision | Type | Opening | Charge | Utilised | Released | Closing | Effect on EBITA | Basis | Source |
 
 ## Pensions, leases, stock compensation and sold receivables
 | Item | Effect on EBITA | Effect on free cash flow | Effect on debt | Basis | Source |
@@ -114,7 +113,7 @@ Tax-implied against reported profit; cash against book taxes; the equity residua
 cumulative net income, explained or flagged.
 
 ## Governance and disclosure
-| Item | Present / absent / not found | Source |
+| Item | Present / absent / not found | Basis | Source |
 
 ## Normalised earning power
 Reported, adjusted and normalised earnings per share with the window and range; steady-state FCF.
@@ -126,12 +125,13 @@ Severity level n, with the reason and a note that the scale is this method's des
 Piotroski and Altman Z as reported by FactSet.
 
 ## What this means for the valuation inputs
-| Input | Reported | Adjusted | Flag behind the change | Basis |
+| Input | Reported | Adjusted | Flag behind the change | Basis | Source |
 Rows: EBITA and NOPAT, invested capital and ROIC, free cash flow, debt-like claims, earnings base.
 
 ## What would change this view
 ## Gaps
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+## Sources
+Numbered sources, the Data line, then the footer verbatim.
 ```
 
 Length: two to four pages. Every assumed input (cost of secured debt, recurrence rule, materiality threshold, R&D life) appears once in an Assumptions line with its basis. For a narrow question, answer it with the method's step for that question, its table and the sources, and keep the footer.

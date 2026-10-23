@@ -5,7 +5,8 @@ description: >-
   consensus and why, the evidence for and against each claim, what the price already implies, the
   catalysts that would prove it, and the kill criteria with dates. Use when the user asks for a
   thesis, a variant view, the bull and bear case, what the market is missing, or to stress-test
-  their idea. Not for a full initiation report, which bigdata-deep-dive covers.metadata:
+  their idea. Not for a full initiation report, which bigdata-deep-dive covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, forecasting-discipline, downside-and-catalysts, industry-structure
   bigdata-sector-primer: auto
 ---
@@ -25,7 +26,7 @@ This skill writes a thesis the way a portfolio manager wants to read one before 
 
 Resolve the company with `find_securities`. Establish whose thesis it is. If the user brings an idea to stress-test, their claims are the claims: write each in the template, test it, and do not swap in new ones (add a claim only if the evidence turns up one that matters more, and say so). If the user asks for a thesis or a variant view with no idea of their own, the claims come from the analysis. Note the direction the user leans, long or short, because the premortem runs against it. The default horizon is twelve months, because forecast skill decays beyond about a year; a longer view is broken into dated questions inside that window.
 
-Ask one question only when the answer changes the work: the user asks to stress-test their idea without stating it (ask for it in one or two sentences), or the name resolves to more than one listing. Otherwise state the horizon and the direction under the header and proceed.
+Ask one question only when the answer changes the work: the user asks to stress-test their idea without stating it (ask for it in one or two sentences), or the name resolves to more than one listing. Otherwise state the horizon and the direction under the header and proceed. Done when the company is resolved, the claims' owner (the user's or the analysis) is settled, and the horizon and direction are stated.
 
 If the company is Private, say there is no price to read expectations from, and offer `bigdata-deep-dive` or a document-based profile through `bigdata` instead.
 
@@ -33,7 +34,7 @@ If the company is Private, say there is no price to read expectations from, and 
 
 Work through these in order. Each step says what it must produce.
 
-1. **Tearsheet, in several calls.** `bigdata_company_tearsheet` with `sections` set to `company_overview, price_performance, analyst_data, events_calendar`; then `fundamentals, estimates`; then `revenue_segmentation, company_funds_holders, fund_trends_history`. Done when EV and its inputs, five periods of statements, consensus to four years out with vintage, estimate counts and 30 and 90-day revisions, targets and rating counts, the next report date, segments, and the 13F holders now and a year ago are in hand.
+1. **Tearsheet, in several calls.** `bigdata_company_tearsheet` with `sections` set to `company_overview, analyst_ratings, earnings_calendar`; then `financial_statements, financial_ratios, key_metrics, analyst_estimates`; then `revenue_segmentation, fund_trends_history`. Done when EV and its inputs, five periods of statements, consensus to four years out with vintage, estimate counts and 30 and 90-day revisions, targets and rating counts, the next report date, segments, and the 13F holders now and a year ago are in hand.
 2. **The last two earnings calls.** `bigdata_search` in fast mode with the reporting period filter, then `bigdata_fetch_document` on each. Done when guidance, management's claims about the drivers (recorded as opinions) and the questions analysts kept pressing are listed with the call dates.
 3. **The latest annual filing.** Search and fetch. Done when the risk factors that changed from the prior year, segment economics, contingent liabilities, the pension position, related-party items and covenants are noted with page or section, or marked absent.
 4. **The debate.** Three to five `bigdata_search` calls, one aspect each: the bull arguments in research and news, the bear arguments, the reasons behind the highest and lowest targets, the controversy in the last twelve months, and insider purchases or sales. Done when the consensus narrative and the main dissent are each stated with dated sources.
@@ -41,7 +42,7 @@ Work through these in order. Each step says what it must produce.
 6. **Industry evidence, when a claim concerns the durability of returns.** Searches for market shares and their stability, pricing in the industry, and entrants and exits, as the evidence table in `references/industry-structure.md` lists. Done when each of those has evidence or a stated gap.
 7. **Dated events.** `bigdata_events_calendar` for the company's events over the horizon, plus searches for regulatory, contract, product and deal dates. Done when each claim has at least one dated event that would test it.
 8. **Sentiment.** `bigdata_sentiment_tearsheet` for 90 days. Done when the direction of media sentiment and the stories driving it are known. Short interest and options are not in Bigdata.com; say so in Gaps when positioning matters.
-9. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read it before analysing, so the claims are about the drivers the sector turns on.
+9. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read it before analysing, so the claims are about the drivers the sector turns on. Done when the sector's drivers and accounting traps are noted, or no primer applies.
 
 ## Analyse
 
@@ -62,11 +63,11 @@ Each step names the reference file it loads and ends in what it must produce.
    - **By when:** the window in which the claim resolves.
    Done when every claim fills every line, or the missing line is named as a gap.
 
-5. **Take the outside view on each claim.** From `references/base-rates.md` steps 2 to 4 and 6: the reference class, its N, sample and period, and where the claim sits in the distribution. Claim an exception only with a specific, evidenced reason, never one analogy. Shrink an extrapolated trend toward the class with the persistence r (estimate = base rate + r x (observed - base rate)). Done when each claim carries its base-rate sentence.
+5. **Take the outside view on each claim.** From `references/base-rates.md` steps 2 to 4 and 6: the reference class, its N, sample and period, and where the claim sits in the distribution. Claim an exception only with a specific, evidenced reason, and use the whole reference class, not one analogy. Shrink an extrapolated trend toward the class with the persistence r (estimate = base rate + r x (observed - base rate)). Done when each claim carries its base-rate sentence.
 
 6. **Weigh the evidence.** From `references/forecasting-discipline.md` rules 1 and 7. Tag every item fact (can be disproved: a reported figure, a filed contract), opinion (cannot: a forecast, a rating, "management expects"), or expectation (what the price implies). Search for disconfirming evidence by name: the bear case, filings that contradict management, research with the opposite view. Separate diagnostic evidence, which changes the probability of the claim, from pseudo-diagnostic evidence, which only looks causal, such as an EPS headline that leaves long-term cash flow unchanged. Done when each claim shows the disconfirming searches run and what they found, and opinions are not counted as facts.
 
-7. **Put a probability on each claim.** From `references/forecasting-discipline.md` rule 2: a granular integer percentage with the date it applies to, anchored on the reference class from step 5 and adjusted for the evidence from step 6, labelled judgment. Use numbers, never words such as "likely". Done when each claim has its probability, anchor and date.
+7. **Put a probability on each claim.** From `references/forecasting-discipline.md` rule 2: a granular integer percentage with the date it applies to, anchored on the reference class from step 5 and adjusted for the evidence from step 6, labelled judgment. Use numbers, not words such as "likely". Done when each claim has its probability, anchor and date.
 
 8. **Explain why the gap exists.** From `references/downside-and-catalysts.md` steps 4 and 5: ask what is wrong with it, test each candidate reason, and check who is on the other side: index deletions, mandate or minimum-price rules, a downgrade, spin-off selling, a dividend cut, no coverage, dumping after a miss; compare 13F holders now with a year ago. For a short idea, ask who is forced to buy. A gap with no structural reason is a warning that the claim may be wrong, and the thesis says so. Done when the reason is named with evidence, or its absence is stated.
 
@@ -74,7 +75,7 @@ Each step names the reference file it loads and ends in what it must produce.
 
 10. **Lay out the catalyst path.** From `references/downside-and-catalysts.md` step 7 and tables 2 and 3: each catalyst with its type, who decides it, its date or window, the claim it tests, and its potency on certainty, timing, the share of the gap it closes and whether the decider gains from closing it. Then step 8: what happens if nothing happens, since without a catalyst value can erode or the gap can widen. Done when every claim is tested by at least one dated event, and the no-catalyst outcome is stated.
 
-11. **Cases and expected value.** From `references/forecasting-discipline.md` steps 4 and 7: the thesis case, the consensus case and the downside case, each with a value per share from the value-driver arithmetic in `references/expectations.md` (formula 2 solved forward at the case's growth and ROIIC), and integer probabilities that sum to 100 with weights from the reference class, never a default split. Show the loss case next to the gain case. Done when the expected value sits next to the price with the source of each weight. For full cases run through a model, hand off to `bigdata-scenarios`.
+11. **Cases and expected value.** From `references/forecasting-discipline.md` steps 4 and 7: the thesis case, the consensus case and the downside case, each with a value per share from the value-driver arithmetic in `references/expectations.md` (formula 2 solved forward at the case's growth and ROIIC), and integer probabilities that sum to 100 with weights from the reference class, not a default split. Show the loss case next to the gain case. Done when the expected value sits next to the price with the source of each weight. For full cases run through a model, hand off to `bigdata-scenarios`.
 
 12. **Run the premortem.** From `references/forecasting-discipline.md` rule 3: assume the thesis failed badly a year from now and write at least three reasons, each mapped to a claim or a kill criterion. If the user leans short, or the thesis is bearish, run it on the bullish outcome instead. Done when the reasons are listed and mapped.
 
@@ -103,7 +104,7 @@ the first kill criterion. No rating.
 The value trigger in one line, with its reason.
 
 ## Consensus
-| Metric | FY1 | FY2 | 30d / 90d revision | Estimates (n) | Vintage | Source |
+| Metric | FY1 | FY2 | 30d / 90d revision | Estimates (n) | Vintage | Basis | Source |
 Target range and rating counts. The consensus narrative in two sentences, labelled opinion.
 
 ## The claims
@@ -137,10 +138,15 @@ Written <date>.
 | Question | Probability | Date | Resolves when |
 
 ## What would change this view
+Two to five observable conditions, dated, each with the probability change it would cause.
+
 ## Gaps
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+What Bigdata.com could not answer, the assumptions that drive the value, and positioning data.
+
+## Sources, then the Data line, then the Powered by Bigdata.com line and the disclaimer.
 ```
 
+Every table with figures carries a Basis column (reported, derived, assumed or judgment) and a Source column; the tables above show the columns specific to each section.
 Length: four to eight pages. Offer a Word document when the host can create files. For a narrow question ("what is the market missing?"), answer with what the price implies, the consensus line and the one or two claims in the template, with sources and the footer.
 
 ## Checks before sending
@@ -153,9 +159,8 @@ Length: four to eight pages. Offer a Word document when the host can create file
 6. The loss case and the floors appear before any upside value.
 7. Every claim is tested by a dated catalyst, and the no-catalyst outcome is stated.
 8. Case probabilities are integers that sum to 100 with weights from a reference class.
-9. The premortem has at least three reasons mapped to claims or kill criteria.
-10. Every kill criterion has a driver, a threshold and a date; none is a price level alone.
-11. No buy, hold, sell, rating, target price or position size anywhere. When no claim survives, the report says there is no variant view.
+9. The premortem has at least three reasons mapped to claims or kill criteria, and every kill criterion has a driver, a threshold and a date; none is a price level alone.
+10. No buy, hold, sell, rating, target price or position size anywhere. When no claim survives, the report says there is no variant view.
 
 ## Hand-offs
 

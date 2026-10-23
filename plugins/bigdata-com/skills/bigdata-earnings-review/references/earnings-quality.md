@@ -10,8 +10,8 @@ bigdata-earnings-quality runs the whole method. bigdata-earnings-review runs ste
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Five fiscal periods of statements: revenue, operating income, net income, receivables, inventory, payables, deferred revenue, gross and net PP&E, depreciation, goodwill and intangibles, total assets, equity, cash from operations (CFO), capex, dividends, buybacks, issuance, stock-based compensation (SBC), leases | `bigdata_company_tearsheet`, section `fundamentals` | reported |
-| Altman Z, Piotroski | `fundamentals` ratios | reported |
+| Five fiscal periods of statements: revenue, operating income, net income, receivables, inventory, payables, deferred revenue, gross and net PP&E, depreciation, goodwill and intangibles, total assets, equity, cash from operations (CFO), capex, dividends, buybacks, issuance, stock-based compensation (SBC), leases | `bigdata_company_tearsheet`, section `financial_statements, financial_ratios, key_metrics` | reported |
+| Altman Z, Piotroski | `financial_statements, financial_ratios, key_metrics` ratios | reported |
 | Special items, provisions roll-forward, pension, lease and tax notes, OCI, revenue policy, non-GAAP reconciliation, auditor changes, restatements, related parties | `bigdata_search` over filings and releases, then `bigdata_fetch_document` for the note | reported |
 | Peer medians | Tearsheets of three to six peers | derived |
 | Cost of secured debt, recurrence rule, severity level | Chosen and stated | assumed, judgment |

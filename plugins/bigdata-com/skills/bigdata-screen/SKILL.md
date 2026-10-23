@@ -5,7 +5,8 @@ description: >-
   geography, valuation and fundamentals from the user's criteria, then a ranked shortlist with the
   numbers behind each name and the reasons to look further. Use when the user asks to find stocks,
   screen for companies, for ideas that fit a profile, or who else does what a named company does.
-  Not for a view on one name, which bigdata-quick-take covers.metadata:
+  Not for a view on one name, which bigdata-quick-take covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, multiples-and-peers, roic, base-rates, expectations
   bigdata-sector-primer: auto
 ---
@@ -38,16 +39,16 @@ Each step says what it must produce.
 
 1. **First stage.** `bigdata_screen_companies` with the mapped filters, actively trading, ETFs and funds excluded unless asked for. Page through with the cursor until the list is complete. Done when the candidate count and the as-of time are recorded. If more than about 100 survive, tighten with a stated liquidity or size floor before the second stage and say so.
 2. **Current figures.** `bigdata_portfolio_tearsheet` over the candidates for price, market cap, one-day move, last EPS surprise, price targets and sentiment (100 names at most with those columns; up to 3,000 with price and market cap alone). Done when every candidate has a current market cap.
-3. **Second stage.** `bigdata_company_tearsheet` with `company_overview, fundamentals, estimates` for each candidate that passed the first stage, or for the 20 to 40 nearest the criteria when more survive. Done when five periods of statements, the FactSet ROIC, margins, total assets, net debt, enterprise value, the forward multiples and consensus with its vintage are in hand for each.
+3. **Second stage.** `bigdata_company_tearsheet` with `company_overview, financial_statements, financial_ratios, key_metrics, analyst_estimates` for each candidate that passed the first stage, or for the 20 to 40 nearest the criteria when more survive. Done when five periods of statements, the FactSet ROIC, margins, total assets, net debt, enterprise value, the forward multiples and consensus with its vintage are in hand for each.
 4. **Why each top name screens well.** For the top five to ten after ranking, `bigdata_search`, one company per call: recent news, the last call's main issue, and any one-off item, disposal, restatement or controversy that flatters or depresses the screened metrics. Done when each top name has a dated reason for its numbers, or a note that none was found.
 5. **Dates.** `bigdata_events_calendar` for the top names' next reports. Done when each has a date.
-6. **Sector primers.** For each sector among the top names, read its section of `references/sector-primers.md` for the metrics that apply and the traps (banks and insurers are not screened on ROIC or EV multiples).
+6. **Sector primers.** For each sector among the top names, read its section of `references/sector-primers.md` for the metrics that apply and the traps (banks and insurers are not screened on ROIC or EV multiples). Done when each sector's metrics and traps are noted.
 
 ## Analyse
 
 1. **Apply the criteria.** Compute each second-stage metric the same way for every company, and record which names fail which criterion. Names that fail one criterion narrowly are worth listing separately, because screens that disagree are informative. Done when the pass and fail table exists with the computed values.
 
-2. **Rank on persistent, value-relevant metrics.** From `references/base-rates.md` (table 6): gross profitability and operating margin persist strongly from year to year; sales growth persists weakly and net income growth not at all. Rank on gross profitability (gross profit over total assets), ROIC and operating margin level and stability, each measured against its sector median from tables 7 and 8 rather than in absolute terms, so a staples company and a software company are not compared on raw margins. From `references/roic.md`, use the FactSet ROIC field for every company, name it once, and never mix it with a hand-built figure. One-year growth may be shown but does not drive the rank. Banks and insurers rank on ROE against an assumed cost of equity and price to book. Show the rank on each metric as well as any composite, and label the composite's weights judgment. Done when the ranking table shows each metric, its sector median and the rank.
+2. **Rank on persistent, value-relevant metrics.** From `references/base-rates.md` (table 6): gross profitability and operating margin persist strongly from year to year; sales growth persists weakly and net income growth not at all. Rank on gross profitability (gross profit over total assets), ROIC and operating margin level and stability, each measured against the sector median computed from the second-stage set rather than in absolute terms (tables 7 and 8 give historical sector means for 1950 to 2015, ex-financials and utilities; verify before quoting), so a staples company and a software company are not compared on raw margins. From `references/roic.md`, use the FactSet ROIC field for every company, name it once, and never mix it with a hand-built figure. One-year growth may be shown but does not drive the rank. Banks and insurers rank on ROE against an assumed cost of equity and price to book. Show the rank on each metric as well as any composite, and label the composite's weights judgment. Done when the ranking table shows each metric, its sector median and the rank.
 
 3. **Valuation beside returns.** From `references/multiples-and-peers.md`: the multiple the sector's convention calls for (forward EV/EBITA or P/E, P/B for banks), built the same way for every name, always shown next to ROIC and growth. A low multiple on a low return is not cheap. For cyclicals, say whether the multiple sits on peak or trough earnings. Done when each shortlisted name has its multiple, its ROIC and growth beside it, and the sector median.
 
@@ -98,7 +99,8 @@ Names that failed one criterion narrowly, with the criterion.
 Two to four conditions: a criterion that would change the shortlist, a data revision, a dated event.
 
 ## Gaps
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+## Sources
+Numbered sources, then the Data line, then the footer verbatim from references/output-standard.md.
 ```
 
 Length: two to four pages. A narrow listing request gets the screener table, its as-of time and the Data line, with the footer. State under the shortlist that it is a list of candidates for further work, not a buy list.

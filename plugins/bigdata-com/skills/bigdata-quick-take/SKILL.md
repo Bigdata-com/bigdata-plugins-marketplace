@@ -5,7 +5,8 @@ description: >-
   matter now, the risks and what would change the view, and the next dated catalyst. Use when the
   user asks for a quick take, thoughts on a ticker, whether a stock is interesting, or a fast view
   on a name. Not for a full thesis or model, which bigdata-deep-dive and bigdata-valuation cover.
-  It gives no buy or sell call.metadata:
+  It gives no buy or sell call.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, downside-and-catalysts
   bigdata-sector-primer: auto
 ---
@@ -23,26 +24,26 @@ One page, written the way a portfolio manager answers "what do you think of Micr
 
 ## Scope the request
 
-Resolve the company with `find_securities`. If the user gave an angle ("is it interesting after the drop", "versus Samsung"), the page answers that angle. Do not ask a question unless the name is ambiguous; a quick take is asked for because the user wants it now.
+Resolve the company with `find_securities`. If the user gave an angle ("is it interesting after the drop", "versus Samsung"), the page answers that angle. Do not ask a question unless the name is ambiguous; a quick take is asked for because the user wants it now. Done when the company is resolved and any angle the user gave is noted.
 
 If the company is Private, say that there is no price to read expectations from and offer a document-based summary instead.
 
 ## Gather
 
-Four calls, no more unless a driver needs one.
+Four steps, no more unless a driver needs one.
 
-1. `bigdata_company_tearsheet` with `sections` set to `company_overview, price_performance, analyst_data, latest_earnings, events_calendar, estimates, fundamentals`. Done when market cap, enterprise value, the forward multiples, consensus for the next two fiscal years with 30-day changes, the last print's surprise, targets and ratings, the next report date, and the latest statements are in hand.
+1. `bigdata_company_tearsheet` with `sections` set to `company_overview, analyst_ratings, latest_earnings, earnings_calendar, analyst_estimates, financial_statements, financial_ratios, key_metrics`. Done when market cap, enterprise value, the forward multiples, consensus for the next two fiscal years with 30-day changes, the last print's surprise, targets and ratings, the next report date, and the latest statements are in hand.
 2. `bigdata_search` for the company's news over the last 30 days. Done when the two or three developments that moved the stock or the estimates are known with dates.
 3. `bigdata_search` for the last earnings call, with the reporting period filter, and `bigdata_fetch_document` on it. Done when guidance and the one exchange that shows what management is worried about are known.
 4. `bigdata_sentiment_tearsheet` for 90 days. Done when the direction of sentiment is known.
 
-If the company is in a sector with a section in `references/sector-primers.md`, read the primer's "metrics that matter" section so the drivers are the sector's drivers.
+If the company is in a sector with a section in `references/sector-primers.md`, read the primer's "metrics that matter" section so the drivers are the sector's drivers. Done when the sector's own drivers are noted, or no primer applies.
 
 ## Analyse
 
-1. **What the price implies.** From `references/expectations.md`: the forward P/E against the steady-state P/E (one over the cost of equity, stated as an assumption with its basis); the growth in NOPAT that the enterprise value implies at a stated cost of capital, against consensus growth; the share of the value that is steady state and the share that is future value creation. Then the base-rate sentence for consensus growth from `references/base-rates.md`. Done when the page can say in two sentences whether the price assumes a lot or a little, and whether consensus sits in a common or a rare part of its reference class.
+1. **What the price implies.** From `references/expectations.md`: the forward P/E against the steady-state P/E (one over the cost of equity, formula 1, stated as an assumption with its basis); the perpetual NOPAT growth that the enterprise value implies at a stated cost of capital and a stated incremental return (formula 2), against consensus growth; the share of the value that is steady state and the share that is future value creation (formula 1). Then the base-rate sentence for consensus growth from `references/base-rates.md`, with its sample and period (verify). For a bank, use price to book against return on equity; for a cyclical, normalise earnings to mid-cycle and say which margin; for a loss-making company, say the P/E is not meaningful and give the revenue the price needs at a stated margin path. Done when the page can say in two sentences whether the price assumes a lot or a little, and whether consensus sits in a common or a rare part of its reference class.
 
-2. **The three drivers.** The three things that decide whether the price-implied path is beaten or missed, in order of weight. For each: what consensus assumes, the latest evidence with its date and source, which way the risk runs. Use the value-trigger rule: where the company earns near its cost of capital the driver is incremental return, where it earns well above it is sales growth. Done when each driver has one dated piece of evidence.
+2. **The three drivers.** The three things that decide whether the price-implied path is beaten or missed, in order of weight. For each: what consensus assumes, the latest evidence with its date and source, which way the risk runs. Use the value-trigger rule (`references/expectations.md`, formula 4): where the company earns near its cost of capital the driver is incremental return, where it earns well above it is sales growth. Done when each driver has one dated piece of evidence and a stated direction of risk.
 
 3. **The risks.** Two or three, from `references/downside-and-catalysts.md`: the one that breaks the drivers, the one in the balance sheet or the accounting if there is one, the one from outside (regulation, a customer, a technology). Each with a sentence on how it would show up first. Done when each risk has an observable early signal.
 
@@ -54,7 +55,7 @@ Follow `references/output-standard.md`. The whole page:
 
 ```
 # <Company> (<ticker>) quick take, <date>
-Data as of: price <date>; estimates <date>; latest statements <period>.
+Data as of: price <date>; estimates <date>; latest statements <period>; newest document <date>.
 
 ## The view
 Three to five sentences in prose. What the price implies, whether the evidence supports it,
@@ -76,10 +77,13 @@ positive and one on what would make it more negative.
 ## Next date
 The event and the date.
 
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+## Gaps
+One line: what Bigdata.com could not answer, and any assumption that drives the result.
+
+## Sources, then the Data line, then the Powered by Bigdata.com line and the disclaimer.
 ```
 
-Length: one page. The assumptions (cost of equity, cost of capital) appear once, in the table, with their basis.
+Length: one page. The assumptions (cost of equity, cost of capital) appear once, in the table, with their basis. A narrower question ("is the multiple high?") gets the relevant rows of the table, the base-rate sentence and the sources, not the full page.
 
 ## Checks before sending
 

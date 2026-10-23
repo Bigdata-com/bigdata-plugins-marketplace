@@ -10,11 +10,11 @@ Load it for a thesis or memo, deep dive, quick take (the downside line and the n
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Cash, marketable securities, receivables, inventories, PP&E gross and net, goodwill and intangibles, current and total liabilities, debt, leases | `bigdata_company_tearsheet`, `fundamentals` balance sheet, five fiscal periods | reported |
-| Free cash flow, capex, depreciation, stock-based compensation | `fundamentals` cash flow and income statement | reported |
-| Market cap, EV, net debt, FCF yield, multiples, share count | `fundamentals` key metrics | reported |
+| Cash, marketable securities, receivables, inventories, PP&E gross and net, goodwill and intangibles, current and total liabilities, debt, leases | `bigdata_company_tearsheet`, `financial_statements, financial_ratios, key_metrics` balance sheet, five fiscal periods | reported |
+| Free cash flow, capex, depreciation, stock-based compensation | `financial_statements, financial_ratios, key_metrics` cash flow and income statement | reported |
+| Market cap, EV, net debt, FCF yield, multiples, share count | `financial_statements, financial_ratios, key_metrics` key metrics | reported |
 | Segment revenue and profit | `revenue_segmentation` | reported |
-| Holders and changes (who sold, who bought) | `company_funds_holders`, `fund_trends_history` | reported |
+| Holders and changes (who sold, who bought) | `fund_trends_history`, `fund_trends_history` | reported |
 | Dated catalysts: next earnings, shareholder meeting, deal milestones | `bigdata_events_calendar`; `bigdata_search` over filings and news | reported |
 | Buyback authorisations, spin-offs, asset sales, activist stakes, covenants, pension and contingent liabilities, insider purchases | `bigdata_search` over filings, news and transcripts | reported |
 | M&A history, executives, insider ownership | `mergers_acquisitions`, `c_level_leadership` | reported |

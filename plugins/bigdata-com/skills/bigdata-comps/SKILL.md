@@ -1,11 +1,12 @@
 ---
 name: bigdata-comps
 description: >-
-  Peer comparison from Bigdata.com data: peers picked by value drivers rather than sector label,
-  multiples built on the same claimant basis at market values, growth, margins, returns and cash
-  conversion side by side, medians, and where the company should sit and why. Use when the user
-  asks for comps, peer comparables, how a company compares with its peers, or a relative
-  valuation. Not for an intrinsic value, which bigdata-valuation covers.metadata:
+  Compares a company with its peers from Bigdata.com data: peers picked by value drivers rather
+  than sector label, multiples built on the same claimant basis at market values, growth, margins,
+  returns and cash conversion side by side, medians, and where the company should sit and why. Use
+  when the user asks for comps, peer comparables, how a company compares with its peers, or a
+  relative valuation. Not for an intrinsic value, which bigdata-valuation covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, multiples-and-peers, expectations, roic
   bigdata-sector-primer: auto
 ---
@@ -33,11 +34,11 @@ If the target is Private, there is no market value to put in a multiple. Offer t
 
 Work through these in order. Each step says what it must produce.
 
-1. **The target.** `bigdata_company_tearsheet` with `sections` set to `company_overview, price_performance, analyst_data`, then `fundamentals, estimates`, then `revenue_segmentation`. Done when market cap, the EV field, debt, cash and securities, leases, pensions, minorities, preferred, equity-method investments, attributable net income, five periods of statements, consensus for the next two fiscal years with vintage and estimate counts, and the segment mix are in hand.
+1. **The target.** `bigdata_company_tearsheet` with `sections` set to `company_overview, analyst_ratings`, then `financial_statements, financial_ratios, key_metrics, analyst_estimates`, then `revenue_segmentation`. Done when market cap, the EV field, debt, cash and securities, leases, pensions, minorities, preferred, equity-method investments, attributable net income, five periods of statements, consensus for the next two fiscal years with vintage and estimate counts, and the segment mix are in hand.
 2. **Candidates by two routes.** First `bigdata_screen_companies` on the target's industry, region and size (the classification route). Then a second screen on the value drivers, across industries: growth, EBITA margin, ROIC and capital intensity in ranges around the target's (the driver route). Add the competitors named in the target's annual filing (one `bigdata_search` for the competition section) and the counterparties in `mergers_acquisitions`. Done when there are ten to twenty candidates, each tagged with the route that found it.
-3. **Peer figures.** `bigdata_portfolio_tearsheet` on the candidates for current price and market cap, then `bigdata_company_tearsheet` with `sections` set to `fundamentals, estimates` for each peer kept after Analyse step 1. Done when every peer has the same fields for the same fiscal basis, and fiscal year-ends are noted so periods can be calendarized.
+3. **Peer figures.** `bigdata_portfolio_tearsheet` on the candidates for current price and market cap, then `bigdata_company_tearsheet` with `sections` set to `financial_statements, financial_ratios, key_metrics, analyst_estimates` for each peer kept after Analyse step 1. Done when every peer has the same fields for the same fiscal basis, and fiscal year-ends are noted so periods can be calendarized.
 4. **Items to clean.** `bigdata_search` in fast mode on the target's latest annual and quarterly filings for restructuring, impairment, write-down, integration costs, litigation and equity-accounted income, then `bigdata_fetch_document` where a table is needed. Repeat for any peer whose reported margin moves more than the others without an operating reason. Done when each item has an amount, a year and a source, and the count of years in the last five with a "one-time" charge is known for the target.
-5. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its valuation conventions: which multiple the sector uses and the traps in its statements.
+5. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its valuation conventions: which multiple the sector uses and the traps in its statements. Done when the sector's multiple and traps are noted, or their absence is stated.
 
 ## Analyse
 
@@ -51,7 +52,7 @@ The five steps of a comparable company analysis (Robinson and Weyns, UBS, "How t
 
 4. **Clean the metric** (five-step 4; `references/multiples-and-peers.md` step 4). Add back non-recurring expenses and deduct non-recurring income; remove equity-accounted income from EBITDA and value the stake separately in the bridge; put the present value of an unpaid cash cost in the bridge. A charge that appears in most of the last five years is a cost and stays in. Done when reported and cleaned metrics sit side by side with the items removed and their sources.
 
-5. **Choose the multiple and the base** (five-step 3; `references/multiples-and-peers.md` step 5 and its table). Prefer forward multiples: historical E/P had 1.6 times the dispersion of forward E/P in McKinsey's sample. Prefer EV/EBITA to EV/EBIT, and to EV/EBITDA where capital intensity or outsourcing differs. Use the sector primer's convention where it has one. Calendarize to the same twelve months for every company. Done when the multiple, the base and the period are stated once and applied to every company.
+5. **Choose the multiple and the base** (five-step 3; `references/multiples-and-peers.md` step 5 and its table). Prefer forward multiples: historical E/P had 1.6 times the dispersion of forward E/P in McKinsey's sample (verify). Prefer EV/EBITA to EV/EBIT, and to EV/EBITDA where capital intensity or outsourcing differs. Use the sector primer's convention where it has one. Calendarize to the same twelve months for every company. Done when the multiple, the base and the period are stated once and applied to every company.
 
 6. **Put the operating metrics beside the multiples** (five-step 2; `references/multiples-and-peers.md` step 6). For each company: consensus sales growth for the next two years and the three-year history, EBITA margin, ROIC, free cash flow over NOPAT, net debt over EBITDA, and capex over sales. ROIC follows `references/roic.md`: one definition for every company, stated in a line under the table, either the FactSet field for all or a hand-built figure for all, never mixed, and without goodwill as the basis for peer comparison. Done when the operating table is complete or each gap is marked.
 
@@ -116,11 +117,12 @@ Implied growth at the stated ROIIC, position on the P/E grid, implied advantage 
 consensus and history.
 
 ## Value from the peer range
-| Multiple | Lower quartile | Median | Upper quartile | Equity value per share | Basis |
+| Multiple | Lower quartile | Median | Upper quartile | Equity value per share | Basis | Source |
 
 ## What would change this view
 ## Gaps
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+## Sources
+Numbered sources, the Data line, then the footer verbatim.
 ```
 
 Length: two to four pages. Offer the peer table as a spreadsheet when the host can create files. For a narrow question, answer it in the method's terms with the peer table and the sources, and keep the footer.

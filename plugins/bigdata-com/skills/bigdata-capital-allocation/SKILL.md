@@ -1,11 +1,12 @@
 ---
 name: bigdata-capital-allocation
 description: >-
-  How a company allocates capital, from Bigdata.com financial statements, filings and proxies:
-  five years of sources and uses, whether buybacks and dividends created value, the returns on
-  reinvestment and acquisitions, leverage, and what management is paid for. Use when the user asks
-  about buybacks, dividends, capital returns, M&A track record, capital discipline, or management
-  incentives. Not for a specific announced deal, which bigdata-deal-analysis covers.metadata:
+  Judges how a company allocates capital, from Bigdata.com financial statements, filings and
+  proxies: five years of sources and uses, whether buybacks and dividends created value, the
+  returns on reinvestment and acquisitions, leverage, and what management is paid for. Use when
+  the user asks about buybacks, dividends, capital returns, M&A track record, capital discipline,
+  or management incentives. Not for a specific announced deal, which bigdata-deal-analysis covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, capital-allocation, roic, expectations
   bigdata-sector-primer: auto
 ---
@@ -36,20 +37,18 @@ If the company is Private, say there is no share price for the buyback and deal-
 
 ## Gather
 
-Each step says what it must produce.
-
-1. **Tearsheet.** `bigdata_company_tearsheet` with `sections` set to `company_overview, c_level_leadership, price_performance` first, then `fundamentals`, then `mergers_acquisitions, dividends, estimates`. Request the five fiscal periods before the latest five if the window needs them and the tool's period controls allow it. Done when CFO, capex, depreciation, acquisitions, divestitures, working capital, dividends, buybacks, issuance, SBC, debt, gross and net PP&E, invested capital, the FactSet ROIC field, market cap and EV are in hand for every year, with the deal list and the executives.
+1. **Tearsheet.** `bigdata_company_tearsheet` with `sections` set to `company_overview, c_level_leadership` first, then `financial_statements, financial_ratios, key_metrics`, then `mergers_acquisitions, dividends, analyst_estimates`. Use `interval` annual for five fiscal years; there is no period offset, so a longer window is noted in the Gaps line. Done when CFO, capex, depreciation, acquisitions, divestitures, working capital, dividends, buybacks, issuance, SBC, debt, gross and net PP&E, invested capital, the FactSet ROIC field, market cap and EV are in hand for every year, with the deal list and the executives.
 2. **Repurchase actuals.** Search and fetch the annual and quarterly filings for the issuer repurchase tables: shares bought and average price paid by period, authorisations, and shares issued under compensation plans. Done when each year has shares bought, the average price, the amount spent and shares issued, or the gap is named. Authorisations are not purchases.
 3. **Price series.** `bigdata_computer` for the daily share price over the window and around each material deal announcement, and for the market index over the same days. Done when the average price in each buyback year and the buyer's one-, three- and five-day moves against the index around each announcement can be computed.
 4. **Each material deal.** One search per deal for the announcement: price, form of payment, the target's undisturbed price, the synergies claimed by type and timing, the integration cost, and the stated rationale. Then a search for later goodwill impairments, write-downs or disposals of the acquired unit. Done when each deal has its announcement source and its later record, or the gap is named.
 5. **Divestitures and spin-offs.** Searches for disposals and spin-offs in the window, with price and rationale. Done when each is listed with its source.
 6. **The proxy statement.** Search and fetch the latest proxy (DEF 14A or the local equivalent), and the prior one if the plan changed. Read the long-term plan's metrics and weights, absolute or relative TSR and against which peer group, the performance period, option expense, clawbacks, option repricing, related-party transactions, and the ownership and voting structure. Done when each item is recorded with its section.
 7. **What management says it does.** Search for management's stated capital allocation priorities on calls and at investor days, and for insider sales during buyback periods. Done when the stated priorities are quoted with dates, to compare words with actions.
-8. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its capital-intensity and valuation sections.
+8. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its capital-intensity and valuation sections. Done when the sector's capital-intensity and valuation conventions are noted, or their absence is stated.
 
 ## Analyse
 
-Load `references/capital-allocation.md` before step 1, `references/roic.md` before step 3 and `references/expectations.md` before step 4. Each step ends in what it must produce.
+Load `references/capital-allocation.md` before step 1, `references/roic.md` before step 3 and `references/expectations.md` before step 4.
 
 1. **Sources and uses.** Tabulate five years (method step 1). Sources: CFO, net debt issued, equity issued, divestiture proceeds. Uses: capex, acquisitions, increase in working capital, dividends, buybacks, debt repaid, change in cash, with R&D as a memo line since it sits inside CFO. Done when the table ties to the change in cash each year.
 
@@ -63,7 +62,7 @@ Load `references/capital-allocation.md` before step 1, `references/roic.md` befo
 
 6. **Dividend tests.** Coverage by free cash flow after SBC and after maintenance and growth needs; the funding source (free cash flow, debt, offshore cash or new equity, which is a false signal); total and net shareholder yield (formula 7), not dividend yield (method step 6). The sources give no coverage threshold. Done when coverage, funding source and net shareholder yield are stated for each year.
 
-7. **The deal table.** For each material deal (method step 7): premium over the undisturbed price (formula 8); PV of cost and revenue synergies (formula 9) with cost synergies haircut and revenue synergies haircut heavily, against the synergy base rates in table 2 (86 percent of 90 deals captured at least 70 percent of planned cost savings; almost half captured under 70 percent of revenue synergies; McKinsey, verify); deal NPV (PV synergies minus premium); the predicted buyer move against the actual one-, three- and five-day move; SVAR and premium at risk (formula 10); payment form against the five-day base rates by payment; strategic category and its success rate from table 1; fit with McKinsey's five archetypes; return on price paid against the cost of capital (formula 11); and the later record of impairments and disposals. Done when every material deal has its row.
+7. **The deal table.** For each material deal (method step 7): premium over the undisturbed price (formula 8); PV of cost and revenue synergies (formula 9) with cost synergies haircut and revenue synergies haircut heavily, against the synergy base rates in table 2 (86 percent of 90 deals captured at least 70 percent of planned cost savings; almost half captured under 70 percent of revenue synergies; McKinsey, verify); deal NPV (PV synergies minus premium); the predicted buyer move against the actual one-, three- and five-day move; shareholder value at risk (SVAR) and premium at risk (formula 10); payment form against the five-day base rates by payment; strategic category and its success rate from table 1; fit with McKinsey's five archetypes; return on price paid against the cost of capital (formula 11); and the later record of impairments and disposals. Done when every material deal has its row.
 
 8. **Divestitures.** Each disposal or spin-off with its price against the unit's value to the company, and whether units earning below the cost of capital remain (method step 8). Done when each is listed with its rationale.
 
@@ -110,23 +109,24 @@ The retention test in one line.
 | Year | Dividends | FCF after SBC | Coverage | Funding source | Net shareholder yield | Basis | Source |
 
 ## Acquisitions and divestitures
-| Deal | Date | Premium | PV synergies (cost / revenue) | NPV | Predicted vs actual buyer move | SVAR | Payment | Category and base rate | Return on price paid | Later impairment or disposal | Source |
+| Deal | Date | Premium | PV synergies (cost / revenue) | NPV | Predicted vs actual buyer move | SVAR | Payment | Category and base rate | Return on price paid | Later impairment or disposal | Basis | Source |
 Disposals and spin-offs below.
 
 ## Leverage
 EBIT / interest and debt / total capital against the rating medians; payouts financed by debt.
 
 ## Incentives and governance
-| Plan element | Detail | Source |
+| Plan element | Detail | Basis | Source |
 The conflict question answered in one line.
 
 ## Verdict by use and what it means for value
-| Use | Verdict | Deciding test | Value per share effect | Basis |
+| Use | Verdict | Deciding test | Value per share effect | Basis | Source |
 Then the forward implication in two to four sentences.
 
 ## What would change this view
 ## Gaps
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+## Sources
+Numbered sources, the Data line, then the footer verbatim.
 ```
 
 Length: two to four pages. The cost of equity, the cost of capital and value per share at each buyback date appear once in an Assumptions line with their basis and a sensitivity. For a narrow question, answer with the relevant test, its table and the sources, and keep the footer.

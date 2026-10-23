@@ -10,10 +10,10 @@ Comps and peer comparison, valuation snapshots and full valuations (as the cross
 
 | Input | Where in Bigdata.com | Basis |
 |---|---|---|
-| Market cap, EV, EV/EBITDA, P/E, FCF yield, net debt | `bigdata_company_tearsheet`, `fundamentals` (key metrics), per peer | reported |
-| Statements: debt, cash and securities, minorities, leases, pensions, equity-method investments, attributable net income | `fundamentals` | reported |
-| ROIC, ROE, margins, cash conversion | `fundamentals` (ratios) | reported |
-| Consensus sales, EBITDA, EBIT, EPS, FCF, long-term growth, with vintage | `estimates` | reported |
+| Market cap, EV, EV/EBITDA, P/E, FCF yield, net debt | `bigdata_company_tearsheet`, `financial_statements, financial_ratios, key_metrics` (key metrics), per peer | reported |
+| Statements: debt, cash and securities, minorities, leases, pensions, equity-method investments, attributable net income | `financial_statements, financial_ratios, key_metrics` | reported |
+| ROIC, ROE, margins, cash conversion | `financial_statements, financial_ratios, key_metrics` (ratios) | reported |
+| Consensus sales, EBITDA, EBIT, EPS, FCF, long-term growth, with vintage | `analyst_estimates` | reported |
 | Peer candidates | `bigdata_screen_companies` on sector, size, growth, margin and return; peers named in filings | reported |
 | Current figures for a peer set | `bigdata_portfolio_tearsheet` | reported |
 | Non-recurring items, JV income, option and share tables, segment profit | `bigdata_search` and `bigdata_fetch_document` on filings | reported |

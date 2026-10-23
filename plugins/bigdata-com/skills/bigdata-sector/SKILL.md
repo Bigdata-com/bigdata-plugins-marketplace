@@ -6,7 +6,8 @@ description: >-
   why, and the sector primer's accounting traps. Use when the user asks about a sector or
   industry, which sectors look interesting, a sector outlook, or how an industry works, including
   a sector within one country. Not for a theme that cuts across sectors, which bigdata-theme
-  covers.metadata:
+  covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, industry-structure, base-rates, multiples-and-peers, operating-leverage-and-tam, expectations
   bigdata-sector-primer: auto
 ---
@@ -28,7 +29,7 @@ Establish four things before gathering data:
 
 - **The sector and its sub-industries.** Map the user's words to a section of `references/sector-primers.md` (the contents list at the top names the sections) and to the sub-industries that sit under it. Analyse the profit pool at the sub-industry level, because a sector average hides who earns the return. "Tech" spans software, semiconductors and internet platforms, which have separate primers and different economics; cover each part the user meant.
 - **The geography.** Without one, assume the US and Canadian listings the screener covers by default and state it. With a country or region, the sector becomes the companies domiciled or operating there, and step 9 of the analysis applies.
-- **One sector or several.** For several, every sector gets the same measures so the comparison is like for like. "Which sectors look interesting" with no list means the eleven sectors at summary depth, with full depth only where the user then asks.
+- **One sector or several.** For several, every sector gets the same measures so the comparison is like for like. "Which sectors look interesting" with no list means every sector in the primer contents list at summary depth, with full depth only where the user then asks.
 - **The angle.** A debate the user cares about, a holding, a cycle question. The note leads with it.
 
 Ask one question only when the request could mean two sets of companies with different economics and nothing in it points to one. Otherwise state the assumption under the title and proceed. If the sector has no section in the primer bundle, say so in the Gaps line and build the metrics from the method files.
@@ -40,7 +41,7 @@ Each step says what it must produce.
 1. **The primer.** Read the sector's section of `references/sector-primers.md` before any data call. Done when the value drivers, the metric definitions, the accounting traps, the persistence row, the valuation conventions and the macro indicators to watch are noted.
 2. **The universe.** `bigdata_screen_companies` on the sector or industry, the geography and a market-cap floor, actively trading, ETFs excluded. The screener's sector labels differ from those of `find_securities`; use its own list. Outside the default exchanges pass a country or exchange, and keep one country per screen when market caps must be comparable, because currencies are not converted. Page through until the list is complete. Done when the companies covering most of the sector's market cap are listed, the share they cover is stated, and each is assigned to a sub-industry.
 3. **The grid.** `bigdata_portfolio_tearsheet` over the universe for price, one-day move, market cap, EPS surprise, price targets and sentiment (100 names at most with those columns). Done when every company has a current market cap and the latest surprise.
-4. **The depth set.** Choose eight to fifteen companies per sector (five to eight per sector when comparing several): the largest by market cap, the ones whose returns stand out in either direction, and any recent entrant with real share. `bigdata_company_tearsheet` for each in two calls: `company_overview, fundamentals, estimates`, then `revenue_segmentation, analyst_data, price_performance, events_calendar`. For a cyclical sector request a second `fundamentals` call for the earlier periods where the tool allows it, so a full cycle is in hand. Done when five or more periods of statements, the FactSet ROIC, margins, invested capital, consensus to at least two fiscal years with its vintage, and segment and geographic revenue are in hand for each.
+4. **The depth set.** Choose eight to fifteen companies per sector (five to eight per sector when comparing several): the largest by market cap, the ones whose returns stand out in either direction, and any recent entrant with real share. `bigdata_company_tearsheet` for each in two calls: `company_overview, financial_statements, financial_ratios, key_metrics, analyst_estimates`, then `revenue_segmentation, analyst_ratings, company_overview, earnings_calendar`. For a cyclical sector request a second `financial_statements, financial_ratios, key_metrics` call for the earlier periods where the tool allows it, so a full cycle is in hand. Done when five or more periods of statements, the FactSet ROIC, margins, invested capital, consensus to at least two fiscal years with its vintage, and segment and geographic revenue are in hand for each.
 5. **Industry evidence.** `bigdata_search`, one aspect and one period per call: industry size and market shares; pricing and price-cost spread; capacity additions, entrants and exits; regulation and policy; the live debates (research and news that state the bull and bear sides); the primer's leading indicators (orders, utilisation, inventories, rates). Fetch a document when a figure sits in a table the excerpt cuts off. Done when each step of the industry-structure method has evidence or a stated gap, and each debate has both sides with sources.
 6. **Calendar.** `bigdata_events_calendar` for the depth set's next reports and the sector's conferences, and the economic calendar for the macro releases the primer names. Done when the next dated events over three months are listed.
 7. **Country backdrop**, only with a country scope. `bigdata_country_tearsheet` for the country. Done when growth, inflation, the policy rate, the currency and the macro sections the sector depends on (housing for building materials, retail sales for retailers) are in hand with dates.
@@ -112,7 +113,8 @@ The primer's traps that apply to the companies covered, with any found in the fi
 
 ## What would change this view
 ## Gaps
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+## Sources
+Numbered sources, then the Data line, then the footer verbatim from references/output-standard.md.
 ```
 
 Several sectors: replace the single-sector tables with the comparison table from step 8 and one short section per sector. A sector within a country adds a "Country backdrop" section after the view and an exposure column in the companies table. Length: four to eight pages. A narrow question gets the relevant step with its table and sources, and the footer.

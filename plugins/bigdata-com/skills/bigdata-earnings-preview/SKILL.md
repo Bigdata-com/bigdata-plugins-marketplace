@@ -1,12 +1,13 @@
 ---
 name: bigdata-earnings-preview
 description: >-
-  Setup before a company reports, from Bigdata.com estimates, the last call, filings and news: the
-  drivers of the quarter, consensus against guidance and base rates, what the price implies, the
-  sales-to-margin sensitivity, scenarios with what to watch in each, and the metrics to check
-  first. Use when the user asks for an earnings preview, what to expect when a company reports,
-  the setup into the print, or what consensus is looking for. Not for results already reported,
-  which bigdata-earnings-review covers.metadata:
+  Writes the setup before a company reports, from Bigdata.com estimates, the last call, filings
+  and news: the drivers of the quarter, consensus against guidance and base rates, what the price
+  implies, the sales-to-margin sensitivity, scenarios with what to watch, and the metrics to check
+  first. Use when the user asks for an earnings preview, what to expect when a company reports, or
+  what consensus is looking for. Not for results already reported, which bigdata-earnings-review
+  covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, operating-leverage-and-tam, forecasting-discipline, after-a-price-move, valuation
   bigdata-sector-primer: auto
 ---
@@ -17,14 +18,14 @@ This skill writes the note a portfolio manager reads the evening before a compan
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not write a preview from memory or the web: an unsourced preview looks like Bigdata.com data and is not.
+- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not answer from memory or the web instead: an unsourced answer looks like Bigdata.com data and is not.
 - Pass `plugin_slug: "bigdata-earnings-preview"` on every Bigdata.com call that accepts it.
-- Read `references/working-with-bigdata.md` before the first call. It says how to resolve the company, which tearsheet sections to request, how to search and retry, and how estimates carry actuals, surprise and guidance.
-- Treat this skill as guidelines. Skip a step that does not apply, and research further where the quarter needs it.
+- Read `references/working-with-bigdata.md` before the first call.
+- Treat this skill as guidelines. Skip a step that does not apply, and research further where the task needs it.
 
 ## Scope the request
 
-Establish three things before gathering data, from the request or from the events calendar: the company (resolved with `find_securities`), the quarter being reported (fiscal year and quarter, from `events_calendar` in the tearsheet or `bigdata_events_calendar`), and the user's angle if they gave one (a position, a driver they care about, a peer that just reported). Assume the next unreported quarter when the user does not say.
+Establish three things before gathering data, from the request or from the events calendar: the company (resolved with `find_securities`), the quarter being reported (fiscal year and quarter, from `earnings_calendar` in the tearsheet or `bigdata_events_calendar`), and the user's angle if they gave one (a position, a driver they care about, a peer that just reported). Assume the next unreported quarter when the user does not say.
 
 Ask one question only if the answer changes the work: the company name resolves to more than one listing, or the user seems to want a different quarter than the next one. Otherwise state the assumption in the header and proceed.
 
@@ -32,13 +33,13 @@ If `find_securities` returns the company as Private, say that the estimates and 
 
 ## Gather
 
-Work through these in order. Each step says what it must produce.
+Work through these in order.
 
-1. **Tearsheet, in two calls.** `bigdata_company_tearsheet` with `sections` set to `company_overview, events_calendar, analyst_data, price_performance, latest_earnings, estimates` first, then a second call for `fundamentals, revenue_segmentation`. Done when the report date, the consensus for the quarter and the next fiscal year, the actual and surprise for the last eight quarters, any guidance fields, the price moves since the last print, the targets and rating counts, and five fiscal periods of statements are in hand.
+1. **Tearsheet, in two calls.** `bigdata_company_tearsheet` with `sections` set to `company_overview, earnings_calendar, analyst_ratings, latest_earnings, analyst_estimates` first, then a second call for `financial_statements, financial_ratios, key_metrics, revenue_segmentation`. Done when the report date, the consensus for the quarter and the next fiscal year, the actual and surprise for the last eight quarters, any guidance fields, the price moves since the last print, the targets and rating counts, and five fiscal periods of statements are in hand.
 2. **The last earnings call.** `bigdata_search` in fast mode for the transcript of the previous quarter's call with the reporting period filter set to that quarter, then `bigdata_fetch_document` on the transcript. Done when management's guidance for the quarter being previewed is quoted verbatim with its ranges, and the questions analysts pressed on are listed. Guidance for the next quarter is given on the current quarter's call, so the call to read is the one for the quarter before the one being previewed, never a later one.
 3. **What changed since that call.** Three to five `bigdata_search` calls, one aspect each: company news since the last print; the company's own filings or releases since then (8-K, pre-announcements, investor-day material); peer and supplier prints that bear on the quarter; sell-side notes on the setup (research and news that quote analysts); the data points the drivers depend on (pricing, volumes, channel checks, macro series). Done when every driver in the analysis has at least one dated piece of evidence or is marked as having none.
 4. **Sentiment and positioning.** `bigdata_sentiment_tearsheet` for the company over the last 90 days. Done when the direction of news sentiment into the print and the stories driving it are known. Short interest and options data are not in Bigdata.com; say so in the Gaps line if the user asks for positioning.
-5. **Sector primer.** If the company is in a sector with a section in `references/sector-primers.md`, read it for the metrics the sector reports and the accounting traps before analysing. Banks and insurers report different lines (net interest income, provisions, combined ratio) and the preview's tables follow the primer.
+5. **Sector primer.** If the company is in a sector with a section in `references/sector-primers.md`, read it for the metrics the sector reports and the accounting traps before analysing. Banks and insurers report different lines (net interest income, provisions, combined ratio) and the preview's tables follow the primer. Done when the sector's reporting lines and traps are noted, or their absence is stated.
 
 ## Analyse
 
@@ -54,9 +55,9 @@ Work through these in order. Each step says what it must produce.
 
 6. **The sales-to-margin sensitivity.** From `references/operating-leverage-and-tam.md` and the company's own cost structure (gross margin, the fixed-cost lines in the five years of statements): what a sales miss or beat of a stated size does to EBIT and EPS. Use the sector's operating-margin beta from `references/base-rates.md` as the outside view and the company's own history of margin change per unit of sales change as the inside view, and show both. Done when the note gives the EPS effect of a 3 percent and a 5 percent sales miss and beat, labelled derived, with the formula.
 
-7. **Scenarios.** Three cases, from `references/forecasting-discipline.md`: beat and raise, in line, miss or cut. For each: what has to be true on the drivers, the printed sales and EPS against consensus, the probability, the likely stock reaction given what is priced in and the base rates for post-earnings moves in `references/after-a-price-move.md`, and the single signal in the release or call that tells the reader which case is unfolding. Probabilities sum to 100 and start from the company's own beat rate and the sector's surprise history rather than a default split. Done when the three rows are complete and the expected value of the cases is consistent with the "what is priced in" paragraph.
+7. **Scenarios.** Three cases, from `references/forecasting-discipline.md`: beat and raise, in line, miss or cut. For each: what has to be true on the drivers, the printed sales and EPS against consensus, the probability, the likely stock reaction given what is priced in and, where the likely reaction is a one-day move of 10 percent or more against the index, the base rates in table 1 and table 2 of `references/after-a-price-move.md` (verify the sample and period), and the single signal in the release or call that tells the reader which case is unfolding. Probabilities sum to 100 and start from the company's own beat rate and the sector's surprise history rather than a default split. Done when the three rows are complete and the expected value of the cases is consistent with the "what is priced in" paragraph.
 
-8. **What to check first.** Five to seven items in the order a reader should check them when the release lands: the metric, the consensus or guided figure, the threshold that changes the reading. Then five questions for the call, each tied to a driver or to a claim management made last time.
+8. **What to check first.** Five to seven items in the order a reader should check them when the release lands: the metric, the consensus or guided figure, the threshold that changes the reading. Then five questions for the call, each tied to a driver or to a claim management made last time. Done when each item has its metric, figure and threshold, and each question names its driver or claim.
 
 For a cyclical, state where the company sits in its cycle and show the mid-cycle margin next to the consensus margin, as `references/valuation.md` requires, so a peak-margin print is not read as a run rate. For a bank, use the primer's lines and skip the sales-to-margin step; the equivalent is net interest income against rate assumptions and provisions against the credit cycle.
 
@@ -78,7 +79,8 @@ make this print matter beyond the quarter. No rating.
 | Metric | Consensus (n) | 30d / 90d change | Guidance (low, mid, high) | Prior year | Growth | Prior quarter | Basis | Source |
 
 ## Guidance record
-Table of the last eight quarters: guided midpoint, actual, difference. One sentence on the pattern.
+| Quarter | Guided midpoint | Actual | Difference | Basis | Source |
+The last eight quarters. One sentence on the pattern.
 
 ## Drivers
 One subsection per driver, each with: consensus assumption, evidence since the last call (dated),
@@ -92,11 +94,11 @@ Price since last print vs index; forward P/E vs steady-state P/E; implied growth
 estimate revisions vs price; sentiment; target range. Two closing sentences.
 
 ## Sensitivity
-| Sales vs consensus | EBIT effect (inside view) | EBIT effect (sector beta) | EPS effect | Basis |
+| Sales vs consensus | EBIT effect (inside view) | EBIT effect (sector beta) | EPS effect | Basis | Source |
 Rows for -5, -3, +3, +5 percent.
 
 ## Scenarios
-| Case | What has to be true | Sales / EPS vs consensus | Probability | Likely reaction | Watch for |
+| Case | What has to be true | Sales / EPS vs consensus | Probability | Likely reaction | Watch for | Basis | Source |
 
 ## What to check first
 Numbered list, metric, figure, threshold.
@@ -111,7 +113,7 @@ Two to five dated or observable conditions.
 What Bigdata.com could not answer (positioning data, whisper numbers, a missing transcript).
 
 ## Sources
-Numbered. Then the Powered by Bigdata.com line and the disclaimer, verbatim from output-standard.md.
+Numbered sources, the Data line, then the footer verbatim.
 ```
 
 Length: two to four pages. For a narrow question, answer it in the method's terms with the relevant table and the sources, and keep the footer.

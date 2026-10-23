@@ -10,10 +10,10 @@ bigdata-credit runs the whole method; bigdata-risk runs steps 2 to 8 and the dis
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Short- and long-term debt, notes payable, leases where reported, cash, current assets and liabilities, inventory, receivables, goodwill, PP&E, equity | `bigdata_company_tearsheet`, `fundamentals`, five periods | reported |
-| EBIT, EBITDA, interest expense, CFO, capex, depreciation, FCF, dividends, buybacks | `fundamentals` | reported |
-| Net debt, EV, market cap; Altman Z and Piotroski as FactSet computes them | `fundamentals` key metrics and ratios | reported |
-| Forward EBIT and EBITDA | `estimates`, to FY+4 | reported |
+| Short- and long-term debt, notes payable, leases where reported, cash, current assets and liabilities, inventory, receivables, goodwill, PP&E, equity | `bigdata_company_tearsheet`, `financial_statements, financial_ratios, key_metrics`, five periods | reported |
+| EBIT, EBITDA, interest expense, CFO, capex, depreciation, FCF, dividends, buybacks | `financial_statements, financial_ratios, key_metrics` | reported |
+| Net debt, EV, market cap; Altman Z and Piotroski as FactSet computes them | `financial_statements, financial_ratios, key_metrics` key metrics and ratios | reported |
+| Forward EBIT and EBITDA | `analyst_estimates`, to FY+4 | reported |
 | Rent expense, maturity schedule, credit agreement and covenants, rating actions, pension deficit, contingent liabilities, deconsolidated entities, related-party loans | `bigdata_search` over filings and news, then `bigdata_fetch_document` | reported |
 | Credit risk signals | `bigdata_get_credit_factor`, `bigdata_screen_credit_factor`; read the tool description for what they return | reported |
 | Bond prices, yields, spreads | Verify whether the credit-factor tools return them; otherwise not available | reported or not available |

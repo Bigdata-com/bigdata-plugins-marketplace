@@ -5,7 +5,8 @@ description: >-
   news and research: growth, inflation, rates, currencies, fiscal and external positions, market
   performance, and the reasons for the differences. Use when the user asks to compare economies,
   for a G7 or regional comparison, which country looks stronger, or for a global macro overview.
-  Not for one country in depth, which bigdata-country covers.metadata:
+  Not for one country in depth, which bigdata-country covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, forecasting-discipline
   bigdata-sector-primer: none
 ---
@@ -52,7 +53,7 @@ Each step says what it must produce.
 
 5. **What is priced in.** For each member: the priced rate path, the sovereign spread, the currency's move and, where sources give it, the equity market's multiple against its own history. Set these against the facts and the forecast ranges and say where pricing and evidence differ most. Done when each member has its priced line and the largest differences are named.
 
-6. **A common shock.** Choose the one cross-country uncertainty that matters most over the horizon (a global slowdown, an energy price shock, a US rates move, a trade measure). Describe how each member is exposed, through trade, financing, commodities or policy room, and give two or three cases with integer probabilities that sum to 100, each with a reason from a reference class, never a default split. Done when every member has an exposure line and the cases have signposts.
+6. **A common shock.** Choose the one cross-country uncertainty that matters most over the horizon (a global slowdown, an energy price shock, a US rates move, a trade measure). Describe how each member is exposed, through trade, financing, commodities or policy room, and, from rule 2 in `references/forecasting-discipline.md`, give two or three cases with integer probabilities that sum to 100, each with a reason from a reference class, never a default split. Done when every member has an exposure line and the cases have signposts.
 
 7. **"Which looks stronger".** Answer on named dimensions (growth momentum, inflation against target, fiscal room, external balance, policy room), each judged from the table. Order members on a dimension the user chose and say which; do not combine the dimensions into one score or rank by attractiveness. Done when the answer names its dimensions and the evidence.
 
@@ -95,7 +96,8 @@ The next decisions and releases across members.
 
 ## What would change this view
 ## Gaps
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+## Sources
+Numbered sources, then the Data line, then the footer verbatim from references/output-standard.md.
 ```
 
 Length: four to eight pages. A narrow question gets the relevant rows with their periods, the reason for the difference and the sources, and the footer.

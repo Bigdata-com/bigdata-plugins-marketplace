@@ -5,14 +5,15 @@ description: >-
   losers, the addressable market built two ways and checked, the companies with real exposure from
   segment and geographic revenue, what their prices imply, and the signposts. Use when the user
   asks about a theme, a trend, who benefits from a development, or a thematic basket. Not for one
-  sector's economics, which bigdata-sector covers.metadata:
+  sector's economics, which bigdata-sector covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, operating-leverage-and-tam, industry-structure, expectations, base-rates
   bigdata-sector-primer: auto
 ---
 
 # Theme
 
-This skill writes the theme note a portfolio manager wants before anyone pitches a basket: the mechanism that makes the theme real, where along the chain the money flows and where it is competed away, how large the market can get at an acceptable return, measured two ways and tested, which companies earn a meaningful share of their revenue from it, what their prices already assume, and the dated evidence that would confirm or break the theme. Popular themes tend to be priced for success, so the note measures the bar before it describes the opportunity. It names no picks. "Who supplies the cooling for AI data centres" gets the exposure table for that link and its sources, not the full note.
+This skill writes the theme note a portfolio manager wants before anyone pitches a basket: the mechanism that makes the theme real, where along the chain the money flows and where it is competed away, how large the market can get at an acceptable return, measured two ways and tested, which companies earn a meaningful share of their revenue from it, what their prices already assume, and the dated evidence that would confirm or break the theme. The note measures the bar the prices set before it describes the opportunity. It names no picks. "Who supplies the cooling for AI data centres" gets the exposure table for that link and its sources, not the full note.
 
 ## Before starting
 
@@ -38,11 +39,11 @@ Each step says what it must produce.
 
 1. **The theme's evidence.** `bigdata_search`, one aspect and one period per call: adoption or penetration data; spending and capex tied to the theme; price and unit-cost trends; policy, subsidies and regulation; supply constraints and capacity announcements; estimates of the market's size with their definitions; the case against the theme. Fetch the document when a market-size figure needs its definition. Done when each link of the chain has evidence or a stated gap and every market-size estimate found is listed with its source, definition and date.
 2. **Candidates.** From the searches (named suppliers, customers, contract winners), `bigdata_screen_companies` on the industries of each link, and the holdings of thematic ETFs through `bigdata_etf_tearsheet` where one exists. An ETF's holdings are candidates, not evidence of exposure. Resolve all with `find_securities`. Done when ten to thirty candidates are listed by link, with losers as well as beneficiaries.
-3. **Exposure.** `bigdata_company_tearsheet` for each candidate with `company_overview, revenue_segmentation, fundamentals, estimates`. Done when five years of revenue by segment and by geography, margins, invested capital and consensus are in hand for each.
+3. **Exposure.** `bigdata_company_tearsheet` for each candidate with `company_overview, revenue_segmentation, financial_statements, financial_ratios, key_metrics, analyst_estimates`. Done when five years of revenue by segment and by geography, margins, invested capital and consensus are in hand for each.
 4. **Exposure the segments do not show.** For candidates whose segments mix theme and non-theme revenue, `bigdata_search` on the latest filing and call for disclosed theme revenue, backlog, orders or capex tied to the theme. Done when each candidate has a theme revenue figure with its basis, or is marked "not disclosed".
 5. **The basket's prices.** `bigdata_portfolio_tearsheet` over the candidates for price, one-day move, market cap, targets, EPS surprise and sentiment. Done when every candidate has a current market cap.
 6. **Geography and dates.** `bigdata_country_tearsheet` for the countries where production or policy concentrates, when that matters to the theme; `bigdata_events_calendar` for the dated events the signposts depend on (policy decisions, product launches, the exposed companies' next reports). Done when each signpost has a date or a window.
-7. **Sector primers.** Read the section of `references/sector-primers.md` for each sector the exposed companies sit in, for the metrics they report and the accounting traps.
+7. **Sector primers.** Read the section of `references/sector-primers.md` for each sector the exposed companies sit in, for the metrics they report and the accounting traps. Done when each exposed sector's metrics and traps are noted.
 
 ## Analyse
 
@@ -54,7 +55,7 @@ Each step says what it must produce.
 
 4. **The adoption curve and the S-curve warning.** Place the theme in penetration, transition or maturity, with analog diffusion parameters labelled (verify) and noted as understating the speed of recent products. Do not extrapolate the steep middle of the curve: test announced capacity against a demand peak, not against the current growth rate. Once replacements dominate unit sales, forecast the replacement cycle, not penetration. Where cost decline drives adoption, project unit cost from cumulative output with a floor set by input costs, not as a line through time. For a new technology for new customers, run two or three adoption scenarios with probabilities that sum to 100, each weight taken from the analog products and labelled judgment. Done when the stage, the capacity check and the scenarios are stated.
 
-5. **Real exposure.** Keep the exposure check from segment and geographic revenue: theme revenue share = theme-related segment revenue / total revenue, with the segment's growth and, where disclosed, its margin. Where segments do not isolate the theme, use the company's own disclosure and label it; otherwise write "not disclosed" and do not estimate a share from the narrative. Geographic revenue shows exposure to the countries where policy or demand concentrates. Separate companies with material exposure from those with the theme in the name only, and state the threshold used and why. Done when the exposure table has a share, a basis and a source for every candidate.
+5. **Real exposure.** Compute exposure from segment and geographic revenue: theme revenue share = theme-related segment revenue / total revenue, with the segment's growth and, where disclosed, its margin. Where segments do not isolate the theme, use the company's own disclosure and label it; otherwise write "not disclosed" and do not estimate a share from the narrative. Geographic revenue shows exposure to the countries where policy or demand concentrates. Separate companies with material exposure from those with the theme in the name only, and state the threshold used and why. Done when the exposure table has a share, a basis and a source for every candidate.
 
 6. **What the prices imply.** From `references/expectations.md`, for the three to eight most exposed companies: forward P/E against the steady-state P/E at an assumed cost of equity, the NOPAT growth the enterprise value implies at an assumed cost of capital against consensus, and the share of value resting on future value creation. Translate into the theme: if the price needs growth g and the theme is s percent of revenue, state the growth the theme segment must deliver with the rest of the company held at consensus (derived). Then a cross-check that is this skill's construction, not a method from the sources: add up the theme revenue the basket's prices imply in the horizon year and set it against the top of the addressable-market range. Done when each company has its implied bar and the aggregate check is stated.
 
@@ -102,7 +103,8 @@ The sentences for the market's growth and the leaders' consensus growth.
 
 ## What would change this view
 ## Gaps
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+## Sources
+Numbered sources, then the Data line, then the footer verbatim from references/output-standard.md.
 ```
 
 Length: four to eight pages. A narrow question (one link, one company's exposure, the market size) gets that step's table with its sources and the footer.

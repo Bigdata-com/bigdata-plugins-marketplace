@@ -6,7 +6,8 @@ description: >-
   base rates, value at risk for the acquirer, financing, the regulatory path, and what each side's
   shareholders get. Use when the user asks about a takeover, a merger, an acquisition, a bid, or
   whether a deal makes sense. Not for merger arbitrage arithmetic, which
-  bigdata-special-situations covers.metadata:
+  bigdata-special-situations covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, capital-allocation, valuation, multiples-and-peers, special-situations-arithmetic, credit, roic, expectations
   bigdata-sector-primer: auto
 ---
@@ -32,14 +33,14 @@ Ask one question only if the deal cannot be identified (two live bids, or a name
 
 ## Gather
 
-1. **Both tearsheets.** `bigdata_company_tearsheet` for the acquirer and the target with `sections` set to `company_overview, price_performance, analyst_data, events_calendar`, then `fundamentals, estimates`, then `mergers_acquisitions` for the acquirer. Done when market caps, enterprise values, net debt, five periods of statements, consensus to the furthest year, and the acquirer's deal history are in hand for each listed party.
+1. **Both tearsheets.** `bigdata_company_tearsheet` for the acquirer and the target with `sections` set to `company_overview, analyst_ratings, earnings_calendar`, then `financial_statements, financial_ratios, key_metrics, analyst_estimates`, then `mergers_acquisitions` for the acquirer. Done when market caps, enterprise values, net debt, five periods of statements, consensus to the furthest year, and the acquirer's deal history are in hand for each listed party.
 2. **The deal documents.** `bigdata_search` for the announcement release and the investor presentation, then for the merger agreement (an 8-K exhibit or equivalent), the proxy or registration statement, the tender offer documents, and for a divestiture the sale agreement or Form 10. `bigdata_fetch_document` on each one found. Done when the price per share, the consideration mix and exchange ratio (with any collar), the total equity and enterprise value, the financing, the conditions, the termination fees each way, the outside date, the expected close, the synergy claim with its cost and revenue split, phasing and integration cost, and the background-of-the-merger section (other bidders, the process) are quoted with sources. Fairness opinions in the proxy carry the bankers' valuation ranges; record them as opinions.
 3. **The unaffected price.** `bigdata_search` for the first report of talks or a leak, then `bigdata_computer` on the daily series for both stocks and the index from 60 trading days before that date through today. Done when the unaffected price and its date are fixed, and the one-, three- and five-day abnormal returns for both parties after the announcement are computed with the working shown.
 4. **The regulatory path.** Two or three searches, one aspect each: antitrust filings and reviews in each jurisdiction named in the agreement (waiting periods, second requests, phase two opening, remedies offered); national security, foreign investment or sector regulators; political or public statements against the deal. Done when each approval has its agency, its stage and a date or an expected window, or the note says the filings have not been located.
 5. **Financing and the credit view.** Search for commitment letters, bond or loan issuance tied to the deal, equity issuance, and rating agency comments since the announcement. Done when the sources of funds are listed with amounts and the rating actions are dated, or marked none found.
 6. **Reaction and opposition.** Searches for sell-side and press reaction on each side, shareholder or activist opposition, a competing bid, and litigation. Done when each is listed with its date and source, or marked none found.
-7. **Peers and precedent deals for the target.** `bigdata_screen_companies` on the target's industry and size, then `bigdata_portfolio_tearsheet` or tearsheets with `fundamentals, estimates` for four to eight peers; one search for the multiples paid in comparable transactions. Done when the peer table in the comps method can be filled and precedent multiples, if found, are listed with their dates.
-8. **Sector primer.** Read the target's section in `references/sector-primers.md` for the sector's value drivers and its regulatory history.
+7. **Peers and precedent deals for the target.** `bigdata_screen_companies` on the target's industry and size, then `bigdata_portfolio_tearsheet` or tearsheets with `financial_statements, financial_ratios, key_metrics, analyst_estimates` for four to eight peers; one search for the multiples paid in comparable transactions. Done when the peer table in `references/multiples-and-peers.md` can be filled and precedent multiples, if found, are listed with their dates.
+8. **Sector primer.** Read the target's section in `references/sector-primers.md` for the sector's value drivers and its regulatory history. Done when the sector's drivers and the regulatory points that apply are noted.
 
 ## Analyse
 
@@ -53,7 +54,7 @@ Ask one question only if the deal cannot be identified (two live bids, or a name
 
    Do not treat EPS accretion, relative P/E or relatedness as evidence for the deal; the sources find they do not predict success. Done when the logic is stated in the company's own words with a source and then placed in its category with the base rate.
 
-3. **Price against value for the target.** From `references/valuation.md`: the target's stand-alone value as a range, from a DCF with three scenarios and probabilities when the deal is large enough to warrant it, or from the bankers' ranges in the proxy labelled as opinions when it is not. Cross-check with `references/multiples-and-peers.md`: the offer multiple against the peer median built on the same EV and metric definitions, and against the target's own undisturbed multiple; treat precedent-deal multiples as a check only, since exit multiples taken from deals are circular. Then the McKinsey identity: value created for the acquirer = (stand-alone value + value of improvements) - (market value + premium), and return on price paid = (target NOPAT + improvements) / price paid against the cost of capital (formula 11 in `references/capital-allocation.md`). For a divestiture, compare the price received with the unit's value to the seller, and list stranded costs, lost tax shield, tax on the gain and transitional service agreements; EPS dilution from the sale is irrelevant to value. Done when the price sits against a value range and the return on price paid is stated, each labelled with its basis.
+3. **Price against value for the target.** From `references/valuation.md`: the target's stand-alone value as a range, from a DCF with three scenarios and probabilities when the deal is large enough to warrant it, or from the bankers' ranges in the proxy labelled as opinions when it is not. Cross-check with `references/multiples-and-peers.md`: the offer multiple against the peer median built on the same EV and metric definitions, and against the target's own undisturbed multiple; treat precedent-deal multiples as a check only, since exit multiples taken from deals are circular. Take the target's ROIC with and without goodwill from `references/roic.md`, and what the undisturbed price implied about the target's growth from formula 2 in `references/expectations.md`, so the improvements are measured against what holders already priced. Then the McKinsey identity: value created for the acquirer = (stand-alone value + value of improvements) - (market value + premium), and return on price paid = (target NOPAT + improvements) / price paid against the cost of capital (formula 11 in `references/capital-allocation.md`). For a divestiture, compare the price received with the unit's value to the seller, and list stranded costs, lost tax shield, tax on the gain and transitional service agreements; EPS dilution from the sale is irrelevant to value. Done when the price sits against a value range and the return on price paid is stated, each labelled with its basis.
 
 4. **Synergies against the base rates.** From formula 9 and table 2 in `references/capital-allocation.md`: split management's synergy claim into cost and revenue, tax-effect each, capitalise at a stated cost of capital, discount for the phasing, and subtract the disclosed integration cost. Show two cases:
    - Management's figures, as disclosed, labelled reported.
@@ -122,7 +123,8 @@ Target holders; acquirer holders. The arbitrage arithmetic is referred to bigdat
 
 ## What would change this view
 ## Gaps
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+## Sources
+Numbered sources, then the Data line, then the footer verbatim from references/output-standard.md.
 ```
 
 Length: four to eight pages for a material deal; two pages for a bolt-on where SVAR is small. A narrow question gets its step with the table and the sources, and keeps the footer.

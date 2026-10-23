@@ -1,11 +1,12 @@
 ---
 name: bigdata-risk
 description: >-
-  Downside analysis of a stock from Bigdata.com data: what would break the thesis, how much is at
-  risk in each case, the floors from assets and private-market value, balance sheet and liquidity,
-  and the risks ranked by probability and size with the signals to watch. Use when the user asks
-  what could go wrong, about the risks, the downside, the bear case, or how much they could lose.
-  Not for the credit of the company's debt, which bigdata-credit covers.metadata:
+  Analyses the downside of a stock from Bigdata.com data: what would break the thesis, how much is
+  at risk in each case, the floors from assets and private-market value, balance sheet and
+  liquidity under stress, and the risks ranked by probability and size with the signals to watch.
+  Use when the user asks what could go wrong, about the risks, the downside, the bear case, or how
+  much they could lose. Not for the credit of the company's debt, which bigdata-credit covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, downside-and-catalysts, forecasting-discipline, earnings-quality, credit, expectations
   bigdata-sector-primer: auto
 ---
@@ -37,9 +38,7 @@ If the company is Private, say there is no price to measure loss against and giv
 
 ## Gather
 
-Each step says what it must produce.
-
-1. **Tearsheet.** `bigdata_company_tearsheet` with `sections` set to `company_overview, price_performance, analyst_data, events_calendar, estimates` first, then `fundamentals, revenue_segmentation`, then `company_funds_holders, fund_trends_history, mergers_acquisitions, c_level_leadership`. Done when the price, market cap, EV, net debt, share count, five years of statements and the balance sheet line by line, segment revenue, consensus with its vintage, the next report date, the FactSet Altman Z and Piotroski fields, and the holder changes over the last year are in hand.
+1. **Tearsheet.** `bigdata_company_tearsheet` with `sections` set to `company_overview, analyst_ratings, earnings_calendar, analyst_estimates` first, then `financial_statements, financial_ratios, key_metrics, revenue_segmentation`, then `fund_trends_history, mergers_acquisitions, c_level_leadership`. Done when the price, market cap, EV, net debt, share count, five years of statements and the balance sheet line by line, segment revenue, consensus with its vintage, the next report date, the FactSet Altman Z and Piotroski fields, and the holder changes over the last year are in hand.
 2. **The annual filing.** Search and fetch the latest annual report and read the risk factors (and what changed from the prior year's), the debt note (maturities, covenants, facilities), pensions, leases, contingent liabilities and guarantees, deconsolidated entities, related parties, and the auditor's report. Done when each is noted with its section, or marked not disclosed.
 3. **Material events since the annual filing.** Search the company's filings and releases since then (8-K or local equivalent: guidance changes, financing, management changes, litigation, rating actions). Done when each event is listed with its date.
 4. **Credit signals.** `bigdata_get_credit_factor` for the company; read the tool description for what it returns. Done when the signals are recorded, or the tool's coverage gap is named.
@@ -47,13 +46,13 @@ Each step says what it must produce.
 6. **The disconfirming case.** Searches for bear-case research, short-seller reports, and filings that contradict management's statements. Done when the strongest opposing argument is quoted with its source, or the searches found none.
 7. **Private-market comparables.** Searches for recent acquisitions of comparable businesses and the multiples paid, and the peers' `mergers_acquisitions` histories. Done when two or more transactions have a multiple, a date, the buyer, and how the deal was financed, or the comparables are named as not available.
 8. **Management's account.** Search and fetch the last earnings call. Done when management's statements on the drivers, the balance sheet and the risks analysts pressed on are quoted.
-9. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its accounting traps, valuation conventions and macro sections.
+9. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its accounting traps, valuation conventions and macro sections. Done when the sector's traps and conventions are noted, or their absence is stated.
 
 ## Analyse
 
-Load `references/downside-and-catalysts.md` before step 1, `references/credit.md` before step 4, `references/earnings-quality.md` before step 5 and `references/forecasting-discipline.md` before step 6. Each step ends in what it must produce.
+Load `references/downside-and-catalysts.md` before step 1, `references/credit.md` before step 4, `references/earnings-quality.md` before step 5 and `references/forecasting-discipline.md` before step 6.
 
-1. **What the price already assumes.** Price, market cap and EV; the forward P/E against one over an assumed cost of equity (above that, the price pays for growth and value creation; below it, the market expects none or expects earnings to fade); consensus growth and margin for the next two years (method step 1). A stock priced for high growth falls hard on a miss. Done when one line says what must go right for the current price to hold. The full implied-growth arithmetic belongs to `bigdata-valuation`.
+1. **What the price already assumes.** Price, market cap and EV; the forward P/E against one over an assumed cost of equity (`references/expectations.md` formula 1; above that, the price pays for growth and value creation; below it, the market expects none or expects earnings to fade); consensus growth and margin for the next two years (method step 1). A stock priced for high growth falls hard on a miss. Done when one line says what must go right for the current price to hold. The full implied-growth arithmetic belongs to `bigdata-valuation`.
 
 2. **What breaks each driver, and by how much.** For each driver: the event that breaks it, with the evidence that it could happen; the driver's value if broken (for example, revenue growth at the bottom of the reference class, margin back to the trough of the last cycle); and the value per share in that case. Compute that value with the stressed cash-flow approach in method step 2: capex equal to depreciation, no cash released from working capital, a discount rate as conservative as the forecasts (assumed), and use rebuilt earnings where step 5 finds flags. Done when every driver has a break event, a value per share, and the loss from today's price, each labelled.
 
@@ -114,7 +113,7 @@ permanent-loss events marked present, absent or unknown.
 Severity level with its reason and the flags behind it.
 
 ## Risks ranked by probability and size
-| Rank | Risk | Category | Probability (window) | Size per share | Expected loss | Permanent? | Early signal | Source |
+| Rank | Risk | Category | Probability (window) | Size per share | Expected loss | Permanent? | Early signal | Basis | Source |
 
 ## Why it is cheap and who is selling
 Only when the stock has fallen.
@@ -123,11 +122,12 @@ Only when the stock has fallen.
 Three or more reasons, each mapped to a driver or kill criterion.
 
 ## Kill criteria
-| Condition | Driver | Threshold | Date | Where the date comes from |
+| Condition | Driver | Threshold | Date | Where the date comes from | Basis | Source |
 
 ## What would change this view
 ## Gaps
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+## Sources
+Numbered sources, the Data line, then the footer verbatim.
 ```
 
 Length: two to four pages. The cost of equity, the discount rate for the stressed case, the haircuts, the shock size and the probabilities appear once in an Assumptions line with their basis. For a narrow question, answer with the relevant step, its table and the sources, and keep the footer.

@@ -5,7 +5,8 @@ description: >-
   inflation, rates, currency, fiscal and external balances, politics and policy, markets, and what
   is priced in. Use when the user asks about a country's economy, outlook, political risk, or
   markets, or for a country briefing. Not for comparisons across countries, which
-  bigdata-macro-compare covers.metadata:
+  bigdata-macro-compare covers.
+metadata:
   bigdata-refs: working-with-bigdata, output-standard, forecasting-discipline
   bigdata-sector-primer: none
 ---
@@ -64,7 +65,7 @@ Each step says what it must produce.
 
 6. **Politics and policy.** The dated political events over the horizon, what each could change in fiscal, regulatory or trade policy, and how markets have priced it. Where a probability is needed, take it from a reference class and label it judgment; polls and odds quoted in the press are opinions, not probabilities. Check that probabilities scale with the time window. Done when each event has a date, a mechanism and, where given, a probability with its basis.
 
-7. **Scenarios for the main uncertainty.** Two or three cases for the question that decides the next twelve months (a recession or not, a policy turn, an election outcome), each with what has to be true, the indicator that would show it first, and a probability. Probabilities are integers that sum to 100, each with a reason from a reference class, and never a default split. Done when the cases, their signposts and the probability-weighted reading are stated.
+7. **Scenarios for the main uncertainty.** From rule 2 in `references/forecasting-discipline.md`, two or three cases for the question that decides the next twelve months (a recession or not, a policy turn, an election outcome), each with what has to be true, the indicator that would show it first, and a probability. Probabilities are integers that sum to 100, each with a reason from a reference class, and never a default split. Done when the cases, their signposts and the probability-weighted reading are stated.
 
 8. **Markets and what is priced in.** The equity index against its region and its own moving averages, the currency's performance and drivers, yields and spreads. Compare what markets price with the scenario probabilities and the range of forecasts, and say where the two differ and by how much. That gap is what would move prices if the scenarios are right; it is not a call. Done when each market line has a reading, a source and the comparison with the scenarios.
 
@@ -113,7 +114,8 @@ One line each listing the main items under each tag.
 
 ## What would change this view
 ## Gaps
-## Sources, then the Powered by Bigdata.com line and the disclaimer.
+## Sources
+Numbered sources, then the Data line, then the footer verbatim from references/output-standard.md.
 ```
 
 Length: four to eight pages. A narrow question gets the relevant indicator or decision with its comparison, its date, the market's reading and the sources, and the footer.
