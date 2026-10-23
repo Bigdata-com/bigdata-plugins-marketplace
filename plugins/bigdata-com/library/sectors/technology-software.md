@@ -38,7 +38,7 @@ Prefer metrics that are persistent and predictive over popular ones (What Makes 
 - **Billing terms.** Moving from monthly to annual billing raises deferred revenue with no change in economics; multi-year prepaid deals inflate RPO.
 - **Revenue recognition.** Upfront term licenses make quarters lumpy; gross versus net reporting changes EV/Sales (multiples notes 2.4).
 - **Excess cash and capitalized development.** Surplus cash left in capital depresses ROIC (use an operating cash allowance of about 2 to 5 percent of sales, roic-moat notes); a rising capitalized share of development cost flatters margin.
-- **Acquisitions.** Serial acquirers: use EBITA and show ROIC with and without goodwill (McKinsey ch.26).
+- **Acquisitions.** Use EBITA and show ROIC with and without goodwill (McKinsey ch.26).
 - **Tax.** US tax amortization of R&D (from 2022) changes cash taxes; not in the sources, verify the current rule.
 
 ## Profit pool and competitive dynamics
@@ -87,7 +87,7 @@ Reading: at a four-year r near 0.5, about half of a company's excess CFROI over 
 5. What is SBC as a share of revenue, and what is the net share count path after buybacks?
 6. How much R&D and software development was capitalized this period against last year?
 7. Where is gross margin heading as hosting and AI inference costs rise, and who bears them?
-8. Which competitors appear in lost deals, and are any new entrants pricing below you?
+8. Which competitors appear in lost deals, and is any entrant pricing below you?
 
 ## What to watch at the macro level
 

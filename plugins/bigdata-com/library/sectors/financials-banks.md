@@ -2,7 +2,7 @@
 
 This primer covers deposit-taking banks, including their trading and fee businesses. Insurers have their own primer. Asset managers, exchanges and payment networks carry little balance-sheet risk; value them with the standard enterprise methods. Every figure below is historical, illustrative or judgment, never a current fact; check each "(verify)" before use.
 
-## How banks make money and what drives value
+## How the sector makes money and what drives value
 
 A bank earns three kinds of income (McKinsey, Valuation 5th ed., ch. 36, pp. 766-767):
 
@@ -14,7 +14,7 @@ Value depends on return on equity (ROE) against the cost of equity, growth of th
 
 Not all NII creates value. A bank that funds long-term loans with short-term deposits earns a maturity-mismatch income that pays for interest-rate risk, not for a lending advantage (pp. 785-789).
 
-## The metrics that matter
+## Metrics that matter
 
 | Metric | Definition | Why it matters | Indicative range, large developed-market banks (judgment, verify) |
 |---|---|---|---|
@@ -31,7 +31,7 @@ Not all NII creates value. A bank that funds long-term loans with short-term dep
 
 Most of these sit in the earnings release, supplement and capital disclosures, not the tearsheet ratios; get them with `bigdata_search` and `bigdata_fetch_document`.
 
-## What the statements do differently, and the traps
+## Financial statements and accounting traps
 
 - Interest expense is the cost of goods: EBIT and EBITDA mean nothing, and there is no "net debt" (McKinsey ch. 36, p. 765).
 - The cash flow statement mixes loan originations, deposit flows and securities purchases; industrial free cash flow has no meaning. Use the equity cash flow below.
@@ -41,7 +41,7 @@ Most of these sit in the earnings release, supplement and capital disclosures, n
 - Banks are opaque: true returns and risks are hard to see from outside (McKinsey ch. 16). The accrual, EBITA and working-capital tests in `earnings-quality.md` do not apply; reconcile earnings to the change in equity.
 - Use tangible equity for returns and multiples; acquirers carry goodwill.
 
-## Profit pool and competition
+## Profit pool and competitive dynamics
 
 Banks are fragmented when measured globally: 1,114 listed firms, a four-firm revenue concentration of 15.6%, and a top-10 share of industry invested capital that rose from 23% to 32% between 2005 and 2015 (Mauboussin and HOLT, Global Industry Profit Pools, July 2016; verify). National markets are usually far more concentrated (judgment, verify). In that study, the economic spread of commercial banks fell from 0.7 to 0.1 points between 2010 and 2015, while thrifts and mortgage finance recovered from -14.2 to 6.2 points (p. 4). The pool is close to zero on average with wide dispersion, so explain who earns the spread and why.
 
@@ -67,7 +67,7 @@ Banks compete on a low-cost, stable deposit base, scale in technology and paymen
 
 **Pitfalls.** Capitalising a peak-cycle ROE: normalise credit costs to through-cycle loss rates by loan category (cards highest, mortgages lowest, correlated with GDP; McKinsey ch. 36). Holding the cost of equity fixed while the capital ratio or asset mix changes (p. 784). Ignoring the tax cost of holding equity (equity x tax rate). Not valuing capital above the target ratio separately. Reading a high NIM as quality when it reflects credit risk or a duration gap.
 
-## Questions a specialist asks on the call
+## Questions for the earnings call
 
 - What deposit beta is assumed in NII guidance, and how has the deposit mix (noninterest-bearing share) moved?
 - How much of NII comes from the securities book and swaps repricing, and what is the sensitivity to a parallel and a non-parallel rate shift?
