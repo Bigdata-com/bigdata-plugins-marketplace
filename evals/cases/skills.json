@@ -6,7 +6,13 @@
       "prompt": "Earnings preview for Micron",
       "connector": "on",
       "max_user_turns": 0,
-      "checks": {"max_questions": 0, "min_bigdata_calls": 5, "uses_skill": ["bigdata-earnings-preview"]},
+      "checks": {
+        "max_questions": 0,
+        "min_bigdata_calls": 5,
+        "uses_skill": [
+          "bigdata-earnings-preview"
+        ]
+      },
       "judge": [
         "The note states what the price implies (a steady-state or implied-growth figure, or the multiple against the steady-state multiple) before any sentence that reads as a view.",
         "Management's guidance for the quarter is quoted from the previous quarter's earnings call with a citation, not from a later call and not from memory.",
@@ -22,7 +28,11 @@
       "prompt": "What is consensus for Micron's next quarter and what did they guide?",
       "connector": "on",
       "max_user_turns": 0,
-      "checks": {"max_questions": 0, "min_bigdata_calls": 2, "max_bigdata_calls": 8},
+      "checks": {
+        "max_questions": 0,
+        "min_bigdata_calls": 2,
+        "max_bigdata_calls": 8
+      },
       "judge": [
         "The answer is a direct one: the consensus figures with their vintage and the guidance quoted with a citation, not a full earnings preview with scenarios.",
         "The answer still ends with Sources, the Powered by Bigdata.com line and the disclaimer."
@@ -33,7 +43,13 @@
       "prompt": "Why did Micron move this week?",
       "connector": "on",
       "max_user_turns": 0,
-      "checks": {"max_questions": 0, "min_bigdata_calls": 3, "uses_skill": ["bigdata-stock-move"]},
+      "checks": {
+        "max_questions": 0,
+        "min_bigdata_calls": 3,
+        "uses_skill": [
+          "bigdata-stock-move"
+        ]
+      },
       "judge": [
         "The move and the index move over the same window are taken from Bigdata.com data, with the window stated.",
         "The trigger has a dated source, or the note says no company-specific trigger was found.",
@@ -47,12 +63,19 @@
       "prompt": "Quick take on JPMorgan",
       "connector": "on",
       "max_user_turns": 0,
-      "checks": {"max_questions": 0, "min_bigdata_calls": 3, "max_bigdata_calls": 10, "uses_skill": ["bigdata-quick-take"]},
+      "checks": {
+        "max_questions": 0,
+        "min_bigdata_calls": 3,
+        "max_bigdata_calls": 10,
+        "uses_skill": [
+          "bigdata-quick-take"
+        ]
+      },
       "judge": [
         "The output fits on about one page: the view in prose, a what-the-price-implies table, three drivers, risks with early signals, a next dated event.",
         "Because the company is a bank, the drivers are bank drivers (net interest income, credit costs, capital, fee lines) and the valuation check uses price to book against return on equity or a steady-state P/E, not EV/EBITDA.",
         "The cost of equity used is stated as an assumption with its basis.",
-        "No buy, hold, sell or rating language; 'interesting' is answered with what the price assumes and what the evidence says.",
+        "The note gives no buy, hold, sell or rating call of its own; reported analyst rating counts and price targets quoted as data are fine. 'Interesting' is answered with what the price assumes and what the evidence says.",
         "Every figure has a source number or a Basis label; the footer is present."
       ]
     },
@@ -61,7 +84,10 @@
       "prompt": "Quick take on Nvidia",
       "connector": "off",
       "max_user_turns": 0,
-      "checks": {"max_questions": 1, "max_bigdata_calls": 0},
+      "checks": {
+        "max_questions": 1,
+        "max_bigdata_calls": 0
+      },
       "judge": [
         "The assistant says the Bigdata.com tools are not available and tells the user how to connect.",
         "The assistant gives no view, figures or news about Nvidia from memory or web search."
@@ -72,7 +98,13 @@
       "prompt": "Give me a deep dive on ASML",
       "connector": "on",
       "max_user_turns": 0,
-      "checks": {"max_questions": 0, "min_bigdata_calls": 8, "uses_skill": ["bigdata-deep-dive"]},
+      "checks": {
+        "max_questions": 0,
+        "min_bigdata_calls": 8,
+        "uses_skill": [
+          "bigdata-deep-dive"
+        ]
+      },
       "judge": [
         "The report has the sections in the skill's order: the business, economics (ROIC series naming which ROIC is quoted), industry structure and moat, earnings quality, capital allocation, what the price implies, valuation range, risks and kill criteria, catalysts.",
         "Currency and reporting conventions for a non-US company are stated (euro figures, fiscal year).",

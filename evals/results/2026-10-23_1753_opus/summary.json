@@ -1,0 +1,418 @@
+[
+  {
+    "case": "ep-narrow",
+    "run": 1,
+    "prompt": "What is consensus for Micron's next quarter and what did they guide?",
+    "connector": "on",
+    "model": "opus",
+    "pass": false,
+    "counted_checks": [
+      {
+        "check": "questions before the first result <= 0",
+        "pass": true,
+        "value": 0
+      },
+      {
+        "check": "Bigdata.com calls >= 2",
+        "pass": true,
+        "value": 3
+      },
+      {
+        "check": "Bigdata.com calls <= 8",
+        "pass": true,
+        "value": 3
+      },
+      {
+        "check": "no call that changes the Bigdata.com account",
+        "pass": true,
+        "value": "none"
+      }
+    ],
+    "judge": [
+      {
+        "criterion": "The answer is a direct one: the consensus figures with their vintage and the guidance quoted with a citation, not a full earnings preview with scenarios.",
+        "pass": false,
+        "reason": "The answer goes beyond a direct consensus-vs-guidance reply: it adds extra sections on the prior quarter's results, full-year commentary, consensus for later quarters, and gross margin explanations, making it closer to an earnings preview; consensus vintage (as-of date) is also not clearly stated, only that it may change before Dec 16."
+      },
+      {
+        "criterion": "The answer still ends with Sources, the Powered by Bigdata.com line and the disclaimer.",
+        "pass": false,
+        "reason": "The answer ends with a Sources section but has no 'Powered by Bigdata.com' line and no disclaimer."
+      }
+    ],
+    "questions_before_result": 0,
+    "bigdata_calls": 3,
+    "bigdata_tools": [
+      "find_securities",
+      "bigdata_search",
+      "bigdata_company_tearsheet"
+    ],
+    "calls_with_plugin_slug": 0,
+    "plugin_slugs": [],
+    "skills_used": [],
+    "bigdata_skill_loaded": false,
+    "turns": 1,
+    "stops": [
+      "success"
+    ],
+    "denied_tools": [],
+    "cost_usd": {
+      "subject": 0.725,
+      "simulated_user": 0.0,
+      "judge": 0.02
+    }
+  },
+  {
+    "case": "sm-move",
+    "run": 1,
+    "prompt": "Why did Micron move this week?",
+    "connector": "on",
+    "model": "opus",
+    "pass": false,
+    "counted_checks": [
+      {
+        "check": "questions before the first result <= 0",
+        "pass": true,
+        "value": 0
+      },
+      {
+        "check": "Bigdata.com calls >= 3",
+        "pass": true,
+        "value": 11
+      },
+      {
+        "check": "uses the method of bigdata-stock-move",
+        "pass": true,
+        "value": [
+          "bigdata-com:bigdata-stock-move"
+        ]
+      },
+      {
+        "check": "no call that changes the Bigdata.com account",
+        "pass": true,
+        "value": "none"
+      }
+    ],
+    "judge": [
+      {
+        "criterion": "The move and the index move over the same window are taken from Bigdata.com data, with the window stated.",
+        "pass": true,
+        "reason": "The MU move (-0.15%) and SPY move (-0.43%) are both from Bigdata.com daily prices, with the window stated as Oct 16 close to Oct 23 close (Oct 19-23)."
+      },
+      {
+        "criterion": "The trigger has a dated source, or the note says no company-specific trigger was found.",
+        "pass": true,
+        "reason": "The Thursday trigger (tech-led selloff over AI spending, rates and oil) is tied to dated, linked sources [1][2][3], and the note says no Micron-specific news explained the move beyond the strike headline."
+      },
+      {
+        "criterion": "The note says whether the trigger changed the long-term outlook (growth, margin, return or duration) or only the headline.",
+        "pass": true,
+        "reason": "A dedicated section, 'Did the long-term outlook change?', says nothing found changes expected growth, margins or returns, and explains that the concerns were already present."
+      },
+      {
+        "criterion": "A historical base-rate row is quoted with N and the sample period, and the momentum, valuation and quality proxies are labelled derived.",
+        "pass": false,
+        "reason": "No base-rate row with N and sample period is quoted; the note says the base-rate tables do not apply, and the derived proxies (momentum, valuation, quality) are not presented as a labelled set."
+      },
+      {
+        "criterion": "No sentence recommends buying, selling, adding or trimming.",
+        "pass": true,
+        "reason": "No sentence recommends buying, selling, adding or trimming; analyst ratings are only reported and the disclaimer states it is not a recommendation."
+      }
+    ],
+    "questions_before_result": 0,
+    "bigdata_calls": 11,
+    "bigdata_tools": [
+      "find_securities",
+      "bigdata_company_tearsheet",
+      "bigdata_market_tearsheet",
+      "bigdata_search",
+      "bigdata_computer",
+      "bigdata_computer",
+      "bigdata_computer",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_search"
+    ],
+    "calls_with_plugin_slug": 11,
+    "plugin_slugs": [
+      "bigdata-stock-move"
+    ],
+    "skills_used": [
+      "bigdata-com:bigdata-stock-move"
+    ],
+    "bigdata_skill_loaded": false,
+    "turns": 1,
+    "stops": [
+      "success"
+    ],
+    "denied_tools": [],
+    "cost_usd": {
+      "subject": 1.266,
+      "simulated_user": 0.0,
+      "judge": 0.041
+    }
+  },
+  {
+    "case": "qt-jpm",
+    "run": 1,
+    "prompt": "Quick take on JPMorgan",
+    "connector": "on",
+    "model": "opus",
+    "pass": false,
+    "counted_checks": [
+      {
+        "check": "questions before the first result <= 0",
+        "pass": true,
+        "value": 0
+      },
+      {
+        "check": "Bigdata.com calls >= 3",
+        "pass": true,
+        "value": 7
+      },
+      {
+        "check": "Bigdata.com calls <= 10",
+        "pass": true,
+        "value": 7
+      },
+      {
+        "check": "uses the method of bigdata-quick-take",
+        "pass": true,
+        "value": [
+          "bigdata-com:bigdata-quick-take"
+        ]
+      },
+      {
+        "check": "no call that changes the Bigdata.com account",
+        "pass": true,
+        "value": "none"
+      }
+    ],
+    "judge": [
+      {
+        "criterion": "The output fits on about one page: the view in prose, a what-the-price-implies table, three drivers, risks with early signals, a next dated event.",
+        "pass": true,
+        "reason": "It has the prose view, a what-the-price-implies table, three drivers, risks with early signals and a dated next event (Q4 results on 14 Jan 2027), in roughly one page of body text."
+      },
+      {
+        "criterion": "Because the company is a bank, the drivers are bank drivers (net interest income, credit costs, capital, fee lines) and the valuation check uses price to book against return on equity or a steady-state P/E, not EV/EBITDA.",
+        "pass": true,
+        "reason": "The drivers are NII, Markets and IB fees, expenses and credit, with capital covered under risks, and the valuation uses P/TBV against ROTCE plus a steady-state P/E, with no EV/EBITDA."
+      },
+      {
+        "criterion": "The cost of equity used is stated as an assumption with its basis.",
+        "pass": true,
+        "reason": "The 10% cost of equity is labelled 'assumed: US large-bank range of 9-11%' and the implied growth is shown at 9% and 11% as a sensitivity."
+      },
+      {
+        "criterion": "No buy, hold, sell or rating language; 'interesting' is answered with what the price assumes and what the evidence says.",
+        "pass": false,
+        "reason": "The table includes '32 buy, 27 hold, 2 sell' and price-target upside; this is reported data rather than the assistant's own call, but it is literally buy/hold/sell rating language."
+      },
+      {
+        "criterion": "Every figure has a source number or a Basis label; the footer is present.",
+        "pass": true,
+        "reason": "Table rows carry Basis and Source labels, driver and risk claims carry numbered citations, and the Data line and Powered by footer are present, though the $331.58 price in the view paragraph has no source tag."
+      }
+    ],
+    "questions_before_result": 0,
+    "bigdata_calls": 7,
+    "bigdata_tools": [
+      "find_securities",
+      "bigdata_company_tearsheet",
+      "bigdata_company_tearsheet",
+      "bigdata_search",
+      "bigdata_sentiment_tearsheet",
+      "bigdata_search",
+      "bigdata_search"
+    ],
+    "calls_with_plugin_slug": 7,
+    "plugin_slugs": [
+      "bigdata-quick-take"
+    ],
+    "skills_used": [
+      "bigdata-com:bigdata-quick-take"
+    ],
+    "bigdata_skill_loaded": false,
+    "turns": 1,
+    "stops": [
+      "success"
+    ],
+    "denied_tools": [],
+    "cost_usd": {
+      "subject": 1.055,
+      "simulated_user": 0.0,
+      "judge": 0.04
+    }
+  },
+  {
+    "case": "qt-connector-off",
+    "run": 1,
+    "prompt": "Quick take on Nvidia",
+    "connector": "off",
+    "model": "opus",
+    "pass": false,
+    "counted_checks": [
+      {
+        "check": "questions before the first result <= 1",
+        "pass": true,
+        "value": 0
+      },
+      {
+        "check": "Bigdata.com calls <= 0",
+        "pass": true,
+        "value": 0
+      },
+      {
+        "check": "no call that changes the Bigdata.com account",
+        "pass": true,
+        "value": "none"
+      }
+    ],
+    "judge": [
+      {
+        "criterion": "The assistant says the Bigdata.com tools are not available and tells the user how to connect.",
+        "pass": true,
+        "reason": "The assistant states Bigdata.com isn't authorized/available and tells the user to connect via `/mcp` in an interactive session or through claude.ai connector settings."
+      },
+      {
+        "criterion": "The assistant gives no view, figures or news about Nvidia from memory or web search.",
+        "pass": false,
+        "reason": "Although it gave no price, results or news, the assistant offered a substantive framework from memory (hyperscaler capex concentration, Blackwell-to-Rubin margin pressure, TPU/Trainium/MTIA/AMD competition, China export controls, TSMC CoWoS/HBM constraints), which amounts to views about Nvidia from memory."
+      }
+    ],
+    "questions_before_result": 0,
+    "bigdata_calls": 0,
+    "bigdata_tools": [],
+    "calls_with_plugin_slug": 0,
+    "plugin_slugs": [],
+    "skills_used": [],
+    "bigdata_skill_loaded": false,
+    "turns": 1,
+    "stops": [
+      "success"
+    ],
+    "denied_tools": [
+      "WebSearch",
+      "WebSearch"
+    ],
+    "cost_usd": {
+      "subject": 0.119,
+      "simulated_user": 0.0,
+      "judge": 0.014
+    }
+  },
+  {
+    "case": "dd-asml",
+    "run": 1,
+    "prompt": "Give me a deep dive on ASML",
+    "connector": "on",
+    "model": "opus",
+    "pass": true,
+    "counted_checks": [
+      {
+        "check": "questions before the first result <= 0",
+        "pass": true,
+        "value": 0
+      },
+      {
+        "check": "Bigdata.com calls >= 8",
+        "pass": true,
+        "value": 30
+      },
+      {
+        "check": "uses the method of bigdata-deep-dive",
+        "pass": true,
+        "value": [
+          "bigdata-com:bigdata-deep-dive"
+        ]
+      },
+      {
+        "check": "no call that changes the Bigdata.com account",
+        "pass": true,
+        "value": "none"
+      }
+    ],
+    "judge": [
+      {
+        "criterion": "The report has the sections in the skill's order: the business, economics (ROIC series naming which ROIC is quoted), industry structure and moat, earnings quality, capital allocation, what the price implies, valuation range, risks and kill criteria, catalysts.",
+        "pass": true,
+        "reason": "The sections follow the required order (business, economics with the quoted ROIC named as 42.0% before customer prepayments, industry and moat, earnings quality, capital allocation, price implies, valuation, risks and kill criteria, catalysts)."
+      },
+      {
+        "criterion": "Currency and reporting conventions for a non-US company are stated (euro figures, fiscal year).",
+        "pass": true,
+        "reason": "Figures are stated in EUR bn, the data-as-of line gives the FY2021-FY2025 fiscal years, and the USD price is converted at a stated EUR/USD 1.08 with the derivation given in Gaps."
+      },
+      {
+        "criterion": "The valuation reports the terminal-value share of enterprise value, the implied terminal multiple and a bridge per share, and gives a range with probabilities that sum to 100.",
+        "pass": true,
+        "reason": "Terminal value is 42% of EV, the implied terminal EV/EBIT is 12.1x, a per-share equity bridge is given, and the case probabilities of 25%, 50% and 25% sum to 100."
+      },
+      {
+        "criterion": "What the price implies precedes the valuation and the summary is consistent with it.",
+        "pass": true,
+        "reason": "The 'What the price implies' section comes before 'Valuation', and the summary's \u20ac702-1,514 range, \u20ac1,082 weighted value and price of about \u20ac1,472 match the body."
+      },
+      {
+        "criterion": "No rating word; every figure has a source number or a Basis label; the footer is present.",
+        "pass": true,
+        "reason": "No buy, sell or hold rating is given outside the disclaimer, most figures carry a Basis label or source number, and the Bigdata.com footer is present, though a few prose figures are unlabelled."
+      }
+    ],
+    "questions_before_result": 0,
+    "bigdata_calls": 30,
+    "bigdata_tools": [
+      "find_securities",
+      "bigdata_company_tearsheet",
+      "bigdata_company_tearsheet",
+      "bigdata_company_tearsheet",
+      "bigdata_company_tearsheet",
+      "bigdata_company_tearsheet",
+      "bigdata_company_tearsheet",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_search",
+      "find_securities",
+      "find_securities",
+      "find_securities",
+      "find_securities",
+      "bigdata_search",
+      "bigdata_search",
+      "bigdata_company_tearsheet",
+      "bigdata_company_tearsheet",
+      "bigdata_company_tearsheet",
+      "bigdata_company_tearsheet",
+      "bigdata_search"
+    ],
+    "calls_with_plugin_slug": 30,
+    "plugin_slugs": [
+      "bigdata-deep-dive"
+    ],
+    "skills_used": [
+      "bigdata-com:bigdata-deep-dive"
+    ],
+    "bigdata_skill_loaded": false,
+    "turns": 1,
+    "stops": [
+      "success"
+    ],
+    "denied_tools": [],
+    "cost_usd": {
+      "subject": 3.269,
+      "simulated_user": 0.0,
+      "judge": 0.103
+    }
+  }
+]
