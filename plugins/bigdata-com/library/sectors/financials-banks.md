@@ -1,6 +1,6 @@
 # Financials: banks
 
-This primer covers deposit-taking banks, including their trading and fee businesses. Insurers have their own primer. Asset managers, exchanges and payment networks carry little balance-sheet risk; value them with the standard enterprise methods. Every figure below is historical, illustrative or a judgment range, not a current fact; check each one marked "(verify)" before use.
+This primer covers deposit-taking banks, including their trading and fee businesses. Insurers have their own primer. Asset managers, exchanges and payment networks carry little balance-sheet risk; value them with the standard enterprise methods. Every figure below is historical, illustrative or judgment, never a current fact; check each "(verify)" before use.
 
 ## How banks make money and what drives value
 
@@ -75,7 +75,6 @@ Banks compete on a low-cost, stable deposit base, scale in technology and paymen
 - Which books (commercial real estate, cards, leveraged loans) show rising delinquencies?
 - What CET1 target, including management buffer, governs buybacks, and what do pending capital rule changes do to RWA?
 - What would marking held-to-maturity securities do to tangible book?
-- What is the cost growth target and the technology spend inside it?
 
 ## What to watch at the macro level
 

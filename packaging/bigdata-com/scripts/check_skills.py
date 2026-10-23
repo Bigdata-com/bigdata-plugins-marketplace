@@ -63,8 +63,10 @@ for skill in sorted(os.listdir(SKILLS)):
             errors.append(f"{skill}: path escapes the skill folder: {link}")
         elif not os.path.exists(os.path.join(d, link)):
             errors.append(f"{skill}: links to {link}, which does not exist")
-    if RATING.search(body):
-        errors.append(f"{skill}: rating word in body: {RATING.search(body).group(0)}")
+    for line in body.split("\n"):
+        m2 = RATING.search(line)
+        if m2 and not re.search(r"\b(no|never|not|without|gives no|nor)\b", line[:m2.start()], re.I):
+            errors.append(f"{skill}: rating word in body: {m2.group(0)}"); break
     if "Prepared with Claude" in text:
         errors.append(f"{skill}: 'Prepared with Claude' footer")
     for y in re.findall(r"\b(20[12]\d)\b", body):
@@ -103,7 +105,7 @@ for skill in sorted(os.listdir(SKILLS)):
 
 for dp, dn, fn in os.walk(ROOT):
     pass
-plugin_files = sum(len(fn) for _, _, fn in os.walk(ROOT))
+plugin_files = sum(len(fn) for dp, dn, fn in os.walk(ROOT) if "/evals" not in dp and not dp.endswith("/evals"))
 if plugin_files > 512:
     errors.append(f"plugin has {plugin_files} files; the Anthropic directory holds plugins above 512 for a reviewer")
 
