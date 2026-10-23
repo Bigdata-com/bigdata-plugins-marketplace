@@ -1,0 +1,8 @@
+interface:
+  display_name: Peer Comps
+  short_description: Peer multiples built consistently, with where the company should sit and why
+  default_prompt: Use $bigdata-comps to compare [company] with its peers on valuation and returns.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

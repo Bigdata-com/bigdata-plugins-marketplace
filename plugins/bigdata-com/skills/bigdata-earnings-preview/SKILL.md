@@ -1,6 +1,12 @@
 ---
 name: bigdata-earnings-preview
-description: Setup before a company reports, from Bigdata.com estimates, the last call, filings and news: the drivers of the quarter, consensus against guidance and base rates, what the price implies, the sales-to-margin sensitivity, scenarios with what to watch in each, and the metrics to check first. Use when the user asks for an earnings preview, what to expect when a company reports, the setup into the print, or what consensus is looking for. Not for results already reported, which bigdata-earnings-review covers.
+description: >-
+  Setup before a company reports, from Bigdata.com estimates, the last call, filings and news: the
+  drivers of the quarter, consensus against guidance and base rates, what the price implies, the
+  sales-to-margin sensitivity, scenarios with what to watch in each, and the metrics to check
+  first. Use when the user asks for an earnings preview, what to expect when a company reports,
+  the setup into the print, or what consensus is looking for. Not for results already reported,
+  which bigdata-earnings-review covers.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, operating-leverage-and-tam, forecasting-discipline, after-a-price-move, valuation
   bigdata-sector-primer: auto
@@ -33,7 +39,7 @@ Work through these in order. Each step says what it must produce.
 2. **The last earnings call.** `bigdata_search` in fast mode for the transcript of the previous quarter's call with the reporting period filter set to that quarter, then `bigdata_fetch_document` on the transcript. Done when management's guidance for the quarter being previewed is quoted verbatim with its ranges, and the questions analysts pressed on are listed. Guidance for the next quarter is given on the current quarter's call, so the call to read is the one for the quarter before the one being previewed, never a later one.
 3. **What changed since that call.** Three to five `bigdata_search` calls, one aspect each: company news since the last print; the company's own filings or releases since then (8-K, pre-announcements, investor-day material); peer and supplier prints that bear on the quarter; sell-side notes on the setup (research and news that quote analysts); the data points the drivers depend on (pricing, volumes, channel checks, macro series). Done when every driver in the analysis has at least one dated piece of evidence or is marked as having none.
 4. **Sentiment and positioning.** `bigdata_sentiment_tearsheet` for the company over the last 90 days. Done when the direction of news sentiment into the print and the stories driving it are known. Short interest and options data are not in Bigdata.com; say so in the Gaps line if the user asks for positioning.
-5. **Sector primer.** If the company is in a sector with a primer in `references/sectors/`, read it for the metrics the sector reports and the accounting traps before analysing. Banks and insurers report different lines (net interest income, provisions, combined ratio) and the preview's tables follow the primer.
+5. **Sector primer.** If the company is in a sector with a section in `references/sector-primers.md`, read it for the metrics the sector reports and the accounting traps before analysing. Banks and insurers report different lines (net interest income, provisions, combined ratio) and the preview's tables follow the primer.
 
 ## Analyse
 
@@ -64,9 +70,10 @@ Follow `references/output-standard.md`. The note has these sections in this orde
 Data as of: estimates <date>; latest statements <period>; newest document <date>.
 
 ## The setup
-Four to eight sentences: what the quarter turns on, whether the bar is high or low and why,
-what management guided, and the one thing that would make this print matter beyond the quarter.
-No rating.
+Four to eight sentences. The first two state what the price implies, with the figures (the forward
+P/E against the steady-state P/E, or the implied growth against consensus) and their basis; only
+then whether the bar is high or low and why, what management guided, and the one thing that would
+make this print matter beyond the quarter. No rating.
 
 ## The quarter at a glance
 | Metric | Consensus (n) | 30d / 90d change | Guidance (low, mid, high) | Prior year | Growth | Prior quarter | Basis | Source |
@@ -114,7 +121,7 @@ Length: two to four pages. For a narrow question, answer it in the method's term
 
 1. The guidance quoted is from the call for the quarter before the one previewed, verbatim, with a citation.
 2. The consensus table states its vintage and the number of estimates where available.
-3. "What is priced in" comes before any sentence that reads as a view.
+3. The setup paragraph states the price-implied figures before any sentence that reads as a view, and every number in it carries a citation or a basis word.
 4. Each growth figure has its base-rate sentence with the size class, horizon, share and sample label.
 5. The sensitivity rows show the formula and the inside and outside views.
 6. Scenario probabilities sum to 100 and are anchored to a stated beat rate, not a default split.

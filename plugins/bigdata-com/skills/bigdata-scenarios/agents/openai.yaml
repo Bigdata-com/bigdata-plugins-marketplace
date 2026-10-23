@@ -1,0 +1,8 @@
+interface:
+  display_name: Scenario Analysis
+  short_description: Base, downside and upside cases with reference-class weights and signposts
+  default_prompt: Use $bigdata-scenarios to build base, downside and upside cases for [company].
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

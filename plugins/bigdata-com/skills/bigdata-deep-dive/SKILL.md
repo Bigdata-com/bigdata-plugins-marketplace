@@ -1,6 +1,12 @@
 ---
 name: bigdata-deep-dive
-description: An initiation-style report on one company from Bigdata.com data: the business and its economics, industry structure and moat, earnings quality, capital allocation, what the price implies, a valuation range, risks, catalysts and what to watch, with every figure sourced. Use when the user asks for a deep dive, an initiation, an investment memo, full research on a company, or to understand a business properly. Not for a one-page view, which bigdata-quick-take covers, or for the thesis alone, which bigdata-thesis covers.
+description: >-
+  An initiation-style report on one company from Bigdata.com data: the business and its economics,
+  industry structure and moat, earnings quality, capital allocation, what the price implies, a
+  valuation range, risks, catalysts and what to watch, with every figure sourced. Use when the
+  user asks for a deep dive, an initiation, an investment memo, full research on a company, or to
+  understand a business properly. Not for a one-page view, which bigdata-quick-take covers, or for
+  the thesis alone, which bigdata-thesis covers.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, roic, valuation, multiples-and-peers, earnings-quality, capital-allocation, industry-structure, downside-and-catalysts, forecasting-discipline
   bigdata-sector-primer: auto
@@ -33,7 +39,7 @@ The report rests on the tearsheet, the last three calls, the latest annual filin
 4. **Industry evidence.** Three to six searches, one aspect each: market shares and their stability, pricing in the industry, new entrants and exits, regulation, the suppliers and customers with power, the technology that could change the structure. Done when each step of the moat method has evidence or an explicit gap.
 5. **Peers.** `bigdata_screen_companies` on the industry and size, then `bigdata_company_tearsheet` with `key_metrics, estimates, fundamentals` for four to eight peers chosen by value drivers. Done when the peer table in the comps method can be filled.
 6. **Sell-side and news.** Searches for research notes and news over the last twelve months on the company's strategy, its capital allocation and its controversies. Done when the controversies are listed.
-7. **Sector primer.** If the company's sector has a primer in `references/sectors/`, read it before analysing.
+7. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read it before analysing.
 
 ## Analyse
 

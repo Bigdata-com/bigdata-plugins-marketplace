@@ -26,7 +26,7 @@ Every Bigdata.com skill writes to this standard, so a reader who has seen one re
 - Cite inline with numbers in square brackets right after the claim: "guided to $9.6bn at the midpoint [3]". One number per source; reuse the number for a source cited twice.
 - The **Sources** section lists every number once, in the server's link format: `[3] [Micron Q4 FY2026 earnings call - Sep 24, 2026](url)`, with the attribution URL the tool result gave. Never invent a URL or a document id.
 - Figures computed from Bigdata.com data sets that have no document behind them (prices, estimates, statements, screens) are covered by one **Data** line after the numbered sources: "Data: Bigdata.com company tearsheet for Micron, FactSet fundamentals and consensus estimates, retrieved Oct 23, 2026."
-- A claim with no source and no Basis label does not go in the report.
+- A claim with no source and no Basis label does not go in the report. This applies to numbers inside sentences as much as to tables: a figure in prose carries its citation number or its basis word (derived, assumed) in the same sentence.
 
 ## No recommendation
 
@@ -52,7 +52,7 @@ A narrow question gets a direct answer in the skill's method with the relevant t
 
 ## Footer
 
-Reproduce the two blocks below verbatim after Sources in every user-facing deliverable, including a one-line answer.
+Reproduce the two blocks below verbatim after Sources in every user-facing deliverable, including a one-line answer. The report ends on the disclaimer. The one offer a skill makes after delivery (save a watchlist, a monitor or the report; build a skill) is conversation, not report: put it in a separate short line after a blank line, so the deliverable itself still ends on the disclaimer.
 
 **Powered by Bigdata.com** - https://bigdata.com
 

@@ -1,6 +1,12 @@
 ---
 name: bigdata-earnings-quality
-description: Earnings quality and accounting red flags from Bigdata.com financial statements and filings: accruals, an EBITA rebuild, one-offs that recur, provisions, revenue recognition, capitalisation, stock compensation, the earnings-to-equity reconciliation, and each flag with its severity. Use when the user asks whether earnings are real, about accounting quality, red flags, aggressive accounting, or cash conversion. Not for the results of one quarter, which bigdata-earnings-review covers.
+description: >-
+  Earnings quality and accounting red flags from Bigdata.com financial statements and filings:
+  accruals, an EBITA rebuild, one-offs that recur, provisions, revenue recognition,
+  capitalisation, stock compensation, the earnings-to-equity reconciliation, and each flag with
+  its severity. Use when the user asks whether earnings are real, about accounting quality, red
+  flags, aggressive accounting, or cash conversion. Not for the results of one quarter, which
+  bigdata-earnings-review covers.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, earnings-quality, roic
   bigdata-sector-primer: auto
@@ -36,7 +42,7 @@ Each step says what it must produce.
 5. **Management's explanations.** Search and fetch the last two earnings calls. Done when management's explanation of any working-capital swing, reserve movement, one-off or margin change is quoted, or marked as not discussed.
 6. **Governance and disclosure events.** One search each, over the window: auditor resignation or dismissal; restatements or material weakness; late filings or regulatory inquiries into the accounts; related-party dealings; short-seller or forensic research on the company; KPIs, segments or interim data dropped. Done when each is marked present with a source, absent, or not found.
 7. **Peers.** Three to six peers named in the filing or found with `bigdata_screen_companies` on industry and size, then `bigdata_company_tearsheet` with `fundamentals` for each. Done when peer medians for the accrual ratio, CFO to net income, DSO, DIO, DPO, depreciation rate and goodwill to equity can be computed.
-8. **Sector primer.** If the company's sector has a primer in `references/sectors/`, read its accounting-traps section before analysing.
+8. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its accounting-traps section before analysing.
 
 ## Analyse
 

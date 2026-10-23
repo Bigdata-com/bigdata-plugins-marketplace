@@ -1,6 +1,11 @@
 ---
 name: bigdata-quick-take
-description: A one-page view on a stock from Bigdata.com data: what the price implies, the three drivers that matter now, the risks and what would change the view, and the next dated catalyst. Use when the user asks for a quick take, thoughts on a ticker, whether a stock is interesting, or a fast view on a name. Not for a full thesis or model, which bigdata-deep-dive and bigdata-valuation cover. It gives no buy or sell call.
+description: >-
+  A one-page view on a stock from Bigdata.com data: what the price implies, the three drivers that
+  matter now, the risks and what would change the view, and the next dated catalyst. Use when the
+  user asks for a quick take, thoughts on a ticker, whether a stock is interesting, or a fast view
+  on a name. Not for a full thesis or model, which bigdata-deep-dive and bigdata-valuation cover.
+  It gives no buy or sell call.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, downside-and-catalysts
   bigdata-sector-primer: auto
@@ -32,7 +37,7 @@ Four calls, no more unless a driver needs one.
 3. `bigdata_search` for the last earnings call, with the reporting period filter, and `bigdata_fetch_document` on it. Done when guidance and the one exchange that shows what management is worried about are known.
 4. `bigdata_sentiment_tearsheet` for 90 days. Done when the direction of sentiment is known.
 
-If the company is in a sector with a primer in `references/sectors/`, read the primer's "metrics that matter" section so the drivers are the sector's drivers.
+If the company is in a sector with a section in `references/sector-primers.md`, read the primer's "metrics that matter" section so the drivers are the sector's drivers.
 
 ## Analyse
 

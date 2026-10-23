@@ -1,8 +1,13 @@
 ---
 name: bigdata-risk
-description: Downside analysis of a stock from Bigdata.com data: what would break the thesis, how much is at risk in each case, the floors from assets and private-market value, balance sheet and liquidity, and the risks ranked by probability and size with the signals to watch. Use when the user asks what could go wrong, about the risks, the downside, the bear case, or how much they could lose. Not for the credit of the company's debt, which bigdata-credit covers.
+description: >-
+  Downside analysis of a stock from Bigdata.com data: what would break the thesis, how much is at
+  risk in each case, the floors from assets and private-market value, balance sheet and liquidity,
+  and the risks ranked by probability and size with the signals to watch. Use when the user asks
+  what could go wrong, about the risks, the downside, the bear case, or how much they could lose.
+  Not for the credit of the company's debt, which bigdata-credit covers.
 metadata:
-  bigdata-refs: working-with-bigdata, output-standard, downside-and-catalysts, forecasting-discipline, earnings-quality, credit
+  bigdata-refs: working-with-bigdata, output-standard, downside-and-catalysts, forecasting-discipline, earnings-quality, credit, expectations
   bigdata-sector-primer: auto
 ---
 
@@ -23,6 +28,12 @@ Resolve the company with `find_securities`. Establish the holder's side and hori
 
 Ask one question only if the answer changes the work: the user says "my thesis" without stating it and the drivers cannot be inferred, or the name is ambiguous. Otherwise proceed.
 
+Narrow questions map to steps in the Analyse section:
+- "What is the floor?" or "how much could I lose?": steps 1 to 3.
+- "Can the balance sheet take a downturn?": step 4, with the maturity table.
+- "What are the biggest risks?": step 6, with the ranked table and early signals, drawing on steps 2 to 5 only as far as the ranking needs.
+- "What would make me sell?": steps 8 and 9, stated as conditions, never as a call.
+
 If the company is Private, say there is no price to measure loss against and give the floors and the balance-sheet stress only. For a bank or an insurer, asset and liability values are hard to verify, so test book value and earnings quality in place of liquidation value and use capital ratios in place of net debt (`references/downside-and-catalysts.md` and `references/credit.md`, interpretation rules).
 
 ## Gather
@@ -37,7 +48,7 @@ Each step says what it must produce.
 6. **The disconfirming case.** Searches for bear-case research, short-seller reports, and filings that contradict management's statements. Done when the strongest opposing argument is quoted with its source, or the searches found none.
 7. **Private-market comparables.** Searches for recent acquisitions of comparable businesses and the multiples paid, and the peers' `mergers_acquisitions` histories. Done when two or more transactions have a multiple, a date, the buyer, and how the deal was financed, or the comparables are named as not available.
 8. **Management's account.** Search and fetch the last earnings call. Done when management's statements on the drivers, the balance sheet and the risks analysts pressed on are quoted.
-9. **Sector primer.** If the company's sector has a primer in `references/sectors/`, read its accounting traps, valuation conventions and macro sections.
+9. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its accounting traps, valuation conventions and macro sections.
 
 ## Analyse
 
@@ -61,6 +72,12 @@ Load `references/downside-and-catalysts.md` before step 1, `references/credit.md
 
 9. **Kill criteria with dates.** From table 4 of the downside method and rule 4 of the forecasting method: for each main driver, the threshold that would end the thesis and the date by which it is checked, taken from the events calendar, guidance and filing dates. Include value falling below the price, a confirmed accounting or governance failure, funding or covenant stress, and a catalyst that does not occur by its date. A price fall alone is not a kill condition: re-test the thesis on value. Done when each criterion has a driver, a checkable threshold and a date.
 
+Special cases:
+- Non-US listings and emerging markets: demand a wider margin for incomplete disclosure, restricted share classes and illiquidity, and compare local accounting with peers in other countries.
+- Loss-making or early-stage companies: the sources give no cash-runway method; state the burn rate and the runway as derived and the funding assumption as assumed, and treat a need to raise capital as a permanent-loss event.
+- Cyclicals: set the break cases and the floors on multi-year average earnings and mid-cycle EBITDA, not the latest year.
+- Holding companies: name which legal entity owes each debt, since holding-company debt can default while operating subsidiaries carry on.
+
 ## Write
 
 Follow `references/output-standard.md`. The report has these sections in this order.
@@ -68,6 +85,8 @@ Follow `references/output-standard.md`. The report has these sections in this or
 ```
 # <Company> (<ticker>) downside and risks, <date>
 Data as of: price <date>; estimates <date>; statements <period>; newest document <date>.
+Holder and horizon: <long or short>, <window>. Assumptions: cost of equity, stressed discount
+rate, liquidation haircuts, EBIT shock, each with its basis.
 
 ## The downside
 Four to eight sentences: what the price assumes, the downside range and floors against the price,

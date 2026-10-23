@@ -11,6 +11,10 @@ non-ASCII characters; a missing agents/openai.yaml; a plugin:skill name over
 64 characters for the OpenAI app id; more than 512 files in the plugin.
 """
 import os, re, sys, json
+try:
+    import yaml
+except ImportError:
+    yaml = None
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "plugins", "bigdata-com"))
 SKILLS = os.path.join(ROOT, "skills")
@@ -32,6 +36,13 @@ for skill in sorted(os.listdir(SKILLS)):
     if not m:
         errors.append(f"{skill}: no frontmatter"); continue
     fm, body = m.group(1), m.group(2)
+    if yaml is not None:
+        try:
+            parsed = yaml.safe_load(fm)
+            if not isinstance(parsed, dict) or not parsed.get("name") or not parsed.get("description"):
+                errors.append(f"{skill}: frontmatter parses but lacks name or description")
+        except Exception as e:
+            errors.append(f"{skill}: frontmatter is not valid YAML ({str(e).splitlines()[0]})")
     name = re.search(r"^name:\s*(.+)$", fm, re.M)
     if not name or name.group(1).strip() != skill:
         errors.append(f"{skill}: frontmatter name must equal the folder name")

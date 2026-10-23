@@ -14,7 +14,7 @@
         "There is a sales-to-margin sensitivity with the formula or the sector operating-margin beta shown and labelled derived.",
         "Scenario probabilities sum to 100 and the note says where the weights come from.",
         "No buy, hold, sell, overweight, underweight or rating word appears.",
-        "Every figure has a source number or a Basis label, and the note ends with Sources, the Powered by Bigdata.com line and the disclaimer."
+        "Every figure, in tables and in prose, has a source number or a basis word (reported, derived, assumed), and the report carries Sources, the Powered by Bigdata.com line and the disclaimer verbatim; a one-line offer after the disclaimer is allowed."
       ]
     },
     {

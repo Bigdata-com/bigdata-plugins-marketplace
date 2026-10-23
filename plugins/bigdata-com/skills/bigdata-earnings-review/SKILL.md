@@ -1,6 +1,12 @@
 ---
 name: bigdata-earnings-review
-description: After a company reports, from Bigdata.com results, the transcript, estimates and reactions: results against consensus and guidance, what changed in the long-term outlook, new guidance against old, the thesis check, estimate and valuation refresh, quality signals, the market reaction, and the next date. Use when the user asks how a company did, to analyse its earnings, whether it beat or missed, or whether the quarter changes the thesis. Not for the setup before the report, which bigdata-earnings-preview covers.
+description: >-
+  After a company reports, from Bigdata.com results, the transcript, estimates and reactions:
+  results against consensus and guidance, what changed in the long-term outlook, new guidance
+  against old, the thesis check, estimate and valuation refresh, quality signals, the market
+  reaction, and the next date. Use when the user asks how a company did, to analyse its earnings,
+  whether it beat or missed, or whether the quarter changes the thesis. Not for the setup before
+  the report, which bigdata-earnings-preview covers.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, after-a-price-move, earnings-quality, forecasting-discipline, base-rates
   bigdata-sector-primer: auto
@@ -44,9 +50,22 @@ If the company has not reported the quarter yet, say so and hand off to `bigdata
 
 3. **Prior guidance against new.** One row per guided metric: the prior range with its date, the new range, the change at the midpoint, and consensus before the call for the same period. State what the change implies for the second half or the next year if the company guides only one quarter. Guidance usually moves the stock more than the reported quarter, so this table comes before the long-term outlook. Done when every metric the company guides on has a row, and metrics it stopped guiding on are flagged.
 
-4. **What changed in the long-term outlook.** The price capitalises many years of cash flow, so the question is whether the quarter changed them. From rule 1 in `references/after-a-price-move.md`, answer the five questions: (a) consensus for FY+2 and beyond, long-term growth and guidance, before and after the print, with the change; (b) whether the drivers of the surprise recur (price, volume, margin structure) or are one-time; (c) whether cash flow agrees with the earnings line; (d) which revision matters for this company, from the value-trigger rule in `references/expectations.md`: incremental return where it earns near its cost of capital, sales growth where it earns well above it; (e) whether the news is diagnostic, changing the probability of the thesis, or only looks causal. Then, from formula 2 in `references/expectations.md`, compute the perpetual growth the enterprise value implied before the print and after it, at a stated cost of capital labelled assumed with a range of plus and minus one point. Done when the note classifies the quarter as a change in the long-term outlook, a short-term event or unclear, and says whether the size of the stock's move matches the change in long-term cash flow.
+4. **What changed in the long-term outlook.** The price capitalises many years of cash flow, so the question is whether the quarter changed them. From rule 1 in `references/after-a-price-move.md`, answer the five questions:
+   - (a) Consensus for FY+2 and beyond, long-term growth and guidance, before and after the print, with the change.
+   - (b) Whether the drivers of the surprise recur (price, volume, margin structure) or are one-time.
+   - (c) Whether cash flow agrees with the earnings line; the market follows cash when the two diverge.
+   - (d) Which revision matters for this company, from the value-trigger rule in `references/expectations.md`: incremental return where it earns near its cost of capital, sales growth where it earns well above it.
+   - (e) Whether the news is diagnostic, changing the probability of the thesis, or only looks causal.
 
-5. **The thesis check.** From `references/forecasting-discipline.md`: list the premises of the thesis being tested (the user's, or the prevailing bull case and bear case), tag each piece of evidence from the quarter as a fact or an opinion, and test any kill criteria the user wrote against their thresholds and dates. Give each premise one of four words. Intact: the evidence neither confirms nor contradicts it materially. Strengthened: a reported fact now confirms it. Weakened: a reported fact contradicts it without crossing a kill threshold. Broken: a kill criterion is crossed, or the premise the thesis rests on is disproved. The thesis takes the word of its weakest load-bearing premise. Update by the right amount: one quarter's noise does not break a multi-year thesis, and a guidance cut on the linchpin driver is not noise. Done when each premise has its word, the fact behind it with a source, and the thesis has its overall word with one sentence of reasoning.
+   Then, from formula 2 in `references/expectations.md`, compute the perpetual growth the enterprise value implied before the print and after it, at a stated cost of capital labelled assumed with a range of plus and minus one point. Done when the note classifies the quarter as a change in the long-term outlook, a short-term event or unclear, and says whether the size of the stock's move matches the change in long-term cash flow.
+
+5. **The thesis check.** From `references/forecasting-discipline.md`: list the premises of the thesis being tested (the user's, or the prevailing bull case and bear case), tag each piece of evidence from the quarter as a fact or an opinion, and test any kill criteria the user wrote against their thresholds and dates. Give each premise one of four words:
+   - Intact: the evidence neither confirms nor contradicts it materially.
+   - Strengthened: a reported fact now confirms it.
+   - Weakened: a reported fact contradicts it without crossing a kill threshold.
+   - Broken: a kill criterion is crossed, or the premise the thesis rests on is disproved.
+
+   The thesis takes the word of its weakest load-bearing premise. Update by the right amount: one quarter's noise does not break a multi-year thesis, and a guidance cut on the linchpin driver is not noise. Done when each premise has its word, the fact behind it with a source, and the thesis has its overall word with one sentence of reasoning.
 
 6. **Estimate and valuation refresh.** Consensus for FY+1 and FY+2 sales, EBIT and EPS before and after the print, the number of target changes and their direction, the mean target before and after, and rating changes, from step 5 of Gather. Then the valuation before and after: price, forward P/E, EV/EBITDA and free cash flow yield on the old and the new consensus, the steady-state P/E at the stated cost of equity from formula 1 in `references/expectations.md`, and the implied growth from step 4. Where the outlook changed, re-weight the scenarios: from `references/forecasting-discipline.md`, three cases with what must be true in each, probabilities that sum to 100 taken from a reference class (the company's own beat-and-raise record, the base rates for the growth now implied in `references/base-rates.md`) rather than a default split, and the probability-weighted range. Done when the table shows each measure before and after with dates, and the note states what the market now prices in. No price target of the note's own.
 

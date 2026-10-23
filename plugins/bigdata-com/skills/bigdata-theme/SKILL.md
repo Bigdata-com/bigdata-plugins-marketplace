@@ -1,6 +1,11 @@
 ---
 name: bigdata-theme
-description: Research on a theme from Bigdata.com data: how the theme works, the chain of beneficiaries and losers, the addressable market built two ways and checked, the companies with real exposure from segment and geographic revenue, what their prices imply, and the signposts. Use when the user asks about a theme, a trend, who benefits from a development, or a thematic basket. Not for one sector's economics, which bigdata-sector covers.
+description: >-
+  Research on a theme from Bigdata.com data: how the theme works, the chain of beneficiaries and
+  losers, the addressable market built two ways and checked, the companies with real exposure from
+  segment and geographic revenue, what their prices imply, and the signposts. Use when the user
+  asks about a theme, a trend, who benefits from a development, or a thematic basket. Not for one
+  sector's economics, which bigdata-sector covers.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, operating-leverage-and-tam, industry-structure, expectations, base-rates
   bigdata-sector-primer: auto

@@ -1,6 +1,12 @@
 ---
 name: bigdata-company-brief
-description: What happened at one public company over a window, from Bigdata.com news, filings, transcripts and research: the events in order, each with its source and what it means for the drivers of value, then the two or three that matter most. Use when the user asks what is happening with a company, to catch them up on a name, for recent developments, or for a summary of the last month. Not for a view on the stock, which bigdata-quick-take covers, or for one day's price move, which bigdata-stock-move covers.
+description: >-
+  What happened at one public company over a window, from Bigdata.com news, filings, transcripts
+  and research: the events in order, each with its source and what it means for the drivers of
+  value, then the two or three that matter most. Use when the user asks what is happening with a
+  company, to catch them up on a name, for recent developments, or for a summary of the last
+  month. Not for a view on the stock, which bigdata-quick-take covers, or for one day's price
+  move, which bigdata-stock-move covers.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, downside-and-catalysts
   bigdata-sector-primer: auto
@@ -33,7 +39,7 @@ Ask one question only if the name is ambiguous. If the company is Private, the p
 4. **The Street's reaction.** `bigdata_search` over research and news for target, rating and estimate changes in the window. Done when the changes are dated and sourced, or recorded as none found.
 5. **Peers and the industry.** One or two searches for events at competitors, suppliers or customers in the window that bear on the company (a rival's launch or price cut, a peer's print, a regulatory change across the industry). Done when the competitive context can be written in two to four sentences with sources.
 6. **Sentiment.** `bigdata_sentiment_tearsheet` for the window. Done when the direction and the stories behind it are known.
-7. **Sector primer.** If the company's sector has a primer in `references/sectors/`, read its "metrics that matter" section, so each event is tied to the sector's own drivers.
+7. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its "metrics that matter" section, so each event is tied to the sector's own drivers.
 
 ## Analyse
 

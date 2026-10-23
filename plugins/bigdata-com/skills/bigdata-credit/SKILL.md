@@ -1,6 +1,11 @@
 ---
 name: bigdata-credit
-description: Credit view on a company from Bigdata.com financial statements, filings and news: leverage, coverage, free cash flow to debt, maturities, covenants where disclosed, comparisons with rating medians, and distress signals, for a bondholder or an equity holder watching the balance sheet. Use when the user asks about a company's debt, credit quality, leverage, refinancing risk, or bankruptcy risk. Not for equity downside more broadly, which bigdata-risk covers.
+description: >-
+  Credit view on a company from Bigdata.com financial statements, filings and news: leverage,
+  coverage, free cash flow to debt, maturities, covenants where disclosed, comparisons with rating
+  medians, and distress signals, for a bondholder or an equity holder watching the balance sheet.
+  Use when the user asks about a company's debt, credit quality, leverage, refinancing risk, or
+  bankruptcy risk. Not for equity downside more broadly, which bigdata-risk covers.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, credit, earnings-quality, capital-allocation
   bigdata-sector-primer: auto

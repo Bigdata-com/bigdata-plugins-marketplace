@@ -1,6 +1,11 @@
 ---
 name: bigdata-capital-allocation
-description: How a company allocates capital, from Bigdata.com financial statements, filings and proxies: five years of sources and uses, whether buybacks and dividends created value, the returns on reinvestment and acquisitions, leverage, and what management is paid for. Use when the user asks about buybacks, dividends, capital returns, M&A track record, capital discipline, or management incentives. Not for a specific announced deal, which bigdata-deal-analysis covers.
+description: >-
+  How a company allocates capital, from Bigdata.com financial statements, filings and proxies:
+  five years of sources and uses, whether buybacks and dividends created value, the returns on
+  reinvestment and acquisitions, leverage, and what management is paid for. Use when the user asks
+  about buybacks, dividends, capital returns, M&A track record, capital discipline, or management
+  incentives. Not for a specific announced deal, which bigdata-deal-analysis covers.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, capital-allocation, roic, expectations
   bigdata-sector-primer: auto
@@ -23,7 +28,12 @@ Resolve the company with `find_securities`. Fix the window: five fiscal years by
 
 Ask one question only if the answer changes the work: the user asks about "management" and the company has had several CEOs in the window, or the name is ambiguous. Otherwise state the window and threshold in the header and proceed.
 
-If the company is Private, say there is no share price for the buyback and deal-reaction tests and run the sources-and-uses, reinvestment and deal-price tests from whatever statements and filings Bigdata.com holds. The method does not apply as written to banks and insurers (capital set by regulation), utilities (allowed returns), early-stage companies (ROIIC unstable) and many emerging markets (payout driven by ownership and buyback rules); say which tests were adapted and why.
+Narrow questions map to steps in the Analyse section, with the sources-and-uses table as context:
+- Buybacks: steps 4 and 5. Dividends: step 6. Leverage and how payouts were funded: step 9.
+- The M&A track record: steps 7 and 8, over the window the user names.
+- What management is paid for: step 10.
+
+If the company is Private, say there is no share price for the buyback and deal-reaction tests and run the sources-and-uses, reinvestment and deal-price tests from whatever statements and filings Bigdata.com holds. The method does not apply as written to banks and insurers (capital set by regulation), utilities (allowed returns), early-stage companies (ROIIC unstable) and many emerging markets (payout driven by ownership and buyback rules); follow the special cases at the end of the Analyse section and say which tests were adapted and why.
 
 ## Gather
 
@@ -36,7 +46,7 @@ Each step says what it must produce.
 5. **Divestitures and spin-offs.** Searches for disposals and spin-offs in the window, with price and rationale. Done when each is listed with its source.
 6. **The proxy statement.** Search and fetch the latest proxy (DEF 14A or the local equivalent), and the prior one if the plan changed. Read the long-term plan's metrics and weights, absolute or relative TSR and against which peer group, the performance period, option expense, clawbacks, option repricing, related-party transactions, and the ownership and voting structure. Done when each item is recorded with its section.
 7. **What management says it does.** Search for management's stated capital allocation priorities on calls and at investor days, and for insider sales during buyback periods. Done when the stated priorities are quoted with dates, to compare words with actions.
-8. **Sector primer.** If the company's sector has a primer in `references/sectors/`, read its capital-intensity and valuation sections.
+8. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its capital-intensity and valuation sections.
 
 ## Analyse
 
@@ -64,6 +74,14 @@ Load `references/capital-allocation.md` before step 1, `references/roic.md` befo
 
 11. **Verdict per use and what it means for value.** For each use, one line: value created, value neutral, value destroyed or not determinable, with the test that decides it and its basis label (method step 11). Then what each finding means for value per share going forward: whether reinvestment at the current spread adds value (the value-trigger rule in `references/expectations.md`: where returns on new capital sit near the cost of capital, growth adds nothing), the value transferred to sellers in buybacks above value or premiums above synergies, in currency per share, the net share count trend, and whether the incentive plan makes the pattern likely to continue. No composite score. Done when every use has its line and the forward implication is stated.
 
+Compare words with actions throughout: the priorities management states on calls, what the incentive plan rewards, and what the sources-and-uses table shows it did. Where the three disagree, say so with the figures.
+
+Special cases:
+- Serial acquirers of many small deals: aggregate the tuck-ins by year and judge them through ROIC with goodwill and later impairments, since a deal-by-deal table would be mostly gaps.
+- Banks and insurers: judge payouts and buybacks against regulatory capital and ROE against the cost of equity, not against free cash flow and ROIC.
+- Companies outside the US: use the home-region base rates for payout and M&A (Mauboussin, Capital Allocation Outside the U.S., 2016, verify), and note legal limits on buybacks and an ownership structure (family, state, cross-holdings) that sets the payout.
+- Early-stage companies: ROIIC is unstable; report the cash burn and the funding history instead of the reinvestment tests.
+
 ## Write
 
 Follow `references/output-standard.md`. The report has these sections in this order.
@@ -71,6 +89,8 @@ Follow `references/output-standard.md`. The report has these sections in this or
 ```
 # <Company> (<ticker>) capital allocation, FY<first> to FY<last>, <date>
 Data as of: statements <latest fiscal period>; price <date>; proxy <year>; newest document <date>.
+Assumptions: cost of equity, cost of capital, value per share at each buyback date, material-deal
+threshold, synergy haircuts, each with its basis and a sensitivity.
 
 ## The reading
 Four to eight sentences: where the cash went, which uses created or destroyed value and by how much

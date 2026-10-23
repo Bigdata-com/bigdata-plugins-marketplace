@@ -1,6 +1,12 @@
 ---
 name: bigdata-sector
-description: A sector, or several sectors compared, from Bigdata.com data: structure and profit pool, cycle position, the drivers and metrics that matter, what is priced in, the companies that matter and why, and the sector primer's accounting traps. Use when the user asks about a sector or industry, which sectors look interesting, a sector outlook, or how an industry works, including a sector within one country. Not for a theme that cuts across sectors, which bigdata-theme covers.
+description: >-
+  A sector, or several sectors compared, from Bigdata.com data: structure and profit pool, cycle
+  position, the drivers and metrics that matter, what is priced in, the companies that matter and
+  why, and the sector primer's accounting traps. Use when the user asks about a sector or
+  industry, which sectors look interesting, a sector outlook, or how an industry works, including
+  a sector within one country. Not for a theme that cuts across sectors, which bigdata-theme
+  covers.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, industry-structure, base-rates, multiples-and-peers, operating-leverage-and-tam, expectations
   bigdata-sector-primer: auto

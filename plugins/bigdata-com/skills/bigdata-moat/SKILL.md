@@ -2,7 +2,7 @@
 name: bigdata-moat
 description: Industry structure and competitive advantage from Bigdata.com data: the industry map, the profit pool and where it is moving, share stability, pricing power, concentration, entry and exit, the five forces with evidence, the source of advantage and how long it lasts, and the disruption test. Use when the user asks about a company's moat, competitive position, industry structure, barriers to entry, or pricing power. Not for governance and incentives, which bigdata-capital-allocation covers.
 metadata:
-  bigdata-refs: working-with-bigdata, output-standard, industry-structure, roic, base-rates
+  bigdata-refs: working-with-bigdata, output-standard, industry-structure, roic, base-rates, expectations
   bigdata-sector-primer: auto
 ---
 
@@ -39,7 +39,7 @@ The evidence plan follows the method's steps, one aspect and one period per sear
 8. **Source of advantage** (step 10). Searches for retention, churn, renewal rates, contract length, scale economics in purchasing or distribution, and patent expiries. Done when each claimed source has a disclosed figure or a gap.
 9. **Disruption** (step 11). Searches for low-price entrants, new-market products and technology shifts in the industry. Done when the candidates are listed with dates or the searches found none.
 10. **Management's own account.** Search and fetch the last two earnings calls for what management says about pricing, share and competitors, and what analysts pressed on. Done when the relevant exchanges are quoted.
-11. **Sector primer.** If the company's sector has a primer in `references/sectors/`, read its profit-pool and persistence sections.
+11. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read its profit-pool and persistence sections.
 
 ## Analyse
 
