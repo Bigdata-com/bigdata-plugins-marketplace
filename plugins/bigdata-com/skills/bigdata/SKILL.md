@@ -1,10 +1,9 @@
 ---
 name: bigdata
-description: >
+description: >-
   Bigdata.com research on companies, markets and economies. Use when the user types /bigdata,
   names Bigdata.com, asks what it can do, brings a financial research task, or wants their own
-  research skill. With no clear task, it interviews the user first.
-metadata:
+  research skill. With no clear task, it interviews the user first.metadata:
   bigdata-refs: working-with-bigdata, output-standard
   bigdata-sector-primer: none
 ---

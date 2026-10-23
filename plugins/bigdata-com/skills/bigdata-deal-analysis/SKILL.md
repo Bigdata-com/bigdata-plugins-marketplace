@@ -1,13 +1,13 @@
 ---
 name: bigdata-deal-analysis
 description: >-
-  Analysis of an announced or rumoured merger, acquisition or divestiture from Bigdata.com filings,
-  news, research and tearsheets: strategic logic, price against value, synergies against base rates,
-  value at risk for the acquirer, financing, the regulatory path, and what each side's shareholders
-  get. Use when the user asks about a takeover, a merger, an acquisition, a bid, or whether a deal
-  makes sense. Not for merger arbitrage arithmetic, which bigdata-special-situations covers.
-metadata:
-  bigdata-refs: working-with-bigdata, output-standard, capital-allocation, valuation, multiples-and-peers, special-situations-arithmetic, credit
+  Analysis of an announced or rumoured merger, acquisition or divestiture from Bigdata.com
+  filings, news, research and tearsheets: strategic logic, price against value, synergies against
+  base rates, value at risk for the acquirer, financing, the regulatory path, and what each side's
+  shareholders get. Use when the user asks about a takeover, a merger, an acquisition, a bid, or
+  whether a deal makes sense. Not for merger arbitrage arithmetic, which
+  bigdata-special-situations covers.metadata:
+  bigdata-refs: working-with-bigdata, output-standard, capital-allocation, valuation, multiples-and-peers, special-situations-arithmetic, credit, roic, expectations
   bigdata-sector-primer: auto
 ---
 

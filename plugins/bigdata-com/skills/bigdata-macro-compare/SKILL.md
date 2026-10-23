@@ -5,8 +5,7 @@ description: >-
   news and research: growth, inflation, rates, currencies, fiscal and external positions, market
   performance, and the reasons for the differences. Use when the user asks to compare economies,
   for a G7 or regional comparison, which country looks stronger, or for a global macro overview.
-  Not for one country in depth, which bigdata-country covers.
-metadata:
+  Not for one country in depth, which bigdata-country covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, forecasting-discipline
   bigdata-sector-primer: none
 ---

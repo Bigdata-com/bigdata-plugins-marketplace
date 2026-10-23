@@ -5,8 +5,7 @@ description: >-
   sectors, rates, currencies, commodities and crypto, the news behind each move, and what is
   scheduled next. Use when the user asks what happened in markets today, how markets did this
   week, why the market is up or down, or for a morning or closing briefing. Not for one company's
-  news, which bigdata-company-brief covers, or one stock's move, which bigdata-stock-move covers.
-metadata:
+  news, which bigdata-company-brief covers, or one stock's move, which bigdata-stock-move covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, after-a-price-move, forecasting-discipline
   bigdata-sector-primer: none
 ---

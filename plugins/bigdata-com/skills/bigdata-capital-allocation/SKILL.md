@@ -5,8 +5,7 @@ description: >-
   five years of sources and uses, whether buybacks and dividends created value, the returns on
   reinvestment and acquisitions, leverage, and what management is paid for. Use when the user asks
   about buybacks, dividends, capital returns, M&A track record, capital discipline, or management
-  incentives. Not for a specific announced deal, which bigdata-deal-analysis covers.
-metadata:
+  incentives. Not for a specific announced deal, which bigdata-deal-analysis covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, capital-allocation, roic, expectations
   bigdata-sector-primer: auto
 ---

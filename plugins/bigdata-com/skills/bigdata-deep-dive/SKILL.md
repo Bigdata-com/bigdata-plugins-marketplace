@@ -6,8 +6,7 @@ description: >-
   valuation range, risks, catalysts and what to watch, with every figure sourced. Use when the
   user asks for a deep dive, an initiation, an investment memo, full research on a company, or to
   understand a business properly. Not for a one-page view, which bigdata-quick-take covers, or for
-  the thesis alone, which bigdata-thesis covers.
-metadata:
+  the thesis alone, which bigdata-thesis covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, roic, valuation, multiples-and-peers, earnings-quality, capital-allocation, industry-structure, downside-and-catalysts, forecasting-discipline
   bigdata-sector-primer: auto
 ---

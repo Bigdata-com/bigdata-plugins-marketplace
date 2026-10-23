@@ -1,7 +1,12 @@
 ---
 name: bigdata-watchlist
-description: Check a list of companies at once from Bigdata.com data: price and move over the window, the news that explains it, earnings against estimates, target and rating changes, sentiment, and the next event for each name, as one table plus the items worth reading. Use when the user names several companies and asks what changed, what they should know today, or for a daily or weekly check on their holdings or watchlist. Not for a single company in depth, which bigdata-company-brief covers.
-metadata:
+description: >-
+  Check a list of companies at once from Bigdata.com data: price and move over the window, the
+  news that explains it, earnings against estimates, target and rating changes, sentiment, and the
+  next event for each name, as one table plus the items worth reading. Use when the user names
+  several companies and asks what changed, what they should know today, or for a daily or weekly
+  check on their holdings or watchlist. Not for a single company in depth, which
+  bigdata-company-brief covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, after-a-price-move, expectations
   bigdata-sector-primer: auto
 ---

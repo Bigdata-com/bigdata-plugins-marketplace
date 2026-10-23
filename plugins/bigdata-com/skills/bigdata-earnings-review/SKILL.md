@@ -6,8 +6,7 @@ description: >-
   against old, the thesis check, estimate and valuation refresh, quality signals, the market
   reaction, and the next date. Use when the user asks how a company did, to analyse its earnings,
   whether it beat or missed, or whether the quarter changes the thesis. Not for the setup before
-  the report, which bigdata-earnings-preview covers.
-metadata:
+  the report, which bigdata-earnings-preview covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, after-a-price-move, earnings-quality, forecasting-discipline, base-rates
   bigdata-sector-primer: auto
 ---

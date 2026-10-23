@@ -5,8 +5,7 @@ description: >-
   geography, valuation and fundamentals from the user's criteria, then a ranked shortlist with the
   numbers behind each name and the reasons to look further. Use when the user asks to find stocks,
   screen for companies, for ideas that fit a profile, or who else does what a named company does.
-  Not for a view on one name, which bigdata-quick-take covers.
-metadata:
+  Not for a view on one name, which bigdata-quick-take covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, multiples-and-peers, roic, base-rates, expectations
   bigdata-sector-primer: auto
 ---

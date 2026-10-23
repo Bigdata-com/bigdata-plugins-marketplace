@@ -6,8 +6,7 @@ description: >-
   capitalisation, stock compensation, the earnings-to-equity reconciliation, and each flag with
   its severity. Use when the user asks whether earnings are real, about accounting quality, red
   flags, aggressive accounting, or cash conversion. Not for the results of one quarter, which
-  bigdata-earnings-review covers.
-metadata:
+  bigdata-earnings-review covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, earnings-quality, roic
   bigdata-sector-primer: auto
 ---

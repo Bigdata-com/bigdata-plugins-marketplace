@@ -1,8 +1,12 @@
 ---
 name: bigdata-valuation
-description: >
-  What a company is worth, from Bigdata.com fundamentals and estimates: the growth, margin and return the price implies, a reinvestment-consistent DCF with the terminal value and the equity bridge checked, cross-checked with multiples, and given as a range with the assumptions and sensitivities. Use when the user asks what a stock is worth, whether it is cheap or expensive, for a DCF, a fair value, or what is priced in. Not for peer multiples alone, which bigdata-comps covers.
-metadata:
+description: >-
+  What a company is worth, from Bigdata.com fundamentals and estimates: the growth, margin and
+  return the price implies, a reinvestment-consistent DCF with the terminal value and the equity
+  bridge checked, cross-checked with multiples, and given as a range with the assumptions and
+  sensitivities. Use when the user asks what a stock is worth, whether it is cheap or expensive,
+  for a DCF, a fair value, or what is priced in. Not for peer multiples alone, which bigdata-comps
+  covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, valuation, multiples-and-peers, base-rates, roic, forecasting-discipline
   bigdata-sector-primer: auto
 ---

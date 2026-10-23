@@ -1,8 +1,11 @@
 ---
 name: bigdata-comps
-description: >
-  Peer comparison from Bigdata.com data: peers picked by value drivers rather than sector label, multiples built on the same claimant basis at market values, growth, margins, returns and cash conversion side by side, medians, and where the company should sit and why. Use when the user asks for comps, peer comparables, how a company compares with its peers, or a relative valuation. Not for an intrinsic value, which bigdata-valuation covers.
-metadata:
+description: >-
+  Peer comparison from Bigdata.com data: peers picked by value drivers rather than sector label,
+  multiples built on the same claimant basis at market values, growth, margins, returns and cash
+  conversion side by side, medians, and where the company should sit and why. Use when the user
+  asks for comps, peer comparables, how a company compares with its peers, or a relative
+  valuation. Not for an intrinsic value, which bigdata-valuation covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, multiples-and-peers, expectations, roic
   bigdata-sector-primer: auto
 ---

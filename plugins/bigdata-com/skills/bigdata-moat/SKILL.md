@@ -1,7 +1,12 @@
 ---
 name: bigdata-moat
-description: Industry structure and competitive advantage from Bigdata.com data: the industry map, the profit pool and where it is moving, share stability, pricing power, concentration, entry and exit, the five forces with evidence, the source of advantage and how long it lasts, and the disruption test. Use when the user asks about a company's moat, competitive position, industry structure, barriers to entry, or pricing power. Not for governance and incentives, which bigdata-capital-allocation covers.
-metadata:
+description: >-
+  Industry structure and competitive advantage from Bigdata.com data: the industry map, the profit
+  pool and where it is moving, share stability, pricing power, concentration, entry and exit, the
+  five forces with evidence, the source of advantage and how long it lasts, and the disruption
+  test. Use when the user asks about a company's moat, competitive position, industry structure,
+  barriers to entry, or pricing power. Not for governance and incentives, which
+  bigdata-capital-allocation covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, industry-structure, roic, base-rates, expectations
   bigdata-sector-primer: auto
 ---

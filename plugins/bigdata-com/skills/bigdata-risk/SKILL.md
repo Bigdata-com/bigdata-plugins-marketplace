@@ -5,8 +5,7 @@ description: >-
   risk in each case, the floors from assets and private-market value, balance sheet and liquidity,
   and the risks ranked by probability and size with the signals to watch. Use when the user asks
   what could go wrong, about the risks, the downside, the bear case, or how much they could lose.
-  Not for the credit of the company's debt, which bigdata-credit covers.
-metadata:
+  Not for the credit of the company's debt, which bigdata-credit covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, downside-and-catalysts, forecasting-discipline, earnings-quality, credit, expectations
   bigdata-sector-primer: auto
 ---

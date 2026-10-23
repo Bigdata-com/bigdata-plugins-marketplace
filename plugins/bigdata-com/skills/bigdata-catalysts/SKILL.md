@@ -6,8 +6,7 @@ description: >-
   and size of the effect, how certain it is, and what the market already expects. Use when the
   user asks what catalysts are coming, what events to watch, when a company reports, or what could
   move a name in the next quarter. Not for a full earnings setup, which bigdata-earnings-preview
-  covers.
-metadata:
+  covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, downside-and-catalysts, forecasting-discipline, after-a-price-move
   bigdata-sector-primer: auto
 ---

@@ -6,8 +6,7 @@ description: >-
   value, then the two or three that matter most. Use when the user asks what is happening with a
   company, to catch them up on a name, for recent developments, or for a summary of the last
   month. Not for a view on the stock, which bigdata-quick-take covers, or for one day's price
-  move, which bigdata-stock-move covers.
-metadata:
+  move, which bigdata-stock-move covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, downside-and-catalysts
   bigdata-sector-primer: auto
 ---

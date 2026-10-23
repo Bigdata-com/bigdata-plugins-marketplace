@@ -5,8 +5,7 @@ description: >-
   with break prices, spin-offs, rights issues, restructurings, liquidations and exchange offers,
   each as a probability-weighted payoff with the dates. Use when the user asks about a spin-off,
   an arbitrage spread, a rights issue, a restructuring, a tender offer, or an event-driven trade.
-  Not for the strategic merits of a deal, which bigdata-deal-analysis covers.
-metadata:
+  Not for the strategic merits of a deal, which bigdata-deal-analysis covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, special-situations-arithmetic, downside-and-catalysts, credit
   bigdata-sector-primer: none
 ---

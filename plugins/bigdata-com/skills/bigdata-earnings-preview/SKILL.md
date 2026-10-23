@@ -6,8 +6,7 @@ description: >-
   sales-to-margin sensitivity, scenarios with what to watch in each, and the metrics to check
   first. Use when the user asks for an earnings preview, what to expect when a company reports,
   the setup into the print, or what consensus is looking for. Not for results already reported,
-  which bigdata-earnings-review covers.
-metadata:
+  which bigdata-earnings-review covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, operating-leverage-and-tam, forecasting-discipline, after-a-price-move, valuation
   bigdata-sector-primer: auto
 ---

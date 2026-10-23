@@ -5,8 +5,7 @@ description: >-
   what changed in the long-term outlook as opposed to the headline, estimate and target revisions,
   and the historical base rates for what follows a move of that size and kind. Use when the user
   asks why a stock is up or down, what happened to a ticker today, or what drove a share price
-  this week. Not for a quarter's results in full, which bigdata-earnings-review covers.
-metadata:
+  this week. Not for a quarter's results in full, which bigdata-earnings-review covers.metadata:
   bigdata-refs: working-with-bigdata, output-standard, after-a-price-move, expectations, downside-and-catalysts
   bigdata-sector-primer: auto
 ---
