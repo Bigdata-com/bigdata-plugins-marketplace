@@ -1,0 +1,106 @@
+{
+  "skill": "bigdata",
+  "cases": [
+    {
+      "id": "01-empty-prompt",
+      "prompt": "/bigdata",
+      "connector": "on",
+      "persona": "You manage your own stock portfolio. You want to keep up with the companies you own: Apple, Microsoft and Nvidia. You would like a quick check every morning. You only reveal what the assistant asks about.",
+      "max_user_turns": 4,
+      "checks": {
+        "max_questions": 3,
+        "min_bigdata_calls": 1,
+        "one_question_per_message": true
+      },
+      "judge": [
+        "Each assistant message during the interview asks exactly one question, before any research is done. A question offered with a list of options to pick from counts as one question.",
+        "The questions cover what the user wants to get done and which companies or market, and do not ask for anything the user already said.",
+        "After at most three questions, the assistant runs a task with Bigdata.com data and shows a result, without asking for permission to start.",
+        "The result is about the companies the user named and is backed by citations or named Bigdata.com data.",
+        "After the result, the assistant offers to save the companies the user named as a Bigdata.com watchlist, and does not save it without asking."
+      ]
+    },
+    {
+      "id": "02-vague-prompt",
+      "prompt": "/bigdata help me with stocks",
+      "connector": "on",
+      "persona": "You are a retail investor getting ready for earnings season. You care about Nike, which reports soon. You want this once, not on a schedule. You only reveal what the assistant asks about.",
+      "max_user_turns": 4,
+      "checks": {
+        "max_questions": 3,
+        "min_bigdata_calls": 1,
+        "one_question_per_message": true
+      },
+      "judge": [
+        "The assistant does not ask whether the user is interested in stocks or equities, since the prompt already says so.",
+        "Each assistant message during the interview asks exactly one question. A question offered with a list of options to pick from counts as one question.",
+        "After at most three questions, the assistant runs a task with Bigdata.com data and shows a result, without asking for permission to start.",
+        "The result fits the user's answers (Nike, around earnings)."
+      ]
+    },
+    {
+      "id": "03-clear-task",
+      "prompt": "/bigdata earnings preview for Nike",
+      "connector": "on",
+      "max_user_turns": 0,
+      "checks": {
+        "max_questions": 0,
+        "min_bigdata_calls": 3,
+        "uses_skill": ["bigdata-earnings-preview"]
+      },
+      "judge": [
+        "The assistant starts the research straight away and asks the user no question before delivering.",
+        "The output is an earnings preview for Nike: the upcoming report date or period, consensus expectations and what to watch.",
+        "Claims and figures are backed by citations or named Bigdata.com data, not stated from memory.",
+        "The output gives no buy, hold or sell recommendation."
+      ]
+    },
+    {
+      "id": "04-connector-off",
+      "prompt": "/bigdata what changed for Apple this week?",
+      "connector": "off",
+      "max_user_turns": 0,
+      "checks": {
+        "max_questions": 1,
+        "max_bigdata_calls": 0
+      },
+      "judge": [
+        "The assistant says the Bigdata.com tools or connector are not available or not signed in.",
+        "The assistant tells the user how to connect Bigdata.com.",
+        "The assistant does not answer the question about Apple from memory or from web search: it gives no news items, figures or events about Apple's week."
+      ]
+    },
+    {
+      "id": "05-names-five-holdings",
+      "prompt": "/bigdata I own Apple, Microsoft, Nvidia, JPMorgan and Exxon Mobil. What should I know about them today?",
+      "connector": "on",
+      "max_user_turns": 0,
+      "checks": {
+        "max_questions": 0,
+        "min_bigdata_calls": 2
+      },
+      "judge": [
+        "The assistant covers all five companies, not just a few of them.",
+        "The assistant offers to save the five companies as a Bigdata.com watchlist, and does not save it without asking.",
+        "Claims and figures are backed by citations or named Bigdata.com data."
+      ]
+    },
+    {
+      "id": "06-what-can-you-do",
+      "prompt": "/bigdata what can you do?",
+      "connector": "on",
+      "persona": "You work at a small fund and are curious what Bigdata.com can do. When asked, you say you want to research a theme: AI data center power demand. You want this once. You only reveal what the assistant asks about.",
+      "max_user_turns": 4,
+      "checks": {
+        "max_questions": 3,
+        "min_bigdata_calls": 1,
+        "one_question_per_message": true
+      },
+      "judge": [
+        "The assistant first gives a short answer about what Bigdata.com can do, then asks one question.",
+        "Each assistant message during the interview asks exactly one question. A question offered with a list of options to pick from counts as one question.",
+        "After at most three questions, the assistant runs a task with Bigdata.com data on the theme the user named and shows a result."
+      ]
+    }
+  ]
+}

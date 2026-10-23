@@ -1,196 +1,131 @@
 ---
 name: bigdata-earnings-preview
-description: >
-  Create a forward-looking earnings preview for a public company ahead of its next earnings
-  call, using Bigdata.com data (estimates, tearsheet financials, news, filings, transcripts,
-  events calendar). Produces an EPIC driver table, earnings quality screen with forward
-  watch-fors, structured sentiment and positioning data, what's priced in plus valuation
-  cross-check, FaVeS variant perception, bull and bear cases, bull/base/bear scenarios with
-  probability-weighted expected value, and key metrics to watch — fully cited. Triggers:
-  "earnings preview for X", "preview X earnings", "pre-earnings analysis", "Q3 preview",
-  "what to expect before X reports", "what should I watch when X reports", "set up for X
-  earnings", "bull and bear case into the print".
+description: Setup before a company reports, from Bigdata.com estimates, the last call, filings and news: the drivers of the quarter, consensus against guidance and base rates, what the price implies, the sales-to-margin sensitivity, scenarios with what to watch in each, and the metrics to check first. Use when the user asks for an earnings preview, what to expect when a company reports, the setup into the print, or what consensus is looking for. Not for results already reported, which bigdata-earnings-review covers.
+metadata:
+  bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, operating-leverage-and-tam, forecasting-discipline, after-a-price-move
+  bigdata-sector-primer: auto
 ---
 
-# Bigdata Earnings Preview
+# Earnings preview
 
-Forward-looking, pre-earnings research note on a public company. Use Bigdata.com plugin tools for every fact; apply the pre-synthesis filter below before writing.
+This skill writes the note a portfolio manager reads the evening before a company reports: what the quarter turns on, what the market expects and already pays for, what management promised, how a miss or beat on sales reaches earnings, and what to look at first when the release hits. It is sized to the question. "What is consensus for Micron's quarter?" gets the consensus table and the guidance line with sources, not the full note.
 
-**Use this skill when** the user wants analysis *before* a company reports. Not this skill when:
+## Before starting
 
-| Request | Use instead |
-|---------|-------------|
-| Analysis of results already reported | Earnings digest / earnings reaction |
-| Retrospective summary of recent news | Company brief |
-| "What is it worth" with no earnings event | Valuation snapshot |
-| Comprehensive risk mapping | Risk assessment |
+- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not write a preview from memory or the web: an unsourced preview looks like Bigdata.com data and is not.
+- Pass `plugin_slug: "bigdata-earnings-preview"` on every Bigdata.com call that accepts it.
+- Read `references/working-with-bigdata.md` before the first call. It says how to resolve the company, which tearsheet sections to request, how to search and retry, and how estimates carry actuals, surprise and guidance.
+- Treat this skill as guidelines. Skip a step that does not apply, and research further where the quarter needs it.
 
-## Data foundation (plugin tools)
+## Scope the request
 
-| Tool | Purpose | Prerequisite |
-|------|---------|--------------|
-| `find_securities` | Resolve company name → RavenPack `entity_id` | None |
-| `bigdata_company_tearsheet` | Financials, estimates, margins, sentiment/positioning fields | `find_securities` |
-| `bigdata_events_calendar` | Next earnings call date | `find_securities` |
-| `bigdata_search` | News, filings, transcripts, analyst and regulatory coverage | None |
+Establish three things before gathering data, from the request or from the events calendar: the company (resolved with `find_securities`), the quarter being reported (fiscal year and quarter, from `events_calendar` in the tearsheet or `bigdata_events_calendar`), and the user's angle if they gave one (a position, a driver they care about, a peer that just reported). Assume the next unreported quarter when the user does not say.
 
-**Required on every call:** pass `plugin_slug: "bigdata-earnings-preview"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill — including `find_securities`, `bigdata_company_tearsheet`, `bigdata_events_calendar`, `bigdata_search`, and any other Bigdata.com tool. The value is always the skill name, `bigdata-earnings-preview`, regardless of the company or query.
+Ask one question only if the answer changes the work: the company name resolves to more than one listing, or the user seems to want a different quarter than the next one. Otherwise state the assumption in the header and proceed.
 
-**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+If `find_securities` returns the company as Private, say that the estimates and tearsheet do not exist for it and offer a document-based summary of what is known about its results instead.
 
-If the company name is ambiguous after `find_securities`, ask:
+## Gather
 
-> "I found multiple companies named [X]. Did you mean [Company A] in [Industry] or [Company B] in [Industry]?"
+Work through these in order. Each step says what it must produce.
 
-## Before you synthesize — quality over quantity
+1. **Tearsheet, in two calls.** `bigdata_company_tearsheet` with `sections` set to `company_overview, events_calendar, analyst_data, price_performance, latest_earnings, estimates` first, then a second call for `fundamentals, revenue_segmentation`. Done when the report date, the consensus for the quarter and the next fiscal year, the actual and surprise for the last eight quarters, any guidance fields, the price moves since the last print, the targets and rating counts, and five fiscal periods of statements are in hand.
+2. **The last earnings call.** `bigdata_search` in fast mode for the transcript of the previous quarter's call with the reporting period filter set to that quarter, then `bigdata_fetch_document` on the transcript. Done when management's guidance for the quarter being previewed is quoted verbatim with its ranges, and the questions analysts pressed on are listed. Guidance for the next quarter is given on the current quarter's call, so the call to read is the one for the quarter before the one being previewed, never a later one.
+3. **What changed since that call.** Three to five `bigdata_search` calls, one aspect each: company news since the last print; the company's own filings or releases since then (8-K, pre-announcements, investor-day material); peer and supplier prints that bear on the quarter; sell-side notes on the setup (research and news that quote analysts); the data points the drivers depend on (pricing, volumes, channel checks, macro series). Done when every driver in the analysis has at least one dated piece of evidence or is marked as having none.
+4. **Sentiment and positioning.** `bigdata_sentiment_tearsheet` for the company over the last 90 days. Done when the direction of news sentiment into the print and the stories driving it are known. Short interest and options data are not in Bigdata.com; say so in the Gaps line if the user asks for positioning.
+5. **Sector primer.** If the company is in a sector with a primer in `references/sectors/`, read it for the metrics the sector reports and the accounting traps before analysing. Banks and insurers report different lines (net interest income, provisions, combined ratio) and the preview's tables follow the primer.
 
-Do this **after** gathering data and **before** writing the draft:
+## Analyse
 
-1. List candidate drivers from tearsheet + search.
-2. Rank them and keep the top **2–3** as primary drivers. Do not give 20 findings equal weight.
-3. Run the full **EPIC** filter on each primary driver:
+1. **Build the consensus table.** For the quarter: sales, gross margin, EBIT and EBIT margin, EPS, free cash flow and capex where estimates exist, each with the mean, the number of estimates if given, the change in the mean over the last 30 and 90 days, the prior-year actual and the implied growth, the prior quarter for the sequential comparison, and the company's guidance range with the midpoint. Label each cell reported, derived or assumed. The vintage of the consensus is the tearsheet's estimate date. Done when a reader can see in one table what the Street expects, how it moved, and what management guided.
 
-| Test | Question |
-|------|----------|
-| **E**ffect (material) | Would getting this wrong move value or the debate on the name meaningfully? |
-| **P**redictability | Can *you* form a view with evidence, not speculation? |
-| **I**ndependence | Does consensus or price **systematically** under- or over-weight this factor? |
-| **C**onsensus gap | Does **your** view differ from consensus in a specific, falsifiable way? |
+2. **Guidance credibility.** From the last eight quarters' actuals against the guidance midpoint (the estimates section carries guidance for some metrics; the transcripts carry the rest), state the company's pattern: how often it beats its own midpoint, by how much, and whether the beat has been shrinking. Say in one line what the pattern implies for the printed number against the guide. Done when the pattern is stated with the count of quarters it rests on.
 
-4. Map each primary driver to an implication (bullish / bearish / neutral) with specific metrics.
-5. Deprioritize template sections that are immaterial this period — say so in one line rather than padding.
+3. **The drivers of the quarter.** Name three to five drivers that decide the print, in order of weight: volume, price and mix, the largest cost lines, the segment that moves the total, currency, anything the company flagged. For each driver: what consensus assumes (derived from the estimates, or stated as not inferable), the evidence since the last call with its date and source, and the direction of risk against consensus. The value-trigger logic in `references/expectations.md` says which revisions matter for this company: incremental return where it earns near its cost of capital, sales growth where it earns well above. Done when every driver has evidence or an explicit "no new evidence" and a direction.
 
-Depth: [references/epic-framework.md](./references/epic-framework.md).
+4. **Consensus against base rates.** Place the consensus sales growth and EPS growth for the next fiscal year in the reference class from `references/base-rates.md`: the size decile by prior-year sales and the horizon, with the share of companies that achieved it, and the real-to-nominal conversion stated. Done when each growth figure carries a sentence of the form "requires X percent nominal growth, about Y percent real, which Z percent of companies in the A to B size class achieved over this horizon (top 1,000 global companies, 1950 to 2015)".
 
-## Workflow
+5. **What is priced in.** From `references/expectations.md`: the price move since the last print against the index; the forward P/E against the steady-state P/E at a stated cost of equity (an assumption, shown with its basis); the growth the enterprise value implies at the stated cost of capital against consensus; the direction of estimate revisions against the direction of the price (expectations rising, falling, or price moving without revisions); the sentiment trend; the analyst targets' range against the price. Done when the note says in two sentences whether the bar for the quarter is high or low and why.
 
-### Step 1 — Identify the company
+6. **The sales-to-margin sensitivity.** From `references/operating-leverage-and-tam.md` and the company's own cost structure (gross margin, the fixed-cost lines in the five years of statements): what a sales miss or beat of a stated size does to EBIT and EPS. Use the sector's operating-margin beta from `references/base-rates.md` as the outside view and the company's own history of margin change per unit of sales change as the inside view, and show both. Done when the note gives the EPS effect of a 3 percent and a 5 percent sales miss and beat, labelled derived, with the formula.
 
-Call `find_securities` with the company name to get the `entity_id`.
+7. **Scenarios.** Three cases, from `references/forecasting-discipline.md`: beat and raise, in line, miss or cut. For each: what has to be true on the drivers, the printed sales and EPS against consensus, the probability, the likely stock reaction given what is priced in and the base rates for post-earnings moves in `references/after-a-price-move.md`, and the single signal in the release or call that tells the reader which case is unfolding. Probabilities sum to 100 and start from the company's own beat rate and the sector's surprise history rather than a default split. Done when the three rows are complete and the expected value of the cases is consistent with the "what is priced in" paragraph.
 
-### Step 2 — Financial baseline
+8. **What to check first.** Five to seven items in the order a reader should check them when the release lands: the metric, the consensus or guided figure, the threshold that changes the reading. Then five questions for the call, each tied to a driver or to a claim management made last time.
 
-Call `bigdata_company_tearsheet` with the `entity_id` for:
+For a cyclical, state where the company sits in its cycle and show the mid-cycle margin next to the consensus margin, as `references/valuation.md` requires, so a peak-margin print is not read as a run rate. For a bank, use the primer's lines and skip the sales-to-margin step; the equivalent is net interest income against rate assumptions and provisions against the credit cycle.
 
-- Recent quarterly performance trends and YoY comparisons
-- Historical earnings surprises
-- Analyst estimates for the upcoming quarter
-- Key financial metrics and margins
-- **Positioning / sentiment fields when exposed** — sentiment scores, news/social metrics, ownership concentration, insider summary, options or short interest. Capture whatever the tool returns; never substitute analyst headlines for systematic data when numbers exist.
+## Write
 
-### Step 3 — Earnings quality quick screen
+Follow `references/output-standard.md`. The note has these sections in this order.
 
-Before building narratives, record a credibility table with a forward-looking **watch for** column (approximate if necessary; flag data gaps):
+```
+# <Company> (<ticker>) earnings preview: Q<n> FY<yyyy>, reports <date, time, before or after market>
+Data as of: estimates <date>; latest statements <period>; newest document <date>.
 
-| Check | This period / trend | Red-flag threshold | **Watch for (next print)** |
-|-------|---------------------|--------------------|----------------------------|
-| OCF / Net income | | Healthy often >0.8 sustained; <0.6 or widening gap → dig | further OCF/NI divergence; one-time boosts rolling off |
-| DSO vs revenue growth | | DSO rising faster than revenue → recognition risk | DSO days vs rev growth; channel inventory mentions |
-| GAAP vs non-GAAP EPS gap | | Large or widening gap → quality question | stock comp, restructuring, "adjusted" add-backs |
+## The setup
+Four to eight sentences: what the quarter turns on, whether the bar is high or low and why,
+what management guided, and the one thing that would make this print matter beyond the quarter.
+No rating.
 
-If the tearsheet lacks a line, search: "[Company] operating cash flow vs net income non-GAAP reconciliation".
+## The quarter at a glance
+| Metric | Consensus (n) | 30d / 90d change | Guidance (low, mid, high) | Prior year | Growth | Prior quarter | Basis | Source |
 
-Depth: [references/quality-of-earnings.md](./references/quality-of-earnings.md).
+## Guidance record
+Table of the last eight quarters: guided midpoint, actual, difference. One sentence on the pattern.
 
-### Step 4 — Earnings date
+## Drivers
+One subsection per driver, each with: consensus assumption, evidence since the last call (dated),
+direction of risk.
 
-Call `bigdata_events_calendar` with the `entity_id` to find the next earnings call. If unknown, ask:
+## Consensus against base rates
+The sentences from step 4, for sales and EPS.
 
-> "I don't have the exact earnings date yet. Shall I proceed with the preview based on recent developments and expectations?"
+## What is priced in
+Price since last print vs index; forward P/E vs steady-state P/E; implied growth vs consensus;
+estimate revisions vs price; sentiment; target range. Two closing sentences.
 
-### Step 5 — Search: developments, legal/regulatory, positioning
+## Sensitivity
+| Sales vs consensus | EBIT effect (inside view) | EBIT effect (sector beta) | EPS effect | Basis |
+Rows for -5, -3, +3, +5 percent.
 
-Cast a **wide net** so material non-operational risks (court rulings, probes, tax disputes) are not missed. Use `bigdata_search` over the last **60–90 days** (extend if coverage is thin). Run **at least 8–10 targeted queries** across all three buckets, then merge redundant results.
+## Scenarios
+| Case | What has to be true | Sales / EPS vs consensus | Probability | Likely reaction | Watch for |
 
-**Core company & industry**
-- "[Company] recent developments last 90 days"
-- "[Company] product launches initiatives"
-- "[Company] guidance commentary management"
-- "[Company] analyst expectations earnings preview"
-- "[Industry] trends headwinds tailwinds"
+## What to check first
+Numbered list, metric, figure, threshold.
 
-**Regulatory, legal, policy (mandatory)**
-- "[Company] lawsuit litigation court ruling settlement regulatory investigation last 90 days"
-- "[Company] SEC investigation DOJ antitrust fine penalty Europe"
-- "[Company] tax dispute regulatory approval compliance"
+## Questions for the call
+Five, each with the driver or claim it tests.
 
-**Market positioning & flows (mandatory — fills the structured table in the output)**
-- "[Company] insider buying selling Form 4 transactions last 90 days"
-- "[Company] institutional ownership 13F changes fund flows"
-- "[Company] short interest options put call ratio open interest"
-- "[Company] news sentiment score" (or closest available)
+## What would change this view
+Two to five dated or observable conditions.
 
-If news is sparse, ask:
+## Gaps
+What Bigdata.com could not answer (positioning data, whisper numbers, a missing transcript).
 
-> "There's been limited news recently. Would you like me to expand the search period or focus on industry trends?"
+## Sources
+Numbered. Then the Powered by Bigdata.com line and the disclaimer, verbatim from output-standard.md.
+```
 
-### Step 6 — Sentiment & positioning (structured, not anecdotes)
+Length: two to four pages. For a narrow question, answer it in the method's terms with the relevant table and the sources, and keep the footer.
 
-Build the output table from data, not from a single analyst note:
+## Checks before sending
 
-1. Pull every **numeric** sentiment / flow / positioning field from the tearsheet.
-2. Use Step 5 results to fill gaps (insider trades, large holder moves, options/skew, quantified sentiment).
-3. If a cell is unavailable, write **"Not available in data"** — the section still appears.
+1. The guidance quoted is from the call for the quarter before the one previewed, verbatim, with a citation.
+2. The consensus table states its vintage and the number of estimates where available.
+3. "What is priced in" comes before any sentence that reads as a view.
+4. Each growth figure has its base-rate sentence with the size class, horizon, share and sample label.
+5. The sensitivity rows show the formula and the inside and outside views.
+6. Scenario probabilities sum to 100 and are anchored to a stated beat rate, not a default split.
+7. No buy, hold, sell, overweight, underweight, accumulate, avoid, or rating word anywhere.
+8. Every figure carries a Basis label and a source number, or appears in the Gaps line.
+9. Nothing in the note comes from memory or the web; a driver with no evidence says so.
+10. The cost of equity and cost of capital used are stated as assumptions with their basis.
 
-### Step 7 — What's priced in + valuation cross-check
+## Hand-offs
 
-**Before** writing bull/bear narratives, establish what the current price embeds for this quarter and the near-term trajectory. Use tearsheet multiples, consensus, and reverse-DCF-style reasoning (conceptual is fine — [references/reverse-dcf.md](./references/reverse-dcf.md)).
-
-| Lens | Implied by market | Consensus | Your assessment |
-|------|-------------------|-----------|-----------------|
-| Growth (revenue / key volume) | | | |
-| Margin level or expansion | | | |
-| Beat magnitude / "whisper" vs published consensus | | | |
-
-**Multiples sanity check:** current EV/EBITDA, P/E, FCF yield (or sector-standard multiples) vs ~5-year range or peer median where data allows. State whether valuation implies **optimism**, **consensus**, or **pessimism** relative to the setup.
-
-### Step 8 — Variant perception (FaVeS) + scenarios
-
-**FaVeS — mandatory structure in the output:**
-- **Fundamentals** — the 2–3 KPIs that drive the quarter; where consensus could be wrong (link to bull/bear).
-- **Valuation** — tie to the *What's priced in* table and valuation cross-check; cross-reference rather than repeat prose.
-- **Sentiment** — tie to the *Sentiment & positioning* table; separate what is priced in **behaviorally** from **fundamentally**.
-
-Depth: [references/faves-framework.md](./references/faves-framework.md).
-
-**Scenario analysis — mandatory:** build Bull / Base / Bear with
-
-- **Probability weights** summing to ~100% (e.g. 30/50/20), briefly justified
-- **Key assumptions** per scenario (growth, margin, one-timers, legal outcomes)
-- **Price level or range** per scenario (spot, consensus PT band, or a rough DCF/multiple bridge — show the assumptions)
-- **Probability-weighted expected value** with the arithmetic shown (EV = Σ p×P; state expected upside/downside % vs spot)
-
-Methodology: [references/thesis-construction.md](./references/thesis-construction.md). Compute in prose/table by default; run [scripts/scenario_probability.py](./scripts/scenario_probability.py) only if the user explicitly asks for scripted math.
-
-### Step 9 — Synthesize
-
-Lead with the 2–3 primary drivers and their EPIC documentation. Cover, in order of materiality only:
-
-- **Recent developments** — launches, partnerships or M&A, operational shifts, geographic/share changes, plus material legal and regulatory items
-- **Industry trends** — macro drivers, competitive landscape, supply chain and cost pressure, policy
-- **Bull case** — each point specific, measurable, evidence-backed and resolvable over a sensible horizon; tie to consensus line items where possible ("consensus models X% growth in segment Y; channel evidence suggests Z%, ~$Nm revenue upside"); cite a source per claim
-- **Bear case** — same discipline; quantify downside (margin bps, revenue %, one-time vs recurring)
-- **Key metrics to watch** — the KPIs that matter *this* quarter, those that move the stock given what's priced in, and where surprise volatility is highest vs whisper/consensus
-
-## Output
-
-Follow [assets/report-template.md](./assets/report-template.md) exactly — section order, mandatory tables, sources, and footer.
-
-- Add inline citations as superscript-style numbers `[1]`, `[2]` immediately after claims, hyperlinked to the document URL.
-- Every deliverable ends with the **Powered by Bigdata.com** line and the **Disclaimer**, verbatim.
-- Default format is Markdown; offer a Word (.docx) or presentation version at the end if useful.
-
-## Quality bar
-
-Pass the PM test before delivering: **What's different?** **What matters (2–3 drivers)?** **What should I do about it?** (net assessment, key risk, next catalyst — no position sizing). Would it survive a short, skeptical morning meeting without reading as a data dump?
-
-Non-negotiables in every preview:
-
-- EPIC table for each elevated driver — filled, not placeholder
-- Scenario table with probabilities, prices, and **EV math shown**
-- Sentiment & positioning as structured data — tearsheet first, then search
-- Regulatory/legal queries run, and material items surfaced in developments and the bear case
-- **Watch for** column on the quality screen — forward monitoring, not only backward checks
-- *What's priced in* built before bull/bear, so both cases are relative to embedded expectations
-- Facts separated from analysis and implications
-- `plugin_slug: "bigdata-earnings-preview"` set on every Bigdata.com plugin tool call that accepts it (all except `search` and `fetch`)
+- The company has already reported the quarter: use `bigdata-earnings-review`.
+- The user wants the full valuation behind "what is priced in": `bigdata-valuation`.
+- The user asks what else is coming for the name beyond the print: `bigdata-catalysts`.
+- After delivering, make one offer: save a monitor that flags the company's news until the report date, or the note itself to the user's Bigdata.com account. Act only on a clear yes.

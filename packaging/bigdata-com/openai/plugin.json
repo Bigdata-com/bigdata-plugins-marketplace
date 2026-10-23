@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "app-69491eceef3c8191beb70788b7840429",
-  "version": "10.0.2",
-  "description": "Bigdata.com brings cited market data, news, filings, transcripts, fundamentals, sentiment, and financial research into ChatGPT.",
+  "version": "11.0.0",
+  "description": "Bigdata.com brings cited market data, news, filings, transcripts, fundamentals, sentiment and 26 research skills into ChatGPT.",
   "author": {
     "name": "RavenPack",
     "url": "https://bigdata.com"
@@ -63,29 +63,30 @@
         "developerName": "RavenPack",
         "category": "Finance",
         "capabilities": [
-          "Search cited financial news, filings, transcripts, and research",
-          "Research stocks, public companies, securities, ETFs, markets, and economies",
-          "Analyze market data, fundamentals, sentiment, and portfolio holdings",
-          "Review company, country, market, ETF, portfolio, and sentiment tearsheets",
-          "Track financial events, watchlists, competitors, and research monitors",
-          "Search and manage private research documents alongside public sources"
+          "Market wraps, watchlist checks, company briefs and why a stock moved",
+          "Earnings previews and reviews with what the price implies",
+          "Deep dives, theses, valuation, comps, scenarios and earnings quality",
+          "Moat, capital allocation, risk, credit, deals and special situations",
+          "Sector, theme, country and macro research, and company screens",
+          "Search cited news, filings, transcripts and research; private documents too"
         ],
         "websiteURL": "https://bigdata.com",
         "supportURL": "https://docs.bigdata.com/support",
         "privacyPolicyURL": "https://bigdata.com/privacy-policy",
         "termsOfServiceURL": "https://bigdata.com/mcp-terms-and-conditions",
         "defaultPrompt": [
-          "Research NVIDIA's latest earnings using filings, transcripts, news, and company financials.",
-          "Compare the valuation, growth, and sentiment of Microsoft, Amazon, and Alphabet.",
-          "Show upcoming earnings and economic events that could affect my watchlist."
+          "Give me a market wrap for today with what moved and why.",
+          "Check my watchlist: Nvidia, Micron, ASML and TSMC, what changed this week?",
+          "Preview Micron's next earnings: consensus, what is priced in, and what to watch."
         ],
         "brandColorDark": "#FFFFFF",
         "composerIcon": "./assets/bigdata-icon-black.svg",
         "logo": "./assets/bigdata-icon-black.svg"
       },
       "publication": {
-        "release_notes": "Declares the Bigdata.com MCP endpoint in the package; authentication is already configured in the MCP submission. Improves directory discoverability with expanded keywords, starter prompts, and clearer coverage language. Adds the general Bigdata skill for financial research, guidance on available data, and building personalized research skills."
-      }
+        "release_notes": "Replaces the 27 job skills with 25 rewritten ones plus the bigdata entry skill: monitoring (markets, watchlists, company briefs, stock moves, catalysts, quick takes), company analysis (deep dive, thesis, valuation, comps, scenarios, earnings quality, moat, capital allocation, risk, credit), earnings and events (preview, review, deals, special situations) and sector, theme, country, macro and screening. Every report states what the price implies, labels every figure by basis, and gives no buy, hold or sell call."
+      },
+      "onboardingSkill": "./skills/bigdata/SKILL.md"
     }
   }
 }

@@ -1,79 +1,38 @@
-# Bigdata.com plugin
+# bigdata-com
 
-Financial research and market intelligence for Claude, built by [RavenPack](https://www.ravenpack.com/). The plugin connects Claude to the [Bigdata.com](https://bigdata.com/) MCP server and adds 28 research skills that turn its tools into finished analyst work: company briefs, earnings previews and digests, valuation snapshots, peer comparables, investment memos, risk assessments, catalyst monitors, sector and macro analysis, and IPO reviews.
-
-Every skill grounds its output in licensed sources with citations: premium news, regulatory filings, earnings call transcripts, broker research, financial statements and estimates, sentiment signals, macro data, and your own uploaded documents.
-
-## Requirements
-
-An active Bigdata.com account. [Sign up](https://app.bigdata.com/) if you do not have one.
+Financial research for Claude, ChatGPT and Microsoft 365 Copilot, built by [RavenPack](https://www.ravenpack.com/). The plugin connects the host to the [Bigdata.com](https://bigdata.com/) MCP server and adds 26 research skills that turn its tools into finished analyst work. Every report cites its sources, labels each figure as reported, derived, assumed or judgment, states what the share price implies before giving a view, and gives no buy, hold or sell call.
 
 ## Install
 
-**Claude.ai and Claude Desktop**: install the plugin from the Claude directory and sign in to Bigdata.com when prompted. Team and Enterprise admins can enable it for the organization under **Organization settings**.
+Claude: Customize, Plugins, Discover, search for Bigdata.com, Add. Claude Code: `/plugin install bigdata-com@bigdata-plugins-marketplace`. The plugin's Connectors tab lists the Bigdata.com connector; add it and sign in. A Bigdata.com account is required.
 
-**Claude Code**: run `/plugins`, add the `Bigdata-com/bigdata-plugins-marketplace` marketplace, and install `bigdata-com`. The bundled MCP server configuration in `.mcp.json` connects to `https://mcp.bigdata.com/`. Sign in with OAuth when Claude asks, or add the server with an API key from [platform.bigdata.com/api-keys](https://platform.bigdata.com/api-keys):
+## The skills
 
-```bash
-claude mcp add --transport http bigdata_com https://mcp.bigdata.com/ --header "x-api-key: YOUR_API_KEY"
-```
+The entry skill `bigdata` handles any Bigdata.com question, interviews the user when the request is vague, and routes to a job skill when one fits.
 
-Then ask something like:
+| Group | Skills |
+|---|---|
+| Keep up with names and markets | `bigdata-markets-today`, `bigdata-watchlist`, `bigdata-company-brief`, `bigdata-stock-move`, `bigdata-catalysts`, `bigdata-quick-take` |
+| One company in depth | `bigdata-deep-dive`, `bigdata-thesis`, `bigdata-valuation`, `bigdata-comps`, `bigdata-scenarios`, `bigdata-earnings-quality`, `bigdata-moat`, `bigdata-capital-allocation`, `bigdata-risk`, `bigdata-credit` |
+| Earnings and events | `bigdata-earnings-preview`, `bigdata-earnings-review`, `bigdata-deal-analysis`, `bigdata-special-situations` |
+| Sectors, themes and macro | `bigdata-sector`, `bigdata-theme`, `bigdata-country`, `bigdata-macro-compare`, `bigdata-screen` |
 
-```
-Prepare an earnings preview for Broadcom with inline citations.
-```
+Each skill is a folder with a `SKILL.md` (the method and the report structure), the reference files it loads, and an `agents/openai.yaml` for ChatGPT and Codex. Type `/` in Claude to pick one by name, or describe the task and the host picks the skill from its description.
 
-## Skills
+## The library
 
-Each skill is a workflow with a defined structure, sourcing rules and output format. Ask in plain language and Claude picks the matching skill.
+`library/` holds the files the skills share: `output-standard.md` (the report frame, citations, the footer), `working-with-bigdata.md` (which tool answers which question, how to search and read tearsheets), fourteen method files under `methods/` (price-implied expectations, base rates, ROIC, valuation, multiples and peers, earnings quality, capital allocation, industry structure, operating leverage and TAM, after a price move, downside and catalysts, forecasting discipline, credit, special situations) and the sector primers under `sectors/`. The methods come from Michael Mauboussin's research, the McKinsey valuation text, Graham and Dodd, Klarman and Damodaran, with every figure labelled by source and period.
 
-**Start here**
-- `bigdata`: any research task with Bigdata.com data, what Bigdata.com can do, and building your own skill from a task you repeat.
+A skill names the files it needs in its frontmatter (`bigdata-refs`, `bigdata-sector-primer`). `packaging/bigdata-com/scripts/sync_library.py` copies them into the skill's `references/` folder, because claude.ai copies only the skill folder into its sandbox and Microsoft Cowork rejects paths outside it. Edit the library, run the sync, commit both.
 
-**Company research**
-- `bigdata-company-brief`: what happened at a company in the last 30 days and why it matters.
-- `bigdata-quick-take`: a one-page PM-style view with drivers, risks and the next catalyst.
-- `bigdata-investment-memo`: a full institutional memo with thesis, variant perception, valuation and recommendation.
-- `bigdata-variant-perception`: where your view differs from consensus and why.
-- `bigdata-valuation-snapshot`: current valuation by the method that fits the business, with a cross-check.
-- `bigdata-peer-comparables`: a comps table against a justified peer set with premium or discount decomposition.
-- `bigdata-scenario-analysis`: bull, base and bear cases with probability-weighted expected value.
-- `bigdata-risk-assessment`: six-category risk review rated by likelihood and impact.
-- `bigdata-moat-governance-review`: moat durability, capital allocation track record and governance.
-- `bigdata-catalyst-monitor`: dated events that could move the stock over the next few quarters.
+## Checks and evals
 
-**Earnings**
-- `bigdata-earnings-preview`: forward-looking setup ahead of the print.
-- `bigdata-earnings-digest`: full post-print breakdown of results, guidance and surprises.
-- `bigdata-earnings-reaction`: a tight note on whether the quarter changes the thesis.
-- `bigdata-earnings-quality-screen`: cash conversion, accruals and accounting red flags.
+`packaging/bigdata-com/scripts/check_skills.py` validates every skill against the Claude, OpenAI and Microsoft rules (names, description length, body length, links, companion file counts and sizes, rating words, non-ASCII characters). `evals/run_evals.py` runs cases against the live connector in Claude Code headless and grades them with a judge; see `evals/README.md`.
 
-**IPOs**
-- `bigdata-pre-ipo-analysis`: balanced note on an upcoming listing from the S-1 or F-1.
-- `bigdata-post-ipo-day1`, `bigdata-post-ipo-day14`, `bigdata-post-ipo-day179`, `bigdata-post-ipo-day365`: first-day reaction, index fast-track eligibility, and the 180-day and one-year lock-up expiries.
+## Packaging
 
-**Sectors, themes and macro**
-- `bigdata-sector-analysis`: performance, valuations, themes and catalysts for one sector.
-- `bigdata-sector-playbook`: the KPIs, valuation approach, live debates and what to own, avoid and watch in a sector.
-- `bigdata-cross-sector`: relative value and rotation calls across sectors.
-- `bigdata-thematic-research`: the companies, drivers and risks behind an investment theme.
-- `bigdata-country-analysis`: deep economic analysis of one country.
-- `bigdata-country-sector-analysis`: one sector inside one country or region.
-- `bigdata-regional-comparison`: regions and blocs compared with an allocation view.
-- `bigdata-g7-comparison`: the seven G7 economies side by side.
-
-## Data handling
-
-Queries are sent to the Bigdata.com MCP server at `https://mcp.bigdata.com/` and answered from licensed content under your account's entitlements. See the [privacy policy](https://bigdata.com/privacy-policy) and [terms and conditions](https://bigdata.com/terms-and-conditions).
-
-## Documentation and support
-
-- [Plugin documentation](https://docs.bigdata.com/mcp-reference/plugins/bigdata-com)
-- [Skills reference](https://docs.bigdata.com/skills-reference/mcp-helpers/financial-research-analyst)
-- [MCP reference](https://docs.bigdata.com/mcp-reference/introduction)
-- [Support](https://docs.bigdata.com/support) or [support@bigdata.com](mailto:support@bigdata.com)
+`packaging/bigdata-com/scripts/` builds the ChatGPT zip, the Microsoft 365 Copilot Cowork zip (20 skills, listed in `packaging/bigdata-com/microsoft/manifest.json`) and a development zip for claude.ai.
 
 ## License
 
-See [LICENSE](LICENSE), or contact legal@ravenpack.com.
+MIT, see LICENSE.
