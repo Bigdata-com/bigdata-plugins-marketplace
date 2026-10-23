@@ -1,6 +1,6 @@
 # Bigdata.com job skills: proposal for the rewrite
 
-Date: 2026-10-23. Author: Marko Kangrga with Claude. Status: for review, nothing built yet.
+Date: 2026-10-23. Author: Marko Kangrga with Claude. Status: proposal written in the morning; built in the afternoon on the local branch `skills-proposal-2026-10-23` (all 26 skills, the library, the scripts, the three packages, the trigger suite and the live cases). Nothing merged, pushed or published to a host.
 
 ## 1. Summary
 

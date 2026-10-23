@@ -1,310 +1,522 @@
 {
-  "bigdata": {
-    "positive": ["/bigdata", "what can Bigdata.com do?", "help me with stocks"],
-    "near_miss": [
-      {"prompt": "Quick take on Nike, nothing long.", "expected": "bigdata-quick-take"},
-      {"prompt": "How do the G7 economies compare on growth and inflation right now?", "expected": "bigdata-macro-compare"}
-    ],
-    "negative": ["Plan a three-day trip to Lisbon with a focus on food and short walks."]
-  },
-  "bigdata-markets-today": {
-    "positive": [
-      "How did markets do today?",
-      "why is everything red this morning",
-      "Give me a wrap of the markets for the week ending Friday, and tell me what is scheduled for next week."
-    ],
-    "near_miss": [
-      {"prompt": "What has been going on with Nike over the past month?", "expected": "bigdata-company-brief"},
-      {"prompt": "Why did Nvidia drop 6% today?", "expected": "bigdata-stock-move"}
-    ],
-    "negative": ["Explain how the Federal Reserve decides where to set interest rates."]
-  },
-  "bigdata-watchlist": {
-    "positive": [
-      "What changed across Shell, Unilever, Toyota and Micron since Monday?",
-      "JPM NKE ASML SHEL SPY, anything I should know today?",
-      "Run my weekly check on these holdings: Nvidia, Micron, Toyota, the QQQ ETF and Celsius Holdings."
-    ],
-    "near_miss": [
-      {"prompt": "Catch me up on Unilever, it is the only stock I own.", "expected": "bigdata-company-brief"},
-      {"prompt": "How did equities, bonds and oil do this week overall?", "expected": "bigdata-markets-today"}
-    ],
-    "negative": ["How do I write a SQL query that joins two tables on a date column?"]
-  },
-  "bigdata-company-brief": {
-    "positive": [
-      "What has been happening with Toyota lately?",
-      "catch me up on SMCI",
-      "Summarize the last 30 days at Shell: news, filings and anything material for the business."
-    ],
-    "near_miss": [
-      {"prompt": "Is Nvidia interesting here? Give me your quick thoughts.", "expected": "bigdata-quick-take"},
-      {"prompt": "Why is Micron up 7% today?", "expected": "bigdata-stock-move"}
-    ],
-    "negative": ["What is the difference between a stock split and a dividend?"]
-  },
-  "bigdata-stock-move": {
-    "positive": [
-      "Why did JPMorgan fall today?",
-      "NKE gapping up premarket, why?",
-      "What drove the slide in Unilever shares over the last three sessions?"
-    ],
-    "near_miss": [
-      {"prompt": "What happened at Micron last month?", "expected": "bigdata-company-brief"},
-      {"prompt": "Micron reported last night, how did the quarter go?", "expected": "bigdata-earnings-review"}
-    ],
-    "negative": ["Why do stock prices tend to be volatile in general?"]
-  },
-  "bigdata-catalysts": {
-    "positive": [
-      "What catalysts are coming up for Shell?",
-      "ASML next events to watch?",
-      "What events could move Micron over the next quarter, and when does each one land?"
-    ],
-    "near_miss": [
-      {"prompt": "Walk me through what to expect from JPMorgan when it reports on Friday.", "expected": "bigdata-earnings-preview"},
-      {"prompt": "Is Toyota worth a look right now? Just a fast view.", "expected": "bigdata-quick-take"}
-    ],
-    "negative": ["Recommend a good beginner book on how the stock market works."]
-  },
-  "bigdata-quick-take": {
-    "positive": [
-      "Quick take on Nvidia?",
-      "thoughts on SOFI",
-      "I walk into a meeting about Nike in ten minutes. What is your fast read on the stock?"
-    ],
-    "near_miss": [
-      {"prompt": "Write a full initiation report on Nike: the business, the moat, valuation, everything.", "expected": "bigdata-deep-dive"},
-      {"prompt": "What is Nike worth? Build me a DCF.", "expected": "bigdata-valuation"}
-    ],
-    "negative": ["What does a price-to-earnings ratio mean?"]
-  },
-  "bigdata-deep-dive": {
-    "positive": [
-      "Do a deep dive on ASML.",
-      "Help me properly understand the business behind Celsius Holdings, full research please.",
-      "I am presenting to the investment committee on Friday. Write an investment memo on Micron as it stands this quarter."
-    ],
-    "near_miss": [
-      {"prompt": "Give me a one-page view on ASML.", "expected": "bigdata-quick-take"},
-      {"prompt": "What is the bull and bear case for ASML, and what is the market missing?", "expected": "bigdata-thesis"}
-    ],
-    "negative": ["How do I build a monthly budget on an income of 4,500 dollars?"]
-  },
-  "bigdata-thesis": {
-    "positive": [
-      "What is the bull and bear case for Nvidia?",
-      "stress-test my idea that Nike is a turnaround story",
-      "What is the market missing on Shell, and what would tell me I am wrong over the next 12 months?"
-    ],
-    "near_miss": [
-      {"prompt": "Write a full initiation report on Shell.", "expected": "bigdata-deep-dive"},
-      {"prompt": "Give me base, downside and upside values for Nvidia with probabilities.", "expected": "bigdata-scenarios"}
-    ],
-    "negative": ["Explain what short selling is and how it works."]
-  },
-  "bigdata-valuation": {
-    "positive": [
-      "What is Toyota worth?",
-      "is MU cheap or expensive here",
-      "Build me a DCF for Unilever with sensitivities on margin and terminal growth."
-    ],
-    "near_miss": [
-      {"prompt": "How does Toyota's multiple compare with Honda and Volkswagen?", "expected": "bigdata-comps"},
-      {"prompt": "What are the upside and downside values for Toyota under different cases?", "expected": "bigdata-scenarios"}
-    ],
-    "negative": ["What is the time value of money?"]
-  },
-  "bigdata-comps": {
-    "positive": [
-      "Give me comps for Micron.",
-      "JPM vs its peers on valuation, quick",
-      "Compare ASML with its peers on growth, margins and returns using the latest quarter."
-    ],
-    "near_miss": [
-      {"prompt": "What is the fair value of ASML?", "expected": "bigdata-valuation"},
-      {"prompt": "Which stocks look like ASML but trade cheaper?", "expected": "bigdata-screen"}
-    ],
-    "negative": ["What is the difference between a stock and an ETF?"]
-  },
-  "bigdata-scenarios": {
-    "positive": [
-      "Give me a bull, base and bear analysis for Nvidia.",
-      "NKE: what happens to the value if China demand stays weak?",
-      "Build probability-weighted scenarios for Micron through 2027 and tell me which signposts show which case is unfolding."
-    ],
-    "near_miss": [
-      {"prompt": "What is Micron worth on a DCF?", "expected": "bigdata-valuation"},
-      {"prompt": "What could go wrong at Micron and how much could I lose?", "expected": "bigdata-risk"}
-    ],
-    "negative": ["How do I run a Monte Carlo simulation in Python for my retirement savings?"]
-  },
-  "bigdata-earnings-quality": {
-    "positive": [
-      "Are Nike's earnings real?",
-      "any accounting red flags at SMCI",
-      "Check Shell's last five years for aggressive accounting, one-offs that keep recurring, and weak cash conversion."
-    ],
-    "near_miss": [
-      {"prompt": "How did Nike do last quarter?", "expected": "bigdata-earnings-review"},
-      {"prompt": "What are the biggest risks to Nike over the next year?", "expected": "bigdata-risk"}
-    ],
-    "negative": ["What is the difference between GAAP and non-GAAP reporting?"]
-  },
-  "bigdata-moat": {
-    "positive": [
-      "Does ASML have a durable competitive advantage?",
-      "is Nvidia's CUDA lead actually defensible",
-      "How has Toyota's competitive position changed over the last five years against Chinese EV makers?"
-    ],
-    "near_miss": [
-      {"prompt": "How good is Toyota's management at allocating capital, and what are they paid for?", "expected": "bigdata-capital-allocation"},
-      {"prompt": "How does the auto industry work and where is it in the cycle?", "expected": "bigdata-sector"}
-    ],
-    "negative": ["How do I set up a Python virtual environment on a Mac?"]
-  },
-  "bigdata-capital-allocation": {
-    "positive": [
-      "How does Micron allocate its capital?",
-      "JPM buybacks, did they create value?",
-      "Look at Shell's last five years of buybacks, dividends and acquisitions and tell me whether the discipline held up."
-    ],
-    "near_miss": [
-      {"prompt": "Does Shell's rumoured bid for a rival make sense?", "expected": "bigdata-deal-analysis"},
-      {"prompt": "Does Shell have a lasting competitive advantage in LNG?", "expected": "bigdata-moat"}
-    ],
-    "negative": ["Should I pay off my student loan or put the money in an index fund?"]
-  },
-  "bigdata-risk": {
-    "positive": [
-      "What could go wrong with Nvidia?",
-      "how much could I lose on MU",
-      "Rank the biggest risks to Toyota over the next 12 months by probability and size."
-    ],
-    "near_miss": [
-      {"prompt": "Is Toyota's debt a problem, and what does the refinancing schedule look like?", "expected": "bigdata-credit"},
-      {"prompt": "Give me base, upside and downside cases for Toyota with probabilities.", "expected": "bigdata-scenarios"}
-    ],
-    "negative": ["What is value at risk and how do banks calculate it?"]
-  },
-  "bigdata-credit": {
-    "positive": [
-      "How is Unilever's credit quality?",
-      "is SMCI going to have a refinancing problem",
-      "Check Nike's leverage, coverage and debt maturities against rating medians using the latest filing."
-    ],
-    "near_miss": [
-      {"prompt": "What is the downside for Unilever shareholders if things go wrong?", "expected": "bigdata-risk"},
-      {"prompt": "How has Unilever used debt to fund buybacks over the last five years?", "expected": "bigdata-capital-allocation"}
-    ],
-    "negative": ["How do I improve my personal credit score quickly?"]
-  },
-  "bigdata-earnings-preview": {
-    "positive": [
-      "Give me an earnings preview for Nvidia.",
-      "what should I watch when JPM reports Friday",
-      "Set me up for Micron's report next week: consensus, what is priced in, and the metrics to check first."
-    ],
-    "near_miss": [
-      {"prompt": "Nvidia reported yesterday. How did the quarter go?", "expected": "bigdata-earnings-review"},
-      {"prompt": "What events are coming up for Nvidia over the next six months?", "expected": "bigdata-catalysts"}
-    ],
-    "negative": ["What does EPS stand for and how is it calculated?"]
-  },
-  "bigdata-earnings-review": {
-    "positive": [
-      "How did Nike do last quarter?",
-      "did ASML beat",
-      "Micron reported last night. Break down the results and tell me whether the thesis changes."
-    ],
-    "near_miss": [
-      {"prompt": "What should I expect when Nike reports next week?", "expected": "bigdata-earnings-preview"},
-      {"prompt": "Why did Nike shares fall 6% today?", "expected": "bigdata-stock-move"}
-    ],
-    "negative": ["How do I read an income statement as a beginner?"]
-  },
-  "bigdata-deal-analysis": {
-    "positive": [
-      "Does Chevron's deal for Hess make sense?",
-      "thoughts on the Cisco-Splunk deal?",
-      "Walk me through the rumoured Shell and BP merger: synergies, financing and the regulatory path."
-    ],
-    "near_miss": [
-      {"prompt": "What is the arbitrage spread on the Chevron and Hess deal, and where is the break price?", "expected": "bigdata-special-situations"},
-      {"prompt": "What is Cisco's track record on acquisitions over the last decade?", "expected": "bigdata-capital-allocation"}
-    ],
-    "negative": ["What is the difference between a merger and an acquisition?"]
-  },
-  "bigdata-special-situations": {
-    "positive": [
-      "Calculate the arbitrage spread and break price on a cash-and-stock merger like Synopsys and Ansys.",
-      "Unilever ice cream demerger, is there a trade in it?",
-      "A small-cap I follow announced a rights issue last week. What is the payoff and what are the key dates?"
-    ],
-    "near_miss": [
-      {"prompt": "Does the strategic logic of the Synopsys and Ansys deal hold up?", "expected": "bigdata-deal-analysis"},
-      {"prompt": "What has happened at Unilever in the past month?", "expected": "bigdata-company-brief"}
-    ],
-    "negative": ["What does arbitrage mean in general?"]
-  },
-  "bigdata-sector": {
-    "positive": [
-      "Give me an overview of the semiconductor industry.",
-      "which sectors look interesting right now",
-      "Where is the European energy sector in its cycle, and what is priced in? XLE is my reference for the US side."
-    ],
-    "near_miss": [
-      {"prompt": "Who benefits from the build-out of AI data centers?", "expected": "bigdata-theme"},
-      {"prompt": "Find me undervalued European banks with strong capital ratios.", "expected": "bigdata-screen"}
-    ],
-    "negative": ["Recommend a good book on the history of Wall Street."]
-  },
-  "bigdata-theme": {
-    "positive": [
-      "Who benefits from GLP-1 drugs?",
-      "AI power demand, who are the plays?",
-      "Is the SMH ETF a good way to play AI chips, and who has real exposure to the theme over the next two years?"
-    ],
-    "near_miss": [
-      {"prompt": "Give me a primer on the pharmaceutical industry: profit pool and cycle position.", "expected": "bigdata-sector"},
-      {"prompt": "Screen for small-cap US stocks that get more than half their revenue from defense.", "expected": "bigdata-screen"}
-    ],
-    "negative": ["How do index funds work?"]
-  },
-  "bigdata-country": {
-    "positive": [
-      "How is Brazil's economy doing?",
-      "Japan outlook",
-      "Give me a briefing on Turkey for the last quarter: growth, inflation, the lira and political risk."
-    ],
-    "near_miss": [
-      {"prompt": "Compare the US, UK and Germany on growth and inflation.", "expected": "bigdata-macro-compare"},
-      {"prompt": "How is the Brazilian banking sector positioned?", "expected": "bigdata-sector"}
-    ],
-    "negative": ["What is GDP and why does it matter?"]
-  },
-  "bigdata-macro-compare": {
-    "positive": [
-      "Compare the G7 economies.",
-      "who is stronger right now, Mexico or Brazil",
-      "Give me a global macro overview for this quarter: growth, inflation, rates and currencies across the major blocs."
-    ],
-    "near_miss": [
-      {"prompt": "Give me a briefing on Mexico's economy.", "expected": "bigdata-country"},
-      {"prompt": "How did global equity markets do this week?", "expected": "bigdata-markets-today"}
-    ],
-    "negative": ["Can you explain what inflation is to a teenager?"]
-  },
-  "bigdata-screen": {
-    "positive": [
-      "Find me small-cap US software stocks with positive free cash flow and under 15x sales.",
-      "who else does what ASML does",
-      "Screen for dividend-paying European utilities with net debt under 3x EBITDA and give me a ranked shortlist."
-    ],
-    "near_miss": [
-      {"prompt": "Is Applied Materials interesting? Just a fast view.", "expected": "bigdata-quick-take"},
-      {"prompt": "How does ASML compare with its peers on margins and returns?", "expected": "bigdata-comps"}
-    ],
-    "negative": ["How do I filter a pandas DataFrame by two columns?"]
-  }
+ "bigdata": {
+  "positive": [
+   "I want to use Bigdata.com to research some companies, where do I start?",
+   "what can Bigdata.com do?",
+   "help me with stocks"
+  ],
+  "near_miss": [
+   {
+    "prompt": "Quick take on Nike, nothing long.",
+    "expected": "bigdata-quick-take"
+   },
+   {
+    "prompt": "How do the G7 economies compare on growth and inflation right now?",
+    "expected": "bigdata-macro-compare"
+   }
+  ],
+  "negative": [
+   "Plan a three-day trip to Lisbon with a focus on food and short walks."
+  ]
+ },
+ "bigdata-markets-today": {
+  "positive": [
+   "How did markets do today?",
+   "why is everything red this morning",
+   "Give me a wrap of the markets for the week ending Friday, and tell me what is scheduled for next week."
+  ],
+  "near_miss": [
+   {
+    "prompt": "What has been going on with Nike over the past month?",
+    "expected": "bigdata-company-brief"
+   },
+   {
+    "prompt": "Why did Nvidia drop 6% today?",
+    "expected": "bigdata-stock-move"
+   }
+  ],
+  "negative": [
+   "Explain how the Federal Reserve decides where to set interest rates."
+  ]
+ },
+ "bigdata-watchlist": {
+  "positive": [
+   "What changed across Shell, Unilever, Toyota and Micron since Monday?",
+   "JPM NKE ASML SHEL SPY, anything I should know today?",
+   "Run my weekly check on these holdings: Nvidia, Micron, Toyota, the QQQ ETF and Celsius Holdings."
+  ],
+  "near_miss": [
+   {
+    "prompt": "Catch me up on Unilever, it is the only stock I own.",
+    "expected": "bigdata-company-brief"
+   },
+   {
+    "prompt": "How did equities, bonds and oil do this week overall?",
+    "expected": "bigdata-markets-today"
+   }
+  ],
+  "negative": [
+   "How do I write a SQL query that joins two tables on a date column?"
+  ]
+ },
+ "bigdata-company-brief": {
+  "positive": [
+   "What has been happening with Toyota lately?",
+   "catch me up on SMCI",
+   "Summarize the last 30 days at Shell: news, filings and anything material for the business."
+  ],
+  "near_miss": [
+   {
+    "prompt": "Is Nvidia interesting here? Give me your quick thoughts.",
+    "expected": "bigdata-quick-take"
+   },
+   {
+    "prompt": "Why is Micron up 7% today?",
+    "expected": "bigdata-stock-move"
+   }
+  ],
+  "negative": [
+   "What is the difference between a stock split and a dividend?"
+  ]
+ },
+ "bigdata-stock-move": {
+  "positive": [
+   "Why did JPMorgan fall today?",
+   "NKE gapping up premarket, why?",
+   "What drove the slide in Unilever shares over the last three sessions?"
+  ],
+  "near_miss": [
+   {
+    "prompt": "What happened at Micron last month?",
+    "expected": "bigdata-company-brief"
+   },
+   {
+    "prompt": "Micron reported last night, how did the quarter go?",
+    "expected": "bigdata-earnings-review"
+   }
+  ],
+  "negative": [
+   "Why do stock prices tend to be volatile in general?"
+  ]
+ },
+ "bigdata-catalysts": {
+  "positive": [
+   "What catalysts are coming up for Shell?",
+   "ASML next events to watch?",
+   "What events could move Micron over the next quarter, and when does each one land?"
+  ],
+  "near_miss": [
+   {
+    "prompt": "Walk me through what to expect from JPMorgan when it reports on Friday.",
+    "expected": "bigdata-earnings-preview"
+   },
+   {
+    "prompt": "Is Toyota worth a look right now? Just a fast view.",
+    "expected": "bigdata-quick-take"
+   }
+  ],
+  "negative": [
+   "Recommend a good beginner book on how the stock market works."
+  ]
+ },
+ "bigdata-quick-take": {
+  "positive": [
+   "Quick take on Nvidia?",
+   "thoughts on SOFI",
+   "I walk into a meeting about Nike in ten minutes. What is your fast read on the stock?"
+  ],
+  "near_miss": [
+   {
+    "prompt": "Write a full initiation report on Nike: the business, the moat, valuation, everything.",
+    "expected": "bigdata-deep-dive"
+   },
+   {
+    "prompt": "What is Nike worth? Build me a DCF.",
+    "expected": "bigdata-valuation"
+   }
+  ],
+  "negative": [
+   "What does a price-to-earnings ratio mean?"
+  ]
+ },
+ "bigdata-deep-dive": {
+  "positive": [
+   "Do a deep dive on ASML.",
+   "Help me properly understand the business behind Celsius Holdings, full research please.",
+   "I am presenting to the investment committee on Friday. Write an investment memo on Micron as it stands this quarter."
+  ],
+  "near_miss": [
+   {
+    "prompt": "Give me a one-page view on ASML.",
+    "expected": "bigdata-quick-take"
+   },
+   {
+    "prompt": "What is the bull and bear case for ASML, and what is the market missing?",
+    "expected": "bigdata-thesis"
+   }
+  ],
+  "negative": [
+   "How do I build a monthly budget on an income of 4,500 dollars?"
+  ]
+ },
+ "bigdata-thesis": {
+  "positive": [
+   "What is the bull and bear case for Nvidia?",
+   "stress-test my idea that Nike is a turnaround story",
+   "What is the market missing on Shell, and what would tell me I am wrong over the next 12 months?"
+  ],
+  "near_miss": [
+   {
+    "prompt": "Write a full initiation report on Shell.",
+    "expected": "bigdata-deep-dive"
+   },
+   {
+    "prompt": "Give me base, downside and upside values for Nvidia with probabilities.",
+    "expected": "bigdata-scenarios"
+   }
+  ],
+  "negative": [
+   "Explain what short selling is and how it works."
+  ]
+ },
+ "bigdata-valuation": {
+  "positive": [
+   "What is Toyota worth?",
+   "is MU cheap or expensive here",
+   "Build me a DCF for Unilever with sensitivities on margin and terminal growth."
+  ],
+  "near_miss": [
+   {
+    "prompt": "How does Toyota's multiple compare with Honda and Volkswagen?",
+    "expected": "bigdata-comps"
+   },
+   {
+    "prompt": "What are the upside and downside values for Toyota under different cases?",
+    "expected": "bigdata-scenarios"
+   }
+  ],
+  "negative": [
+   "What is the time value of money?"
+  ]
+ },
+ "bigdata-comps": {
+  "positive": [
+   "Give me comps for Micron.",
+   "JPM vs its peers on valuation, quick",
+   "Compare ASML with its peers on growth, margins and returns using the latest quarter."
+  ],
+  "near_miss": [
+   {
+    "prompt": "What is the fair value of ASML?",
+    "expected": "bigdata-valuation"
+   },
+   {
+    "prompt": "Which stocks look like ASML but trade cheaper?",
+    "expected": "bigdata-screen"
+   }
+  ],
+  "negative": [
+   "What is the difference between a stock and an ETF?"
+  ]
+ },
+ "bigdata-scenarios": {
+  "positive": [
+   "Give me a bull, base and bear analysis for Nvidia.",
+   "NKE: what happens to the value if China demand stays weak?",
+   "Build probability-weighted scenarios for Micron through 2027 and tell me which signposts show which case is unfolding."
+  ],
+  "near_miss": [
+   {
+    "prompt": "What is Micron worth on a DCF?",
+    "expected": "bigdata-valuation"
+   },
+   {
+    "prompt": "What could go wrong at Micron and how much could I lose?",
+    "expected": "bigdata-risk"
+   }
+  ],
+  "negative": [
+   "How do I run a Monte Carlo simulation in Python for my retirement savings?"
+  ]
+ },
+ "bigdata-earnings-quality": {
+  "positive": [
+   "Are Nike's earnings real?",
+   "any accounting red flags at SMCI",
+   "Check Shell's last five years for aggressive accounting, one-offs that keep recurring, and weak cash conversion."
+  ],
+  "near_miss": [
+   {
+    "prompt": "How did Nike do last quarter?",
+    "expected": "bigdata-earnings-review"
+   },
+   {
+    "prompt": "What are the biggest risks to Nike over the next year?",
+    "expected": "bigdata-risk"
+   }
+  ],
+  "negative": [
+   "What is the difference between GAAP and non-GAAP reporting?"
+  ]
+ },
+ "bigdata-moat": {
+  "positive": [
+   "Does ASML have a durable competitive advantage?",
+   "is Nvidia's CUDA lead actually defensible",
+   "How has Toyota's competitive position changed over the last five years against Chinese EV makers?"
+  ],
+  "near_miss": [
+   {
+    "prompt": "How good is Toyota's management at allocating capital, and what are they paid for?",
+    "expected": "bigdata-capital-allocation"
+   },
+   {
+    "prompt": "How does the auto industry work and where is it in the cycle?",
+    "expected": "bigdata-sector"
+   }
+  ],
+  "negative": [
+   "How do I set up a Python virtual environment on a Mac?"
+  ]
+ },
+ "bigdata-capital-allocation": {
+  "positive": [
+   "How does Micron allocate its capital?",
+   "JPM buybacks, did they create value?",
+   "Look at Shell's last five years of buybacks, dividends and acquisitions and tell me whether the discipline held up."
+  ],
+  "near_miss": [
+   {
+    "prompt": "Does Shell's rumoured bid for a rival make sense?",
+    "expected": "bigdata-deal-analysis"
+   },
+   {
+    "prompt": "Does Shell have a lasting competitive advantage in LNG?",
+    "expected": "bigdata-moat"
+   }
+  ],
+  "negative": [
+   "Should I pay off my student loan or put the money in an index fund?"
+  ]
+ },
+ "bigdata-risk": {
+  "positive": [
+   "What could go wrong with Nvidia?",
+   "how much could I lose on MU",
+   "Rank the biggest risks to Toyota over the next 12 months by probability and size."
+  ],
+  "near_miss": [
+   {
+    "prompt": "Is Toyota's debt a problem, and what does the refinancing schedule look like?",
+    "expected": "bigdata-credit"
+   },
+   {
+    "prompt": "Give me base, upside and downside cases for Toyota with probabilities.",
+    "expected": "bigdata-scenarios"
+   }
+  ],
+  "negative": [
+   "What is value at risk and how do banks calculate it?"
+  ]
+ },
+ "bigdata-credit": {
+  "positive": [
+   "How is Unilever's credit quality?",
+   "is SMCI going to have a refinancing problem",
+   "Check Nike's leverage, coverage and debt maturities against rating medians using the latest filing."
+  ],
+  "near_miss": [
+   {
+    "prompt": "What is the downside for Unilever shareholders if things go wrong?",
+    "expected": "bigdata-risk"
+   },
+   {
+    "prompt": "How has Unilever used debt to fund buybacks over the last five years?",
+    "expected": "bigdata-capital-allocation"
+   }
+  ],
+  "negative": [
+   "How do I improve my personal credit score quickly?"
+  ]
+ },
+ "bigdata-earnings-preview": {
+  "positive": [
+   "Give me an earnings preview for Nvidia.",
+   "what should I watch when JPM reports Friday",
+   "Set me up for Micron's report next week: consensus, what is priced in, and the metrics to check first."
+  ],
+  "near_miss": [
+   {
+    "prompt": "Nvidia reported yesterday. How did the quarter go?",
+    "expected": "bigdata-earnings-review"
+   },
+   {
+    "prompt": "What events are coming up for Nvidia over the next six months?",
+    "expected": "bigdata-catalysts"
+   }
+  ],
+  "negative": [
+   "What does EPS stand for and how is it calculated?"
+  ]
+ },
+ "bigdata-earnings-review": {
+  "positive": [
+   "How did Nike do last quarter?",
+   "did ASML beat",
+   "Micron reported last night. Break down the results and tell me whether the thesis changes."
+  ],
+  "near_miss": [
+   {
+    "prompt": "What should I expect when Nike reports next week?",
+    "expected": "bigdata-earnings-preview"
+   },
+   {
+    "prompt": "Why did Nike shares fall 6% today?",
+    "expected": "bigdata-stock-move"
+   }
+  ],
+  "negative": [
+   "How do I read an income statement as a beginner?"
+  ]
+ },
+ "bigdata-deal-analysis": {
+  "positive": [
+   "Does Chevron's deal for Hess make sense?",
+   "thoughts on the Cisco-Splunk deal?",
+   "Walk me through the rumoured Shell and BP merger: synergies, financing and the regulatory path."
+  ],
+  "near_miss": [
+   {
+    "prompt": "What is the arbitrage spread on the Chevron and Hess deal, and where is the break price?",
+    "expected": "bigdata-special-situations"
+   },
+   {
+    "prompt": "What is Cisco's track record on acquisitions over the last decade?",
+    "expected": "bigdata-capital-allocation"
+   }
+  ],
+  "negative": [
+   "What is the difference between a merger and an acquisition?"
+  ]
+ },
+ "bigdata-special-situations": {
+  "positive": [
+   "Calculate the arbitrage spread and break price on a cash-and-stock merger like Synopsys and Ansys.",
+   "Unilever ice cream demerger, is there a trade in it?",
+   "A small-cap I follow announced a rights issue last week. What is the payoff and what are the key dates?"
+  ],
+  "near_miss": [
+   {
+    "prompt": "Does the strategic logic of the Synopsys and Ansys deal hold up?",
+    "expected": "bigdata-deal-analysis"
+   },
+   {
+    "prompt": "What has happened at Unilever in the past month?",
+    "expected": "bigdata-company-brief"
+   }
+  ],
+  "negative": [
+   "What does arbitrage mean in general?"
+  ]
+ },
+ "bigdata-sector": {
+  "positive": [
+   "Give me an overview of the semiconductor industry.",
+   "which sectors look interesting right now",
+   "Where is the European energy sector in its cycle, and what is priced in? XLE is my reference for the US side."
+  ],
+  "near_miss": [
+   {
+    "prompt": "Who benefits from the build-out of AI data centers?",
+    "expected": "bigdata-theme"
+   },
+   {
+    "prompt": "Find me undervalued European banks with strong capital ratios.",
+    "expected": "bigdata-screen"
+   }
+  ],
+  "negative": [
+   "Recommend a good book on the history of Wall Street."
+  ]
+ },
+ "bigdata-theme": {
+  "positive": [
+   "Who benefits from GLP-1 drugs?",
+   "AI power demand, who are the plays?",
+   "Is the SMH ETF a good way to play AI chips, and who has real exposure to the theme over the next two years?"
+  ],
+  "near_miss": [
+   {
+    "prompt": "Give me a primer on the pharmaceutical industry: profit pool and cycle position.",
+    "expected": "bigdata-sector"
+   },
+   {
+    "prompt": "Screen for small-cap US stocks that get more than half their revenue from defense.",
+    "expected": "bigdata-screen"
+   }
+  ],
+  "negative": [
+   "How do index funds work?"
+  ]
+ },
+ "bigdata-country": {
+  "positive": [
+   "How is Brazil's economy doing?",
+   "Japan outlook",
+   "Give me a briefing on Turkey for the last quarter: growth, inflation, the lira and political risk."
+  ],
+  "near_miss": [
+   {
+    "prompt": "Compare the US, UK and Germany on growth and inflation.",
+    "expected": "bigdata-macro-compare"
+   },
+   {
+    "prompt": "How is the Brazilian banking sector positioned?",
+    "expected": "bigdata-sector"
+   }
+  ],
+  "negative": [
+   "What is GDP and why does it matter?"
+  ]
+ },
+ "bigdata-macro-compare": {
+  "positive": [
+   "Compare the G7 economies.",
+   "who is stronger right now, Mexico or Brazil",
+   "Give me a global macro overview for this quarter: growth, inflation, rates and currencies across the major blocs."
+  ],
+  "near_miss": [
+   {
+    "prompt": "Give me a briefing on Mexico's economy.",
+    "expected": "bigdata-country"
+   },
+   {
+    "prompt": "How did global equity markets do this week?",
+    "expected": "bigdata-markets-today"
+   }
+  ],
+  "negative": [
+   "Can you explain what inflation is to a teenager?"
+  ]
+ },
+ "bigdata-screen": {
+  "positive": [
+   "Find me small-cap US software stocks with positive free cash flow and under 15x sales.",
+   "who else does what ASML does",
+   "Screen for dividend-paying European utilities with net debt under 3x EBITDA and give me a ranked shortlist."
+  ],
+  "near_miss": [
+   {
+    "prompt": "Is Applied Materials interesting? Just a fast view.",
+    "expected": "bigdata-quick-take"
+   },
+   {
+    "prompt": "How does ASML compare with its peers on margins and returns?",
+    "expected": "bigdata-comps"
+   }
+  ],
+  "negative": [
+   "How do I filter a pandas DataFrame by two columns?"
+  ]
+ }
 }

@@ -4,8 +4,8 @@ description: >-
   Countries, regions or blocs compared on the same indicators from Bigdata.com country tearsheets,
   news and research: growth, inflation, rates, currencies, fiscal and external positions, market
   performance, and the reasons for the differences. Use when the user asks to compare economies,
-  for a G7 or regional comparison, which country looks stronger, or for a global macro overview.
-  Not for one country in depth, which bigdata-country covers.
+  for a G7 or regional comparison, which country or economy looks stronger, or for a global macro
+  overview. Not for one country in depth, which bigdata-country covers.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, forecasting-discipline
   bigdata-sector-primer: none
