@@ -1,12 +1,9 @@
 ---
 name: bigdata-earnings-preview
 description: >-
-  Writes the setup before a company reports, from Bigdata.com estimates, the last call, filings
-  and news: the drivers of the quarter, consensus against guidance and base rates, what the price
-  implies, the sales-to-margin sensitivity, scenarios with what to watch, and the metrics to check
-  first. Use when the user asks for an earnings preview, what to expect when a company reports, or
-  what consensus is looking for. Not for results already reported, which bigdata-earnings-review
-  covers.
+  Setup before a company reports: drivers of the quarter, consensus vs guidance, what the price
+  implies, scenarios, what to check first. Use for an earnings preview, what to expect when X
+  reports. Not results: bigdata-earnings-review.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, operating-leverage-and-tam, forecasting-discipline, after-a-price-move, valuation
   bigdata-sector-primer: auto

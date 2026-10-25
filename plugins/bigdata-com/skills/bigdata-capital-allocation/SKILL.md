@@ -1,11 +1,9 @@
 ---
 name: bigdata-capital-allocation
 description: >-
-  Judges how a company allocates capital, from Bigdata.com financial statements, filings and
-  proxies: five years of sources and uses, whether buybacks and dividends created value, the
-  returns on reinvestment and acquisitions, leverage, and what management is paid for. Use when
-  the user asks about buybacks, dividends, capital returns, M&A track record, capital discipline,
-  or management incentives. Not for a specific announced deal, which bigdata-deal-analysis covers.
+  Capital allocation review: buybacks, dividends, reinvestment and acquisitions, and whether each
+  created value. Use for payout policy, buyback vs dividend, M&A record, incentives. Not one
+  announced deal: bigdata-deal-analysis.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, capital-allocation, roic, expectations
   bigdata-sector-primer: auto

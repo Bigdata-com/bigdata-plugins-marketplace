@@ -1,12 +1,9 @@
 ---
 name: bigdata-earnings-review
 description: >-
-  After a company reports, from Bigdata.com results, the transcript, estimates and reactions:
-  results against consensus and guidance, what changed in the long-term outlook, new guidance
-  against old, the thesis check, estimate and valuation refresh, quality signals, the market
-  reaction, and the next date. Use when the user asks how a company did, to analyse its earnings,
-  whether it beat or missed, or whether the quarter changes the thesis. Not for the setup before
-  the report, which bigdata-earnings-preview covers.
+  After a company reports: results vs consensus and guidance, what changed in the outlook, thesis
+  check, reaction, peer read-across. Use for how did X do, beat or miss, a competitor's print. Not
+  the setup: bigdata-earnings-preview.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, after-a-price-move, earnings-quality, forecasting-discipline, base-rates
   bigdata-sector-primer: auto

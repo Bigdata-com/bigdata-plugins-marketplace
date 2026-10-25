@@ -1,11 +1,9 @@
 ---
 name: bigdata-thesis
 description: >-
-  An investment thesis as testable claims from Bigdata.com data: where the view differs from
-  consensus and why, the evidence for and against each claim, what the price already implies, the
-  catalysts that would prove it, and the kill criteria with dates. Use when the user asks for a
-  thesis, a variant view, the bull and bear case, what the market is missing, or to stress-test
-  their idea. Not for a full initiation report, which bigdata-deep-dive covers.
+  Investment thesis as testable claims: where the view differs from consensus, evidence for and
+  against, bull and bear case, catalysts, kill criteria. Use for a thesis, variant view, bull and
+  bear case, stress-test my idea. Not a full report: bigdata-deep-dive.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, forecasting-discipline, downside-and-catalysts, industry-structure
   bigdata-sector-primer: auto

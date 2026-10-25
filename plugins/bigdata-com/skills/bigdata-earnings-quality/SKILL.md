@@ -1,12 +1,9 @@
 ---
 name: bigdata-earnings-quality
 description: >-
-  Tests earnings quality from Bigdata.com financial statements and filings: accruals, an EBITA
-  rebuild, one-offs that recur, provisions, revenue recognition, capitalisation, stock
-  compensation, the earnings-to-equity reconciliation, and each flag with its severity. Use when
-  the user asks whether earnings are real, about accounting quality, red flags, aggressive
-  accounting, or cash conversion. Not for the results of one quarter, which
-  bigdata-earnings-review covers.
+  Quality of earnings: accruals, cash conversion, EBITA rebuild, recurring one-offs, revenue
+  recognition, flags by severity. Use for are earnings real, QoE, forensic accounting, red flags.
+  Not one quarter: bigdata-earnings-review.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, earnings-quality, roic
   bigdata-sector-primer: auto

@@ -1,12 +1,9 @@
 ---
 name: bigdata-catalysts
 description: >-
-  Upcoming events that could move a stock or a list of stocks, from the Bigdata.com events
-  calendar, filings, transcripts and news: each with its date, what has to happen, the direction
-  and size of the effect, how certain it is, and what the market already expects. Use when the
-  user asks what catalysts are coming, what events to watch, when a company reports, or what could
-  move a name in the next quarter. Not for a full earnings setup, which bigdata-earnings-preview
-  covers.
+  Dated events that could move a stock or a list, with expected impact and what is priced in. Use
+  for what is coming up, events to watch, next catalysts. Not the earnings setup:
+  bigdata-earnings-preview.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, downside-and-catalysts, forecasting-discipline, after-a-price-move
   bigdata-sector-primer: auto

@@ -1,12 +1,9 @@
 ---
 name: bigdata-company-brief
 description: >-
-  What happened at one public company over a window, from Bigdata.com news, filings, transcripts
-  and research: the events in order, each with its source and what it means for the drivers of
-  value, then the two or three that matter most. Use when the user asks what is happening with a
-  company, to catch them up on a name, for recent developments, or for a summary of the last
-  month. Not for a view on the stock, which bigdata-quick-take covers, or for one day's price
-  move, which bigdata-stock-move covers.
+  What happened at one company, each item with source, date and what it means. Use for what is
+  happening at X, catch me up, latest news, a competitor update. Not a view: bigdata-quick-take;
+  one day's move: bigdata-stock-move.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, downside-and-catalysts, after-a-price-move
   bigdata-sector-primer: auto

@@ -1,11 +1,9 @@
 ---
 name: bigdata-scenarios
 description: >-
-  Builds base, downside and upside cases for a stock from Bigdata.com data: driver assumptions,
-  value and probability in each (summing to 100, weighted from the reference class), the expected
-  value, and the signposts that show which case is unfolding. Use when the user asks for
-  scenarios, a bull base bear analysis, probability-weighted value, or what happens to the stock
-  if a driver changes. Not for the central valuation, which bigdata-valuation covers.
+  Base, upside and downside cases for a company: driver assumptions, value and probability in
+  each, expected value, signposts. Use for scenarios, probability-weighted value, what if a driver
+  changes. Not the central DCF: bigdata-valuation.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, forecasting-discipline, base-rates, expectations, valuation, operating-leverage-and-tam
   bigdata-sector-primer: auto

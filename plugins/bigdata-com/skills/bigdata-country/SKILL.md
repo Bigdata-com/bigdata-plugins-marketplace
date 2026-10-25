@@ -1,11 +1,9 @@
 ---
 name: bigdata-country
 description: >-
-  A country or region from the Bigdata.com country tearsheet, news and research: growth,
-  inflation, rates, currency, fiscal and external balances, politics and policy, markets, and what
-  is priced in. Use when the user asks about a country's economy, outlook, political risk, or
-  markets, or for a country briefing. Not for comparisons across countries, which
-  bigdata-macro-compare covers.
+  One country's economy and markets: growth, inflation, rates, currency, fiscal and external
+  balances, politics, what is priced in. Use for a country outlook, political risk, market entry.
+  Not several countries: bigdata-macro-compare.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, forecasting-discipline
   bigdata-sector-primer: none

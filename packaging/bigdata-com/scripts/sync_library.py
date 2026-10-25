@@ -107,6 +107,10 @@ def main():
             wanted[r + ".md"] = open(src, encoding="utf-8").read()
         if primer == "auto":
             wanted["sector-primers.md"] = bundle
+            for c in closure(re.findall(r"references/([a-z0-9\-]+)\.md", bundle)):
+                src = library_file(c)
+                if src and c + ".md" not in wanted:
+                    wanted[c + ".md"] = open(src, encoding="utf-8").read()
         for fname, content in wanted.items():
             dst = os.path.join(refdir, fname)
             cur = open(dst, encoding="utf-8").read() if os.path.isfile(dst) else None

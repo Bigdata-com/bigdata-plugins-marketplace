@@ -1,11 +1,9 @@
 ---
 name: bigdata-markets-today
 description: >-
-  Market wrap for a day, week or month from Bigdata.com data: what moved across equity indexes,
-  sectors, rates, currencies, commodities and crypto, the news behind each move, and what is
-  scheduled next. Use when the user asks what happened in markets today, how markets did this
-  week, why the market is up or down, or for a morning or closing briefing. Not for one company's
-  news, which bigdata-company-brief covers, or one stock's move, which bigdata-stock-move covers.
+  Market wrap for a day, week or month: what moved across indexes, sectors, rates and currencies,
+  the news behind it. Use for what happened in markets, why everything is red, a morning briefing.
+  Not one company: bigdata-stock-move.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, after-a-price-move, forecasting-discipline
   bigdata-sector-primer: none
