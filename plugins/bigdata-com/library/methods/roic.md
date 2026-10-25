@@ -42,7 +42,7 @@ For a ten-year series request earlier periods if the tool allows it; otherwise w
 - ROIC = (1 - t) x (EBITA / revenue) x (revenue / invested capital). Days of an item = 365 x item / revenue (inventory and payables on COGS).
 - Growth identity: g = ROIC x investment rate; investment rate = net investment / NOPAT; FCF = NOPAT - net investment (McKinsey ch. 2).
 - Value driver: value = NOPAT(t+1) x (1 - g / RONIC) / (WACC - g), RONIC = return on new invested capital (McKinsey ch. 2 and 10).
-- ROIIC, one year = (NOPAT(t) - NOPAT(t-1)) / (IC(t-1) - IC(t-2)) (Mauboussin and Callahan 2014, p. 10). Rolling n-year form (derived): (NOPAT(t) - NOPAT(t-n)) / (IC(t-1) - IC(t-n-1)); use n = 3 and 5 when investment is lumpy.
+- ROIIC, one year = (NOPAT(t) - NOPAT(t-1)) / (IC(t-1) - IC(t-2)) (Mauboussin and Callahan 2014, p. 10). Rolling n-year form (derived): (NOPAT(t) - NOPAT(t-n)) / (IC(t-1) - IC(t-n-1)); use n = 3 as the standard window (five annual periods allow no more; a one-year figure is for spotting change only).
 - Research asset = sum over t = -(n-1) to 0 of R&D(t) x (n + t) / n, n = amortizable life; current-year R&D is unamortized. Adjusted EBIT = EBIT + R&D - amortization of the research asset (Damodaran 2007, p. 20).
 - Leased asset value(t-1) = rental expense(t) / (kd + 1 / asset life); kd = cost of secured debt, asset life = PP&E / annual depreciation (McKinsey ch. 27).
 - WACC = D/V x kd x (1 - Tm) + E/V x ke, target market-value weights; ke = rf + beta x ERP.
@@ -136,7 +136,7 @@ Near-term length follows the advantage's explicit life (a patent with six years 
 - "NOPAT uses an operating tax rate of t percent, built from the tax note [n]." Basis: derived.
 - "Capitalizing leases moves ROIC from A to B percent; capitalizing R&D on an N-year life moves it to C percent." Basis: derived, with life assumed.
 - "ROIC is a margin of M percent times turnover of T times; the change since FY[n] came from [margin or turnover]." Basis: derived.
-- "ROIIC over three and five years is A and B percent." Basis: derived.
+- "ROIIC, three-year rolling, is A percent (one-year B percent, noisy)." Basis: derived.
 - "WACC is W percent prevailing and V percent normalized (risk-free, ERP, beta and weights stated with sources and dates)." Basis: assumed.
 - "Spread S points; economic profit of [currency amount] in FY[n]." Basis: derived.
 - "Reversion path: from S points to E over N years, because [competitive evidence]; the sector's four-year CFROI persistence is r (HOLT, 1983-2015)." Basis: judgment, with the base rate reported.

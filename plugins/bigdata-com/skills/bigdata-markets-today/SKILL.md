@@ -15,7 +15,7 @@ This skill writes the market wrap a portfolio manager reads before the open or a
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not write the wrap from memory or the web: an unsourced wrap looks like Bigdata.com data and is not. Stop there: give no view, drivers, risks, figures or dates from memory while the tools are missing, and do not fall back to web search.
+- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Give no figures, dates or view from memory or the web in the meantime, because an unsourced answer would look like Bigdata.com data.
 - Pass `plugin_slug: "bigdata-markets-today"` on every Bigdata.com call that accepts it.
 - Read `references/working-with-bigdata.md` before the first call.
 - Treat this skill as guidelines. Skip a step that does not apply, and research further where the window needs it.
@@ -24,7 +24,7 @@ This skill writes the market wrap a portfolio manager reads before the open or a
 
 Fix three things from the request before gathering data.
 
-- **The window.** Today, this week or this month, mapped to the market tearsheet's 1D, 5D and 1M columns. These are trailing windows: 5D is the last five trading days, not week-to-date, and 1M is the trailing month, not month-to-date. When the user's window and the column differ, say which one the wrap uses in the header and note the difference in the Gaps line.
+- **The window.** Today, this week or this month, mapped to the market tearsheet's 1D, 5D and 1M columns. These are trailing windows: 5D is the last five trading days, not week-to-date, and 1M is the trailing month, not month-to-date. When the user's window and the column differ, say which one the wrap uses in the header and note the difference in the Gaps line. The tearsheet is a snapshot as of now: a past date or window ("how did markets do last Tuesday", "the week of the Fed meeting") comes from `bigdata_computer` on the daily series of the indexes, yields and assets the wrap needs, and from searches dated to that window for the reasons, and the header says so.
 - **The region.** Global by default, with the US first, then Europe and Asia-Pacific. If the user names a region or a market ("European close", "how did Japan do"), lead with it and keep one line on the others.
 - **The angle.** If the user asks why the market moved, the "Why" section carries the answer and the rest is short. If they ask about one asset class (rates, oil, crypto), the wrap centres on it.
 
@@ -34,7 +34,7 @@ Do not ask a question unless the region is unclear and the answer changes the wr
 
 ## Gather
 
-1. **Market tearsheet.** `bigdata_market_tearsheet`, one call. Done when the window's moves are in hand for the major indexes (including the VIX), the US sector ETFs, the equity factor ETFs, the Treasury yields (changes in percentage points; convert to basis points), the currency pairs and crypto, the commodities and the bond ETFs. Use the Major Indexes rows for index moves; use the country ETF rows only for markets the index list does not cover, and label them as US-dollar ETF proxies, since their return includes the currency.
+1. **Market tearsheet.** `bigdata_market_tearsheet`, one call. Done when the window's moves are in hand for the major indexes (including the VIX), the US sector ETFs, the equity factor ETFs, the Treasury yields (changes in percentage points; convert to basis points), the currency pairs and crypto, the commodities and the bond ETFs. Use the Major Indexes rows for index moves; use the country ETF rows only for markets the index list does not cover, and label them as US-dollar ETF proxies, since their return includes the currency. The factor ETF rows are returns relative to the S&P 500, not absolute returns; read and label them that way. The yield rows are US Treasuries only: take a non-US yield (Bunds, gilts, JGBs) from a dated search result, or put it in the Gaps line.
 2. **Macro releases in the window.** `bigdata_events_calendar` with `calendar_type` set to `economic_calendar`, the window's dates, the regions in scope and `impacts` set to HIGH and MEDIUM. Done when each release that landed in the window is listed with its period, actual, consensus and previous figure, so the surprise is a reported fact rather than a commentator's word.
 3. **The reasons.** `bigdata_search`, one search per move worth explaining, in the user's time words: the main equity move ("Why did US stocks fall today?"), then each outlier in rates, currencies, commodities, crypto or a sector, then any central bank decision or speech in the window. Done when every row the wrap will discuss has a sourced reason, or a note that the searches found none. A reason that names no source does not go in the wrap.
 4. **Companies that moved the index.** `bigdata_search` for the stocks that led or lagged the main index in the window, and `bigdata_events_calendar` with `corporate_calendar` and `earnings-call` for the window to see which large companies reported. Done when the two or three company stories behind the index move are named with sources, or the move is shown to be broad.
@@ -51,7 +51,7 @@ Do not ask a question unless the region is unclear and the answer changes the wr
 
 4. **Separate fundamentals, the discount rate and flows.** From `references/after-a-price-move.md` rule 2: an index move is news about earnings, a change in the rate at which the market discounts them, or supply and demand from flows (index rebalancing, options expiry, quarter-end, a mandate constraint). Name flows only when a source reports them. Most day-to-day moves are flows and positioning, so a small move with no news is a normal outcome, not a puzzle. Done when the main equity move is assigned to one of the three, or to a stated mix, with the evidence.
 
-5. **Breadth and leadership.** Compare the main index with the equal-weight or small-cap index (S&P 500 against the Russell 2000, NASDAQ 100 against the Dow), and growth against value and momentum against low volatility from the factor rows. Done when the wrap can say in one sentence whether the move was broad or carried by a few large names or one factor.
+5. **Breadth and leadership.** The tearsheet has no equal-weight index and no advance-decline data, so read breadth from what it carries: the number of the eleven US sectors up against down, and the dispersion between the best and the worst sector over the window, in percentage points (derived). Read size separately: the Russell 2000 against the S&P 500 says whether small companies led or lagged, which is a size read, not breadth, and the wrap says so. Then growth against value and momentum against low volatility from the factor rows, which are already relative to the S&P 500. Done when the wrap can say in one sentence whether the move was broad or narrow across sectors, which size led, and which factor carried it, each labelled derived.
 
 6. **Single stocks.** When a company in the index moved 10 percent or more against it, name it, the trigger with its source, and whether it was an earnings release. Do not run the base-rate tables here; that is `bigdata-stock-move`'s job. Done when each such name has one line.
 
@@ -65,7 +65,7 @@ Special cases that change how a row reads:
 - A market closed for a holiday shows no move; write that it was closed, not that it was flat.
 - Currency pairs move in quote terms: USD/JPY up is a stronger dollar, EUR/USD up a weaker one. Write the move as the currency that strengthened.
 - Commodity rows are futures. A large one-day move near expiry can be the contract roll; check a source before explaining it as news.
-- The VIX is a level in points; quote the level and the change in points, not only the percent change.
+- The VIX is a level in points; quote the level and the change in points, not only the percent change. The tearsheet gives the percent change, so the change in points is derived from the level and the percent; label it.
 - Fixed-income ETF rows move inversely to yields and include credit spread changes; use the yield rows for rates and the ETF rows for credit.
 
 ## Write
@@ -85,7 +85,8 @@ and the next event that tests it. No call.
 ## What moved
 | Asset | Level | Move over window | Unit | Basis | Source |
 Grouped: equity indexes and VIX; sectors and factors; rates; currencies and crypto;
-commodities; credit. Benchmark rows first, then the movers that matter.
+commodities; credit. Benchmark rows first, then the movers that matter. Factor rows are
+marked "relative to S&P 500"; the VIX change in points is derived.
 
 ## Why
 One short paragraph per main move: the reason, fact or attributed opinion, the source, and
@@ -102,12 +103,13 @@ Two or three lines, each with the trigger and the source. Omit when the move was
 ## What it means for positioning questions
 One paragraph, observations and dated conditionals only.
 
-## What would change this view
+## What to watch
 Two to four observable conditions, dated where possible.
 
 ## Gaps
-Intraday prices, flows, positioning and options data are not in Bigdata.com; a window that
-differs from the tearsheet's columns; a move with no cause found.
+Intraday prices, flows, positioning and options data, equal-weight indexes and advance-decline
+data are not in Bigdata.com; non-US yields not found in search; a window that differs from the
+tearsheet's columns; a move with no cause found.
 
 ## Sources, then the Data line, then the Powered by Bigdata.com line and the disclaimer.
 ```
@@ -116,7 +118,7 @@ Length: one to two pages. A narrow question ("why is oil up?") gets the row, the
 
 ## Checks before sending
 
-1. Every move comes from the market tearsheet with its unit; yields are in basis points or percentage points, not percent.
+1. Every move comes from the market tearsheet, or for a past window from `bigdata_computer` on the daily series, with its unit; yields are in basis points or percentage points, not percent.
 2. The window used is stated, and a mismatch with the user's window is in the Gaps line.
 3. Index moves come from the Major Indexes rows; any country ETF row is labelled as a US-dollar proxy.
 4. Every reason has a source and is tagged fact or attributed opinion; an unexplained move says so.
@@ -125,6 +127,7 @@ Length: one to two pages. A narrow question ("why is oil up?") gets the row, the
 7. Each scheduled event says what it would confirm or contradict.
 8. The positioning paragraph contains no buy, sell, add, trim, rotate, hedge, overweight or underweight.
 9. The Data line names the market tearsheet and calendar as data sets, with the retrieval time.
+10. Breadth is read from sector counts and dispersion, the Russell 2000 line is called size, and factor rows are labelled relative to the S&P 500.
 
 ## Hand-offs
 

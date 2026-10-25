@@ -16,7 +16,7 @@ bigdata-earnings-quality runs the whole method. bigdata-earnings-review runs ste
 | Peer medians | Tearsheets of three to six peers | derived |
 | Cost of secured debt, recurrence rule, severity level | Chosen and stated | assumed, judgment |
 
-The tearsheet returns five periods per call; fetch older annual reports when the task needs the five to ten years Graham and Dodd ask for, or state the shorter window in the Gaps line.
+The tearsheet returns five periods per call; fetch the five annual periods the tearsheet returns when the task needs the five years (the series the tool returns) Graham and Dodd ask for, or state the shorter window in the Gaps line.
 
 ## Procedure
 
@@ -31,7 +31,7 @@ The tearsheet returns five periods per call; fetch older annual reports when the
 9. **Taxes.** Compare tax-implied profit (formula 6) with reported pretax profit, and cash taxes with the book charge. Done when the gap is stated and, if wide, explained from the tax note.
 10. **Earnings-to-equity reconciliation.** Compute formula 5 over the window. Done when the residual is explained from the equity statement or flagged.
 11. **Governance and disclosure.** Search for auditor resignation or dismissal, restatements, material weaknesses, late filings, related-party dealings, and KPIs, segments or interim data dropped when results weakened (Security Analysis p. 90; McKinsey ch. 24, p. 536). Done when each is marked present, absent or not found.
-12. **Normalise earning power.** Over five to ten years spanning a cycle, remove nonrecurring items from the current-year view but keep them in the multi-year average (Security Analysis p. 414). Test whether results cluster around the average (S.H. Kress, 2.80 to 5.92 around 4.36) or are unrelated figures whose average is accidental (Hudson Motors, -3.54 to +13.39 around 4.75) (p. 472-473). Prefer the average to the trend and explain any trend by cause. Where the history is unreliable, build normal volume x unit margin less depreciation, interest and preferred dividends (p. 475). Value contractual or investment income at its own multiple (p. 526-531). Done when reported, adjusted and normalised earnings, the window and the range are shown.
+12. **Normalise earning power.** Over five years (the series the tool returns) spanning a cycle, remove nonrecurring items from the current-year view but keep them in the multi-year average (Security Analysis p. 414). Test whether results cluster around the average (S.H. Kress, 2.80 to 5.92 around 4.36) or are unrelated figures whose average is accidental (Hudson Motors, -3.54 to +13.39 around 4.75) (p. 472-473). Prefer the average to the trend and explain any trend by cause. Where the history is unreliable, build normal volume x unit margin less depreciation, interest and preferred dividends (p. 475). Value contractual or investment income at its own multiple (p. 526-531). Done when reported, adjusted and normalised earnings, the window and the range are shown.
 13. **Flags and severity.** Run table 2 and assign a level from table 3. Done when each triggered flag has a number, period and source, and the level has a one-line reason.
 
 ## Formulas
@@ -89,7 +89,7 @@ The tearsheet returns five periods per call; fetch older annual reports when the
 | 1 | One or two minor flags, explained | Notes them, no adjustment |
 | 2 | Flags that change adjusted EBITA or free cash flow | Shows reported and adjusted side by side |
 | 3 | Several flags in one direction | Cuts earning power, names figures not to rely on |
-| 4 | Evidence of manipulation: losses charged to equity, reserve-made profit | Says the figures cannot be adjusted; Graham and Dodd reject rather than adjust (p. 441) |
+| 4 | Evidence of misstatement: losses charged to equity, reserve-made profit | Says the figures cannot be adjusted; Graham and Dodd reject rather than adjust (p. 441) |
 
 Take the highest level triggered; two flags at one level raise it one step (assumed rule). All case figures above are dated illustrations; use the logic and verify any figure before quoting it.
 

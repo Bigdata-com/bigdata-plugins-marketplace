@@ -3,7 +3,7 @@ name: bigdata-stock-move
 description: >-
   Why a stock moved: the trigger, headline vs change in the long-term outlook, revisions, base
   rates for what follows a move that size. Use for why is X down, why did our stock drop, what
-  drove the price. Not the quarter: bigdata-earnings-review.
+  moved it. Not the quarter: bigdata-earnings-review.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, after-a-price-move, expectations, downside-and-catalysts
   bigdata-sector-primer: auto

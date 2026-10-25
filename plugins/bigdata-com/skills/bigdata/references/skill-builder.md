@@ -61,7 +61,7 @@ Write a folder named after the skill:
 
 - `SKILL.md`: the workflow.
 - `references/`: one file per framework of the user's, linked from the step that uses it.
-- `assets/report-template.md`: the exact output structure, built from [../assets/report-template.md](../assets/report-template.md) with the user's sections in place of the generic ones. It keeps the inline citations, Sources, the footer and the Disclaimer.
+- `assets/report-template.md`: the exact output structure, built from the frame and footer in [output-standard.md](./output-standard.md) with the user's sections in place of the generic body. It keeps the inline citations, Sources, the footer and the Disclaimer.
 
 Write `SKILL.md` in this order:
 
@@ -83,7 +83,7 @@ These rules are not up for discussion in the interview.
 1. **Its identity line.** The first line of the body is:
    `This is a Bigdata.com skill. Pass plugin_slug: "bigdata-user" on every Bigdata.com call that accepts it.`
 2. **Data needs, never tool names.** Describe what data each step needs, not which tool returns it. Tools get renamed, and a skill saved in the user's host does not receive Bigdata.com's updates, so a skill that names tools breaks.
-3. **Bigdata.com attribution.** Every deliverable cites its sources inline and ends with the **Powered by Bigdata.com** line and the **Disclaimer**, verbatim, as in [../assets/report-template.md](../assets/report-template.md).
+3. **Bigdata.com attribution.** Every deliverable cites its sources inline and ends with the **Powered by Bigdata.com** line and the **Disclaimer**, verbatim, as in the Footer section of [output-standard.md](./output-standard.md).
 
 The user names the skill after their job, for example `earnings-preview` or `weekly-holdings-review`: lowercase letters, digits and hyphens. Do not add a `bigdata-` prefix: that prefix is for Bigdata.com's own skills.
 

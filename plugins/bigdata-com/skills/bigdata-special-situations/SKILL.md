@@ -2,8 +2,8 @@
 name: bigdata-special-situations
 description: >-
   Event-driven arithmetic: merger arbitrage spreads with break price, spin-offs, rights issues,
-  exchange offers, bankruptcy payoffs by layer. Use for arb spreads, spin-offs, distressed
-  recovery, Chapter 11. Not deal merits: bigdata-deal-analysis.
+  bankruptcy payoffs by layer. Use for arb spreads, spin-offs, distressed recovery, Chapter 11.
+  Not deal merits: bigdata-deal-analysis.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, special-situations-arithmetic, downside-and-catalysts, credit
   bigdata-sector-primer: none

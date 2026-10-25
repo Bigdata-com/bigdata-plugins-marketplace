@@ -55,4 +55,13 @@ Trigger suite: 156 cases, 154 pass, 0 corporate-voice prompts, only this plugin 
 
 ## Progress
 
-(updated as tasks complete)
+- T1 done. Worktree, plan, decisions log (`2026-10-25-decisions.md`), memory file.
+- T2 done. Literature verdicts D1 to D10 in decisions.md; the extracted texts are in the session scratchpad `lit/` (resources-text, resource-notes).
+- T3 done, committed 3f2606b. Library formulas, ROIIC rule, credit tables 3 and formula 6a, tool realities in working-with-bigdata.md, reader and section names in output-standard.md, primer headings (H2 sector with slug, H3 subsections, grep instruction), note citations replaced by source names, sync copies the transitive closure of cited library files (0 dangling pointers, max 18 companions, 450 plugin files).
+- T4 done, committed 4acd256. All 26 descriptions rewritten (task first, no product in the opening clause, corporate words, boundaries); listing 6,788 chars with names. Still to trim after the group B agent finishes: bigdata-thesis (259 chars; new text saved in scratchpad new-descriptions.json).
+- T5 done, committed 4acd256. credit (24 edits), special-situations (16), stock-move (17).
+- T6 running. Three opus agents (high effort) on groups A (8), B (9), C (6) with `2026-10-25-skill-pass-checklist.md`. They edit SKILL.md only; I commit after review.
+- T7 done inside T3 (bundle kept; D12).
+- T8 pending: after T6, run sync_library.py, check_skills.py, the three build scripts; recount listing chars and companions.
+- T9 pending: evals folder is gitignored, copied from the proposal worktree into this one (without results); add corporate prompts to evals/trigger/trigger-prompts.json, regenerate with gen_trigger_evals.py, run `claude plugin eval plugins/bigdata-com --ablation none --runs 1` (about 20 dollars, 8 minutes per the 23 Oct run).
+- T10 pending: summary for Marko in his voice; fill "Open for Marko" in decisions.md.

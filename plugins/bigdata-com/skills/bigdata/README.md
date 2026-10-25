@@ -29,8 +29,9 @@ Ask in natural language, or type:
     bigdata/
     ├── SKILL.md
     ├── agents/openai.yaml
-    ├── assets/report-template.md
+    ├── assets/bigdata-icon-black.svg
     ├── references/
+    │   ├── output-standard.md
     │   ├── skill-builder.md
     │   └── working-with-bigdata.md
 

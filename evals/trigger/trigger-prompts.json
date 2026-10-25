@@ -3,7 +3,8 @@
   "positive": [
    "I want to use Bigdata.com to research some companies, where do I start?",
    "what can Bigdata.com do?",
-   "help me with stocks"
+   "help me with stocks",
+   "I'm the new head of investor relations at a mid-cap industrial. Where do I start with research on our company and our peers?"
   ],
   "near_miss": [
    {
@@ -23,7 +24,8 @@
   "positive": [
    "How did markets do today?",
    "why is everything red this morning",
-   "Give me a wrap of the markets for the week ending Friday, and tell me what is scheduled for next week."
+   "Give me a wrap of the markets for the week ending Friday, and tell me what is scheduled for next week.",
+   "Morning briefing for our CFO: what moved in markets overnight and what is scheduled today?"
   ],
   "near_miss": [
    {
@@ -43,7 +45,8 @@
   "positive": [
    "What changed across Shell, Unilever, Toyota and Micron since Monday?",
    "JPM NKE ASML SHEL SPY, anything I should know today?",
-   "Run my weekly check on these holdings: Nvidia, Micron, Toyota, the QQQ ETF and Celsius Holdings."
+   "Run my weekly check on these holdings: Nvidia, Micron, Toyota, the QQQ ETF and Celsius Holdings.",
+   "Daily check on our competitor set, Lowe's, Floor and Decor and Tractor Supply: what changed today and what should I know?"
   ],
   "near_miss": [
    {
@@ -63,7 +66,8 @@
   "positive": [
    "What has been happening with Toyota lately?",
    "catch me up on SMCI",
-   "Summarize the last 30 days at Shell: news, filings and anything material for the business."
+   "Summarize the last 30 days at Shell: news, filings and anything material for the business.",
+   "Catch me up on what our competitor Boeing has been up to over the last 30 days, with sources, for our Monday strategy meeting."
   ],
   "near_miss": [
    {
@@ -83,7 +87,8 @@
   "positive": [
    "Why did JPMorgan fall today?",
    "NKE gapping up premarket, why?",
-   "What drove the slide in Unilever shares over the last three sessions?"
+   "What drove the slide in Unilever shares over the last three sessions?",
+   "Our stock dropped 8 percent yesterday and the CEO wants to know why before the 9am call."
   ],
   "near_miss": [
    {
@@ -103,7 +108,8 @@
   "positive": [
    "What catalysts are coming up for Shell?",
    "ASML next events to watch?",
-   "What events could move Micron over the next quarter, and when does each one land?"
+   "What events could move Micron over the next quarter, and when does each one land?",
+   "I run IR at Shell. What dated events in the next two quarters could move our stock, and what does the market already expect from each?"
   ],
   "near_miss": [
    {
@@ -123,7 +129,8 @@
   "positive": [
    "Quick take on Nvidia?",
    "thoughts on SOFI",
-   "I walk into a meeting about Nike in ten minutes. What is your fast read on the stock?"
+   "I walk into a meeting about Nike in ten minutes. What is your fast read on the stock?",
+   "Our CEO is meeting Salesforce's CEO tomorrow and asked for a one-page read on the company. What matters right now?"
   ],
   "near_miss": [
    {
@@ -143,7 +150,8 @@
   "positive": [
    "Do a deep dive on ASML.",
    "Help me properly understand the business behind Celsius Holdings, full research please.",
-   "I am presenting to the investment committee on Friday. Write an investment memo on Micron as it stands this quarter."
+   "I am presenting to the investment committee on Friday. Write an investment memo on Micron as it stands this quarter.",
+   "We are doing diligence on Datadog as a potential partner. Give me the full picture of the business, its economics, moat and risks."
   ],
   "near_miss": [
    {
@@ -163,7 +171,8 @@
   "positive": [
    "What is the bull and bear case for Nvidia?",
    "stress-test my idea that Nike is a turnaround story",
-   "What is the market missing on Shell, and what would tell me I am wrong over the next 12 months?"
+   "What is the market missing on Shell, and what would tell me I am wrong over the next 12 months?",
+   "Write the bull and bear case on our own company, Target, the way a hedge fund would argue it, so IR can prepare."
   ],
   "near_miss": [
    {
@@ -183,7 +192,8 @@
   "positive": [
    "What is Toyota worth?",
    "is MU cheap or expensive here",
-   "Build me a DCF for Unilever with sensitivities on margin and terminal growth."
+   "Build me a DCF for Unilever with sensitivities on margin and terminal growth.",
+   "We have been approached about a sale. What is our company, Zoom, worth on a DCF and on multiples, and what does the current price imply?"
   ],
   "near_miss": [
    {
@@ -203,7 +213,8 @@
   "positive": [
    "Give me comps for Micron.",
    "JPM vs its peers on valuation, quick",
-   "Compare ASML with its peers on growth, margins and returns using the latest quarter."
+   "Compare ASML with its peers on growth, margins and returns using the latest quarter.",
+   "Benchmark our company, Lowe's, against Home Depot and the other home improvement peers on growth, margins, returns and multiples."
   ],
   "near_miss": [
    {
@@ -223,7 +234,8 @@
   "positive": [
    "Give me a bull, base and bear analysis for Nvidia.",
    "NKE: what happens to the value if China demand stays weak?",
-   "Build probability-weighted scenarios for Micron through 2027 and tell me which signposts show which case is unfolding."
+   "Build probability-weighted scenarios for Micron through 2027 and tell me which signposts show which case is unfolding.",
+   "Run base, upside and downside scenarios for Ford if EV adoption stalls, with a value and a probability for each case."
   ],
   "near_miss": [
    {
@@ -243,7 +255,8 @@
   "positive": [
    "Are Nike's earnings real?",
    "any accounting red flags at SMCI",
-   "Check Shell's last five years for aggressive accounting, one-offs that keep recurring, and weak cash conversion."
+   "Check Shell's last five years for aggressive accounting, one-offs that keep recurring, and weak cash conversion.",
+   "Before we sign a multi-year supply agreement with Super Micro, are their reported earnings real? Check the accounting quality."
   ],
   "near_miss": [
    {
@@ -263,7 +276,8 @@
   "positive": [
    "Does ASML have a durable competitive advantage?",
    "is Nvidia's CUDA lead actually defensible",
-   "How has Toyota's competitive position changed over the last five years against Chinese EV makers?"
+   "How has Toyota's competitive position changed over the last five years against Chinese EV makers?",
+   "How durable is our competitive advantage at Adobe against the AI-native design tools? Be rigorous about the moat."
   ],
   "near_miss": [
    {
@@ -283,7 +297,8 @@
   "positive": [
    "How does Micron allocate its capital?",
    "JPM buybacks, did they create value?",
-   "Look at Shell's last five years of buybacks, dividends and acquisitions and tell me whether the discipline held up."
+   "Look at Shell's last five years of buybacks, dividends and acquisitions and tell me whether the discipline held up.",
+   "Our board wants to know whether the buybacks we did since 2022 created value, and how our payout compares with peers. We are Lowe's."
   ],
   "near_miss": [
    {
@@ -303,7 +318,8 @@
   "positive": [
    "What could go wrong with Nvidia?",
    "how much could I lose on MU",
-   "Rank the biggest risks to Toyota over the next 12 months by probability and size."
+   "Rank the biggest risks to Toyota over the next 12 months by probability and size.",
+   "What could go wrong at our key supplier TSMC over the next two years, and how bad would each scenario be for them?"
   ],
   "near_miss": [
    {
@@ -323,7 +339,8 @@
   "positive": [
    "How is Unilever's credit quality?",
    "is SMCI going to have a refinancing problem",
-   "Check Nike's leverage, coverage and debt maturities against rating medians using the latest filing."
+   "Check Nike's leverage, coverage and debt maturities against rating medians using the latest filing.",
+   "One of our biggest customers is Intel. How solid is their credit, and can they keep paying us over the next 24 months?"
   ],
   "near_miss": [
    {
@@ -343,7 +360,8 @@
   "positive": [
    "Give me an earnings preview for Nvidia.",
    "what should I watch when JPM reports Friday",
-   "Set me up for Micron's report next week: consensus, what is priced in, and the metrics to check first."
+   "Set me up for Micron's report next week: consensus, what is priced in, and the metrics to check first.",
+   "Our main competitor Micron reports next week. What is the Street expecting and what should we watch for on the call?"
   ],
   "near_miss": [
    {
@@ -363,7 +381,8 @@
   "positive": [
    "How did Nike do last quarter?",
    "did ASML beat",
-   "Micron reported last night. Break down the results and tell me whether the thesis changes."
+   "Micron reported last night. Break down the results and tell me whether the thesis changes.",
+   "AMD just reported. How did they do versus expectations, and what does it mean for us as one of their suppliers?"
   ],
   "near_miss": [
    {
@@ -383,7 +402,8 @@
   "positive": [
    "Does Chevron's deal for Hess make sense?",
    "thoughts on the Cisco-Splunk deal?",
-   "Walk me through the rumoured Shell and BP merger: synergies, financing and the regulatory path."
+   "Walk me through the rumoured Shell and BP merger: synergies, financing and the regulatory path.",
+   "What would it mean for us at Lululemon if Nike acquired On Holding? Walk through the deal logic and the read-across for us."
   ],
   "near_miss": [
    {
@@ -403,7 +423,8 @@
   "positive": [
    "Calculate the arbitrage spread and break price on a cash-and-stock merger like Synopsys and Ansys.",
    "Unilever ice cream demerger, is there a trade in it?",
-   "A small-cap I follow announced a rights issue last week. What is the payoff and what are the key dates?"
+   "A small-cap I follow announced a rights issue last week. What is the payoff and what are the key dates?",
+   "We hold shares in a company that agreed to be acquired. What is the arbitrage spread, the implied odds the deal closes, and the downside if it breaks?"
   ],
   "near_miss": [
    {
@@ -423,7 +444,8 @@
   "positive": [
    "Give me an overview of the semiconductor industry.",
    "which sectors look interesting right now",
-   "Where is the European energy sector in its cycle, and what is priced in? XLE is my reference for the US side."
+   "Where is the European energy sector in its cycle, and what is priced in? XLE is my reference for the US side.",
+   "I lead strategy at a regional bank. How does the US banking industry make money right now, and where do we sit in it?"
   ],
   "near_miss": [
    {
@@ -443,7 +465,8 @@
   "positive": [
    "Who benefits from GLP-1 drugs?",
    "AI power demand, who are the plays?",
-   "Is the SMH ETF a good way to play AI chips, and who has real exposure to the theme over the next two years?"
+   "Is the SMH ETF a good way to play AI chips, and who has real exposure to the theme over the next two years?",
+   "How exposed is our company, PepsiCo, to the GLP-1 weight-loss theme, and who gains and who loses from it?"
   ],
   "near_miss": [
    {
@@ -463,7 +486,8 @@
   "positive": [
    "How is Brazil's economy doing?",
    "Japan outlook",
-   "Give me a briefing on Turkey for the last quarter: growth, inflation, the lira and political risk."
+   "Give me a briefing on Turkey for the last quarter: growth, inflation, the lira and political risk.",
+   "We are considering opening a plant in Mexico next year. What is the macro and political picture, and what is priced in?"
   ],
   "near_miss": [
    {
@@ -483,7 +507,8 @@
   "positive": [
    "Compare the G7 economies.",
    "who is stronger right now, Mexico or Brazil",
-   "Give me a global macro overview for this quarter: growth, inflation, rates and currencies across the major blocs."
+   "Give me a global macro overview for this quarter: growth, inflation, rates and currencies across the major blocs.",
+   "Where should we expand next in Europe: compare Germany, Spain and Poland on growth, inflation, rates and political risk."
   ],
   "near_miss": [
    {
@@ -503,7 +528,8 @@
   "positive": [
    "Find me small-cap US software stocks with positive free cash flow and under 15x sales.",
    "who else does what ASML does",
-   "Screen for dividend-paying European utilities with net debt under 3x EBITDA and give me a ranked shortlist."
+   "Screen for dividend-paying European utilities with net debt under 3x EBITDA and give me a ranked shortlist.",
+   "Find mid-cap industrial companies in North America that could be acquisition targets for us: 1 to 5 billion in revenue, growing, high returns on capital."
   ],
   "near_miss": [
    {

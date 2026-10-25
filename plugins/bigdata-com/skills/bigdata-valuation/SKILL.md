@@ -11,20 +11,20 @@ metadata:
 
 # Valuation
 
-This skill writes the valuation a portfolio manager would sign off on: what the price already assumes, stated first and without judgment, then an enterprise DCF in which growth is paid for by reinvestment, returns are checked every year, the continuing value is tested against its share of the total and the multiple it implies, and the equity bridge is shown per share. It ends in a range of three probability-weighted cases with a sensitivity table, cross-checked with peer multiples, never in a point value or a price target. It is sized to the question: "what growth does the price imply for Micron?" gets the reverse DCF with its arithmetic and the base-rate sentence, not the full model.
+This skill writes a valuation a professional reader can check line by line: what the price already assumes, stated first and without judgment, then an enterprise DCF in which growth is paid for by reinvestment, returns are checked every year, the continuing value is tested against its share of the total and the multiple it implies, and the equity bridge is shown per share. It ends in a range of three probability-weighted cases with a sensitivity table, cross-checked with peer multiples, never in a point value or a price target. It is sized to the question: "what growth does the price imply for Micron?" gets the reverse DCF with its arithmetic and the base-rate sentence, not the full model.
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Do not answer from memory or the web instead: an unsourced answer looks like Bigdata.com data and is not. Stop there: give no view, drivers, risks, figures or dates from memory while the tools are missing, and do not fall back to web search.
+- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Give no figures, dates or view from memory or the web in the meantime, because an unsourced answer would look like Bigdata.com data.
 - Pass `plugin_slug: "bigdata-valuation"` on every Bigdata.com call that accepts it.
 - Read `references/working-with-bigdata.md` before the first call.
 - Treat this skill as guidelines. Skip a step that does not apply, and research further where the task needs it.
 
 ## Scope the request
 
-Resolve the company with `find_securities`. Establish three things before gathering data: what the user wants (a full valuation range, only what the price implies, or one input such as the cost of capital or the terminal value), the currency of the cash flows (which sets the risk-free rate), and the type of business, because a bank, an insurer, a deep cyclical, a company growing above 15 percent a year, an emerging-market company and a multi-business company each need the special case below. The valuation date is today and the price is the latest close in the tearsheet.
+Resolve the company with `find_securities`. Establish three things before gathering data: what the user wants (a full valuation range, only what the price implies, or one input such as the cost of capital or the terminal value), the currency of the cash flows (which sets the risk-free rate), and the type of business, because a bank, an insurer, a deep cyclical, a company growing above 15 percent a year, an emerging-market company, a multi-business company and a distressed one each need a special case. The subject may be the user's own company, a competitor or an acquisition target; write the implications for that reader, and still give no target. The valuation date is today and the price is the latest close in the tearsheet.
 
-Ask one question only when the answer changes the work: the name resolves to more than one listing, or the user seems to hold a cost-of-capital or horizon assumption they want used. Otherwise state the assumptions in the Assumptions line and proceed.
+Ask one question only when the answer changes the work: the name resolves to more than one listing, or the user seems to hold a cost-of-capital or horizon assumption they want used. Otherwise state the assumptions in the Assumptions line and proceed. Done when the company, the request, the cash-flow currency and the special case (or none) are stated.
 
 If `find_securities` returns the company as Private, say there is no price to read expectations from and no consensus to anchor on. Offer a DCF from whatever statements the tearsheet carries, without the price-implied and benchmark steps, or hand off to `bigdata` for a document-based profile.
 
@@ -32,54 +32,49 @@ If `find_securities` returns the company as Private, say there is no price to re
 
 Work through these in order.
 
-1. **Tearsheet, in several calls.** `bigdata_company_tearsheet` with `sections` set to `company_overview, analyst_ratings, earnings_calendar`; then `financial_statements, financial_ratios, key_metrics` with `interval` annual (five fiscal years; there is no period offset); then `analyst_estimates`; then `revenue_segmentation`. Done when the price and 52-week range, market cap, the EV field, five fiscal years of statements (the tool's limit, noted in Gaps when more would have helped), invested capital, capex, gross and net PP&E, stock-based compensation, consensus to four years out with its vintage and estimate counts, and five years of segments are in hand.
-2. **The annual filing notes.** `bigdata_search` in fast mode for the latest annual report with the reporting period filter, then `bigdata_fetch_document`. Read the tax reconciliation, the lease note, the pension note, the option and RSU tables, minorities and equity-method stakes, restricted and overseas cash, litigation and restructuring accruals, debt maturities and fair value, and the share count on the cover page. Done when each bridge item has a figure with its page, or is marked not disclosed.
+1. **Tearsheet, in three calls.** `bigdata_company_tearsheet` with `sections` set to `company_overview, revenue_segmentation`; then `financial_statements, financial_ratios, key_metrics` with `interval` annual (five fiscal years; there is no period offset); then `analyst_estimates`. Done when the price and 52-week range, market cap, the EV field, five fiscal years of statements (the tool's limit, noted in Gaps when more would have helped), invested capital, capex, gross and net PP&E, stock-based compensation, consensus to four years out with its vintage and estimate counts, and the segments are in hand.
+2. **The annual filing notes.** `bigdata_search` in fast mode for the latest annual report with the reporting period filter, then `bigdata_fetch_document`. Read the tax reconciliation and every note behind an item in `references/valuation.md` step 10, plus debt maturities and the share count on the cover page. Done when each bridge item has a figure with its page, or is marked not disclosed.
 3. **Management's plan.** The last earnings call by fast search with the reporting period filter, then fetch. Done when guidance, the capex plan and any medium-term targets are quoted verbatim with the call date. Management targets are opinions, recorded as such.
 4. **Evidence for the horizon and the terminal return.** Two or three `bigdata_search` calls, one aspect each: market growth and the company's share, pricing in the industry, entrants and exits. Done when the length of the competitive advantage and the return on new investment after it have at least one dated piece of evidence each.
-5. **Peers for the cross-check.** `bigdata_screen_companies` on the industry and size, then `bigdata_company_tearsheet` with `financial_statements, financial_ratios, key_metrics, analyst_estimates` for four to eight peers chosen by value drivers. Done when each peer's EV inputs, forward EBITA or the sector's multiple base, ROIC and consensus growth are in hand.
+5. **Peers for the cross-check.** Candidates from `bigdata_screen_companies` on the industry and size and from peers named in filings, then two tearsheet calls per peer, `financial_statements, financial_ratios` with `interval` annual and `key_metrics, analyst_estimates`, for four to eight peers. Done when each candidate's EV inputs, forward EBITA or the sector's multiple base, ROIC and consensus growth are in hand for the selection in Analyse step 13.
 6. **Cost-of-capital inputs.** Not in Bigdata.com, except where `bigdata_country_tearsheet` carries the government bond yield and inflation for the currency of the cash flows; take them from there with the date, labelled reported. The equity risk premium, beta and target weights are assumed, each with its source and date. If `bigdata_computer` can return a monthly price series, compute beta from 60 monthly returns against a broad index. Done when each input has a value, a date and a Basis label, and beta is computed or its source named.
-7. **Sector primer.** If the company's sector has a section in `references/sector-primers.md`, read it for the metrics, the accounting traps and the valuation convention before analysing. Done when the sector's convention is noted, or its absence is stated.
+7. **Sector primer.** Find the company's sector in `references/sector-primers.md` (grep the slug from its contents list, read to the next `## ` heading) and read the metrics, accounting-traps and valuation-conventions subsections. Done when the sector's convention is noted, or its absence is stated.
 
 ## Analyse
 
-1. **What the price implies.** Load `references/expectations.md` and run steps 1 to 5. Build EV from market cap and net debt, adding minorities, preferred, the pension deficit and leases when the EV field leaves them out. NOPAT1 is consensus EBIT for the next fiscal year at the operating tax rate. Solve g = (EV x WACC - NOPAT1) / (EV - NOPAT1 / ROIIC) at a stated ROIIC, and the implied competitive advantage period with formula 3a; split EV into steady-state value and future value creation; place the forward P/E against 1 / cost of equity. Then place the implied growth in its size and horizon class with `references/base-rates.md`, converting real to nominal. Done when the report can say "the price needs X percent NOPAT growth at Y percent ROIIC, which Z percent of companies in the A to B size class achieved" with every input labelled.
+The cost of capital and the history come first, so one discount rate and one ROIIC run through every later step.
 
-2. **Rebuild history.** Load `references/roic.md` and run steps 1 to 11: the definition line; NOPAT on EBITA at the operating tax rate from the tax note, never the effective or statutory rate, because the interest shield is counted once, in WACC; invested capital built from the operating and the financing side and reconciled; excess cash stripped at 2 percent of sales for steady companies and 5 percent for less predictable ones; ROIC with and without goodwill on average capital; ROIC split into margin times turnover; ROIIC over three and five years. Historicals are continuing, core and controlled (`references/valuation.md` step 1). Done when the history table exists and the FactSet ROIC field is compared in one line, never mixed into the same table.
+1. **Cost of capital.** `references/valuation.md` step 3, with the inputs table in `references/roic.md`; name the unlevering formula used. Done when every input has a source and a date, prevailing and normalized WACC are each labelled assumed, the two checks in step 3 pass, and a range of at least plus and minus 1 point is carried to the sensitivity.
 
-3. **Cost of capital.** From `references/valuation.md` step 3 and the input table in `references/roic.md`: the 10-year government yield in the currency of the cash flows, never a bill; a named equity risk premium with its date (an implied premium is preferred); beta from 60 monthly returns or the peer median unlevered beta relevered to the target structure, naming the unlevering formula used; the cost of debt at the yield on long-term debt for investment grade; target market-value weights. Show prevailing and normalized WACC, each labelled assumed. Check that the cost of equity exceeds the cost of debt and the risk premium exceeds the credit spread. Done when every input has a source and a date and a range of at least plus and minus 1 point is carried to the sensitivity.
+2. **Rebuild history.** `references/roic.md` steps 1 to 11 and `references/valuation.md` steps 1 and 2: NOPAT at the operating tax rate from the tax note (the interest shield lives once, in WACC), invested capital from both sides, excess cash stripped at the roic.md step 6 allowance (2 percent of sales, 5 percent for less predictable or faster-growing companies), ROIC with and without goodwill, margin times turnover, and ROIIC as a three-year rolling figure, labelled (five annual periods allow no longer window; a single year is never evidence). Done when the history table exists and the FactSet ROIC field is compared in one line, never mixed into the same table.
 
-4. **Horizon.** From `references/valuation.md` step 4: set the explicit period by time to maturity, the length of the competitive advantage and visibility, not by habit; 10 to 15 years with 5 to 7 in detail is the McKinsey practice, and a three-stage model is used when growth is high. Bound the advantage period with the reversion table in `references/roic.md` (company advantage against sector barriers) and the market-implied period in `references/expectations.md` table 2 (about 8 years on average, about 5 in competitive industries to about 15 in stable ones, 1976 to 2007, verify). Done when the horizon, its reasons and the growth path fading to the terminal rate are stated.
+3. **What the price implies.** `references/expectations.md` steps 1 to 5 at the step 1 WACC and the step 2 ROIIC. Build EV from market cap and net debt, adding minorities, preferred, the pension deficit and leases when the EV field leaves them out. Split EV with formula 1: steady-state value = normalised NOPAT / cost of capital, with excess cash added once in the equity bridge, never inside the perpetuity. Solve formula 2 for implied growth and formula 3a for the implied competitive advantage period. Place the implied growth in its size and horizon class with `references/base-rates.md`, converting real to nominal. Done when the report can say "the price needs X percent NOPAT growth at Y percent ROIIC, which Z percent of companies in the A to B size class achieved" with every input labelled.
 
-5. **Revenue and margins.** From `references/valuation.md` step 5: spend most of the time on revenue, bound it top-down (market times share) and bottom-up (customers times revenue per customer), build price, volume and currency multiplicatively, and forecast costs as ratios to their drivers. Treat consensus as biased upward. Every growth and margin figure gets its base rate from `references/base-rates.md`: growth by size class and horizon with the share that achieved it, beyond three years blended toward the class median; margins faded toward the sector mean with the horizon-matched r (expected = mean + r x (current - mean)). Done when every line has a driver and every growth or margin claim carries its base-rate sentence with sample and period.
+4. **Horizon.** `references/valuation.md` step 4: set the explicit period by time to maturity, the length of the competitive advantage (judged from the Gather step 4 evidence and the reversion table in `references/roic.md`) and visibility. Do not bound it with the market-implied advantage period from step 3, because that would set the forecast from the price it is meant to test; quote the implied period next to the chosen horizon as a comparison only. Done when the horizon, its reasons and the growth path fading to the terminal rate are stated.
 
-6. **Reinvestment.** From `references/valuation.md` step 6: capex bottom-up, not a share of revenue; depreciation by vintage over asset lives; net capex = change in net PP&E + depreciation, never the change in gross PP&E; working capital at a constant share of revenue unless there is a reason; future stock awards in the forecast as a cost. Done when capex, depreciation and net investment are shown for each year.
+5. **Revenue and margins.** `references/valuation.md` step 5, treating consensus as biased upward. Every growth and margin figure gets its base rate from `references/base-rates.md` steps 2 to 6 (growth by size class and horizon, blended toward the class median beyond three years; margins faded toward the sector mean with the horizon-matched r). Done when every line has a driver and every growth or margin claim carries its base-rate sentence with sample and period.
 
-7. **Check every forecast year.** From `references/valuation.md` step 7: ROIC = NOPAT margin x capital turnover, and implied growth = ROIC x reinvestment rate against the forecast growth. Flag any jump in turnover and any year with negative implied capex. Done when the year-by-year table shows ROIC, turnover and implied against forecast growth with no unexplained jump.
+6. **Reinvestment.** `references/valuation.md` step 6: capex = change in net PP&E + depreciation, and net investment = change in net PP&E; never the change in gross PP&E. Future stock awards go in the forecast as a cost. Done when capex, depreciation and net investment are shown for each year.
 
-8. **Continuing value.** From `references/valuation.md` step 8: CV = NOPAT(t+1) x (1 - g / RONIC) / (WACC - g) on normalized, mid-cycle NOPAT, with g at or below the economy's nominal growth. RONIC equals WACC for most companies; near the later-year ROIC only where the moat evidence from Gather step 4 supports a durable advantage, and then with modest growth. Discount from the end of the last explicit year. Uncertainty goes into the cases, not into a higher discount rate or a haircut. Done when g, RONIC and WACC are stated with reasons.
+7. **Check every forecast year.** `references/valuation.md` step 7. Done when the year-by-year table shows ROIC, turnover and implied against forecast growth with no unexplained jump and no negative implied capex.
 
-9. **Test the continuing value.** From `references/valuation.md` step 9 and formula 5 in `references/expectations.md`: report the terminal share of EV against the UBS rule of thumb (70 to 80 percent for a 5-year explicit period, 50 to 60 percent for 10 years; a rule of thumb, not a statistic, verify) and the implied terminal EV/EBITDA against today's. The terminal multiple should be below today's because multiples fall as a company matures; at or above it, find the error or name the story that justifies it. Done when both figures are reported and any breach is explained.
+8. **Continuing value.** `references/valuation.md` step 8, with RONIC above WACC only where the Gather step 4 evidence supports a durable advantage. Uncertainty goes into the cases, not into a higher discount rate or a haircut. Done when g, RONIC and WACC are stated with reasons.
 
-10. **Bridge to equity, per share.** From `references/valuation.md` step 10: all liquid securities less operating cash (2 to 4 percent of revenue, a rating-agency rule of thumb, verify); restricted cash only if it sat in the cash line; overseas cash net of repatriation tax; debt at fair value if rates moved; the pension deficit after tax; leases only if the cash flows were lease-adjusted; minorities and non-core stakes at market value; unpaid restructuring and litigation at present value; options and RSUs. Count shares from the filing, not an aggregator, and do not divide by diluted shares if options were deducted at value. Done when the bridge table shows every item in total and per share.
+9. **Test the continuing value.** `references/valuation.md` step 9 and `references/expectations.md` formula 5; the UBS terminal-share figures are a rule of thumb, not a statistic. Done when the terminal share and the implied terminal EV/EBITDA against today's are reported and any breach is explained.
 
-11. **Sensitivity.** From `references/valuation.md` step 11: a WACC by terminal growth table of value per share with the base case in the center, and a row or column for RONIC where the continuing value dominates. Done when the table is complete and a reader can see how far value moves for half a point of WACC.
+10. **Bridge to equity, per share.** `references/valuation.md` step 10, item by item, with the share count from the filing. Done when the bridge table shows every item in total and per share, including the operating cash deducted.
 
-12. **Three cases.** Base, downside and upside run through the whole model with second-order effects on reinvestment and margin, as `references/valuation.md` step 11 requires, with probabilities from `references/forecasting-discipline.md` steps 3 and 4: integers that sum to 100, each anchored to a reference-class share from `references/base-rates.md`, never a default split. Equity in each case is max(EV - claims, 0). Average the values, not the inputs. Done when three values, their probabilities with the source of each weight, what must be true in each, the expected value and the loss case are shown.
+11. **Sensitivity.** `references/valuation.md` step 11: WACC by terminal growth on value per share, base case in the center, with a RONIC row where the continuing value dominates. Done when a reader can see how far value moves for half a point of WACC.
 
-13. **Multiples cross-check.** Load `references/multiples-and-peers.md` and run steps 1 to 5 and 8 to 10 for one multiple: EV built the same way for the company and each peer, the metric cleaned, the forward EV/EBITA (or the sector's base) with the peer median shown with and without the outlier, the justified multiple from EV / EBITA = (1 - T) x (1 - g / ROIC) / (WACC - g), and the multiples the DCF implies. Done when the DCF-implied multiple, the peer median and the justified multiple sit side by side and any gap is explained by a driver.
+12. **Three cases.** `references/valuation.md` step 11, with probabilities from `references/forecasting-discipline.md` steps 3 and 4, each anchored to a reference-class share from `references/base-rates.md`, never a default split. Equity in each case is max(EV - claims, 0). Average the values, not the inputs. Done when three values, their probabilities with the source of each weight, what must be true in each, the expected value and the loss case are shown.
 
-14. **Benchmark and range.** From `references/valuation.md` step 12: compare the value range and the expected value with the price and the 52-week range, and explain any gap in economic terms. Assume the market is right unless there is a specific reason it is not, and say what that reason is. Aim for a precision of about plus or minus 15 percent; a half-point change in WACC is about a 10 percent change in value at a forward P/E of 15 to 16 (McKinsey, verify). Done when the range, the expected value, the gap to the price and the implied expectations from step 1 are stated together.
+13. **Multiples cross-check.** `references/multiples-and-peers.md` steps 1 to 10 for one multiple, including the peer selection by value drivers in step 7 with the selection rule stated before any multiple is shown. Done when the DCF-implied multiple, the peer median with and without the outlier and the justified multiple sit side by side and any gap is explained by a driver.
 
-A narrow question gets steps 1, 3 and 14 (what the price implies, at a stated cost of capital, against the price), with the arithmetic shown.
+14. **Benchmark and range.** `references/valuation.md` step 12. Assume the market is right unless there is a specific reason it is not, and say what that reason is. Done when the range, the expected value, the gap to the price in economic terms and the implied expectations from step 3 are stated together.
 
-Special cases. Read the matching entry in `references/valuation.md` before analysing:
+A narrow question gets steps 1, 3 and 14 (the cost of capital, what the price implies, against the price), with the arithmetic shown.
 
-- **Bank or insurer.** No enterprise DCF and no net debt, because interest is operating. Value cash flow to equity at the cost of equity, with equity growth set by the capital ratio, and cross-check with P/B against ROE, not EV multiples. Model through-the-cycle loan losses.
-- **Cyclical.** Build a normal-cycle case with the continuing value on mid-cycle profit and a new-trend case that extrapolates recent results, each with an economic rationale, and weight them. Show the mid-cycle margin next to the consensus margin.
-- **High growth** (organic revenue growth above 15 percent a year). Start from the future: size the addressable market, cap share from an analogous saturated market, set long-run margin and capital intensity from mature analogues, then work back to today. Negative invested capital makes ROIC meaningless; use margins and capital intensity instead.
-- **Emerging market.** Scenario DCF with at least a business-as-usual and a crisis case at a global-investor cost of capital with no country premium. A country premium applies only to promised cash flows, never to probability-weighted ones. Triangulate with multiples.
-- **Multi-business.** Value each unit on its own ROIC, growth and WACC, value corporate costs as a negative unit, and reconcile unit NOPAT and capital to the consolidated totals.
-- **Distressed.** Do not deduct the market value of debt. In each case, equity = max(EV - face value of claims, 0), then weight.
+Special cases: bank or insurer, cyclical, high growth, emerging market, multi-business, distressed. Read the matching entry under "Special cases" in `references/valuation.md` and apply it before step 4; for a cyclical show the mid-cycle margin next to the consensus margin, and for a bank cross-check with P/B against ROE, not EV multiples. Done when the case applied is named in the Assumptions line, or none applies.
 
 ## Write
 
@@ -102,16 +97,16 @@ competitive advantage period, steady-state share of EV, P/E against steady-state
 ## Assumptions
 | Input | Value | Range | Reason | Source and date | Basis |
 Risk-free, equity risk premium, beta, cost of debt, weights, WACC prevailing and normalized,
-operating tax rate, horizon, terminal g, RONIC.
+operating tax rate, horizon (with the market-implied period beside it), terminal g, RONIC, special case.
 
 ## History
-| FY | Revenue | EBITA margin | Turnover | ROIC ex goodwill | ROIC with goodwill | ROIIC | Basis | Source |
-Definition line under the table. FactSet ROIC compared in one line.
+| FY | Revenue | EBITA margin | Turnover | ROIC ex goodwill | ROIC with goodwill | ROIIC 3-yr |
+Basis and sources note under the table. Definition line. FactSet ROIC compared in one line.
 
 ## Forecast
-| Year | Revenue growth | Consensus | Base rate | EBITA margin | Net investment | ROIC | Turnover |
-| Implied growth (ROIC x reinvestment) | FCF | Basis | Source |
-First years, a fade year and the last year at minimum.
+| Year | Revenue growth | Consensus | Base rate | EBITA margin | Basis |
+| Year | Net investment | ROIC | Turnover | Implied growth (ROIC x reinvestment) | FCF | Basis |
+First years, a fade year and the last year at minimum. Sources note under the tables.
 
 ## Continuing value and checks
 Formula with g, RONIC and WACC; PV of explicit period and of CV; terminal share against the rule
@@ -130,33 +125,36 @@ Expected value; loss case next to gain case.
 
 ## Multiples cross-check
 | Measure | Company | Peer median (ex outlier) | Justified | DCF-implied | Basis | Source |
+Selection rule in one line.
 
 ## Range against the price
 Value range, expected value, price and 52-week range, the gap explained in economic terms.
 
-## What would change this view
+## What would change this reading
 ## Gaps
 ## Sources
 Numbered sources, the Data line, then the footer verbatim.
 ```
 
-Length: two to four pages. Offer a spreadsheet-style table export or a Word document when the host can create files. For a narrow question, answer it in the method's terms with the relevant table and the sources, and keep the footer.
+Length: two to four pages. To fit, keep History and Forecast to five rows each and the continuing-value section to four lines; when the user asked for part of the valuation (what the price implies, one input), drop the sections they did not ask for. Offer a spreadsheet-style table export or a Word document when the host can create files. For a narrow question, answer it in the method's terms with the relevant table and the sources, and keep the footer.
 
 ## Checks before sending
 
 1. "What the price implies" comes before the forecast, and the summary reads consistently with it.
-2. Every cost-of-capital input has a source and a date, and the risk-free rate is in the currency of the cash flows.
+2. One WACC and one three-year ROIIC run through the price-implied step, the forecast and the continuing value; every cost-of-capital input has a source and a date, and the risk-free rate is in the currency of the cash flows.
 3. NOPAT uses the operating tax rate from the tax note, and the interest shield appears only in WACC.
-4. ROIC, turnover and implied growth are shown for every forecast year, with no unexplained jump and no negative implied capex.
+4. ROIC, turnover and implied growth are shown for every forecast year, with no unexplained jump and no negative implied capex; net investment is the change in net PP&E.
 5. The continuing value uses the value-driver formula with a stated RONIC, its share of EV is reported, and the implied terminal multiple is below today's or the reason is given.
-6. The bridge lists every item per share, and the share count comes from a filing.
-7. The WACC by growth table is present, with the base case in the center.
-8. Case probabilities are integers that sum to 100, each anchored to a named reference class; the expected value averages values, not inputs.
-9. Each growth and margin claim carries a base-rate sentence with sample and period; dated figures carry "(verify)".
-10. The output is a range and an expected value, with the matching special case applied where one fits. No price target, no buy, hold or sell, no rating word.
+6. The horizon is set by maturity, advantage and visibility; the market-implied period appears only as a comparison.
+7. The bridge lists every item per share, the operating cash deduction is 2 or 5 percent of sales, and the share count comes from a filing.
+8. The WACC by growth table is present, with the base case in the center.
+9. Case probabilities are integers that sum to 100, each anchored to a named reference class; the expected value averages values, not inputs.
+10. Each growth and margin claim carries a base-rate sentence with sample and period; dated figures carry their source and period and are called historical. No table passes eight columns.
+11. The output is a range and an expected value, with the matching special case applied where one fits. No price target, no buy, hold or sell, no rating word.
 
 ## Hand-offs
 
 - The user wants peer multiples on their own: `bigdata-comps`. The cases built out with signposts: `bigdata-scenarios`. The view and the claims behind it: `bigdata-thesis`.
+- The subject is an acquisition target and the user wants the price, premium and synergies: `bigdata-deal-analysis`.
 - The company reports soon and the user wants the setup: `bigdata-earnings-preview`.
 - After delivering, make one offer: save the valuation to the user's Bigdata.com account so later searches can find it. Act only on a clear yes.

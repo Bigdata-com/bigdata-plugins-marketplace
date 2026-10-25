@@ -22,7 +22,7 @@ bigdata-capital-allocation runs the whole method; bigdata-deal-analysis runs ste
 1. **Sources and uses.** Tabulate five years. Sources: CFO, net debt issued, equity issued, divestiture proceeds. Uses: capex, acquisitions, increase in working capital, dividends, buybacks, debt repaid, change in cash. Show R&D as a memo line, since it is expensed inside CFO. Done when the table ties to the change in cash each year.
 2. **Spending pattern.** Compute cents invested per dollar of sales change for working capital, net fixed capital and net M&A (formula 2) over at least three and preferably five to ten years. Mark inflection points and CEO changes, which often shift the mix. Done when the mix and any shift are stated.
 3. **Order of the tests.** Each dollar should go to the use with the highest expected return above the cost of capital. Test organic reinvestment first, then deals, then payouts (dividends as a commitment, buybacks only below value with no better use), then debt repayment (Mauboussin golden rule; McKinsey ch. 23). This is an order of testing, not a fixed ranking. Done when each use in the table has a verdict in step 11.
-4. **Organic reinvestment.** Compute ROIC, ROIIC over rolling three and five years, growth capex (capex minus depreciation) as a share of capex, asset life and age, and asset growth. Compare actual growth with ROE x (1 - payout): growth well below it means cash beyond what the business can use (Mauboussin FAQ, 2014, p. 2). Check what retained earnings added to earning power (Security Analysis p. 381-392). Done when level, direction and the retention test are stated.
+4. **Organic reinvestment.** Compute ROIC, three-year rolling ROIIC (the longest window five annual periods allow), growth capex (capex minus depreciation) as a share of capex, asset life and age, and asset growth. Compare actual growth with ROE x (1 - payout): growth well below it means cash beyond what the business can use (Mauboussin FAQ, 2014, p. 2). Check what retained earnings added to earning power (Security Analysis p. 381-392). Done when level, direction and the retention test are stated.
 5. **Buybacks.** For each year: amount repurchased (actuals, not authorisations), average price, intrinsic value at the time, the buyback return against the cost of equity (formula 4), shares issued in the same year, and the net share count change. Lay the record against the valuation path: did buying rise when the stock was dear and stop when it was cheap? Name the funding source and the school management follows: fair value, intrinsic value or accounting-motivated (Mauboussin FAQ p. 9). Note insider selling during buybacks. Done when each year has a price-to-value return and a net issuance figure.
 6. **Dividends.** Compute coverage by free cash flow after SBC and after maintenance and growth needs, and name the funding source: free cash flow, debt, offshore cash, or new equity, which is a false signal (Berkowitz, Security Analysis p. 345-347). Use total and net shareholder yield, not dividend yield. Done when coverage and funding source are stated for each year.
 7. **Acquisitions.** For each deal in the last five years: premium, PV of cost and revenue synergies, deal NPV, predicted buyer move against the actual one-, three- and five-day move, SVAR and premium at risk, payment form, category and base rate (table 1), fit with McKinsey's five archetypes, and return on price paid against the cost of capital. Then the later record: goodwill impairments and disposals of acquired units reveal overpayment. Done when each deal has its row in the deal table.
@@ -35,7 +35,7 @@ bigdata-capital-allocation runs the whole method; bigdata-deal-analysis runs ste
 
 1. FCF = NOPAT - Investment; Investment = change in net working capital + (capex - depreciation) + (acquisitions - divestitures).
 2. Incremental rates = each investment component / change in sales (for example ($130 - $70) / $100 = 60% fixed capital rate).
-3. ROIC = NOPAT / average invested capital. ROIIC = (NOPAT_t - NOPAT_t-1) / (IC_t-1 - IC_t-2), rolling three and five years. Implied growth = reinvestment rate x ROIIC (derived). Growth without outside funding = ROE x (1 - payout).
+3. ROIC = NOPAT / average invested capital. ROIIC = (NOPAT_t - NOPAT_t-1) / (IC_t-1 - IC_t-2), three-year rolling. Implied growth = reinvestment rate x ROIIC (derived). Growth without outside funding = ROE x (1 - payout).
 4. Buyback return = k_e / (P / IV), with k_e the cost of equity (assumed), P the price paid and IV intrinsic value per share at the time (assumed). At k_e 8% and P / IV of two-thirds the return is about 12%.
 5. Value per share after a buyback = (V - C) / (N - C / P), with V the value of the firm before, C the cash spent, N shares before. Firm value 100,000, 1,000 shares, 20,000 spent at 200 gives 88.89 per share; at 50 it gives 133.33 (Mauboussin 2015, ex. 37).
 6. EPS breakeven P/E = 1 / [r x (1 - t)], with r the pre-tax yield on the cash used or the pre-tax cost of the debt raised and t the tax rate. Cash at 3% and 33% tax gives 50; debt at 6% gives 25. A buyback below that P/E raises EPS; this says nothing about value.
@@ -49,7 +49,7 @@ bigdata-capital-allocation runs the whole method; bigdata-deal-analysis runs ste
 
 ## Reference tables
 
-All figures are historical samples; quote them with their period and "(verify)".
+All figures are historical samples; quote them with their period and "(historical; quote with source and period)".
 
 **Table 1. Deal success rate by strategic category** (Clark and Mills, in Mauboussin, To Buy or Not To Buy, 27 Feb 2017, ex. 12)
 
@@ -111,7 +111,7 @@ EBITA / interest of about 5 to 11 corresponds to A+ to BBB-, and value barely ch
 
 - Five-year sources-and-uses table. [reported]
 - "Cents per dollar of sales change, FY-4 to FY0: working capital a, fixed capital b, M&A c." [derived]
-- "ROIC x; ROIIC three-year y, five-year z; growth capex g percent of capex." [derived]
+- "ROIC x; ROIIC three-year rolling y; growth capex g percent of capex." [derived]
 - "Buybacks of X at average price P against estimated value V: return r against cost of equity k; issuance Y; net share count change n percent." [derived; V and k assumed]
 - "Dividends covered c times by free cash flow after SBC; funded from ..." [derived, reported]
 - Deal table: Deal, Date, Premium, PV synergies (cost / revenue), NPV, SVAR, Payment, Category, Base rate, Market reaction, Later impairment. [reported, derived; synergies as stated by management]
