@@ -1,9 +1,9 @@
 ---
 name: bigdata-quick-take
 description: >-
-  One-page view on a stock: what the price implies, the three drivers that matter now, risks, next
-  catalyst. No buy or sell call. Use for quick take, thoughts on a ticker, is X interesting. Not a
-  full thesis: bigdata-deep-dive.
+  One-page view on a stock or company: what the price implies, the drivers that matter now, risks,
+  next catalyst. Use for quick take, a one-page read on X, thoughts on a ticker, is X interesting.
+  Not a full thesis: bigdata-deep-dive.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, downside-and-catalysts
   bigdata-sector-primer: auto

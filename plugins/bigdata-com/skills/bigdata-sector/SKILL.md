@@ -1,9 +1,9 @@
 ---
 name: bigdata-sector
 description: >-
-  How an industry works: structure and profit pool, cycle position, drivers and metrics, what is
-  priced in, where a named company sits. Use for a sector or industry outlook, our industry,
-  sector picks. Not a theme: bigdata-theme.
+  How an industry works: structure and profit pool, drivers and metrics, what is priced in, where
+  a named company sits. Use for a sector or industry outlook, our industry, which sectors look
+  interesting. Not a theme: bigdata-theme.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, industry-structure, base-rates, multiples-and-peers, operating-leverage-and-tam, expectations
   bigdata-sector-primer: auto

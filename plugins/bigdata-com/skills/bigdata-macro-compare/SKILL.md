@@ -2,8 +2,8 @@
 name: bigdata-macro-compare
 description: >-
   Countries or regions compared on the same indicators: growth, inflation, real rates, currencies,
-  fiscal and external positions, why they differ. Use for compare economies, G7 comparison, where
-  to expand. Not one country: bigdata-country.
+  why they differ. Use for compare economies, which country is stronger right now, where to
+  expand. Not one country: bigdata-country.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, forecasting-discipline
   bigdata-sector-primer: none

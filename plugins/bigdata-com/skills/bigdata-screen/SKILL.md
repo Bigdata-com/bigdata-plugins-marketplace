@@ -1,8 +1,8 @@
 ---
 name: bigdata-screen
 description: >-
-  Find companies that fit criteria: size, sector, valuation, growth, quality or yield, ranked on
-  what the user asked for. Use for screen for stocks, find ideas, companies like X, acquisition
+  Find companies that fit criteria: size, sector, valuation, growth or quality, ranked on what the
+  user asked for. Use for screen for stocks, find ideas, who else does what X does, acquisition
   targets. Not one name: bigdata-quick-take.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard, multiples-and-peers, roic, base-rates, expectations

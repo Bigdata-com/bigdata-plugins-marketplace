@@ -26,6 +26,21 @@ Each one is a call I would have asked about. The alternative is stated so it can
 - D17 Corporate reader: output-standard.md now names corporate strategy, finance and IR readers; "What would change this view" became "What would change this reading" with "What to watch" for no-view reports; tables capped at eight columns; "(verify)" no longer printed in deliverables; a corporate user's own decision (buyback vs dividend, deal structure) gets option-by-option arithmetic, which is not a securities call.
 - D18 Trigger evals: corporate-voice prompts added (one should-fire per job skill), suite rerun with `claude plugin eval`. Running with other plugins installed is not something the harness supports from the suite file, so that competition is untested; noted as a gap.
 
+## Calls made during the per-skill pass
+
+- D19 McKinsey's sixth acquisition archetype ("exploit a business's industry-specific scalability", added after the 5th edition) is named in bigdata-deal-analysis from my own knowledge; no file in the folder carries it. Check the wording against the 7th edition if you have it.
+- D20 Country and macro-compare state probabilities as judgment with named historical analogues instead of a reference-class number, because the library's base-rate tables are equity samples and no macro reference class is in the folder. forecasting-discipline.md step 4 still asks for a reference-class number; the two bodies say why they depart from it.
+- D21 Valuation's template was cut (history and forecast tables capped at five rows, sections the user did not ask for dropped) to keep output-standard's "two to four pages" rather than raising the page count.
+- D22 Moat drops the rivals' hiring-trends step rather than add a tearsheet call per rival.
+- D23 The agency table in credit.md is table 3; McKinsey's EBITDA volatility table became table 5 so the numbers stop colliding. Formula 6a is the refinancing stress.
+- D24 Watchlist: `bigdata_watchlist_search` asks that its documents not be rendered as a numbered list; the body cites them inline in the tool's own format and keeps the report's Sources for other documents. A host-side instruction conflict, resolved in the skill's favour for citation discipline.
+- D25 The credit body is 3,222 words after the rebuild (soft cap 3,000); the bank variant and the refinancing stress are the additions. Left as is; trim if you want it under.
+- D26 The OpenAI zip is 525 files (the 512 threshold is the Anthropic directory's, and the Claude zip is 420); the Cowork zip is 320 files and 20 skills.
+- D27 Whether `interval` applies to `revenue_segmentation` is unverified; theme asks for annual segment history and says so in Gaps if it comes back quarterly.
+- D28 The trigger suite is the 23 Oct suite plus one corporate-voice should-fire prompt per skill (182 cases), run with one run per case; competition from other installed plugins is still untested.
+
 ## Open for Marko
 
-(filled in at the end of the session)
+- Rename decisions you want reversed: D5 (agency ratios from outside the folder), D11 (sync copies cited files; about 130 more files), D12 (primer kept as one bundle), D16 (no older-filing fetch steps).
+- The six skills the Cowork package drops (capital-allocation, comps, credit, macro-compare, screen, special-situations) are unchanged from 23 Oct; pick which 20 ship there.
+- The 25 "year appears in the body" warnings from check_skills.py are all example citations; confirm they can stay.
