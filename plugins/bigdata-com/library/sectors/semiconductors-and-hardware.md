@@ -33,7 +33,7 @@ Typical ranges (judgment, not in the sources, verify): R&D at about 10 to 25 per
 - **Inventory.** Write-downs reverse into margin when written-down units sell; check reserve releases in recovery quarters. Rising inventory with flat sales is the first warning.
 - **Depreciation lives.** Fab equipment lives (judgment, about 5 to 7 years, verify) set reported margin; a change in useful life moves earnings with no cash effect. Compare depreciation with capex.
 - **Underutilization charges.** Some companies expense idle capacity outside COGS or call it one-time; count how often it recurs.
-- **Expensed R&D** overstates ROIC for designers. Capitalize it to compare designers with manufacturers on the same basis (McKinsey ch.28; Damodaran's research-asset method in roic-moat notes).
+- **Expensed R&D** overstates ROIC for designers. Capitalize it to compare designers with manufacturers on the same basis (McKinsey ch.28; Damodaran's research-asset method in Mauboussin, Calculating ROIC (2014) and Measuring the Moat (2016)).
 - **Customer prepayments, take-or-pay deals and government grants** reduce reported capex or appear as liabilities; read the cash flow statement and notes (subsidy programs vary by country, verify).
 - **Revenue recognition for systems.** Equipment revenue may be split between shipment and acceptance; hardware bundles with services or software defer part of the price.
 - **Acquisitions.** The industry consolidates through large deals; use EBITA, show ROIC with and without goodwill, and haircut revenue synergies (nearly half of acquirers realize under 70 percent of target, McKinsey ch.21, verify).

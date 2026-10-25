@@ -7,7 +7,7 @@ Each SKILL.md lists what it needs in its frontmatter:
       bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates
       bigdata-sector-primer: auto | none
 
-Method files and the two shared files are copied one to one. With
+Method files and the two shared files are copied one to one, plus the transitive closure of the library files a copied file cites (references/<name>.md), so a skill never carries a pointer to a file it does not have. With
 bigdata-sector-primer set to auto, the eleven sector primers are joined into
 one references/sector-primers.md with a contents list, so a skill never
 carries more than one primer file (Microsoft Cowork allows 20 companion
@@ -51,12 +51,38 @@ def primers_bundle():
             continue
         text = open(path, encoding="utf-8").read().strip()
         title = re.match(r"^#\s+(.*)", text)
-        toc.append(f"- {title.group(1) if title else name} (`{name}`)")
-        parts.append(text.replace("\n# ", "\n## ", 1) if text.startswith("# ") else text)
-        parts[-1] = re.sub(r"^# ", "## ", parts[-1], count=1)
-    head = ("# Sector primers\n\nRead the section for the company's sector before analysing; skip the rest. "
-            "Every figure is a range with its source and a (verify) mark, never a current fact.\n\n" + "\n".join(toc) + "\n\n")
+        label = title.group(1) if title else name
+        toc.append(f"- {label} (`{name}`)")
+        # demote the file's own headings one level so the bundle reads H2 = sector, H3 = its sections,
+        # and put the slug in the sector heading so a grep for the slug lands on the section start
+        body = re.sub(r"^(#{2,5}) ", lambda m: "#" + m.group(1) + " ", text, flags=re.M)
+        body = re.sub(r"^# .*$", f"## {label} ({name})", body, count=1, flags=re.M)
+        parts.append(body)
+    head = ("# Sector primers\n\nOne section per sector, each about 100 lines. Read only the section for the company's sector: "
+            "find its start with `grep -n '^## .*(<slug>)' references/sector-primers.md` using the slug from the list below, "
+            "then read from that line to the next line that starts with `## `. Every figure is a range with its source and "
+            "period, historical rather than current; the (verify) marks are working notes and do not appear in a deliverable.\n\n"
+            + "\n".join(toc) + "\n\n")
     return head + "\n\n".join(parts) + "\n"
+
+
+def cited(name):
+    src = library_file(name)
+    if not src:
+        return []
+    return re.findall(r"references/([a-z0-9\-]+)\.md", open(src, encoding="utf-8").read())
+
+
+def closure(refs):
+    seen, out = set(), []
+    stack = list(refs)
+    while stack:
+        r = stack.pop(0)
+        if r in seen:
+            continue
+        seen.add(r); out.append(r)
+        stack.extend(c for c in cited(r) if c not in seen)
+    return out
 
 
 def main():
@@ -69,6 +95,7 @@ def main():
             continue
         fm = frontmatter(open(sk, encoding="utf-8").read())
         refs = [r.strip() for r in meta_value(fm, "bigdata-refs").split(",") if r.strip()]
+        refs = closure(refs)  # plus every library file a listed file cites, so no copied file points at a missing one
         primer = meta_value(fm, "bigdata-sector-primer") or "none"
         refdir = os.path.join(SKILLS, skill, "references")
         wanted = {}

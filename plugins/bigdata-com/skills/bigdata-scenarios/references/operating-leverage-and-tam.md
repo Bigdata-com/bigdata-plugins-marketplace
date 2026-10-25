@@ -10,7 +10,7 @@ Earnings previews and reviews (the sales-to-margin sensitivity), deep dives, val
 
 | Input | Where in Bigdata.com | Basis |
 |---|---|---|
-| Revenue, COGS, SG&A, R&D, depreciation, EBIT, interest, net debt, gross and net PP&E, capex, five fiscal periods per call | `bigdata_company_tearsheet`, `financial_statements, financial_ratios, key_metrics` | reported |
+| Revenue, COGS, SG&A, R&D, depreciation, EBIT, interest, net debt, gross and net PP&E, capex, five fiscal periods per call | `bigdata_company_tearsheet`, `financial_statements`, `interval` annual | reported |
 | Consensus sales, EBIT, EPS to four years out, surprise history, company guidance | `analyst_estimates`, `latest_earnings` | reported |
 | Revenue by product and geography, five years | `revenue_segmentation` | reported |
 | Fixed and variable cost, capacity utilization, price against volume against mix, customer counts, penetration | `bigdata_search` on transcripts and filings | reported |
@@ -104,7 +104,7 @@ Forecast accuracy: analysts are too optimistic on earnings growth, with larger e
 
 ## Sources
 
-- Notes: tam-leverage-profit-pools.md (sections 1 to 3, 7 to 9); expectations-multiples-dcf.md (1.2, EI p.68); mckinsey-part1.md (chapter 9).
+- Notes: Mauboussin, Total Addressable Market (2015), Operating Leverage (2016) and Global Industry Profit Pools (2016) (sections 1 to 3, 7 to 9); Mauboussin, Expectations Investing; Robinson and Weyns, UBS multiples and DCF papers (2017) (1.2, EI p.68); McKinsey, Valuation, 5th ed. (chapter 9).
 - Mauboussin, M. and Callahan, D., "Operating Leverage: A Framework for Anticipating Changes in Earnings", Credit Suisse, 14 June 2016, pp. 1-22 (pages without a title refer to this paper in the first procedure and the formulas).
 - Mauboussin, M. and Callahan, D., "Total Addressable Market: Methods to Estimate a Company's Potential Sales", Credit Suisse, 1 Sep 2015, pp. 3-37.
 - Mauboussin, M. et al., "Global Industry Profit Pools", Credit Suisse HOLT, July 2016, pp. 1-4.

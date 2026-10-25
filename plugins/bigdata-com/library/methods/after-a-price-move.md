@@ -14,18 +14,18 @@ Load it for a stock-move note, an earnings review when the print moved the stock
 | Event type: scheduled earnings release or not | `bigdata_events_calendar`; `bigdata_search` over filings and news for the event date | reported |
 | Cause stated by the company or the press | `bigdata_search` over news, filings and transcripts for the event date | reported |
 | Momentum proxies | `company_overview` (52-week relative performance, excluding the event); `analyst_estimates` (13-week change in consensus EPS and EBIT); `analyst_ratings` (target and rating changes) | derived |
-| Valuation proxies | `financial_statements, financial_ratios, key_metrics` key metrics: EV/EBITDA, P/E, FCF yield, price to book, dividend yield, against sector peers | derived |
-| Quality proxies | `financial_statements, financial_ratios, key_metrics` ratios (FactSet ROIC) and five fiscal periods of margins and invested capital | derived |
+| Valuation proxies | `key_metrics` and `financial_ratios`, re-based to the pre-event price (formula 4): EV/EBITDA, P/E, FCF yield, price to book, dividend yield, against sector peers | derived |
+| Quality proxies | `financial_ratios` (FactSet ROIC) and five fiscal periods of margins and invested capital | derived |
 | Change in the long-term outlook | `analyst_estimates` for FY+2 to FY+4 and long-term growth before and after the event; guidance; cash flow statement | reported, then derived |
 | Cost of capital for the quality spread | Not in Bigdata.com. Choose it and state it | assumed |
 
-Not in the sources: whether the tearsheet exposes the history of consensus estimates. If it does not, take the 13-week revisions from research and news searches covering the 13 weeks before the event, and say so.
+The tearsheet carries no history of consensus estimates or targets (its estimates section is a current snapshot). Take the 13-week revisions and the pre-event target from research and news searches covering the 13 weeks before the event, quote the document and its date, and label them as press or research summaries.
 
 ## Procedure
 
 1. **Classify the event.** Earnings or non-earnings (scheduled items such as same-store-sales updates and unscheduled items such as management changes or earnings warnings count as non-earnings); one day or several; the move relative to the index; and whether announced M&A is involved (the gain sample excludes M&A). The papers cover one-day moves of 10 percent or more against the S&P 500. Not in the sources: whether the 10 percent trigger uses the simple excess return or the beta-adjusted figure; compute both and state which one is used. Done when the note says "a one-day move of X percent against the index, Y percent beta-adjusted, earnings-driven" or its equivalent.
 2. **Measure the abnormal return and the record going in** (formulas 1 to 3). Done when the event-day abnormal return and the 30-trading-day pre-event cumulative abnormal return (CAR) are stated.
-3. **Score momentum, valuation and quality as they stood before the event,** against sector peers, with the proxies in table 5. Bucket each into the top third (strong, cheap, high), the middle third (neutral) and the bottom third (weak, expensive, low). The papers cut a 0 to 100 sector percentile at 66 or higher and 33 or lower in Man Overboard, and at 67 or higher and 33 or lower in Summit. Scores are measured before the price move. Done when each factor shows its bucket, the numbers behind it and the peer set, and the note says the proxies are not HOLT scores.
+3. **Score momentum, valuation and quality as they stood before the event,** against sector peers, with the proxies in table 5. Bucket each into the top third (strong, cheap, high), the middle third (neutral) and the bottom third (weak, expensive, low). The papers cut a 0 to 100 sector percentile at 66 or higher and 33 or lower in Man Overboard, and at 67 or higher and 33 or lower in Summit. Scores are measured before the price move. Done when each factor shows its bucket, the numbers behind it and the peer set, and the note says the proxies are not HOLT scores. Valuation proxies are re-based to the pre-event price: pre-event price = current price / (1 + the stock's return since the close before the event), and market cap, EV, P/E, EV/EBITDA, FCF yield and price to book are scaled to it before bucketing, so a stock that just fell is not scored as cheap because it fell (formula 4, derived).
 4. **Read the reference class** (tables 1 to 3). Start at the row for the event type and momentum, then step down to valuation and quality only while N stays at about 50 or more. Done when the note shows the branch, N, the sample period, the mean CAR at +30, +60 and +90 trading days, and the parent branch beside it.
 5. **State the dispersion** (table 4). Done when the note says the median is below the mean in most cells and the standard deviation of outcomes is 32 to 47 points in the published cells.
 6. **Run the long-term outlook test** (rule 1). Done when the note states what changed in expected cash flows beyond the next year, with before and after figures, and whether the size of the move matches that change.
@@ -143,7 +143,7 @@ Not in the sources: base rates for multi-day moves, moves under 10 percent, non-
 
 ## Sources
 
-- Notes: decisions-price-moves.md (Part 1 sections 1, 2, 8 and 11; Parts 3 to 5); base-rates.md (section 2.9 and Part 6); klarman.md (Ch.1); expectations-multiples-dcf.md (section 1.2).
+- Notes: Mauboussin, Man Overboard (2015) and Celebrating the Summit (2016) (Part 1 sections 1, 2, 8 and 11; Parts 3 to 5); base-rates.md (section 2.9 and Part 6); Klarman, Margin of Safety (Ch.1); Mauboussin, Expectations Investing; Robinson and Weyns, UBS multiples and DCF papers (2017) (section 1.2).
 - Credit Suisse Global Financial Strategies (Mauboussin and co-authors): "Managing the Man Overboard Moment" (15 Jan 2015); "Celebrating the Summit" (11 Jan 2016); "A Long Look at Short-Termism" (18 Nov 2014); "Cultivating Your Judgment Skills" (7 May 2013); "Outcome Bias and the Interpreter" (15 Oct 2013).
 - Mauboussin, "Expectations Investing", CFA Institute Conference Proceedings Quarterly, Sept 2006.
 - Klarman, Margin of Safety (1991), Ch.1.

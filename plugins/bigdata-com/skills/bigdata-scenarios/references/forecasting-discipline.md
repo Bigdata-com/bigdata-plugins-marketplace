@@ -10,7 +10,7 @@ Load it wherever the report states probabilities, scenarios or a view: thesis an
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Facts: reported numbers, guidance, dated events | `bigdata_company_tearsheet` (`financial_statements, financial_ratios, key_metrics`, `analyst_estimates` with actuals and guidance), filings and transcripts via `bigdata_search`, `bigdata_events_calendar` | reported |
+| Facts: reported numbers, guidance, dated events | `bigdata_company_tearsheet` (`financial_statements`, `analyst_estimates` with actuals and guidance), filings and transcripts via `bigdata_search`, `bigdata_events_calendar` | reported |
 | Opinions: management claims, broker views, ratings, targets | Transcripts, research and news via `bigdata_search`; `analyst_ratings` | reported, as a claim |
 | Expectations: what the price and consensus imply | `references/expectations.md`; `analyst_estimates` | derived |
 | Base rates for weights and ranges | `references/base-rates.md` | reported (historical base rate) |
@@ -48,7 +48,7 @@ Load it wherever the report states probabilities, scenarios or a view: thesis an
 - Use granular integer percentages (70, 75, 80, even 71 or 72). Granular forecasts were more accurate, and forecasters who used 50 percent most were less accurate than average (FC p.7).
 - Use numbers, not words. In 1951 "serious possibility" meant 80 percent to one analyst and 20 percent to another (FC p.7); "probable" was read as anything from 25 to 90 percent (MI pp.8-9).
 - Scenario probabilities sum to 100 and include explicit downside scenarios (EI p.69).
-- No default 25/50/25 or 30/40/30 split. Derive each weight from a reference class (growth, margin, M&A or turnaround outcomes), state it with a reason and a date, and let the weights be asymmetric when the evidence is (decisions-price-moves.md Part 3, item 2; JD p.6). Not in the sources: a table that converts a base rate into a scenario weight. The conversion is the analyst's judgment and is labelled so.
+- No default 25/50/25 or 30/40/30 split. Derive each weight from a reference class (growth, margin, M&A or turnaround outcomes), state it with a reason and a date, and let the weights be asymmetric when the evidence is (Mauboussin, Man Overboard (2015) and Celebrating the Summit (2016) Part 3, item 2; JD p.6). Not in the sources: a table that converts a base rate into a scenario weight. The conversion is the analyst's judgment and is labelled so.
 - Check scope: the probability of a hazard over 6 months should usually be materially higher than over 3 months. Regular forecasters gave 40 and 41 percent for the same event over the two windows; superforecasters gave 15 and 24 (FC p.16).
 - Update by the right amount. Under-reaction comes from inattention, answering an easier question, and confirmation bias; over-reaction from weighting irrelevant information and from lack of commitment to a reasoned view (FC p.7).
 - Several diverse estimates that agree at 75 percent justify a higher aggregate, because each carries unshared information (FC p.12). Not in the sources: a numeric extremizing factor.
@@ -103,6 +103,6 @@ Load it wherever the report states probabilities, scenarios or a view: thesis an
 
 ## Sources
 
-- Notes: decisions-price-moves.md (Part 1 sections 3 to 11, Parts 2 to 4); expectations-multiples-dcf.md (section 1.2, EI pp.68-69); base-rates.md (sections 1.1 to 1.4, 2.2, 2.4).
+- Notes: Mauboussin, Man Overboard (2015) and Celebrating the Summit (2016) (Part 1 sections 3 to 11, Parts 2 to 4); Mauboussin, Expectations Investing; Robinson and Weyns, UBS multiples and DCF papers (2017) (section 1.2, EI pp.68-69); base-rates.md (sections 1.1 to 1.4, 2.2, 2.4).
 - Mauboussin and co-authors, Credit Suisse Global Financial Strategies: "Sharpening Your Forecasting Skills" (28 Sep 2015, "FC"); "Methods to Improve Decisions" (24 Feb 2014, "MI"); "Cultivating Your Judgment Skills" (7 May 2013, "JD"); "IQ versus RQ" (12 May 2015, "RQ"); "Outcome Bias and the Interpreter" (15 Oct 2013, "OB"); "Thirty Years: Ten Attributes of Great Investors" (4 Aug 2016, "30Y"); "A Long Look at Short-Termism" (18 Nov 2014, "ST"); The Base Rate Book (26 Sep 2016, "A").
 - Mauboussin, "Expectations Investing", CFA Institute Conference Proceedings Quarterly, Sept 2006 ("EI").

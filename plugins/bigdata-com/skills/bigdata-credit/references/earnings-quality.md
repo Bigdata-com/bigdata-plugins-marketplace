@@ -10,8 +10,8 @@ bigdata-earnings-quality runs the whole method. bigdata-earnings-review runs ste
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Five fiscal periods of statements: revenue, operating income, net income, receivables, inventory, payables, deferred revenue, gross and net PP&E, depreciation, goodwill and intangibles, total assets, equity, cash from operations (CFO), capex, dividends, buybacks, issuance, stock-based compensation (SBC), leases | `bigdata_company_tearsheet`, section `financial_statements, financial_ratios, key_metrics` | reported |
-| Altman Z, Piotroski | `financial_statements, financial_ratios, key_metrics` ratios | reported |
+| Five fiscal periods of statements: revenue, operating income, net income, receivables, inventory, payables, deferred revenue, gross and net PP&E, depreciation, goodwill and intangibles, total assets, equity, cash from operations (CFO), capex, dividends, buybacks, issuance, stock-based compensation (SBC), leases | `bigdata_company_tearsheet`, section `financial_statements`, `interval` annual for fiscal years | reported |
+| Altman Z, Piotroski | `financial_ratios` | reported |
 | Special items, provisions roll-forward, pension, lease and tax notes, OCI, revenue policy, non-GAAP reconciliation, auditor changes, restatements, related parties | `bigdata_search` over filings and releases, then `bigdata_fetch_document` for the note | reported |
 | Peer medians | Tearsheets of three to six peers | derived |
 | Cost of secured debt, recurrence rule, severity level | Chosen and stated | assumed, judgment |
@@ -43,7 +43,7 @@ The tearsheet returns five periods per call; fetch older annual reports when the
 5. Residual = (Equity_end - Equity_start) - (sum NI + sum OCI - sum dividends + sum issuance including the SBC credit - sum buybacks). It rests on cash flow to equity = NI - increase in book equity + OCI = dividends + buybacks - issuance (McKinsey ch. 36). Charges made straight to equity outside OCI show up here.
 6. Tax-implied profit = income tax expense / statutory rate (Security Analysis p. 437).
 7. DSO = 365 x receivables / revenue; DIO = 365 x inventory / COGS; DPO = 365 x payables / COGS.
-8. Steady-state free cash flow = net income + D&A - maintenance capex - SBC, with pension assumptions corrected and expensed growth spending added back (Berkowitz, Security Analysis p. 341-342). Depreciation is the usual maintenance-capex proxy (Mauboussin, Capital Allocation, 2015, p. 25).
+8. Steady-state free cash flow = net income + D&A - maintenance capex, with pension assumptions corrected and expensed growth spending added back (Berkowitz, Security Analysis p. 341-342). Stock-based compensation is already an expense inside net income under ASC 718 and IFRS 2, so it is neither added back nor deducted a second time; Berkowitz wrote when options were not yet expensed. If a company's adjusted figures add SBC back, remove that add-back. Depreciation is the usual maintenance-capex proxy (Mauboussin, Capital Allocation, 2015, p. 25).
 9. LTM = prior fiscal year + current year-to-date - prior year-to-date (Security Analysis p. 656).
 
 ## Reference tables
@@ -128,7 +128,7 @@ Take the highest level triggered; two flags at one level raise it one step (assu
 
 ## Sources
 
-- Notes: security-analysis.md; mckinsey-part1.md (ch. 7, 8, 12, 16, addendum to ch. 1-2); mckinsey-part2.md (ch. 24-28, 35, 36); capital-allocation.md; klarman.md (ch. 8).
+- Notes: Graham and Dodd, Security Analysis, 6th ed.; McKinsey, Valuation, 5th ed. (ch. 7, 8, 12, 16, addendum to ch. 1-2); McKinsey, Valuation, 5th ed. (ch. 24-28, 35, 36); capital-allocation.md; Klarman, Margin of Safety (ch. 8).
 - Graham and Dodd, Security Analysis, 6th ed. (2009): p. 56, 90, 341-342, 409-486, 526-531, 545-547, 591-610, 656-663, 711-724.
 - McKinsey (Koller, Goedhart, Wessels), Valuation, 5th ed. (2010): ch. 7, 12, 16, 24, 26, 27, 28, 35, 36.
 - Mauboussin and Callahan, Capital Allocation, Credit Suisse, 2 Jun 2015, p. 25-27. Klarman, Margin of Safety (1991), ch. 8.

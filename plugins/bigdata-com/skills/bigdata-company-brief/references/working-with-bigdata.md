@@ -10,15 +10,15 @@ Use judgment. A one-line question needs one or two calls. A research task needs 
 |---|---|---|
 | What happened, what was said, why something moved | `bigdata_search` | News, filings, transcripts, broker research, podcasts, expert interviews and the user's own documents. Returns cited excerpts. |
 | One company's numbers: financials, estimates, ratings, price targets, ownership | `bigdata_company_tearsheet` | Needs the company resolved first. Works for private companies too, with different content. |
-| How the media sees a company, and why | `bigdata_sentiment_tearsheet` | Score, attention and a cited narrative. |
+| How the media sees a company, and why | `bigdata_sentiment_tearsheet` | Score, attention and a cited narrative over recent coverage. Takes only the entity id: no window can be set, so say which period its narrative covers. When the user asked for sentiment itself, present the report as returned; inside a larger report, cite it as a source. |
 | Several companies at a glance: price, daily move, earnings surprise, targets, sentiment | `bigdata_portfolio_tearsheet` | One row per company. Then write a short read of the movers. |
 | News across a list of companies | `bigdata_watchlist_search` | Gives every name its share of results. A plain search lets the most-covered names crowd out the rest. |
 | Markets today: indexes, sectors, commodities, rates, currencies, crypto, factors | `bigdata_market_tearsheet` | One call covers all of it. |
 | One country's economy | `bigdata_country_tearsheet` | Growth, inflation, rates, indices, currency, and a G7 comparison. |
 | An ETF | `bigdata_etf_tearsheet` | Needs the ETF resolved first. |
-| What is coming up: earnings dates, conferences, IPOs, economic releases | `bigdata_events_calendar` | Company events and economic releases are two different calendars. |
+| What is coming up: earnings dates, conferences, IPOs, delistings, economic releases | `bigdata_events_calendar` | Company events and economic releases are two different calendars. The corporate calendar carries those four event types only: deal votes, court dates, regulatory deadlines and product events come from filings and news via search. |
 | Companies that match criteria the user describes | `bigdata_screen_companies` | Then use the portfolio tearsheet for current figures. |
-| Credit risk signals | `bigdata_get_credit_factor`, `bigdata_screen_credit_factor` | One company, or a ranking across many. |
+| Credit news signals | `bigdata_get_credit_factor`, `bigdata_screen_credit_factor` | The strongest positive and negative credit-news catalysts (event type, score, direction) for one company, or a ranking across many. No bond prices, yields, spreads or ratios. |
 | A calculation, a series, a chart | `bigdata_computer` | Compute rather than doing arithmetic by hand. |
 | The user's own documents and feeds | `bigdata_list_connectors`, `bigdata_list_tags`, `bigdata_list_documents` | Discover what they have, then search or read it. |
 | Which publications Bigdata.com covers | `bigdata_find_sources` | For "do you cover the FT?" and for source filters. |
@@ -80,7 +80,7 @@ Read it. Most errors name the argument that was wrong; fix it and retry once. If
 
 ## The company tearsheet in detail
 
-The company tearsheet is large. Ask for the sections the task needs with the tool's `sections` argument (its values are listed below), and split a full pull into two or three calls so no response is too big to use. The `interval` argument chooses five quarters (the default) or five fiscal years of statements; there is no period offset, so ten years of statements is not available from this tool.
+The company tearsheet is large. Ask for the sections the task needs with the tool's `sections` argument (its values are listed below), and split a full pull into two or three calls so no response is too big to use. The `interval` argument chooses five quarters (the default) or five fiscal years of statements; there is no period offset, so ten years of statements is not available from this tool. Pass `interval` annual whenever a step asks for fiscal years; the default returns quarters.
 
 | Section value | What it carries |
 |---|---|
@@ -89,9 +89,9 @@ The company tearsheet is large. Ask for the sections the task needs with the too
 | `financial_statements` | FactSet income statement, balance sheet and cash flow for five periods, with stock-based compensation split out, gross and net PP&E, goodwill and intangibles, invested capital, capex, buybacks, dividends |
 | `financial_ratios` | Gross margin, P/E, P/B, debt ratios, ROIC, ROE, cash conversion cycle, Altman Z, Piotroski (trailing twelve months) |
 | `key_metrics` | Market cap, enterprise value, EV/EBITDA, free cash flow yield, net debt (trailing twelve months) |
-| `analyst_estimates` | Consensus for sales, EBIT, EBITDA, EPS, free cash flow, capex and long-term growth, with the actual where reported, the surprise in percent, and the company's guidance (low, mid, high) where the company gives it |
+| `analyst_estimates` | Consensus for sales, EBIT, EBITDA, EPS, free cash flow, capex and long-term growth, with the actual where reported, the surprise in percent, and the company's guidance (low, mid, high) where the company gives it. A current snapshot with its vintage date: no history of consensus or targets. For "what changed" (30-day or 13-week revisions, the pre-event target), search research and news for the period, quote the document and its date, and label the figures as press or research summaries |
 | `analyst_ratings` | Rating counts and price targets (consensus, median, high, low) |
-| `latest_earnings` | The last reported quarter against consensus |
+| `latest_earnings` | The last reported quarter against consensus (one quarter; earlier quarters' surprises come from `analyst_estimates` actuals where given, or from search) |
 | `earnings_calendar` | The next earnings date |
 | `revenue_segmentation` | Revenue by product and by geography |
 | `fund_trends_history` | 13F holders, top buyers and sellers, position changes, options activity |
@@ -103,7 +103,8 @@ Rules that follow from the data:
 
 - Five periods come back per call, quarterly or annual by `interval`. For a ten-year view, use the annual statements and say in the Gaps line that the series stops at five years.
 - The FactSet ROIC field and a hand-built ROIC differ by definition (tax rate, goodwill, leases). Say which one the report quotes and never mix them in one table.
-- Not in Bigdata.com: a cost of capital or WACC, short interest, options data, intraday prices. State the cost of capital as an assumption with its basis and show a sensitivity. Say in the Gaps line when positioning data would have mattered.
+- Not in Bigdata.com: a cost of capital or WACC, short interest, option prices and implied volatility, intraday prices, bond prices and spreads. `fund_trends_history` carries institutional options activity as positioning, not prices. State the cost of capital as an assumption with its basis and show a sensitivity. Say in the Gaps line when positioning data would have mattered.
+- `company_overview` carries price changes over standard windows only. A move over a specific window (an event day, the week before a print) comes from `bigdata_computer` on the price series, and the index over the same window from the same tool.
 - Consensus has a vintage: the date in the estimates section. Quote it next to any consensus figure, with the number of estimates when given.
 - Price series and anything that needs more than a few steps of arithmetic go through `bigdata_computer`.
 

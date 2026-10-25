@@ -10,9 +10,9 @@ Comps and peer comparison, valuation snapshots and full valuations (as the cross
 
 | Input | Where in Bigdata.com | Basis |
 |---|---|---|
-| Market cap, EV, EV/EBITDA, P/E, FCF yield, net debt | `bigdata_company_tearsheet`, `financial_statements, financial_ratios, key_metrics` (key metrics), per peer | reported |
-| Statements: debt, cash and securities, minorities, leases, pensions, equity-method investments, attributable net income | `financial_statements, financial_ratios, key_metrics` | reported |
-| ROIC, ROE, margins, cash conversion | `financial_statements, financial_ratios, key_metrics` (ratios) | reported |
+| Market cap, EV, EV/EBITDA, P/E, FCF yield, net debt | `bigdata_company_tearsheet`, `financial_statements`, `financial_ratios`, `key_metrics` (key metrics), per peer | reported |
+| Statements: debt, cash and securities, minorities, leases, pensions, equity-method investments, attributable net income | `financial_statements`, `financial_ratios`, `key_metrics` | reported |
+| ROIC, ROE, margins, cash conversion | `financial_ratios` | reported |
 | Consensus sales, EBITDA, EBIT, EPS, FCF, long-term growth, with vintage | `analyst_estimates` | reported |
 | Peer candidates | `bigdata_screen_companies` on sector, size, growth, margin and return; peers named in filings | reported |
 | Current figures for a peer set | `bigdata_portfolio_tearsheet` | reported |
@@ -108,7 +108,7 @@ Dated benchmarks (verify; recompute from the current risk-free rate and implied 
 
 ## Sources
 
-- Notes: expectations-multiples-dcf.md (sections 1.3, 2.1 to 2.7, 5, 6); mckinsey-part1.md (chapters 10, 14, 15); mckinsey-part2.md (chapters 33, 35, 36, Appendix E); skill-market-structure.md (How Well Do You Compare); tam-leverage-profit-pools.md (5.3).
+- Notes: Mauboussin, Expectations Investing; Robinson and Weyns, UBS multiples and DCF papers (2017) (sections 1.3, 2.1 to 2.7, 5, 6); McKinsey, Valuation, 5th ed. (chapters 10, 14, 15); McKinsey, Valuation, 5th ed. (chapters 33, 35, 36, Appendix E); Mauboussin, Looking for Easy Games (2017) (How Well Do You Compare); Mauboussin, Total Addressable Market (2015), Operating Leverage (2016) and Global Industry Profit Pools (2016) (5.3).
 - Robinson, D. and Weyns, G., "How to analyse and talk the language of multiples", UBS, 16 Mar 2017, pp. 7-70 (cited as Multiples).
 - Mauboussin, M. and Callahan, D., "What Does a Price-Earnings Multiple Mean?", Credit Suisse, 29 Jan 2014, pp. 2-21 (cited as P/E).
 - Mauboussin, M. and Callahan, D., "Estimating the Cost of Capital", Credit Suisse, 2013, pp. 2-3.

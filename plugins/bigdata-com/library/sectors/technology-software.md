@@ -10,7 +10,7 @@ Software is a knowledge business in Mauboussin's terms: high upfront cost, low c
 - Gross margin: hosting, support and services costs. Subscription gross margin is commonly 70 to 85 percent (verify); services run near break-even.
 - Operating margin at scale: sales and marketing and R&D are the real investment, and both are expensed.
 - Reinvestment: little tangible capital, so growth is funded through the income statement, not the balance sheet.
-- Duration of advantage: switching costs (data, integration, training), network effects and de facto standards. These are the conditions under which returns can rise with scale rather than fade (roic-moat notes, Mauboussin 2014, pp.14-15).
+- Duration of advantage: switching costs (data, integration, training), network effects and de facto standards. These are the conditions under which returns can rise with scale rather than fade (Mauboussin, Calculating ROIC (2014) and Measuring the Moat (2016), Mauboussin 2014, pp.14-15).
 
 ## The metrics that matter
 
@@ -21,7 +21,7 @@ Software is a knowledge business in Mauboussin's terms: high upfront cost, low c
 | Gross revenue retention (GRR) | (Starting ARR - contraction - churn) / starting ARR | Stickiness with expansion removed; the cleaner test of switching costs |
 | Remaining performance obligations (RPO, cRPO) | Contracted revenue not yet recognized; current portion due within 12 months | Leads revenue; length of contracts changes it |
 | Billings | Revenue + change in deferred revenue | Demand signal, distorted by billing terms |
-| CAC payback | Sales and marketing cost to win a customer / (new ARR x gross margin), in months | Speed at which growth spending is recovered in cash |
+| CAC payback | 12 x sales and marketing cost to win a customer / (new ARR x gross margin), giving months | Speed at which growth spending is recovered in cash |
 | Rule of 40 | Revenue growth percent + FCF margin percent | Practitioner heuristic; not in the sources |
 | SBC / revenue | Stock-based compensation as a share of revenue | A real cost that adjusted margins exclude |
 
@@ -37,9 +37,9 @@ Prefer metrics that are persistent and predictive over popular ones (What Makes 
 - **Stock-based compensation.** Past awards add shares; future awards belong in the forecast. Do not count one award both as an expense and in the share count (UBS DCF2, 2017, p.17). Show margins and FCF with and without SBC.
 - **Billing terms.** Moving from monthly to annual billing raises deferred revenue with no change in economics; multi-year prepaid deals inflate RPO.
 - **Revenue recognition.** Upfront term licenses make quarters lumpy; gross versus net reporting changes EV/Sales (multiples notes 2.4).
-- **Excess cash and capitalized development.** Surplus cash left in capital depresses ROIC (use an operating cash allowance of about 2 to 5 percent of sales, roic-moat notes); a rising capitalized share of development cost flatters margin.
+- **Excess cash and capitalized development.** Surplus cash left in capital depresses ROIC (use an operating cash allowance of 2 percent of sales, 5 percent for less predictable companies, Mauboussin, Calculating ROIC (2014) and Measuring the Moat (2016)); a rising capitalized share of development cost flatters margin.
 - **Acquisitions.** Use EBITA and show ROIC with and without goodwill (McKinsey ch.26).
-- **Tax.** US tax amortization of R&D (from 2022) changes cash taxes; not in the sources, verify the current rule.
+- **Tax.** US tax treatment of R&D moved cash taxes twice: domestic R&D was amortised over five years for tax years 2022 to 2024, and the July 2025 tax act restored immediate expensing of domestic R&D from tax years beginning in 2025, with catch-up deductions for the unamortised balance; foreign R&D stays on 15-year amortisation. Read the company's cash-tax and deferred-tax notes for the year in question; not in the sources, verify.
 
 ## Profit pool and competitive dynamics
 

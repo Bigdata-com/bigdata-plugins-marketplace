@@ -10,18 +10,18 @@ bigdata-credit runs the whole method; bigdata-risk runs steps 2 to 8 and the dis
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Short- and long-term debt, notes payable, leases where reported, cash, current assets and liabilities, inventory, receivables, goodwill, PP&E, equity | `bigdata_company_tearsheet`, `financial_statements, financial_ratios, key_metrics`, five periods | reported |
-| EBIT, EBITDA, interest expense, CFO, capex, depreciation, FCF, dividends, buybacks | `financial_statements, financial_ratios, key_metrics` | reported |
-| Net debt, EV, market cap; Altman Z and Piotroski as FactSet computes them | `financial_statements, financial_ratios, key_metrics` key metrics and ratios | reported |
+| Short- and long-term debt, notes payable, leases where reported, cash, current assets and liabilities, inventory, receivables, goodwill, PP&E, equity | `bigdata_company_tearsheet`, `financial_statements`, `interval` annual, five fiscal years | reported |
+| EBIT, EBITDA, interest expense, CFO, capex, depreciation, FCF, dividends, buybacks | `financial_statements` | reported |
+| Net debt, EV, market cap; Altman Z and Piotroski as FactSet computes them | `key_metrics` and `financial_ratios` | reported |
 | Forward EBIT and EBITDA | `analyst_estimates`, to FY+4 | reported |
 | Rent expense, maturity schedule, credit agreement and covenants, rating actions, pension deficit, contingent liabilities, deconsolidated entities, related-party loans | `bigdata_search` over filings and news, then `bigdata_fetch_document` | reported |
-| Credit risk signals | `bigdata_get_credit_factor`, `bigdata_screen_credit_factor`; read the tool description for what they return | reported |
-| Bond prices, yields, spreads | Verify whether the credit-factor tools return them; otherwise not available | reported or not available |
+| Credit news signals | `bigdata_get_credit_factor`: the strongest positive and negative credit-news catalysts for the company (event type, score, direction) over a daily, weekly or monthly horizon; `bigdata_screen_credit_factor` ranks many companies the same way. Neither returns prices, yields, spreads or ratios | reported |
+| Bond prices, yields, spreads, rating-agency commentary, fixed-floating split, hedges | Not in a Bigdata.com data set. Quoted figures from news, research and the filing's debt note via `bigdata_search` and `bigdata_fetch_document`; otherwise state the gap | reported or not available |
 | Cost of debt, size of the stress shock, scenario enterprise values | Chosen and stated | assumed |
 
 ## Procedure
 
-1. **Fix the claim.** Name the security (senior secured, senior unsecured, subordinated, preferred, common) and the legal entity that owes it. Holding-company debt can default while operating subsidiaries carry on, and debt at the operating subsidiary causes more disruption (Klarman, Margin of Safety, ch. 12). Done when the obligor and the claim's rank are named.
+1. **Fix the claim.** Name the security (senior secured, senior unsecured, subordinated, preferred, common) and the legal entity that owes it. Holding-company debt can default while operating subsidiaries carry on, and debt at the operating subsidiary causes more disruption (Klarman, Margin of Safety, ch. 12). From the filing's debt and guarantor notes, record which subsidiaries guarantee the claim, what share of EBITDA and assets sits outside the guarantor group, the collateral, and any covenant baskets that let assets or collateral move away from existing lenders (drop-down and non-pro-rata uptier transactions; not in the sources, standard practice since 2016). Done when the obligor, the claim's rank, the guarantor coverage and the baskets are named.
 2. **Judge the stability of the business.** A stable record is not proof of a stable business: Studebaker preferred with dividend coverage of 26 times was less safe than First National Stores at 6 times, because grocery demand, many locations and fast inventory turns made the grocer's earnings dependable (Security Analysis p. 86-88). Done when the five-year EBITDA range, the sector volatility from table 3 and a judgment on what drives the variability are written.
 3. **Compute leverage and coverage** with formulas 1 to 5, all on the same period. Use total interest, never cash interest only. Done when each ratio shows numerator, denominator and period.
 4. **Place the company against the rating tables.** Read coverage and debt / capital against table 1 and the McKinsey coverage rule in table 2. Done when the implied rating bucket is stated, labelled derived, next to the actual rating if a source gives it.
@@ -40,6 +40,7 @@ bigdata-credit runs the whole method; bigdata-risk runs steps 2 to 8 and the dis
 4. Market-adjusted debt ratio = market value of common stock / funded debt, a leading margin-of-safety test (Marks, Security Analysis p. 138). Debt / tangible assets above 1 is a warning (Klarman ch. 4). Book solvency ratios such as debt / book equity are the least useful measure (McKinsey p. 500).
 5. Leverage identity: ROE = ROIC + (D / E) x [ROIC - (1 - T) x kd]. More debt raises ROE and its sensitivity to ROIC, which is risk (McKinsey ch. 8, p. 182-184).
 6. Stressed coverage = EBIT x (1 - s) / interest, with s the assumed shock. In McKinsey's example a single-A target needed EBIT / interest of about 9.5 and coverage had to stay at or above 7.5 after a 20% EBIT drop (ch. 23, p. 510-517; illustrative).
+7. Refinancing stress (not in the sources; standard agency practice): re-price every maturity within 24 months, and the floating-rate share of the rest, at the current yield for the rating (a quoted figure from news or research, labelled assumed when none is quoted); recompute interest, coverage and FCF / debt with the new interest bill, alone and combined with the EBIT shock in formula 6. State the fixed-floating split and the hedges from the debt note.
 7. Free cash flow = after-tax earnings + depreciation and amortisation - capex (Klarman ch. 4), or CFO - capex - SBC.
 8. Current ratio = current assets / current liabilities; quick ratio = (current assets - inventory) / current liabilities.
 9. Recovery of layer i in scenario s: R_i = min(1, max(0, (EV_s - claims senior to i) / claim_i)). Equity_s = max(EV_s - total claims, 0); probability-weight across scenarios. With EV of 1,500 or 900 at 50/50 and debt of 1,200, equity is worth 150 (McKinsey ch. 12, p. 282-290). Use face value of debt, not the market value of distressed debt.
@@ -59,7 +60,7 @@ bigdata-credit runs the whole method; bigdata-risk runs steps 2 to 8 and the dis
 | One-year median default (%) | 0.00 | 0.00 | 0.00 | 0.12 | 0.71 | 3.46 |
 | Companies in sample | 4 | 15 | 94 | 233 | 253 | 266 |
 
-**Table 2. Five-year default probability and coverage rules** (McKinsey, Valuation, 5th ed., ch. 23, ex. 23.4, p. 499; S&P, defaults within five years, 1981-2003; verify)
+**Table 2. Five-year default probability and coverage rules** (McKinsey, Valuation, 5th ed., ch. 23, ex. 23.4, p. 499; S&P, defaults within five years, 1981-2003; an older cohort, quoted for the order of magnitude: later S&P studies show lower cumulative rates for BB and B; verify against the latest S&P annual default study before quoting)
 
 | Rating | AAA | AA | A | BBB | BB | B | CCC |
 |---|---|---|---|---|---|---|---|
@@ -68,6 +69,19 @@ bigdata-credit runs the whole method; bigdata-risk runs steps 2 to 8 and the dis
 - EBITA / interest of about 5 to 11 corresponds to A+ to BBB-, where 72% of large US and European companies sat (p. 494-497).
 - Coverage alone explains about 45% of rating differences (R-squared 0.45, ex. 23.5, p. 501). Size matters at the extremes: every AAA company had a market cap above $50 billion (p. 500).
 - Enterprise value barely changes with coverage except below 2, and too much debt costs far more than too little (ex. 23.3).
+
+**Table 3. Rating-agency cash-flow and leverage ranges** (S&P Global Ratings, Corporate Methodology, 19 Nov 2013, cash flow/leverage assessment, standard-volatility table; not in the resources folder; these are the agency's core ratios since 2013 and the ones a credit analyst quotes; verify against the current criteria)
+
+| Assessment | FFO / debt (%) | Debt / EBITDA (x) |
+|---|---|---|
+| Minimal | above 60 | below 1.5 |
+| Modest | 45 to 60 | 1.5 to 2 |
+| Intermediate | 30 to 45 | 2 to 3 |
+| Significant | 20 to 30 | 3 to 4 |
+| Aggressive | 12 to 20 | 4 to 5 |
+| Highly leveraged | below 12 | above 5 |
+
+FFO = EBITDA - cash interest - cash taxes (derived from the statements). Debt is adjusted: reported debt + lease liabilities + unfunded pensions - surplus cash. Place the company on table 3 first, then on table 1 as the cross-check, and say when the two disagree.
 - Spreads jump below BBB- because many institutions cannot hold sub-investment-grade debt (p. 502-503).
 - Home Depot 2008 EBITA / interest 7.0 times against Lowe's 11.8 times, rated BBB+ and A+ (ch. 8, p. 182-184).
 
@@ -108,7 +122,7 @@ bigdata-credit runs the whole method; bigdata-risk runs steps 2 to 8 and the dis
 ## Not in the sources
 
 - Not in the sources: an Altman Z method or cutoffs; quote the FactSet field as reported.
-- Not in the sources: thresholds for net debt / EBITDA or FCF / debt, and net debt / EBITDA medians by rating.
+- Not in the sources: net debt / EBITDA medians by rating from the folder's own texts; table 3 carries the agency's published ranges from outside the folder, and the skill says so when it quotes them.
 - Not in the sources: recovery rates by seniority; state scenario enterprise values instead.
 - Not in the sources: a maturity-wall standard beyond "debt due soon"; the 24-month window is a skill choice.
 - Not in the sources: Graham and Dodd's minimum coverage by type of security (those chapters are on the book's CD, not in the text).
@@ -118,7 +132,7 @@ bigdata-credit runs the whole method; bigdata-risk runs steps 2 to 8 and the dis
 
 ## Sources
 
-- Notes: security-analysis.md (Marks, Lowenstein, Klarman preface, Berkowitz, Greenwald, Merkin; ch. 2, 37, 40, 45, 51); klarman.md (ch. 4, 7, 12); mckinsey-part1.md (ch. 7, 8, 12); mckinsey-part2.md (ch. 23, 29, 36); tam-leverage-profit-pools.md (section 2.6); base-rates.md (section 2.8).
+- Notes: Graham and Dodd, Security Analysis, 6th ed. (Marks, Lowenstein, Klarman preface, Berkowitz, Greenwald, Merkin; ch. 2, 37, 40, 45, 51); Klarman, Margin of Safety (ch. 4, 7, 12); McKinsey, Valuation, 5th ed. (ch. 7, 8, 12); McKinsey, Valuation, 5th ed. (ch. 23, 29, 36); Mauboussin, Total Addressable Market (2015), Operating Leverage (2016) and Global Industry Profit Pools (2016) (section 2.6); base-rates.md (section 2.8).
 - Graham and Dodd, Security Analysis, 6th ed. (2009): p. xxviii, 85-88, 90, 128-140, 274, 346, 480-481, 508-512, 545-547, 591-597, 688-690.
 - Klarman, Margin of Safety (1991): ch. 4, 7, 12.
 - McKinsey, Valuation, 5th ed. (2010): ch. 7 p. 145; ch. 8 p. 182-184; ch. 12 p. 282-290; ch. 23 p. 489-524; ch. 29 p. 610-611; ch. 36.

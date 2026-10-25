@@ -18,7 +18,7 @@ Not all NII creates value. A bank that funds long-term loans with short-term dep
 
 | Metric | Definition | Why it matters | Indicative range, large developed-market banks (judgment, verify) |
 |---|---|---|---|
-| Net interest margin (NIM) | NII / average earning assets | Spread on the balance sheet | about 1.5% to 3.5%; US banks usually above euro-area and Japanese banks |
+| Net interest margin (NIM) | NII / average earning assets | Spread on the balance sheet | about 1.5% to 3.5% for US and most European banks; Japanese megabanks run below 1%, so compare within a market |
 | Pre-provision net revenue (PPNR) | NII + noninterest income - noninterest expense | Earning power before credit costs | compare across the cycle, not as a level |
 | Efficiency ratio | noninterest expense / (NII + noninterest income) | Cost discipline and scale | about 50% to 70% |
 | Provision ratio | provision for credit losses / average loans | Management's forward loss estimate | read against charge-offs |
@@ -28,6 +28,10 @@ Not all NII creates value. A bank that funds long-term loans with short-term dep
 | ROTCE | net income to common / average tangible common equity | The return that drives price to tangible book | about 8% to 18% across a cycle |
 | Loan-to-deposit ratio | loans / deposits | Funding stability | above about 100% means reliance on wholesale funding |
 | Deposit beta | change in deposit cost / change in policy rate | How much of a rate move the bank keeps | rises late in a hiking cycle |
+| Uninsured deposit share | deposits above the insurance limit / total deposits | Run risk: uninsured balances leave first (the 2023 US regional failures ran above 80%) | judgment, not in the sources: above about 50% needs a liquidity story |
+| Liquidity coverage ratio (LCR) and net stable funding ratio (NSFR) | high-quality liquid assets / 30-day net outflows; available / required stable funding | Regulatory liquidity floors; a thin cushion limits balance-sheet growth and payouts | both at least 100% where required; large banks usually report 110% to 140% LCR (not in the sources, verify) |
+| Unrealised securities losses / CET1 | AOCI and held-to-maturity marks against tangible common equity | Capital that disappears if securities must be sold | judgment, not in the sources: above about 30% of CET1 was the 2023 warning level |
+| CRE concentration | commercial real estate loans / total risk-based capital | Concentration the US supervisors screen for | US supervisory screen: above 300%, or 100% for construction, draws scrutiny (not in the sources, verify) |
 
 Most of these sit in the earnings release, supplement and capital disclosures, not the tearsheet ratios; get them with `bigdata_search` and `bigdata_fetch_document`.
 

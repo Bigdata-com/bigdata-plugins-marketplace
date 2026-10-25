@@ -10,9 +10,9 @@ Load it next to any growth, margin or return claim: earnings preview, valuation,
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Prior-year sales (sets the size class), sales and net income history | `bigdata_company_tearsheet`, `financial_statements, financial_ratios, key_metrics`, five fiscal periods | reported |
-| Gross profitability = (revenue - cost of goods sold) / total assets | `financial_statements, financial_ratios, key_metrics` income statement and balance sheet | derived |
-| Operating margin, ROIC | `financial_statements, financial_ratios, key_metrics` ratios and statements | reported or derived |
+| Prior-year sales (sets the size class), sales and net income history | `bigdata_company_tearsheet`, `financial_statements`, five fiscal years (`interval` annual) | reported |
+| Gross profitability = (revenue - cost of goods sold) / total assets | `financial_statements` income statement and balance sheet | derived |
+| Operating margin, ROIC | `financial_ratios` and `financial_statements` | reported or derived |
 | Sector | `company_overview` | reported |
 | Consensus growth, margin, EPS to FY+4, long-term growth | `analyst_estimates`, with vintage | reported |
 | Expected inflation | Not in Bigdata.com company fields; state it as an assumption with its basis | assumed |

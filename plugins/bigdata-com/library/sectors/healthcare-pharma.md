@@ -31,7 +31,7 @@ Forecasts of peak sales are wide: in a McKinsey study of more than 1,700 analyst
 
 ## What the statements do differently and the accounting traps
 
-- **R&D is expensed**, so reported ROIC overstates returns. McKinsey's PharmaCo: ROIC 42 percent with R&D expensed, about 13 percent with R&D capitalized over 8 years, against a 15 percent cost of capital (ch.28). Damodaran uses about a 10-year life for pharma. Capitalizing raises ROIC for fast-growing R&D spenders with a long lag (biotech) and lowers it for mature firms with level R&D (Amgen 2006: 15.7 percent unadjusted, 18.8 percent adjusted; roic-moat notes).
+- **R&D is expensed**, so reported ROIC overstates returns. McKinsey's PharmaCo: ROIC 42 percent with R&D expensed, about 13 percent with R&D capitalized over 8 years, against a 15 percent cost of capital (ch.28). Damodaran uses about a 10-year life for pharma. Capitalizing raises ROIC for fast-growing R&D spenders with a long lag (biotech) and lowers it for mature firms with level R&D (Amgen 2006: 15.7 percent unadjusted, 18.8 percent adjusted; Mauboussin, Calculating ROIC (2014) and Measuring the Moat (2016)).
 - **Acquired in-process R&D** is capitalized in a business combination but expensed in an asset purchase under US GAAP (verify current rules); the same deal can hit earnings or the balance sheet depending on structure.
 - **Adjusted EPS** excludes acquired-intangible amortization, which is reasonable (use EBITA), but also restructuring, litigation and milestone charges that recur. Count how many of the last five years carried them (McKinsey ch.26).
 - **Gross-to-net accruals** (rebates, chargebacks, government programs) are estimates; true-ups move revenue between quarters.

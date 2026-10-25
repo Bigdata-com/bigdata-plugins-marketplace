@@ -10,9 +10,9 @@ Whenever a report states a return on capital, a spread, a moat or a fade assumpt
 
 | Input | Where in Bigdata.com | Basis |
 |---|---|---|
-| Revenue, EBIT, amortization of acquired intangibles, pretax income, tax expense, interest expense and income, non-operating income, R&D | `bigdata_company_tearsheet`, section `financial_statements, financial_ratios, key_metrics` (income statement), five fiscal periods per call | reported |
-| Receivables, inventory, prepaid, payables, accruals, deferred revenue, net and gross PP&E, goodwill and intangibles, cash and securities, debt, lease liabilities where reported, equity, minority interest, invested capital field | `financial_statements, financial_ratios, key_metrics` (balance sheet) | reported |
-| FactSet ROIC, margins, cash conversion cycle | `financial_statements, financial_ratios, key_metrics` (ratios) | reported |
+| Revenue, EBIT, amortization of acquired intangibles, pretax income, tax expense, interest expense and income, non-operating income, R&D | `bigdata_company_tearsheet`, section `financial_statements`, `financial_ratios`, `key_metrics` (income statement), five fiscal periods per call | reported |
+| Receivables, inventory, prepaid, payables, accruals, deferred revenue, net and gross PP&E, goodwill and intangibles, cash and securities, debt, lease liabilities where reported, equity, minority interest, invested capital field | `financial_statements`, `financial_ratios`, `key_metrics` (balance sheet) | reported |
+| FactSet ROIC, margins, cash conversion cycle | `financial_ratios` | reported |
 | Revenue by segment | `revenue_segmentation` (revenue only, no segment capital) | reported |
 | Tax reconciliation, lease note, deferred tax note, R&D, restructuring and impairment history, segment assets | `bigdata_search` on filings, then `bigdata_fetch_document` for the note | reported |
 | Risk-free rate, equity risk premium, beta, credit spread, target weights | Not in Bigdata.com. Beta can be computed with `bigdata_computer` where it returns a price series; otherwise cite an industry beta | assumed |
@@ -31,7 +31,7 @@ For a ten-year series request earlier periods if the tool allows it; otherwise w
 8. **Treat leases.** State whether the statements capitalize leases (ASC 842 and IFRS 16 put most leases on balance sheet from 2019; verify for the company and the period). If capitalized, add the implied interest (prior-year lease liability x pre-tax cost of secured debt) to EBITA and keep the liability in capital and in debt. For earlier periods, estimate the leased asset with the formula below. The WACC debt weight changes too. Done when ROIC is shown before and after.
 9. **Capitalize R&D when it is material.** Advertising or customer acquisition only with evidence of a multi-year benefit (Damodaran 2007, pp. 27-28). Choose an amortizable life (pharma about 10 years, software short), build the research asset, replace R&D expense with amortization in EBITA and add the asset to capital. Operating taxes do not change because R&D is deductible in full (McKinsey ch. 28). Say so if the R&D history is shorter than the life. Done when the life and the adjusted ROIC are shown.
 10. **Compute and decompose.** Headline ROIC on average of opening and closing capital (McKinsey ch. 8); show the opening-capital variant (Damodaran 2007, p. 7). Decompose into (1 - operating tax rate) x EBITA margin x capital turnover over five to ten years, with working capital in days. High margin points to a consumer advantage, high turnover to a production advantage (Mauboussin and Callahan 2014, pp. 12-14). Segment ROIC needs segment assets from the filing. Done when the series and the decomposition are tabled.
-11. **Compute ROIIC, the cost of capital and the spread.** ROIIC over one, three and five years. WACC from the build in `references/valuation.md`, shown as prevailing and normalized, each labelled (Mauboussin and Callahan 2013, Cost of Capital, pp. 22-25). Economic profit in currency. Done when spread and economic profit sit next to ROIC for every year.
+11. **Compute ROIIC, the cost of capital and the spread.** ROIIC for each year and as a three-year rolling average (five annual periods allow no longer window; say so in Gaps). WACC from the build in `references/valuation.md`, shown as prevailing and normalized, each labelled (Mauboussin and Callahan 2013, Cost of Capital, pp. 22-25). Economic profit in currency. Done when spread and economic profit sit next to ROIC for every year.
 12. **Set the reversion path** with the fade table and persistence figures below, and give the reason from the competitive evidence in `references/industry-structure.md`. Done when the path names a starting spread, years, an endpoint and the reason.
 
 ## Formulas
@@ -121,7 +121,7 @@ Near-term length follows the advantage's explicit life (a patent with six years 
 
 - Two tests for advantage: ROIC above the cost of capital and above peers, over a full cycle (Mauboussin and Callahan 2014, pp. 12-14). Value needs the spread and the capital deployed at it, so judge economic profit, not ROIC alone.
 - Show ROIC, ROIIC and RONIC for every forecast year. Forecast ROIC stays near today's level, trends to the industry median, or trends to WACC, with a stated reason (McKinsey ch. 9). Fading a top-quintile company to WACC is usually too conservative given the transition table; a recovery for a low-ROIC company needs a specific cause.
-- Never compare ROIIC with WACC; a high ROIIC can be operating leverage. Use it to spot change: Dell's average ROIC stayed high while marginal returns swung widely (Damodaran 2007, p. 51).
+- Do not read a single year's ROIIC against WACC as evidence of advantage: one-year ROIIC is noisy and a high reading can be operating leverage (Calculating ROIC, 2014, p. 13; Damodaran 2007, p. 51). The value-trigger test in `references/expectations.md` uses a three-year rolling ROIIC, labelled as such. Use the yearly series to spot change: Dell's average ROIC stayed high while marginal returns swung widely (Damodaran 2007, p. 51).
 - Flag ROIC lifted by write-offs that shrink capital (a $10bn asset earning $0.5bn is 5 percent; write off half and it reads 10 percent; Damodaran 2007, pp. 37-39). Buybacks lift ROE, not ROIC.
 - Flag any jump in capital turnover and any forecast that implies negative capex (McKinsey ch. 9, 13).
 - Never put the FactSet ROIC field and a hand-built ROIC in one comparison; name which one each line quotes. Apply identical adjustments to every peer.
@@ -143,7 +143,7 @@ Near-term length follows the advantage's explicit life (a patent with six years 
 
 ## Sources
 
-- Notes: roic-moat.md (papers A to D, Parts 3 and 4); mckinsey-part1.md (chapters 2, 4, 6 to 11, sections 3 and 4); mckinsey-part2.md (chapters 25, 27, 28); base-rates.md (1.4, 2.7).
+- Notes: Mauboussin, Calculating ROIC (2014) and Measuring the Moat (2016) (papers A to D, Parts 3 and 4); McKinsey, Valuation, 5th ed. (chapters 2, 4, 6 to 11, sections 3 and 4); McKinsey, Valuation, 5th ed. (chapters 25, 27, 28); base-rates.md (1.4, 2.7).
 - Damodaran, A., "Return on Capital (ROC), Return on Invested Capital (ROIC) and Return on Equity (ROE): Measurement and Implications", July 2007, pp. 3-65.
 - Mauboussin, M. and Callahan, D., "Calculating Return on Invested Capital", Credit Suisse, 4 June 2014, pp. 1-15.
 - Mauboussin, M. and Callahan, D., "Estimating the Cost of Capital", Credit Suisse, 8 Oct 2013, pp. 2-34.

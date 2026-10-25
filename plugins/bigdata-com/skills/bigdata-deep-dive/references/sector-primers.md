@@ -1,6 +1,6 @@
 # Sector primers
 
-Read the section for the company's sector before analysing; skip the rest. Every figure is a range with its source and a (verify) mark, never a current fact.
+One section per sector, each about 100 lines. Read only the section for the company's sector: find its start with `grep -n '^## .*(<slug>)' references/sector-primers.md` using the slug from the list below, then read from that line to the next line that starts with `## `. Every figure is a range with its source and period, historical rather than current; the (verify) marks are working notes and do not appear in a deliverable.
 
 - Technology: software (`technology-software`)
 - Technology: semiconductors and hardware (`semiconductors-and-hardware`)
@@ -15,11 +15,11 @@ Read the section for the company's sector before analysing; skip the rest. Every
 - Communication services (`communication-services`)
 - Utilities (`utilities`)
 
-## Technology: software
+## Technology: software (technology-software)
 
 Scope: application and infrastructure software sold as subscriptions, licenses, usage or transactions. Hardware and semiconductors have their own primer; consumer internet platforms sit in communication services. A figure marked "(verify)" is a judgment or dated: check it against the peer set and period before use.
 
-## How the sector makes money and the value drivers
+### How the sector makes money and the value drivers
 
 Software is a knowledge business in Mauboussin's terms: high upfront cost, low cost per extra unit, no direct link between sales and costs, and an advantage that is hard to protect without lock-in or network effects (Total Addressable Market, 2015, pp.20, 23). The value drivers:
 
@@ -27,9 +27,9 @@ Software is a knowledge business in Mauboussin's terms: high upfront cost, low c
 - Gross margin: hosting, support and services costs. Subscription gross margin is commonly 70 to 85 percent (verify); services run near break-even.
 - Operating margin at scale: sales and marketing and R&D are the real investment, and both are expensed.
 - Reinvestment: little tangible capital, so growth is funded through the income statement, not the balance sheet.
-- Duration of advantage: switching costs (data, integration, training), network effects and de facto standards. These are the conditions under which returns can rise with scale rather than fade (roic-moat notes, Mauboussin 2014, pp.14-15).
+- Duration of advantage: switching costs (data, integration, training), network effects and de facto standards. These are the conditions under which returns can rise with scale rather than fade (Mauboussin, Calculating ROIC (2014) and Measuring the Moat (2016), Mauboussin 2014, pp.14-15).
 
-## The metrics that matter
+### The metrics that matter
 
 | Metric | Definition | Why it matters |
 |---|---|---|
@@ -38,7 +38,7 @@ Software is a knowledge business in Mauboussin's terms: high upfront cost, low c
 | Gross revenue retention (GRR) | (Starting ARR - contraction - churn) / starting ARR | Stickiness with expansion removed; the cleaner test of switching costs |
 | Remaining performance obligations (RPO, cRPO) | Contracted revenue not yet recognized; current portion due within 12 months | Leads revenue; length of contracts changes it |
 | Billings | Revenue + change in deferred revenue | Demand signal, distorted by billing terms |
-| CAC payback | Sales and marketing cost to win a customer / (new ARR x gross margin), in months | Speed at which growth spending is recovered in cash |
+| CAC payback | 12 x sales and marketing cost to win a customer / (new ARR x gross margin), giving months | Speed at which growth spending is recovered in cash |
 | Rule of 40 | Revenue growth percent + FCF margin percent | Practitioner heuristic; not in the sources |
 | SBC / revenue | Stock-based compensation as a share of revenue | A real cost that adjusted margins exclude |
 
@@ -46,7 +46,7 @@ Practitioner ranges (judgment, not in the sources, verify): NRR of about 100 to 
 
 Prefer metrics that are persistent and predictive over popular ones (What Makes for a Useful Statistic, 2016): gross profitability and operating margin persist year to year; one-year sales growth does not (base-rates.md 2.5, 2.6).
 
-## What the statements do differently and the accounting traps
+### What the statements do differently and the accounting traps
 
 - **Expensed investment overstates ROIC.** R&D and customer acquisition are expensed, so invested capital is understated. McKinsey's Adobe example: ROIC excluding goodwill with R&D expensed ranged from 221 to 12,708 percent; with R&D capitalized it was about 40 percent and stable (Valuation, 5th ed., 2010, ch.28). Capitalize R&D with a short life (Damodaran: software short; judgment 3 to 5 years, verify) before comparing returns. Free cash flow does not change.
 - **Negative invested capital.** Deferred revenue is an operating liability netted against operating assets. In a subscription business it can push invested capital below zero and make ROIC infinite and meaningless (McKinsey ch.34). Say so and use economic profit or cash returns instead.
@@ -54,11 +54,11 @@ Prefer metrics that are persistent and predictive over popular ones (What Makes 
 - **Stock-based compensation.** Past awards add shares; future awards belong in the forecast. Do not count one award both as an expense and in the share count (UBS DCF2, 2017, p.17). Show margins and FCF with and without SBC.
 - **Billing terms.** Moving from monthly to annual billing raises deferred revenue with no change in economics; multi-year prepaid deals inflate RPO.
 - **Revenue recognition.** Upfront term licenses make quarters lumpy; gross versus net reporting changes EV/Sales (multiples notes 2.4).
-- **Excess cash and capitalized development.** Surplus cash left in capital depresses ROIC (use an operating cash allowance of about 2 to 5 percent of sales, roic-moat notes); a rising capitalized share of development cost flatters margin.
+- **Excess cash and capitalized development.** Surplus cash left in capital depresses ROIC (use an operating cash allowance of 2 percent of sales, 5 percent for less predictable companies, Mauboussin, Calculating ROIC (2014) and Measuring the Moat (2016)); a rising capitalized share of development cost flatters margin.
 - **Acquisitions.** Use EBITA and show ROIC with and without goodwill (McKinsey ch.26).
-- **Tax.** US tax amortization of R&D (from 2022) changes cash taxes; not in the sources, verify the current rule.
+- **Tax.** US tax treatment of R&D moved cash taxes twice: domestic R&D was amortised over five years for tax years 2022 to 2024, and the July 2025 tax act restored immediate expensing of domestic R&D from tax years beginning in 2025, with catch-up deductions for the unamortised balance; foreign R&D stays on 15-year amortisation. Read the company's cash-tax and deferred-tax notes for the year in question; not in the sources, verify.
 
-## Profit pool and competitive dynamics
+### Profit pool and competitive dynamics
 
 HOLT's profit-pool study (data June 2016, verify) counted 770 listed software firms with a four-firm revenue ratio of 39.3 percent, just under the 40 percent line that marks a competitive industry. The top ten's share of industry invested capital rose from 49 percent (2005) to 55 percent (2010) and 61 percent (2015); in internet software and services it rose from 47 to 71 percent. IT consulting moved the other way (44 to 35 percent). Value has been migrating to the leaders.
 
@@ -71,7 +71,7 @@ The dynamics behind that:
 - **Industry is not destiny.** Every industry holds value creators and destroyers (Profit Pools 2016, p.2). Explain the dispersion inside the peer set.
 - **Peer sets are survivor-biased.** Growth companies stay private longer and acquired names drop out of screens (Shrinking Universe, 2017). Build the map and pool with `references/industry-structure.md`.
 
-## Persistence and fade
+### Persistence and fade
 
 Historical base rates, not current facts (verify against current data). The sample pools software with hardware and semiconductors under "Information technology"; software-only rates are not in the sources.
 
@@ -86,7 +86,7 @@ Historical base rates, not current facts (verify against current data). The samp
 
 Reading: at a four-year r near 0.5, about half of a company's excess CFROI over the sector mean is gone after four to five years, faster than in consumer and health care (Base Rate Book, 2016). The high operating margin beta means larger forecast misses, so widen ranges. McKinsey lists software among industries with high, persistent median ROIC (ch.4, 1965-2007, verify): the mean is high even as individual spreads fade. For any growth claim, place it in the size-and-horizon class from `references/base-rates.md`: for companies with $4.5 to 7bn of sales, a 10-year real sales CAGR of 15 percent or more occurred in 4.2 percent of cases (1950-2015).
 
-## Valuation conventions and their pitfalls
+### Valuation conventions and their pitfalls
 
 - **High growth** (organic growth above 15 percent a year): use a scenario DCF that starts from a steady state 10 to 15 years out. Size the addressable market at returns above the cost of capital, cap share with a saturated early market, take long-run margins from mature analogues (medians, not means), work back to today and weight the scenarios with base rates (McKinsey ch.34; `references/valuation.md`).
 - **EV/Sales or EV/ARR** only when profits are negative or unrepresentative. Since EV/Sales = EV/EBITA x EBITA margin, state the long-run margin the multiple implies.
@@ -95,7 +95,7 @@ Reading: at a four-year r near 0.5, about half of a company's excess CFROI over 
 - Rule-of-40 premiums and EV/ARR bands by growth rate have no source; if used, build them from a live regression on the current peer set.
 - Check that the implied terminal multiple is below today's; reverse-engineer the price to the implied growth and competitive advantage period with `references/expectations.md` before stating a view.
 
-## Questions a specialist asks on the earnings call
+### Questions a specialist asks on the earnings call
 
 1. What were NRR and GRR, and did the cohort definition change?
 2. How much of net new ARR came from price increases, seat growth, usage and new logos?
@@ -106,7 +106,7 @@ Reading: at a four-year r near 0.5, about half of a company's excess CFROI over 
 7. Where is gross margin heading as hosting and AI inference costs rise, and who bears them?
 8. Which competitors appear in lost deals, and is any entrant pricing below you?
 
-## What to watch at the macro level
+### What to watch at the macro level
 
 - Enterprise IT budgets and hiring: seat-based pricing tracks customer employment.
 - Interest rates: long-duration cash flows make value sensitive to the discount rate (judgment).
@@ -115,11 +115,11 @@ Reading: at a four-year r near 0.5, about half of a company's excess CFROI over 
 - Regulation: privacy, data residency, antitrust on bundling, AI rules (verify per market).
 - Sales growth tracks GDP only moderately (r 0.55, 1950-2014), so macro-driven forecasts are weaker here than for industrials (Operating Leverage, 2016).
 
-## Technology: semiconductors and hardware
+## Technology: semiconductors and hardware (semiconductors-and-hardware)
 
 Scope: chip designers (fabless), integrated manufacturers, foundries, memory, semiconductor equipment and materials, and hardware makers (computers, storage, networking and communications equipment, devices). A figure marked "(verify)" is a judgment or dated: check it against the peer set and period before use.
 
-## How the sector makes money and the value drivers
+### How the sector makes money and the value drivers
 
 These are physical businesses with heavy preproduction cost: fabs, process development and chip design are paid before the first unit ships. Value comes from:
 
@@ -129,7 +129,7 @@ These are physical businesses with heavy preproduction cost: fabs, process devel
 - **Capital intensity and reinvestment.** Leading-edge capacity and tools are expensive and arrive in large blocks; fabless designers carry R&D but little fixed capital.
 - **Product cycles and design wins.** A win in a customer's platform sets revenue for its life; a missed node or generation is hard to recover.
 
-## The metrics that matter
+### The metrics that matter
 
 | Metric | Definition | Why it matters |
 |---|---|---|
@@ -145,17 +145,17 @@ These are physical businesses with heavy preproduction cost: fabs, process devel
 
 Typical ranges (judgment, not in the sources, verify): R&D at about 10 to 25 percent of revenue for designers and equipment makers; capex above 30 percent of revenue for leading foundries and memory makers in heavy years; gross margin from about 30 to 40 percent for hardware assemblers to above 60 percent for leading designers.
 
-## What the statements do differently and the accounting traps
+### What the statements do differently and the accounting traps
 
 - **Inventory.** Write-downs reverse into margin when written-down units sell; check reserve releases in recovery quarters. Rising inventory with flat sales is the first warning.
 - **Depreciation lives.** Fab equipment lives (judgment, about 5 to 7 years, verify) set reported margin; a change in useful life moves earnings with no cash effect. Compare depreciation with capex.
 - **Underutilization charges.** Some companies expense idle capacity outside COGS or call it one-time; count how often it recurs.
-- **Expensed R&D** overstates ROIC for designers. Capitalize it to compare designers with manufacturers on the same basis (McKinsey ch.28; Damodaran's research-asset method in roic-moat notes).
+- **Expensed R&D** overstates ROIC for designers. Capitalize it to compare designers with manufacturers on the same basis (McKinsey ch.28; Damodaran's research-asset method in Mauboussin, Calculating ROIC (2014) and Measuring the Moat (2016)).
 - **Customer prepayments, take-or-pay deals and government grants** reduce reported capex or appear as liabilities; read the cash flow statement and notes (subsidy programs vary by country, verify).
 - **Revenue recognition for systems.** Equipment revenue may be split between shipment and acceptance; hardware bundles with services or software defer part of the price.
 - **Acquisitions.** The industry consolidates through large deals; use EBITA, show ROIC with and without goodwill, and haircut revenue synergies (nearly half of acquirers realize under 70 percent of target, McKinsey ch.21, verify).
 
-## Profit pool and competitive dynamics
+### Profit pool and competitive dynamics
 
 - **Cyclical returns.** McKinsey lists semiconductors among cyclical industries, with chemicals, oil and gas and metals (ch.4, median ROIC 1965-2007, verify). Supply drives the cycle: capacity is added when returns are high and arrives in large blocks, and utilization and returns fall about two years later (the commodity chemicals pattern, McKinsey ch.35). Memory is the clearest case.
 - **Capacity races.** Each firm gains from adding capacity alone; when all add, the payoff is lowest (a prisoner's dilemma, Measuring the Moat). Watch announced capex across the whole industry, not one firm.
@@ -166,7 +166,7 @@ Typical ranges (judgment, not in the sources, verify): R&D at about 10 to 25 per
 - **Sources of advantage.** Production advantages (process know-how, scale in fabs and tools, learning curve) show as lower gross margin and high asset turnover; design and ecosystem advantages (software stacks, standards, switching costs for developers) show as high gross margin (Measuring the Moat, pp.34-41).
 - **Modularization.** When components standardize, the industry shifts from integrated to horizontal and value moves to the bottleneck layer (computers 1980 against 1995).
 
-## Persistence and fade
+### Persistence and fade
 
 Historical base rates, not current facts (verify against current data). Semiconductors and hardware are pooled with software under "Information technology"; sub-industry rates are not in the sources.
 
@@ -181,7 +181,7 @@ Historical base rates, not current facts (verify against current data). Semicond
 
 Reading: technology returns fade fast, and the operating margin beta is close to materials, so a small sales miss becomes a large earnings miss. Analyst errors are largest in high-beta industries and at peaks and troughs of industrial production (Operating Leverage, 2016). Use the multi-year r, not the one-year, to fade returns, and fade to the sector mean over a full cycle, not to a peak-year figure. Load `references/base-rates.md`.
 
-## Valuation conventions and their pitfalls
+### Valuation conventions and their pitfalls
 
 - **Normalize to mid-cycle.** Value on mid-cycle revenue, margin and ROIC, "a point on the long-term trend line, not a peak or trough." Weight a normal-cycle scenario against a new-trend scenario and give each an economic reason (demand growth, entry and exit, technology, capacity) (McKinsey ch.35; `references/valuation.md`).
 - **Consensus ignores the cycle.** Forecasts for cyclicals trend upward through peaks and troughs, so a forward P/E looks cheap at the peak and expensive at the trough. Market prices behaved like a 50/50 blend of perfect and zero foresight in McKinsey's sample (1985-1997, verify).
@@ -190,7 +190,7 @@ Reading: technology returns fade fast, and the operating margin beta is close to
 - **High growth** in a new end market (AI accelerators, judgment): treat with the high-growth method (steady state 10 to 15 years out, addressable market at acceptable returns, scenarios), and test the S-curve and capacity against demand.
 - **Operating leverage arithmetic.** In the paper's example a business with 75 percent fixed costs moves from a 20 percent margin to about -40 percent when sales halve and to nearly 60 percent when they rise 2.5 times (Operating Leverage, 2016). Show downside and upside cases with different incremental margins; load `references/operating-leverage-and-tam.md`.
 
-## Questions a specialist asks on the earnings call
+### Questions a specialist asks on the earnings call
 
 1. What are utilization rates by node or factory, and what does each point of utilization do to gross margin?
 2. How many weeks of inventory sit at distributors and at the largest customers, and how did that change?
@@ -202,7 +202,7 @@ Reading: technology returns fade fast, and the operating margin beta is close to
 8. What are export controls and tariffs doing to orders by region (verify the current rules)?
 9. Where does the company sit on the next process node or product generation against named competitors?
 
-## What to watch at the macro level
+### What to watch at the macro level
 
 - Industrial production and global GDP: sales correlate with both, and forecast errors cluster at turning points.
 - End-market unit data: PC, smartphone, server and auto builds; hyperscaler capex for data-center demand (judgment).
@@ -211,11 +211,11 @@ Reading: technology returns fade fast, and the operating margin beta is close to
 - Currency: much production is in Asia and sales are in dollars; read constant-currency figures.
 - Interest rates matter less to demand than to the cost of financing large fabs (judgment).
 
-## Financials: banks
+## Financials: banks (financials-banks)
 
 This primer covers deposit-taking banks, including their trading and fee businesses. Insurers have their own primer. Asset managers, exchanges and payment networks carry little balance-sheet risk; value them with the standard enterprise methods. Every figure below is historical, illustrative or judgment, never a current fact; check each "(verify)" before use.
 
-## How the sector makes money and what drives value
+### How the sector makes money and what drives value
 
 A bank earns three kinds of income (McKinsey, Valuation 5th ed., ch. 36, pp. 766-767):
 
@@ -227,11 +227,11 @@ Value depends on return on equity (ROE) against the cost of equity, growth of th
 
 Not all NII creates value. A bank that funds long-term loans with short-term deposits earns a maturity-mismatch income that pays for interest-rate risk, not for a lending advantage (pp. 785-789).
 
-## Metrics that matter
+### Metrics that matter
 
 | Metric | Definition | Why it matters | Indicative range, large developed-market banks (judgment, verify) |
 |---|---|---|---|
-| Net interest margin (NIM) | NII / average earning assets | Spread on the balance sheet | about 1.5% to 3.5%; US banks usually above euro-area and Japanese banks |
+| Net interest margin (NIM) | NII / average earning assets | Spread on the balance sheet | about 1.5% to 3.5% for US and most European banks; Japanese megabanks run below 1%, so compare within a market |
 | Pre-provision net revenue (PPNR) | NII + noninterest income - noninterest expense | Earning power before credit costs | compare across the cycle, not as a level |
 | Efficiency ratio | noninterest expense / (NII + noninterest income) | Cost discipline and scale | about 50% to 70% |
 | Provision ratio | provision for credit losses / average loans | Management's forward loss estimate | read against charge-offs |
@@ -241,10 +241,14 @@ Not all NII creates value. A bank that funds long-term loans with short-term dep
 | ROTCE | net income to common / average tangible common equity | The return that drives price to tangible book | about 8% to 18% across a cycle |
 | Loan-to-deposit ratio | loans / deposits | Funding stability | above about 100% means reliance on wholesale funding |
 | Deposit beta | change in deposit cost / change in policy rate | How much of a rate move the bank keeps | rises late in a hiking cycle |
+| Uninsured deposit share | deposits above the insurance limit / total deposits | Run risk: uninsured balances leave first (the 2023 US regional failures ran above 80%) | judgment, not in the sources: above about 50% needs a liquidity story |
+| Liquidity coverage ratio (LCR) and net stable funding ratio (NSFR) | high-quality liquid assets / 30-day net outflows; available / required stable funding | Regulatory liquidity floors; a thin cushion limits balance-sheet growth and payouts | both at least 100% where required; large banks usually report 110% to 140% LCR (not in the sources, verify) |
+| Unrealised securities losses / CET1 | AOCI and held-to-maturity marks against tangible common equity | Capital that disappears if securities must be sold | judgment, not in the sources: above about 30% of CET1 was the 2023 warning level |
+| CRE concentration | commercial real estate loans / total risk-based capital | Concentration the US supervisors screen for | US supervisory screen: above 300%, or 100% for construction, draws scrutiny (not in the sources, verify) |
 
 Most of these sit in the earnings release, supplement and capital disclosures, not the tearsheet ratios; get them with `bigdata_search` and `bigdata_fetch_document`.
 
-## Financial statements and accounting traps
+### Financial statements and accounting traps
 
 - Interest expense is the cost of goods: EBIT and EBITDA mean nothing, and there is no "net debt" (McKinsey ch. 36, p. 765).
 - The cash flow statement mixes loan originations, deposit flows and securities purchases; industrial free cash flow has no meaning. Use the equity cash flow below.
@@ -254,19 +258,19 @@ Most of these sit in the earnings release, supplement and capital disclosures, n
 - Banks are opaque: true returns and risks are hard to see from outside (McKinsey ch. 16). The accrual, EBITA and working-capital tests in `earnings-quality.md` do not apply; reconcile earnings to the change in equity.
 - Use tangible equity for returns and multiples; acquirers carry goodwill.
 
-## Profit pool and competitive dynamics
+### Profit pool and competitive dynamics
 
 Banks are fragmented when measured globally: 1,114 listed firms, a four-firm revenue concentration of 15.6%, and a top-10 share of industry invested capital that rose from 23% to 32% between 2005 and 2015 (Mauboussin and HOLT, Global Industry Profit Pools, July 2016; verify). National markets are usually far more concentrated (judgment, verify). In that study, the economic spread of commercial banks fell from 0.7 to 0.1 points between 2010 and 2015, while thrifts and mortgage finance recovered from -14.2 to 6.2 points (p. 4). The pool is close to zero on average with wide dispersion, so explain who earns the spread and why.
 
 Banks compete on a low-cost, stable deposit base, scale in technology and payments, underwriting discipline and regulatory capital as a barrier; nonbank lenders and private credit compete for loans (judgment, verify). Regulation limits capital allocation choices: understand the capital rules before judging buybacks or growth (Mauboussin, Capital Allocation, 2015, p. 45). European banks shifted from interest income toward fees and trading between 1988 and 2007, which made ROE and price to book more cyclical (McKinsey Ex. 36.1-36.2).
 
-## Persistence and fade
+### Persistence and fade
 
 - The gross profitability, operating margin and operating leverage tables in `base-rates.md` exclude financials and utilities (Base Rate Book, 2016, sections 2.5, 2.6, 2.8). Do not apply them to a bank.
 - The CFROI table includes financials, measured by HOLT on cash flow return on equity: four-year r 0.43, median 7.5%, mean 8.3% (global, live and dead, 1983-2015); the older cut gives r 0.43 and mean 6.8% (1986-2012). About 43% of a financial's excess return over the median is left after four years, a faster fade than consumer staples (r 0.78). The financials group in those samples also holds insurers and, before the 2016 GICS change, REITs (judgment, verify).
 - The sales and earnings growth tables cover all sectors. Bank "sales" is usually total revenue (NII plus noninterest income; verify the field), and earnings swing with provisions, so state the growth basis.
 
-## Valuation conventions and pitfalls
+### Valuation conventions and pitfalls
 
 **Why enterprise multiples and the ROIC build do not apply.** Enterprise value, WACC and ROIC all depend on separating operating assets from financing. A bank's interest income and expense are its operations, so the split cannot be made: EV/EBITDA and an enterprise DCF have no consistent numerator or denominator (McKinsey ch. 36, pp. 765, 777). The return measure is ROE on adjusted net income against the cost of equity: "ROE is to financials as ROIC is to industrials" (Mauboussin and Callahan, Calculating ROIC, 2014, p. 11).
 
@@ -280,7 +284,7 @@ Banks compete on a low-cost, stable deposit base, scale in technology and paymen
 
 **Pitfalls.** Capitalising a peak-cycle ROE: normalise credit costs to through-cycle loss rates by loan category (cards highest, mortgages lowest, correlated with GDP; McKinsey ch. 36). Holding the cost of equity fixed while the capital ratio or asset mix changes (p. 784). Ignoring the tax cost of holding equity (equity x tax rate). Not valuing capital above the target ratio separately. Reading a high NIM as quality when it reflects credit risk or a duration gap.
 
-## Questions for the earnings call
+### Questions for the earnings call
 
 - What deposit beta is assumed in NII guidance, and how has the deposit mix (noninterest-bearing share) moved?
 - How much of NII comes from the securities book and swaps repricing, and what is the sensitivity to a parallel and a non-parallel rate shift?
@@ -289,19 +293,19 @@ Banks compete on a low-cost, stable deposit base, scale in technology and paymen
 - What CET1 target, including management buffer, governs buybacks, and what do pending capital rule changes do to RWA?
 - What would marking held-to-maturity securities do to tangible book?
 
-## What to watch at the macro level
+### What to watch at the macro level
 
 The level and slope of the yield curve and the policy-rate path; deposit competition and money-market yields; the credit cycle (unemployment, GDP, commercial property values); capital and stress-test rules (Basel III implementation and national variants; verify the current status); funding confidence after any bank failure; and, for international banks, currency and sovereign exposure. Before extrapolating ROE, check sector profits against GDP: by 2006, financials, energy, utilities and materials made up 51% of S&P 500 earnings, up from 41% (McKinsey ch. 16; verify).
 
-## Sources
+### Sources
 
 McKinsey, Valuation 5th ed. (2010), ch. 16 and 36; Mauboussin and Callahan, Calculating ROIC (2014); Mauboussin, Base Rate Book (2016), Reversion to the Mean (2013), Capital Allocation (2015); Mauboussin and HOLT, Global Industry Profit Pools (2016); Graham and Dodd, Security Analysis 6th ed. (2009). The metric ranges are judgment.
 
-## Insurance
+## Insurance (insurance)
 
 This primer covers property and casualty (P&C, non-life) insurers, life insurers and reinsurers. Insurance brokers take no underwriting risk and are fee businesses; value them with the standard enterprise methods and `roic.md`. Managed-care health insurers run on medical cost ratios and membership and fit this primer only in part. The source texts say little about insurers directly; most of what follows is judgment and is marked "(verify)". No figure here is a current fact.
 
-## How the sector makes money and what drives value
+### How the sector makes money and what drives value
 
 An insurer collects premiums now and pays claims later. It earns from two sources:
 
@@ -310,7 +314,7 @@ An insurer collects premiums now and pays claims later. It earns from two source
 
 For a P&C insurer the value drivers are the combined ratio across the pricing cycle, the adequacy of loss reserves, the size, growth and cost of the float, the yield earned on it, and the capital the regulator and rating agencies require per unit of premium. For a life insurer they are the spread between the investment yield and the rate credited to policyholders, mortality and morbidity margins, fees on assets in unit-linked and variable products, persistency (how many policies stay in force), and the value of new business. In both, value depends on return on equity against the cost of equity and on how much of the earnings can be paid out without breaching capital requirements (judgment, applying McKinsey ch. 36 bank logic, which the source states for banks only).
 
-## Metrics that matter
+### Metrics that matter
 
 | Metric | Definition | Why it matters | Indicative range (judgment, verify) |
 |---|---|---|---|
@@ -328,7 +332,7 @@ For a P&C insurer the value drivers are the combined ratio across the pricing cy
 
 These come from the earnings release, the financial supplement and the solvency reports; use `bigdata_search` and `bigdata_fetch_document`.
 
-## Financial statements and accounting traps
+### Financial statements and accounting traps
 
 - Claims reserves, including incurred-but-not-reported losses, are estimates. Earnings depend on them, and long-tail lines (liability, workers' compensation) take years to settle. Watch insurer loss reserves (Berkowitz, Security Analysis 6th ed., pp. 341-342).
 - Reserve releases from prior years raise reported earnings without new business profit. Separate them out.
@@ -340,17 +344,17 @@ These come from the earnings release, the financial supplement and the solvency 
 - Payoffs are spread over years and depend on mortality, interest, defaults and currency, so insurers' true returns and risks are hard to see from outside (McKinsey ch. 16). Klarman avoided P&C insurers as having "unanalyzable assets and liabilities" (Margin of Safety, 1991); the principle that remains is to state plainly what cannot be checked.
 - The accrual, EBITA and working-capital tests in `earnings-quality.md` do not apply; reconcile earnings to the change in equity.
 
-## Profit pool and competitive dynamics
+### Profit pool and competitive dynamics
 
 Insurance is fragmented globally: 441 listed firms and a four-firm revenue concentration of 19.9% (Mauboussin and HOLT, Global Industry Profit Pools, July 2016, data for 2015; verify). Individual lines and countries are more concentrated (judgment). P&C pricing moves in a cycle driven by the supply of capital: after good years capital enters and prices soften; after large losses or capital depletion prices harden (judgment). Reinsurance also competes with capital-markets capacity such as catastrophe bonds (judgment, verify). Advantages come from underwriting data and discipline in specialty lines, low-cost distribution in personal lines, and scale in claims handling. In life and annuities, insurers backed by asset managers and private capital compete on investment yield, often through private credit (judgment, verify). Capital rules limit capital allocation; understand them before judging buybacks or growth (Mauboussin, Capital Allocation, 2015, p. 45).
 
-## Persistence and fade
+### Persistence and fade
 
 - The gross profitability, operating margin and operating leverage tables in `base-rates.md` exclude financials (Base Rate Book, 2016, sections 2.5, 2.6, 2.8). Do not apply them to an insurer.
 - The CFROI table includes financials, measured by HOLT on cash flow return on equity: four-year r 0.43, median 7.5%, mean 8.3% (global, 1983-2015); older cut r 0.43, mean 6.8% (1986-2012). Insurers are not shown separately; the group also holds banks and, before 2016, REITs (judgment, verify).
 - Not in the sources: an insurer-specific fade rate or combined-ratio base rate. Use the company's and peers' own ten-year combined ratio and reserve development history and say so.
 
-## Valuation conventions and pitfalls
+### Valuation conventions and pitfalls
 
 **Why enterprise multiples and the ROIC build do not apply.** An insurer's main liabilities are policyholder reserves, the float. They fund the investment portfolio, and the income on that portfolio is operating income. There is no clean split between operating assets and financing, the investment portfolio is not "excess cash" that can be netted, and the binding constraint is regulatory capital, not leverage chosen by management. EV/EBITDA and an enterprise DCF at a WACC therefore have no consistent basis. Use return on equity on adjusted net income against the cost of equity, and value cash flow to equity at the cost of equity (Mauboussin and Callahan, Calculating ROIC, 2014, p. 11; McKinsey ch. 36 for the same logic in banks).
 
@@ -363,7 +367,7 @@ Insurance is fragmented globally: 441 listed firms and a four-firm revenue conce
 
 **Pitfalls.** Capitalising a low-catastrophe or reserve-release year. Comparing price to book across insurers with different exposure to rate-driven book marks. Ignoring holding-company leverage when subsidiaries are well capitalised. Assuming investment yields stay at today's level when the portfolio reprices. Using one point estimate: run scenarios on cat losses, reserve development and rates.
 
-## Questions for the earnings call
+### Questions for the earnings call
 
 - What is renewal rate change by line against your loss-cost trend, and where is the gap closing?
 - Which accident years drove reserve development, and in which lines?
@@ -373,19 +377,19 @@ Insurance is fragmented globally: 441 listed firms and a four-firm revenue conce
 - How much of the investment portfolio sits in private credit or other less liquid assets?
 - Life: how did lapses, the CSM roll-forward and new-business margin move?
 
-## What to watch at the macro level
+### What to watch at the macro level
 
 Interest rates (investment income, unrealised marks, life liability values); inflation, especially in claims severity and litigation costs in long-tail lines; catastrophe frequency and severity, including climate trends; credit spreads and defaults in the portfolio; equity markets for variable and unit-linked products; reinsurance pricing; and capital regulation (Solvency II review, US risk-based capital, group capital standards; verify current status).
 
-## Sources
+### Sources
 
 Mauboussin and Callahan, Calculating ROIC (2014); McKinsey, Valuation 5th ed. (2010), ch. 16 and 36; Graham and Dodd, Security Analysis 6th ed. (2009), Berkowitz essay and pp. 417-418; Klarman, Margin of Safety (1991); Mauboussin, Base Rate Book (2016), Reversion to the Mean (2013), Capital Allocation (2015); Mauboussin and HOLT, Global Industry Profit Pools (2016). The metrics, ranges, accounting changes and competition notes are judgment.
 
-## Health care: pharmaceuticals and biotechnology
+## Health care: pharmaceuticals and biotechnology (healthcare-pharma)
 
 Scope: research-based pharmaceutical and biotechnology companies, with notes on generics. Devices, tools and services share the sector's base rates but have different economics; use the general methods for them. A figure marked "(verify)" is a judgment or dated: check it against the peer set and period before use.
 
-## How the sector makes money and the value drivers
+### How the sector makes money and the value drivers
 
 A drug earns high margins for the period of exclusivity granted by patents and regulatory protection, then loses most of its sales to generics or biosimilars. Value is the sum of the marketed products' cash flows to loss of exclusivity (LOE) plus the risk-weighted value of the pipeline, less the R&D needed to refill it. The drivers:
 
@@ -395,7 +399,7 @@ A drug earns high margins for the period of exclusivity granted by patents and r
 - **Pipeline productivity.** New major products per year (McKinsey's example: 0.5, peer range 0.1 to 1.0, verify) and the probability that each asset reaches market.
 - **Price and access.** Net price after rebates and payer restrictions, by market.
 
-## The metrics that matter
+### The metrics that matter
 
 | Metric | Definition | Why it matters |
 |---|---|---|
@@ -412,9 +416,9 @@ Industry success rates (general knowledge from industry clinical-development stu
 
 Forecasts of peak sales are wide: in a McKinsey study of more than 1,700 analyst forecasts on 260 drugs the median error was small, but almost two-thirds missed peak revenue by 40 percent or more (TAM 2015, p.7). Report peak sales as a range.
 
-## What the statements do differently and the accounting traps
+### What the statements do differently and the accounting traps
 
-- **R&D is expensed**, so reported ROIC overstates returns. McKinsey's PharmaCo: ROIC 42 percent with R&D expensed, about 13 percent with R&D capitalized over 8 years, against a 15 percent cost of capital (ch.28). Damodaran uses about a 10-year life for pharma. Capitalizing raises ROIC for fast-growing R&D spenders with a long lag (biotech) and lowers it for mature firms with level R&D (Amgen 2006: 15.7 percent unadjusted, 18.8 percent adjusted; roic-moat notes).
+- **R&D is expensed**, so reported ROIC overstates returns. McKinsey's PharmaCo: ROIC 42 percent with R&D expensed, about 13 percent with R&D capitalized over 8 years, against a 15 percent cost of capital (ch.28). Damodaran uses about a 10-year life for pharma. Capitalizing raises ROIC for fast-growing R&D spenders with a long lag (biotech) and lowers it for mature firms with level R&D (Amgen 2006: 15.7 percent unadjusted, 18.8 percent adjusted; Mauboussin, Calculating ROIC (2014) and Measuring the Moat (2016)).
 - **Acquired in-process R&D** is capitalized in a business combination but expensed in an asset purchase under US GAAP (verify current rules); the same deal can hit earnings or the balance sheet depending on structure.
 - **Adjusted EPS** excludes acquired-intangible amortization, which is reasonable (use EBITA), but also restructuring, litigation and milestone charges that recur. Count how many of the last five years carried them (McKinsey ch.26).
 - **Gross-to-net accruals** (rebates, chargebacks, government programs) are estimates; true-ups move revenue between quarters.
@@ -423,7 +427,7 @@ Forecasts of peak sales are wide: in a McKinsey study of more than 1,700 analyst
 - **One-off gains** such as sales of priority review vouchers or product rights sit inside operating income at some companies.
 - **Litigation and product liability reserves** can be large and are judgment-heavy.
 
-## Profit pool and competitive dynamics
+### Profit pool and competitive dynamics
 
 - **Value has shifted away from pharma within health care.** The health care value pool was about $65bn (2002), $116bn (2007) and $118bn (2012); pharma's share fell from about two-thirds to about two-fifths while providers, services, equipment and supplies rose from about one-third to one-half (Measuring the Moat, Appendix B, verify).
 - **Spreads by industry, 2010 to 2015** (HOLT profit pools, data June 2016, verify): biotechnology economic spread rose from 2.6 to 8.3 points; pharmaceuticals fell from 4.5 to 3.7; life sciences tools rose from 4.0 to 8.2. Biotech is concentrated (479 firms, four-firm ratio 49.3 percent, top ten's share of invested capital 44 percent in 2005 and 58 percent in 2015).
@@ -431,7 +435,7 @@ Forecasts of peak sales are wide: in a McKinsey study of more than 1,700 analyst
 - **Competition** comes within a class (follow-on drugs), from new mechanisms, and at LOE from generics and biosimilars. Payers and pharmacy benefit managers hold buyer power (verify current structure by market).
 - **M&A refills pipelines.** Acquirers pay away synergies: ROIC with goodwill stayed flat while ROIC without goodwill rose (McKinsey ch.4). Test each deal on ROIC on price paid, and haircut revenue synergies.
 
-## Persistence and fade
+### Persistence and fade
 
 Historical base rates, not current facts (verify against current data). The sample covers the whole health care sector.
 
@@ -446,7 +450,7 @@ Historical base rates, not current facts (verify against current data). The samp
 
 Reading: health care returns fade slowly, behind only consumer sectors, so a strong franchise keeps much of its spread for longer than a technology company does. The fade happens product by product at LOE, not smoothly. The operating margin beta (0.115) is below the sector's average margin, so incremental margins on sales changes have historically been below average (Operating Leverage, 2016). GDP explains little of sales growth. Load `references/base-rates.md`.
 
-## Valuation conventions and their pitfalls
+### Valuation conventions and their pitfalls
 
 - **Sum of parts:** marketed products by DCF through LOE with explicit post-LOE erosion; pipeline by rNPV; less net debt and other claims. Platform or terminal value only with evidence of repeatable R&D productivity.
 - **Probabilities carry the trial risk, not the discount rate.** Trial outcomes are diversifiable risk, so decision-tree analysis discounts payoffs at the project's cost of capital and lets the probabilities do the work (McKinsey ch.32). Do not also apply stage-specific "venture" discount rates of 20 to 50 percent on top of PTRS; that counts the risk twice. If a higher rate is used, say why.
@@ -455,7 +459,7 @@ Reading: health care returns fade slowly, behind only consumer sectors, so a str
 - **Multiples:** P/E and EV/EBITA for large pharma, distorted near LOE cliffs, so look through to the post-LOE run rate; EV/Sales for early commercial biotech with a stated long-run margin; cash and enterprise value for development-stage biotech (enterprise value near or below zero signals the market prices the pipeline at little).
 - **Scenarios** with probabilities from base rates, not a 20/60/20 default (`references/valuation.md`).
 
-## Questions a specialist asks on the earnings call
+### Questions a specialist asks on the earnings call
 
 1. What drove the change in net price for the main products, and what is the gross-to-net outlook?
 2. What is revenue at risk from LOE in each of the next five years, and what offsets it?
@@ -467,7 +471,7 @@ Reading: health care returns fade slowly, behind only consumer sectors, so a str
 8. What manufacturing capacity exists for the key biologics, and are there supply or quality issues?
 9. How are price negotiation and reimbursement rules changing in the largest markets (verify current law)?
 
-## What to watch at the macro level
+### What to watch at the macro level
 
 - Drug pricing policy and reimbursement: US negotiation rules, European price referencing, China volume-based procurement (verify current rules).
 - Payer and pharmacy benefit manager consolidation and contract terms.
@@ -477,11 +481,11 @@ Reading: health care returns fade slowly, behind only consumer sectors, so a str
 - Tariffs and manufacturing location rules for pharmaceuticals (verify).
 - Demographics: aging populations raise volume steadily, which is part of why sales growth tracks GDP weakly.
 
-## Real estate investment trusts (REITs)
+## Real estate investment trusts (REITs) (reits)
 
 This primer covers listed equity REITs and listed property companies: owners of offices, shopping centres, logistics warehouses, apartments, self-storage, healthcare property, data centres and towers. Mortgage REITs hold loans and securities, not buildings; treat them with the banks primer's logic (spread, credit, leverage, book value). The source texts say almost nothing about REITs directly; most of what follows is judgment, marked "(verify)". No figure here is a current fact.
 
-## How the sector makes money and what drives value
+### How the sector makes money and what drives value
 
 A REIT earns rent. Net operating income (NOI) is rent and recoveries minus property operating costs. Value comes from four things (judgment):
 
@@ -492,7 +496,7 @@ A REIT earns rent. Net operating income (NOI) is rent and recoveries minus prope
 
 In the US a REIT avoids corporate tax by distributing at least 90% of taxable income (verify; other countries' regimes differ). Little cash is retained, so growth depends on access to equity and debt markets.
 
-## Metrics that matter
+### Metrics that matter
 
 | Metric | Definition | Why it matters | Indicative range (judgment, verify) |
 |---|---|---|---|
@@ -509,7 +513,7 @@ In the US a REIT avoids corporate tax by distributing at least 90% of taxable in
 
 FFO, AFFO and same-store NOI come from the company's supplemental package; use `bigdata_search` and `bigdata_fetch_document`.
 
-## Financial statements and accounting traps
+### Financial statements and accounting traps
 
 - Depreciation on buildings under historical-cost accounting (US GAAP) rarely matches economic wear, and land does not depreciate; FFO adds it back. But buildings do need recurring capital spending, so FFO overstates cash. AFFO subtracts maintenance capex, which management estimates. Benchmark capex as a share of NOI against peers over several years; office typically needs far more than logistics (the earlier primer used about 10% to 15% versus 5% to 10%; judgment, verify).
 - Straight-line rent books escalating leases evenly, so reported revenue exceeds cash early in a lease.
@@ -520,17 +524,17 @@ FFO, AFFO and same-store NOI come from the company's supplemental package; use `
 - Appraised values lag transactions and issuer-paid appraisals have misled before: 1920s real estate bonds were sold on appraisals claiming 66 2/3% cover above the loan (Marks, Security Analysis 6th ed., p. 140; historical). Check appraisals against recent deals.
 - Unconsolidated joint ventures: add the REIT's share of their debt.
 
-## Profit pool and competitive dynamics
+### Profit pool and competitive dynamics
 
 Rents are set locally by supply and demand for each property type. New supply arrives with a lag of years, which makes property markets cyclical (judgment). Listed REITs compete for assets with private real estate funds, pension funds and sovereign investors, and private buyers often set the marginal cap rate (judgment, verify). Advantages come from location quality that new supply cannot replicate, scale in operating platforms (apartments, self-storage, logistics), tenant relationships, and a lower cost of capital that lets a REIT buy accretively. Structural demand shifts are large: online retail for logistics and against some shopping centres, remote work for offices, and data and power demand for data centres (judgment, verify current direction). ETFs owned 10.6% of large-cap real estate market value, against 7.8% for utilities and 4.3% for technology (Mauboussin, Looking for Easy Games, 2017, p. 14, data at 30 September 2016; verify), which affects flows and correlation.
 
-## Persistence and fade
+### Persistence and fade
 
 - The gross profitability, operating margin and operating leverage tables in `base-rates.md` exclude financials and utilities (Base Rate Book, 2016, sections 2.5, 2.6, 2.8). REITs were classified in the financials sector until GICS created a real estate sector in 2016 (verify), so they are outside those tables.
 - In the CFROI table they would sit inside financials (four-year r 0.43, median 7.5%; global, 1983-2015) (judgment, verify). That figure mixes banks, insurers and REITs; do not use it as a REIT fade rate.
 - Not in the sources: REIT-specific base rates for same-store NOI growth or AFFO growth. Use the company's and peers' own history across at least one property cycle and say so.
 
-## Valuation conventions and pitfalls
+### Valuation conventions and pitfalls
 
 **Why the standard enterprise multiples and ROIC build do not apply.** The standard ROIC build divides NOPAT by book invested capital. A REIT's book capital is depreciated historical cost (under US GAAP), so ROIC on book overstates returns on old portfolios and says nothing about returns at market value. EBITDA ignores the capital spending a building needs, and EV/EBITDA against other sectors ignores that most of a REIT's value sits in assets priced by the property market. The enterprise view survives in one form: the implied cap rate compares the REIT's whole capital structure with its NOI, and it is useful because it can be checked against private-market transactions. Net debt / EBITDA remains the standard leverage measure.
 
@@ -543,7 +547,7 @@ Rents are set locally by supply and demand for each property type. New supply ar
 
 **Pitfalls.** Using one portfolio-wide cap rate instead of rates by segment and quality, weighted by NOI. Using cap rates from stale appraisals. Not stressing NAV for cap-rate expansion (the earlier primer used +0.5 to +1.0 point; judgment). Comparing P/FFO across property types. Taking company AFFO without checking maintenance capex. Valuing development at stabilised value before leasing. Ignoring dilution from equity issued below NAV.
 
-## Questions for the earnings call
+### Questions for the earnings call
 
 - What were cash leasing spreads by market, and what is the mark-to-market on leases expiring in the next two years?
 - What is the gap between physical and economic occupancy, and how much free rent was granted?
@@ -553,26 +557,26 @@ Rents are set locally by supply and demand for each property type. New supply ar
 - What yield on cost do development projects target, and how much is pre-leased?
 - Which tenants are on a watch list, and what share of rent do they pay?
 
-## What to watch at the macro level
+### What to watch at the macro level
 
 Long-term interest rates and credit spreads, which move cap rates and refinancing costs; bank and securitised lending to commercial property; the new supply pipeline by market; demand drivers by property type (employment and office use, consumer spending, e-commerce, household formation, data and power demand); inflation, which helps rents with indexation and short leases but raises costs; and private-market transaction volume, since thin volume makes appraisals less reliable.
 
-## Sources
+### Sources
 
 Graham and Dodd, Security Analysis 6th ed. (2009), Marks essay p. 140; McKinsey, Valuation 5th ed. (2010), ch. 7; Mauboussin, Base Rate Book (2016), Reversion to the Mean (2013), Looking for Easy Games (2017); the earlier Bigdata.com REITs primer (FFO, AFFO, NAV definitions and pitfalls). The ranges, the US distribution rule, IFRS and EPRA conventions and the competition notes are judgment.
 
-## Industrials
+## Industrials (industrials)
 
 Capital goods (aerospace and defense, machinery, electrical equipment, building products, construction and engineering), transportation (rail, trucking, air freight, airlines, marine) and commercial and professional services. Most of the sector is cyclical: sales follow capital spending, construction, freight volumes and government budgets. Services, defense and aftermarket-heavy businesses are the exceptions.
 
-## How the sector makes money
+### How the sector makes money
 
 - Original equipment is sold against orders, often with long lead times; the order book sets revenue one to several years ahead. Price is set at order, cost is incurred at delivery, so inflation between the two compresses margin unless contracts carry escalators.
 - The installed base generates aftermarket revenue (parts, service, upgrades) that is less cyclical and usually carries a higher margin than original equipment; a margin gap of roughly 15 to 30 points is a judgment range (verify against segment disclosure).
 - Transport earns on volume times yield over a largely fixed network; incremental margins are high when volume returns to a network built for it.
 - Value drivers: volume through the cycle, price and mix, aftermarket share of sales, operating leverage on a fixed plant, working capital intensity, and capital intensity. Median real sales growth of industrials correlated about 0.74 with US real GDP growth (top 1,000 global companies, 1950-2014; Mauboussin, Operating Leverage, 2016) (verify), so a macro view is a reasonable starting point for the top line, unlike energy or staples.
 
-## Metrics that matter
+### Metrics that matter
 
 | Metric | Definition | Why it matters |
 |---|---|---|
@@ -587,7 +591,7 @@ Capital goods (aerospace and defense, machinery, electrical equipment, building 
 
 Most are not tearsheet fields: take them from filings and transcripts through `bigdata_search`, or state them as assumptions.
 
-## Operating leverage and capacity utilisation
+### Operating leverage and capacity utilisation
 
 - Split every past margin change into volume, price and mix, operating leverage, economies of scale and cost efficiencies (Mauboussin, Operating Leverage, 2016). Operating leverage is spreading fixed preproduction cost over more units; economies of scale lower unit cost as the firm grows. Mistaking one for the other leads to forecasting falling unit costs while the company is adding capacity.
 - Changes in capacity utilisation correlated about 0.6 with changes in operating margin (US, 1967-2015; Base Rate Book, 2016) (verify). Ask for utilisation on calls; if it is not disclosed, infer it from output against stated capacity.
@@ -595,7 +599,7 @@ Most are not tearsheet fields: take them from filings and transcripts through `b
 - Debt, leases and pension deficits add financial leverage on top. Flag firms with both high operating and high financial leverage as the highest earnings risk.
 - S-curve warning: capacity built by extrapolating the steep middle of a demand curve overshoots (colour TV capacity reached 14 million units against peak sales of 6 million; Operating Leverage, 2016). Test any announced capacity build-out against a demand peak, not the current growth rate.
 
-## Mid-cycle normalisation
+### Mid-cycle normalisation
 
 Normalise margins and returns to mid-cycle before any multiple or terminal value. Mid-cycle is a point on the long-run trend line, not a peak or a trough (McKinsey, Valuation, 5th ed., 2010, ch. 35).
 
@@ -606,7 +610,7 @@ Normalise margins and returns to mid-cycle before any multiple or terminal value
 
 The reason: with perfect foresight, DCF values of cyclicals are nearly flat while cash flows swing widely, and consensus EPS for cyclicals has historically trended upward through peaks and troughs (36 US cyclicals, 1985-1997; McKinsey ch. 35) (verify). A forward P/E at the peak looks cheap and at the trough looks expensive.
 
-## Financial statements and accounting traps
+### Financial statements and accounting traps
 
 - Percentage-of-completion and program accounting (aerospace, defense, engineering): margins rest on estimates of total program cost. Read cumulative catch-up adjustments; repeated negative catch-ups or forward-loss provisions show estimation bias.
 - Customer advances and progress payments fund working capital. They lower invested capital and raise ROIC, which is part of why aerospace and defense ROIC trended up (McKinsey, ch. 2-4, 1965-2007 data) (verify). A fall in advances is a cash outflow that can look like a working capital problem.
@@ -615,14 +619,14 @@ The reason: with perfect foresight, DCF values of cyclicals are nearly flat whil
 - Acquired-intangible amortisation: compare acquisitive firms on EBITA, and report ROIC with and without goodwill.
 - Model working capital as a share of incremental revenue; it outgrows revenue in upturns.
 
-## Profit pool and competitive dynamics
+### Profit pool and competitive dynamics
 
 - Machinery and construction and engineering are fragmented: four-firm revenue concentration of about 13.6 and 13.8 percent, more than 1,100 and about 800 listed firms; aerospace and defense sat near the 40 percent line at 38.2 percent; air freight and couriers (53.8 percent) and industrial conglomerates (51.9 percent) were concentrated (Global Industry Profit Pools, HOLT, data to June 2016) (verify).
 - Top-10 share of industry invested capital fell in electrical equipment (47 to 34 percent), trading companies and distributors (52 to 41) and industrial conglomerates (58 to 42), and rose in airlines (34 to 47), over 2005-2015 (same source) (verify).
 - Machinery's economic spread fell from about 1.7 to 1.0 points over 2010-2015 (same source) (verify). Airlines destroyed value in aggregate, on the order of $19bn a year over 2002-2009 (Measuring the Moat, 2013) (verify).
 - Rivalry rises when demand is volatile and fixed costs are high: capacity is added at the peak and fought over in the trough (Measuring the Moat, 2013). Build the profit pool for the subindustry, not the sector (load `references/industry-structure.md`).
 
-## Persistence and fade
+### Persistence and fade
 
 Label: historical base rate, top 1,000 global companies ex-financials and utilities, 1950-2015 (CFROI: global, about $250M market cap and above, 1983-2015). Not a forecast and not a current fact (Base Rate Book, 2016) (verify). Tables in `references/base-rates.md` (Tables 7 to 10).
 
@@ -635,7 +639,7 @@ Label: historical base rate, top 1,000 global companies ex-financials and utilit
 
 Read: about 62 percent of an industrial's excess CFROI over the sector mean has historically remained after four years. Fade with expected = mean + r x (current - mean), using the horizon-matched r and the mid-cycle mean. The low margin beta is an average across subsectors; short-cycle machinery and transport run well above it, so compute the company's own beta over five to ten years.
 
-## Valuation conventions and pitfalls
+### Valuation conventions and pitfalls
 
 - EV/EBITDA works only across peers with similar capital intensity; use EV/EBIT where depreciation burdens differ (UBS, multiples, 2017). Apply any multiple to mid-cycle, cleaned earnings.
 - Compare a multiple with the company's own history only at a comparable point of the cycle.
@@ -644,7 +648,7 @@ Read: about 62 percent of an industrial's excess CFROI over the sector mean has 
 - Credit a backlog or aftermarket premium only with evidence of lower margin volatility or higher cash conversion.
 - Load `references/valuation.md` and `references/multiples-and-peers.md` for the method.
 
-## Questions for the earnings call
+### Questions for the earnings call
 
 1. What were orders and book-to-bill by segment, and how much was pull-forward ahead of price increases?
 2. How much of organic growth was price, and how much volume? What is the price-cost spread now and next year?
@@ -655,15 +659,15 @@ Read: about 62 percent of an industrial's excess CFROI over the sector mean has 
 7. How much of the restructuring charge recurs next year?
 8. How are aftermarket volumes trending against the installed base?
 
-## What to watch at the macro level
+### What to watch at the macro level
 
 Industrial production and purchasing-manager surveys, capital-goods orders, nonresidential construction, freight volumes and rates, defense outlays (not authorisations), air traffic, metal input costs, interest rates and currency. Analyst forecast errors have historically been largest at peaks and troughs of industrial production (Operating Leverage, 2016) (verify), so widen ranges at turning points.
 
-## Consumer and retail
+## Consumer and retail (consumer-retail)
 
 Retailers (broadline, specialty, grocery, off-price, e-commerce), restaurants, branded consumer goods (apparel, durables, food, beverages, household and personal products) and consumer services. The sector spans two GICS sectors with different behaviour: consumer discretionary sales track the economy closely, consumer staples barely do. Say which one a company belongs to before using any base rate.
 
-## How the sector makes money
+### How the sector makes money
 
 - Retailers earn a thin margin on fast-turning inventory and a large, mostly leased store or fulfilment base. Brands earn a wide gross margin and spend heavily on advertising, promotion and distribution.
 - ROIC = NOPAT / sales x sales / invested capital. A low-cost retailer can earn 20 percent at a 4 percent margin with 5x capital turnover; a luxury seller earns the same at 20 percent and 1x (Mauboussin and Callahan, Calculating ROIC, 2014; illustrative). Cost leadership shows up in turnover, differentiation in margin. Know which one the company claims before judging a margin change.
@@ -671,7 +675,7 @@ Retailers (broadline, specialty, grocery, off-price, e-commerce), restaurants, b
 - For a low-ROIC retailer, one point of ROIC was worth about 15 percent of value against about 5 percent for one point of growth; for a high-ROIC consumer-goods company the order reverses (McKinsey ch. 2, stylised, 2010) (verify). Returns matter more than growth for most retailers.
 - Value drivers: traffic, ticket and mix; gross margin net of markdowns and shrink; occupancy and labour leverage; inventory turnover; store or unit economics; brand pricing power.
 
-## Metrics that matter
+### Metrics that matter
 
 | Metric | Definition | Why it matters |
 |---|---|---|
@@ -686,7 +690,7 @@ Retailers (broadline, specialty, grocery, off-price, e-commerce), restaurants, b
 
 Most are not tearsheet fields: take them from filings, transcripts and investor-day material through `bigdata_search`.
 
-## Financial statements and accounting traps
+### Financial statements and accounting traps
 
 - Leases. Under IFRS 16 and ASC 842 most store leases sit on the balance sheet, but EBITDA under IFRS excludes rent while US GAAP operating-lease cost stays in operating expense. Make EV and the earnings measure consistent (both include lease liabilities and exclude rent, or neither). In older data, capitalising leases cut US retail ROIC from about 19.7 to 11.0 percent and restaurants from about 14.6 to 10.6 percent (Damodaran, 2007, US 2006 data) (verify), and Starbucks' ROIC spread from about 15.1 to 5.4 points. The "8 times rent" shortcut works only near a 6 percent cost of debt and a 15-year life (McKinsey ch. 27).
 - Coverage: use EBITDAR / (interest + rent) for retailers (McKinsey ch. 8).
@@ -696,7 +700,7 @@ Most are not tearsheet fields: take them from filings, transcripts and investor-
 - Calendar: 53-week years, shifted holidays and fiscal year-ends in late January distort year-on-year comparisons.
 - Franchise models: system sales are not revenue; refranchising lifts margin and ROIC while shrinking revenue.
 
-## Profit pool and competitive dynamics
+### Profit pool and competitive dynamics
 
 - Household products (four-firm revenue concentration about 65.5 percent), personal products (56.3) and tobacco (71.8) were concentrated; textiles and apparel (18.9), hotels, restaurants and leisure (15.5), food products (20.0) and auto components (18.0) were fragmented; internet and catalog retail was near the 40 percent line at 38.5, with the top-10 share of invested capital rising from 58 to 72 percent over 2005-2015 (Global Industry Profit Pools, HOLT, data to June 2016) (verify).
 - Concentration measured by HHI: breakfast cereal about 2,425, snack food 1,984, tires 1,540, apparel 44 (Measuring the Moat, 2013, 2007 Census data) (verify). Readings above 1,800 suggest reduced rivalry.
@@ -705,7 +709,7 @@ Most are not tearsheet fields: take them from filings, transcripts and investor-
 - Scale economies are distinct from operating leverage: Home Depot's gross margin rose from 27.7 to 29.9 percent over FY1996-FY2001 on better supplier terms (Operating Leverage, 2016) (verify).
 - Retailers whose business rests on image can be damaged irreversibly in distress (Klarman, Margin of Safety); weigh balance-sheet risk more heavily here than in capital-intensive sectors.
 
-## Persistence and fade
+### Persistence and fade
 
 Label: historical base rate, top 1,000 global companies ex-financials and utilities, 1950-2015 (CFROI: global, about $250M market cap and above, 1983-2015). Not a forecast and not a current fact (Base Rate Book, 2016) (verify). Tables in `references/base-rates.md` (Tables 7 to 10).
 
@@ -719,7 +723,7 @@ Label: historical base rate, top 1,000 global companies ex-financials and utilit
 
 Read: staples fade slowest of all sectors (78 percent of the excess CFROI spread has remained after four years), discretionary next. Sector means have small dispersion, so fade toward the sector mean rather than a mid-cycle estimate (Base Rate Book, Part 3). Discretionary sales are the most GDP-sensitive of any sector; for housing-linked, durable and big-ticket categories, normalise sales and margin to a mid-cycle level before applying a multiple.
 
-## Valuation conventions and pitfalls
+### Valuation conventions and pitfalls
 
 - P/E for staples and mature brands with comparable capital structures; EV/EBIT or lease-consistent EV/EBITDA (or EV/EBITDAR with leases in EV) across retailers with different lease intensity (UBS, multiples, 2017).
 - Pair every multiple with ROIC and growth; a cheap-looking retailer often has low ROIC after leases. State how peers were chosen and show the multiple with and without high-multiple outliers (How Well Do You Compare, 2017).
@@ -728,7 +732,7 @@ Read: staples fade slowest of all sectors (78 percent of the excess CFROI spread
 - Do not apply e-commerce or direct-to-consumer multiples without segment-level profitability.
 - Load `references/valuation.md` and `references/multiples-and-peers.md`.
 
-## Questions for the earnings call
+### Questions for the earnings call
 
 1. How did comparable sales split between traffic and ticket, and between price and mix?
 2. How much of gross margin change came from markdowns, freight, shrink and mix?
@@ -738,15 +742,15 @@ Read: staples fade slowest of all sectors (78 percent of the excess CFROI spread
 6. How did price elasticity respond to the last price increase, and how is private label share moving?
 7. How much of the year's margin depends on supplier terms or vendor funding?
 
-## What to watch at the macro level
+### What to watch at the macro level
 
 Real disposable income and wage growth, consumer credit and delinquency, savings rate, consumer confidence, housing turnover (for durables and home), gasoline prices, tariffs and freight costs for importers, input commodities (grains, cotton, packaging), and currency. Staples respond more to input costs and pricing than to GDP; discretionary responds to GDP and credit.
 
-## Energy
+## Energy (energy)
 
 Upstream exploration and production (E&P), integrated oil and gas, oilfield services and equipment (OFS), midstream pipelines, processing and storage, refining and marketing, and coal. Renewable developers and utilities-like power producers often sit elsewhere in GICS, but the transition questions below apply to them. Energy is the most cyclical sector by return persistence: earnings follow commodity prices that no company controls.
 
-## How the sector makes money
+### How the sector makes money
 
 - Upstream: revenue = production x realised price. Cost is lifting cost plus the capital to replace declining production. Value comes from the reserve base, its cost position and the reinvestment needed to hold output flat.
 - OFS: revenue = activity (rigs, wells, fleet days) x pricing; activity follows producers' capital budgets with a lag of roughly two to four quarters (judgment, verify).
@@ -755,7 +759,7 @@ Upstream exploration and production (E&P), integrated oil and gas, oilfield serv
 - Value drivers: the commodity price deck, production growth and decline, unit cost and its position on the industry cost curve, reinvestment rate, reserve life and replacement, and capital discipline through the cycle.
 - Median real sales growth of energy companies correlated only about 0.12 with US real GDP growth (top 1,000 global, 1950-2014; Operating Leverage, 2016) (verify). Price, not GDP, drives the top line; a macro sales model is weak here.
 
-## Metrics that matter
+### Metrics that matter
 
 | Metric | Definition | Why it matters |
 |---|---|---|
@@ -772,7 +776,7 @@ Upstream exploration and production (E&P), integrated oil and gas, oilfield serv
 
 Most are not tearsheet fields: take them from filings, reserve reports and transcripts through `bigdata_search`.
 
-## Operating leverage and capacity utilisation
+### Operating leverage and capacity utilisation
 
 - Energy has the highest fixed-asset intensity of any sector (Damodaran data, global, January 2015; Operating Leverage, 2016) (verify). Operating margin beta was 0.134 at one year and 0.103 at three (Base Rate Book, 2016) (verify), and analyst forecast errors are largest where beta is high (Operating Leverage, 2016).
 - Changes in capacity utilisation correlated about 0.6 with changes in operating margin (US, 1967-2015; Base Rate Book, 2016) (verify). In refining and OFS, utilisation and pricing move together: a tight fleet raises day rates and margins at the same time, which is why OFS margins swing more than producers'.
@@ -780,7 +784,7 @@ Most are not tearsheet fields: take them from filings, reserve reports and trans
 - Supply drives the cycle: capacity is added at high returns, arrives in large increments, and returns fall about two years later (commodity chemicals case, McKinsey, Valuation, 5th ed., 2010, ch. 35) (verify). In energy, watch sanctioned projects and rig counts for the same pattern.
 - S-curve warning: capacity built on mid-curve demand growth overshoots (colour TV capacity 14 million units against peak sales of 6 million; Operating Leverage, 2016). Apply it to LNG, refining and transition build-outs.
 
-## Mid-cycle normalisation
+### Mid-cycle normalisation
 
 Normalise margins and returns to mid-cycle before any multiple or terminal value. A mid-cycle commodity price is a judgment: anchor it on the cost curve (the full-cycle cost of the marginal supplier), the futures strip beyond the first two years, and a long-run real average, and state the deck used (judgment, verify).
 
@@ -791,7 +795,7 @@ Normalise margins and returns to mid-cycle before any multiple or terminal value
 
 The reason: consensus EPS for cyclicals has historically trended upward and ignored the cycle at peaks and troughs (36 US cyclicals, 1985-1997; McKinsey ch. 35) (verify). Market prices of cyclicals were best matched by a 50/50 blend of perfect and zero foresight, so prices anchor on current earnings more than they should.
 
-## Financial statements and accounting traps
+### Financial statements and accounting traps
 
 - Successful-efforts against full-cost accounting: full-cost capitalises dry holes and smooths earnings; compare peers on cash flow or restate (general knowledge, verify the method in each filing).
 - Impairments and ceiling tests follow the price deck; a write-down lowers future depreciation and flatters later margins (Security Analysis, 6th ed., 2009, ch. 34: write-downs used to cut depreciation).
@@ -802,7 +806,7 @@ The reason: consensus EPS for cyclicals has historically trended upward and igno
 - EBITDAX excludes exploration expense; treat recurring exploration as an operating cost.
 - Check depletion life against reserve life (Security Analysis: Alaska Juneau depletion implied 85 years against 25 claimed).
 
-## Profit pool and competitive dynamics
+### Profit pool and competitive dynamics
 
 - Top-10 share of oil and gas invested capital fell from about 47 to 37 percent over 2005-2015 (Global Industry Profit Pools, HOLT, data to June 2016) (verify): the industry fragmented in the shale era.
 - Oil and gas sits with chemicals, semiconductors and metals in the cyclical ROIC group; commodity businesses had a median ROIC of about 5.8 percent (US, 1965-2007; McKinsey ch. 4) (verify).
@@ -810,7 +814,7 @@ The reason: consensus EPS for cyclicals has historically trended upward and igno
 - National oil companies and cartel policy set much of marginal supply; treat their decisions as a scenario variable, not a forecast.
 - Transition: unit costs of solar and batteries have fallen with cumulative production (Wright's law), with a floor set by material costs and with policy-driven demand behind much of the volume (Coming Clean with Energy Cost Curves, 2017) (verify). Project cost from cumulative deployment with a range and a floor.
 
-## Persistence and fade
+### Persistence and fade
 
 Label: historical base rate, top 1,000 global companies ex-financials and utilities, 1950-2015 (CFROI: global, about $250M market cap and above, 1983-2015). Not a forecast and not a current fact (Base Rate Book, 2016) (verify). Tables in `references/base-rates.md` (Tables 7 to 10).
 
@@ -823,7 +827,7 @@ Label: historical base rate, top 1,000 global companies ex-financials and utilit
 
 Read: only about 35 percent of excess CFROI has historically remained after four years. Because the sector mean itself is volatile, fade toward a mid-cycle mean, not the latest year's sector average (Base Rate Book, Part 3).
 
-## Valuation conventions and pitfalls
+### Valuation conventions and pitfalls
 
 - E&P: net asset value from risked reserves (proved developed producing, then undeveloped and probable at higher risk discounts), with the price deck and risking stated; EV/EBITDAX and EV per flowing barrel as cross-checks (judgment, verify).
 - Undeveloped reserves and staged projects carry option value; use a decision tree with judgmental inputs. Short-term volatility misleads for long-dated options on mean-reverting commodities such as oil (McKinsey ch. 32).
@@ -833,7 +837,7 @@ Read: only about 35 percent of excess CFROI has historically remained after four
 - For capital-intensive commodity producers, a terminal spread near zero is the default; steady-state P/E = 1 / cost of equity (UBS, 2017).
 - Load `references/valuation.md` and `references/multiples-and-peers.md`.
 
-## Questions for the earnings call
+### Questions for the earnings call
 
 1. What price deck underlies the capital budget and the reserve report?
 2. What is the base decline rate and the maintenance capex to hold production flat?
@@ -844,15 +848,15 @@ Read: only about 35 percent of excess CFROI has historically remained after four
 7. (Refining) What was the capture rate against the benchmark crack, and why?
 8. (Midstream) What share of cash flow is fee-based, and which contracts reprice in the next two years?
 
-## What to watch at the macro level
+### What to watch at the macro level
 
 Oil and gas balances (inventories, spare capacity, producer-group policy), the futures curve, rig and frac counts, refinery utilisation and product inventories, regional gas and LNG prices, the US dollar, interest rates for capital-heavy projects, and energy policy and subsidies. Treat any current price as a scenario input, never as a forecast.
 
-## Materials
+## Materials (materials)
 
 Chemicals (commodity and specialty), metals and mining (steel, aluminium, copper, iron ore, precious metals), construction materials (cement, aggregates), containers and packaging, and paper and forest products. Commodity producers are price takers whose returns follow industry capacity; specialty and local-market businesses (specialty chemicals, aggregates, some packaging) behave more like industrials. Classify the company on that axis first.
 
-## How the sector makes money
+### How the sector makes money
 
 - Commodity producers: margin = market price minus unit cash cost, times volume. Position on the industry cost curve decides who earns a return at mid-cycle prices; the lowest-cost quartile earns through the cycle, the highest-cost quartile only near the peak (judgment, verify against a cost curve).
 - Specialty producers: margin from formulation, service and switching costs; price is set against customer value, not raw-material cost, and passes through input changes with a lag.
@@ -860,7 +864,7 @@ Chemicals (commodity and specialty), metals and mining (steel, aluminium, copper
 - Value drivers: the price deck, cost-curve position, volume and utilisation, input costs (energy, feedstock, ore), reserve life and grade (mining), capital discipline and the timing of capacity additions.
 - Median real sales growth of materials companies correlated about 0.53 with US real GDP growth (top 1,000 global, 1950-2014; Operating Leverage, 2016) (verify). Industrial production and China construction usually explain more than headline GDP (judgment, verify).
 
-## Metrics that matter
+### Metrics that matter
 
 | Metric | Definition | Why it matters |
 |---|---|---|
@@ -875,7 +879,7 @@ Chemicals (commodity and specialty), metals and mining (steel, aluminium, copper
 
 Most are not tearsheet fields: take them from filings, reserve statements and transcripts through `bigdata_search`.
 
-## Operating leverage and capacity utilisation
+### Operating leverage and capacity utilisation
 
 - Materials had the highest operating margin beta of any sector: 0.193 at one year and 0.155 at three, against 0.11 for all sectors (Base Rate Book, 2016) (verify). Analyst forecast errors are larger where beta is high, metals against food in the paper's own comparison (Operating Leverage, 2016). Widen ranges accordingly.
 - Changes in capacity utilisation correlated about 0.6 with changes in operating margin (US, 1967-2015; Base Rate Book, 2016) (verify). Ask for utilisation and industry operating rates on every call.
@@ -883,7 +887,7 @@ Most are not tearsheet fields: take them from filings, reserve statements and tr
 - Supply drives the cycle: commodity chemical producers invest when ROIC is high, capacity arrives in large increments, and utilisation and ROIC fall about two years later (McKinsey, Valuation, 5th ed., 2010, ch. 35) (verify). In the book's simulation the IRR was about 4 percent for typical spending, 9 percent for optimally timed capex and 34 percent for optimally timed asset purchases (verify). Capital timing matters more than operations in this sector.
 - S-curve warning: capacity built on mid-curve demand growth overshoots (colour TV capacity 14 million units against peak sales of 6 million; Operating Leverage, 2016). Test announced capacity against a demand peak.
 
-## Mid-cycle normalisation
+### Mid-cycle normalisation
 
 Normalise margins and returns to mid-cycle before any multiple or terminal value (McKinsey ch. 35). Mid-cycle is a point on the long-run trend line, not a peak or a trough.
 
@@ -894,7 +898,7 @@ Normalise margins and returns to mid-cycle before any multiple or terminal value
 
 The reason: consensus EPS for cyclicals has historically trended upward through peaks and troughs (36 US cyclicals, 1985-1997, including primary metals; McKinsey ch. 35) (verify), so a peak-earnings P/E looks cheap.
 
-## Financial statements and accounting traps
+### Financial statements and accounting traps
 
 - Inventory holding gains and LIFO against FIFO: in rising price markets, inventory profits inflate earnings and are low quality (Security Analysis: 1919-20 industrials) (verify). Compare peers on the same inventory basis.
 - Impairments reset the asset base and lower future depreciation; write-downs used to cut depreciation flatter later returns (Security Analysis, ch. 34). Report ROIC before and after.
@@ -904,7 +908,7 @@ The reason: consensus EPS for cyclicals has historically trended upward through 
 - Provisional pricing in copper and other concentrates marks revenue to later prices; separate it from operating performance.
 - Equity-accounted joint ventures are common in mining and chemicals; value them outside the operating multiple (UBS, multiples, 2017).
 
-## Profit pool and competitive dynamics
+### Profit pool and competitive dynamics
 
 - Metals and mining (1,481 listed firms, four-firm revenue concentration about 8.2 percent) and chemicals (1,048 firms, 14.3 percent) were among the most fragmented industries; the top-10 share of chemicals invested capital was about 23 percent (Global Industry Profit Pools, HOLT, data to June 2016) (verify).
 - Commodities had a median ROIC of about 5.8 percent and paper and forest products a persistently low one; chemicals and metals and mining were classed as cyclical (US, 1965-2007; McKinsey ch. 4) (verify).
@@ -913,7 +917,7 @@ The reason: consensus EPS for cyclicals has historically trended upward through 
 - Low-end disruption: mini-mills displaced integrated steel mills from the bottom of the market (Measuring the Moat, 2013).
 - Replacement cost limits returns: when market values implied aluminium fabricating capacity above its replacement cost of about $1,000 per tonne a year, overbuilding followed (Security Analysis, 6th ed., Greenwald essay) (verify).
 
-## Persistence and fade
+### Persistence and fade
 
 Label: historical base rate, top 1,000 global companies ex-financials and utilities, 1950-2015 (CFROI: global, about $250M market cap and above, 1983-2015). Not a forecast and not a current fact (Base Rate Book, 2016) (verify). Tables in `references/base-rates.md` (Tables 7 to 10).
 
@@ -926,7 +930,7 @@ Label: historical base rate, top 1,000 global companies ex-financials and utilit
 
 Read: about 41 percent of excess CFROI has historically remained after four years. The sector mean is cyclical, so fade toward a mid-cycle mean rather than the latest sector average (Base Rate Book, Part 3).
 
-## Valuation conventions and pitfalls
+### Valuation conventions and pitfalls
 
 - EV/EBITDA on mid-cycle EBITDA within peers of similar capital intensity; EV/EBIT where depreciation burdens differ (UBS, 2017).
 - Mining: net asset value from mine-by-mine DCF at a stated price deck, with price sensitivity. Undeveloped deposits carry option value: in McKinsey's mining example a project with standard NPV of -9.1 had a real-option value of 19.5 (ch. 32) (verify). Use option methods only where value and volatility of the underlying are reliable.
@@ -935,7 +939,7 @@ Read: about 41 percent of excess CFROI has historically remained after four year
 - P/B is useful only next to ROE, and book value after impairments is not replacement cost.
 - Load `references/valuation.md` and `references/multiples-and-peers.md`.
 
-## Questions for the earnings call
+### Questions for the earnings call
 
 1. What were utilisation and industry operating rates, and what capacity is coming on across the industry in the next two years?
 2. How did margin change split between price, volume, mix, input costs and efficiency?
@@ -945,21 +949,21 @@ Read: about 41 percent of excess CFROI has historically remained after four year
 6. (Mining) How are grade, strip ratio and reserve life trending?
 7. What would the company do with capital at the trough: buy assets, buy back stock, or cut?
 
-## What to watch at the macro level
+### What to watch at the macro level
 
 Industrial production and construction activity, especially China property and infrastructure; global steel, aluminium and chemical capacity additions and closures; energy and feedstock prices; freight; the US dollar; trade policy and tariffs on metals; and environmental regulation that raises cost or closes capacity. Treat any current price as a scenario input, never as a forecast.
 
-## Communication services
+## Communication services (communication-services)
 
 Scope: telecom carriers (wireless, fixed line, cable and fiber), towers and other network infrastructure owned by carriers, media and entertainment (content, broadcasting, publishing, games), and interactive media (search, social, online advertising platforms). These businesses share little beyond the GICS label: carriers are capital-heavy utilities with competition, media are content portfolios, and interactive media are high-margin network businesses. Analyze the company by its own model. A figure marked "(verify)" is a judgment or dated: check it against the peer set and period before use.
 
-## How the sector makes money and the value drivers
+### How the sector makes money and the value drivers
 
 - **Carriers:** subscribers x revenue per user (ARPU), minus churn, on a network whose cost is mostly fixed. Value comes from pricing discipline in a concentrated market, network quality, the cost of spectrum and capex, and leverage. Growth tracks population and price; few carriers grow faster than nominal GDP for long (judgment, verify).
 - **Media:** content spending (an investment, often expensed or amortized fast) earns advertising, subscription, licensing and box-office revenue over several years. Value comes from the hit rate, the library's reuse value and distribution reach.
 - **Interactive media:** users x engagement x monetization per unit of engagement (ad load, price per ad). Network effects, data and low marginal cost drive returns; the main costs are engineering, data centers and payments to traffic partners.
 
-## The metrics that matter
+### The metrics that matter
 
 | Metric | Definition | Why it matters |
 |---|---|---|
@@ -975,7 +979,7 @@ Scope: telecom carriers (wireless, fixed line, cable and fiber), towers and othe
 
 Practitioner ranges (judgment, not in the sources, verify): carrier capex at about 12 to 20 percent of revenue, higher during network builds; carrier net debt of about 2 to 3.5 times EBITDA; monthly postpaid phone churn under about 1 percent in concentrated markets.
 
-## What the statements do differently and the accounting traps
+### What the statements do differently and the accounting traps
 
 - **Spectrum licenses** are often carried as indefinite-lived intangibles and not amortized under US GAAP (verify by jurisdiction), so EBIT omits the cost of the asset. Include spectrum purchases in capital spending when testing cash generation.
 - **Leases.** Tower and site leases sit on the balance sheet under IFRS 16 and ASC 842, but EBITDA differs: IFRS puts lease cost below EBITDA, US GAAP mostly within it. Compare carriers across standards only after aligning this (McKinsey ch.27 for the method; standards verify).
@@ -986,7 +990,7 @@ Practitioner ranges (judgment, not in the sources, verify): carrier capex at abo
 - **Stock-based compensation** at platforms: show margins and FCF with and without it, and roll the share count forward.
 - **Recurring one-time items.** Restructuring and impairments recur at carriers and legacy media; count how many of the last five years carried them.
 
-## Profit pool and competitive dynamics
+### Profit pool and competitive dynamics
 
 - **Carriers are a few-player game.** HOLT's profit pools (data June 2016, verify) put wireless telecom at 87 firms, a four-firm revenue ratio of 37.0 percent globally, and a top-ten share of invested capital of 59 / 53 / 69 percent (2005 / 2010 / 2015). National markets are far more concentrated than the global ratio. With high fixed costs, a new entrant or a price war resets returns; rational pricing in a repeated game sustains them (Measuring the Moat, pp.42-45).
 - **Media are fragmented**: 748 firms and a four-firm ratio of 19.7 percent in the same study (verify). Returns depend on the library and the hit rate more than on structure.
@@ -994,7 +998,7 @@ Practitioner ranges (judgment, not in the sources, verify): carrier capex at abo
 - **Who captures value.** Carriers carry most of the capital; platforms and content owners earn higher spreads on less of it. Map the pool across carriers, platforms, content owners and device makers before calling any part attractive (`references/industry-structure.md`).
 - **Substitutes and disruption.** Streaming against linear TV, messaging against voice, fixed wireless against cable: each is a new-market or low-end disruption to test.
 
-## Persistence and fade
+### Persistence and fade
 
 Historical base rates, not current facts (verify against current data). The base-rate sample uses the pre-2018 GICS sector "Telecom services". Media and internet companies were then classified in consumer discretionary and information technology, so the telecom row describes carriers only; use the IT row from the software primer for platforms.
 
@@ -1009,7 +1013,7 @@ Historical base rates, not current facts (verify against current data). The base
 
 Reading: carriers combine the highest median operating margin with a low median CFROI, because the margin is earned on a large asset base (telecom ranks third for fixed assets to total assets after energy and materials, Damodaran data January 2015). The sector's coefficient of variation for CFROI is among the highest, and the persistence correlation itself moves a lot over time (SD of the gross profitability r about 0.24), so state a wide range. The high operating margin beta means a revenue shortfall hits profit hard.
 
-## Valuation conventions and their pitfalls
+### Valuation conventions and their pitfalls
 
 - **Carriers:** EV/EBITDA is the convention, but it ignores capex, so compare it only among carriers with similar capital intensity and add EV/(EBITDA - capex) and FCF yield after leases and spectrum (multiples notes 2.4). Dividend yield is a floor value, not a valuation, and needs a check of payout against FCF and net debt. Sum of parts (towers, fiber, spectrum, the operating company) is valid only with peers of similar performance (`references/valuation.md`).
 - **EV per subscriber** says nothing about profitability; it is fair only as sustainable NOPLAT per subscriber (multiples notes 2.4). Late-1990s internet valuations per customer (Yahoo $2,038, Amazon $1,400) show how such metrics lose meaning (McKinsey ch.14).
@@ -1017,7 +1021,7 @@ Reading: carriers combine the highest median operating margin with a low median 
 - **Media:** EV/EBITDA misleads when content cash spend exceeds amortization; use FCF over several years. Value a library on the cash it will earn, not on cost.
 - **Interactive media:** EV/EBIT, P/E and FCF yield once margins are representative; the high-growth method for younger platforms. Check what growth and competitive advantage period the price implies (`references/expectations.md`).
 
-## Questions a specialist asks on the earnings call
+### Questions a specialist asks on the earnings call
 
 1. How much of ARPU growth came from price rises, mix and promotions rolling off?
 2. What were gross adds, churn and net adds by segment, and who gained share?
@@ -1028,7 +1032,7 @@ Reading: carriers combine the highest median operating margin with a low median 
 7. How did engagement and users change by region and product?
 8. What regulatory decisions (spectrum auctions, mergers, platform rules) are pending (verify)?
 
-## What to watch at the macro level
+### What to watch at the macro level
 
 - Interest rates: carriers carry high debt and pay large dividends, so refinancing costs move value (judgment).
 - Advertising spending follows the business cycle; McKinsey lists advertising among industries with a falling median ROIC trend (ch.4, 1965-2007, verify).
@@ -1037,11 +1041,11 @@ Reading: carriers combine the highest median operating margin with a low median 
 - Currency: emerging-market carriers report in local currency; use constant-currency growth.
 - Sales growth correlates only moderately with GDP (r 0.51, 1950-2014).
 
-## Utilities
+## Utilities (utilities)
 
 This primer covers regulated electric, gas and water utilities, integrated utilities that also own generation, and the unregulated power and renewables businesses that often sit in the same group. Independent power producers and merchant generators are commodity businesses; value them with the cyclical methods in `valuation.md` and the energy primer. Every figure below is historical, illustrative or a judgment range, never a current fact; check each one marked "(verify)" before use.
 
-## How the sector makes money and what drives value
+### How the sector makes money and what drives value
 
 A regulated utility is a local monopoly. In exchange, a regulator sets the prices it may charge so that it recovers its operating costs, the depreciation of its assets, taxes, and an allowed return on its rate base (in the UK and Europe, the regulated asset base, RAB): the net investment the regulator recognises. Allowed revenue is roughly operating costs + depreciation + taxes + rate base x allowed return (judgment, standard regulatory construction; verify by jurisdiction).
 
@@ -1055,7 +1059,7 @@ The value drivers follow from that:
 
 Unregulated segments (merchant generation, contracted renewables, trading) earn on power prices, contract terms and tax incentives, and carry commodity risk.
 
-## Metrics that matter
+### Metrics that matter
 
 | Metric | Definition | Why it matters | Indicative range, US regulated utilities (judgment, verify) |
 |---|---|---|---|
@@ -1071,7 +1075,7 @@ Unregulated segments (merchant generation, contracted renewables, trading) earn 
 
 Rate case filings and decisions, capital plans and rate base are in investor presentations and regulatory filings; use `bigdata_search` and `bigdata_fetch_document`.
 
-## Financial statements and accounting traps
+### Financial statements and accounting traps
 
 - Regulatory assets and liabilities: costs the regulator has allowed the utility to defer and recover later, and amounts it must return. If a regulator disallows recovery, the asset is written off (verify the accounting standard, ASC 980 in the US).
 - Allowance for funds used during construction (AFUDC): a non-cash return booked on assets under construction. It lifts reported earnings before the asset earns cash; large capex programmes make it material.
@@ -1081,20 +1085,20 @@ Rate case filings and decisions, capital plans and rate base are in investor pre
 - Separate regulated from unregulated earnings. Losses or gains in trading, merchant power or tax-credit sales can hide in consolidated EPS.
 - Old coverage tests do not transfer: in 1929 buyers of utility bonds with thin interest coverage relied on the earnings trend and lost (Graham and Dodd, Security Analysis, p. 85); the book's specific utility tests are 1930s standards. The lesson that stands: test coverage under a bad rate case or a cost shock, not on the trend.
 
-## Profit pool and competitive dynamics
+### Profit pool and competitive dynamics
 
 Regulated utilities do not compete for customers in their franchise areas; they compete for capital and for the regulator's approval. Returns are close to the cost of capital by design (judgment), and the data match: utilities had a median ROIC of 6.3% without goodwill, low and stable, over 1965-2007 (McKinsey, Valuation 5th ed., ch. 4, US non-financial companies), and traded at about 1.5 times invested capital with ROIC of 6.9% and growth of 3.2% in 2006, against a median of 2.7 times for large non-financials (ch. 15; dated, verify). Unregulated power has been less kind: the economic spread of multi-utilities and unregulated power fell from -0.1 to -1.2 points between 2010 and 2015 (Mauboussin and HOLT, Global Industry Profit Pools, July 2016, p. 4). Water utilities had a four-firm concentration of 55.2% and multi-utilities 43.8% (same source, global listed, 2015; verify).
 
 The quality of the regulator matters more than anything the company controls: whether allowed returns track the cost of capital, how long rate cases take, and whether costs such as storms or wildfire liability are shared with customers (judgment). Capital allocation choices are limited by allowed returns (Mauboussin, Capital Allocation, 2015, p. 45).
 
-## Persistence and fade
+### Persistence and fade
 
 - The gross profitability, operating margin and operating leverage tables in `base-rates.md` exclude utilities (Base Rate Book, 2016, sections 2.5, 2.6, 2.8). Do not apply them.
 - The CFROI table includes utilities: four-year r 0.57, median 3.5%, mean 4.1%, standard deviation of the sector mean 0.8 points (global, live and dead, 1983-2015); the older cut gives r 0.54 and mean 4.1% (1986-2012). Returns are low and fairly persistent, with little excess to fade.
 - Utilities have the longest asset lives of any sector, about 29.4 years against 6.6 for information technology (HOLT, 2013, in Mauboussin, A Long Look at Short-Termism, 2014; verify).
 - Sales and earnings growth tables cover all sectors; utility revenue includes pass-through fuel costs, so use rate base and EPS growth instead.
 
-## Valuation conventions and pitfalls
+### Valuation conventions and pitfalls
 
 **Why the standard ROIC build and generic enterprise multiples do not apply.** The ROIC method in `roic.md` assumes returns are set by competition and fade toward the cost of capital as rivals enter. A regulated utility's return is administered: the regulator sets it, usually near the cost of capital, so the moat and fade analysis does not describe what drives value. Value comes from how fast the rate base grows and how far earned ROE sits above the cost of equity. Generic EV/EBITDA comparisons mislead because EBITDA depends on depreciation rates and recovery timing set in rate cases, on pass-through fuel revenue, and on regimes that differ by jurisdiction, and because the debt level is set by the allowed capital structure rather than chosen freely. The same P/E can hide very different economics: Apple and Edison International both traded at 12.8x earnings in 2013 with CFROI of about 25% and 5% (Mauboussin and Callahan, What Does a Price-Earnings Multiple Mean?, 2014, p. 2).
 
@@ -1107,7 +1111,7 @@ The quality of the regulator matters more than anything the company controls: wh
 
 **Pitfalls.** Treating the stock as a bond and ignoring rate base growth. Ignoring equity issuance needed to fund capex. Counting AFUDC as cash. Assuming earned equals allowed ROE. Comparing P/E across jurisdictions with different regulatory quality. Missing tail liabilities such as wildfire, which a point estimate cannot show; use scenarios. Reading past total returns as a guide: utilities returned 11.3% a year over 1996-2006 mainly through a rerating from a high starting earnings yield, despite low ROIC and growth (McKinsey ch. 15).
 
-## Questions for the earnings call
+### Questions for the earnings call
 
 - What is the earned ROE by jurisdiction against allowed, and what closes the gap?
 - What rate cases are pending, what is requested, and when are decisions due?
@@ -1117,10 +1121,10 @@ The quality of the regulator matters more than anything the company controls: wh
 - What is the customer bill increase implied by the plan, against inflation?
 - What recovery mechanisms exist for storm and wildfire costs, and what liability exposure remains?
 
-## What to watch at the macro level
+### What to watch at the macro level
 
 Long-term interest rates, which move both the cost of debt and how investors value stable dividends; inflation, which raises costs before rates reset; electricity demand from data centres, electrification and manufacturing; natural gas prices, which drive customer bills and political pressure on regulators; energy and climate policy, including tax incentives for renewables (verify current law); and weather and wildfire risk. ETFs owned 7.8% of large-cap utility market value at 30 September 2016 (Mauboussin, Looking for Easy Games, 2017, p. 14; verify).
 
-## Sources
+### Sources
 
 McKinsey, Valuation 5th ed. (2010), ch. 4 and 15; Mauboussin, Base Rate Book (2016), Reversion to the Mean (2013), Capital Allocation (2015), A Long Look at Short-Termism (2014), Looking for Easy Games (2017); Mauboussin and Callahan, What Does a Price-Earnings Multiple Mean? (2014); Mauboussin and HOLT, Global Industry Profit Pools (2016); Klarman, Margin of Safety (1991); Graham and Dodd, Security Analysis 6th ed. (2009). The regulatory construction, metric ranges, accounting items and call questions are judgment.

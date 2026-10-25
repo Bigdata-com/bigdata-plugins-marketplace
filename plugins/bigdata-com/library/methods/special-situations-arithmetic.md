@@ -12,11 +12,11 @@ bigdata-special-situations runs the whole method. bigdata-deal-analysis uses ste
 |---|---|---|
 | Deal terms: consideration and mix, conditions, expected close, regulatory steps, termination fee, financing | `bigdata_search` over filings and news; `bigdata_fetch_document` on the merger agreement, proxy, tender offer or Form 10 | reported |
 | Current price and the unaffected price before rumours and the announcement | `company_overview` section; `bigdata_computer` for the daily series | reported |
-| Dividends and interest during the hold | `financial_statements, financial_ratios, key_metrics`, `dividends`; filings | reported |
+| Dividends and interest during the hold | `financial_statements`, `dividends`; filings | reported |
 | Spin-off: capitalisation, segment profit, management ownership and option terms, holder base | Form 10 and filings via search; `revenue_segmentation`; `fund_trends_history` | reported |
-| Capital structure by seniority, cash, assets for sale, off-balance-sheet claims | Filings via search; `financial_statements, financial_ratios, key_metrics` | reported |
-| Vote, hearing, record and expiry dates | `bigdata_events_calendar`; filings | reported |
-| Prices of distressed bonds or other layers | Verify whether `bigdata_get_credit_factor` returns them; otherwise not available | reported or not available |
+| Capital structure by seniority, cash, assets for sale, off-balance-sheet claims | Filings via search; `financial_statements`, `key_metrics` | reported |
+| Vote, hearing, record, expiry and regulatory dates | The proxy, merger agreement, tender documents and 8-Ks via `bigdata_search` and `bigdata_fetch_document`; the corporate calendar carries earnings, conferences, IPOs and delistings only | reported |
+| Prices of distressed bonds or other layers | Not in a Bigdata.com data set (`bigdata_get_credit_factor` returns credit-news catalysts, not prices); quoted prices from news and research via `bigdata_search` when a document carries them, else state the gap | reported or not available |
 | Break price, outcome probabilities, resolution dates, financing cost | Chosen and stated with the reason | assumed |
 
 ## Procedure
@@ -34,7 +34,7 @@ bigdata-special-situations runs the whole method. bigdata-deal-analysis uses ste
 ## Formulas
 
 1. Expected return = sum over outcomes i of p_i x (V_i / P - 1), with P the price paid, V_i the value received in outcome i including dividends and interest, and p_i its probability; the p_i sum to 1 and always include the break outcome. Annualised return for outcome i = (V_i / P)^(365 / d_i) - 1, with d_i the days to resolution (derived). Report it for several resolution dates, as Klarman does for Texaco 11.875% debentures bought at 90 in November 1987: 44.1%, 25.4% and 19.5% a year if paid in full after one, two or three years (ch. 6; the inputs behind these figures are not in the notes). If value is unchanged, a further price fall only improves the entry.
-2. Gross spread = (F - P) / P, with F the consideration at close. Implied completion probability p* = (P - B) / (F - B), with B the break price. Downside-to-upside ratio = (P - B) / (F - P). If the analyst's probability is below p*, the price assumes more confidence than the analyst has; if above, less (derived arithmetic, not stated in the notes).
+2. Gross spread = (F - P) / P, with F the consideration at close. Implied completion probability p* = (P - B) / (F - B), with B the break price. Downside-to-upside ratio = (P - B) / (F - P). If the analyst's probability is below p*, the price assumes more confidence than the analyst has; if above, less (derived arithmetic, not stated in the notes). Carry and the hedge (not in the sources; standard risk-arbitrage practice): the cost of holding to close = financing rate x days to close / 365, plus dividends the target pays less dividends paid on any short leg; net it from the spread before reading p*, so p* = (P + carry - B) / (F - B). For a stock-for-stock deal, F = exchange ratio x the acquirer's current price, the position is long the target and short the exchange ratio of acquirer shares, and the break loss includes the short leg. Report the annualised net spread next to the risk-free rate; a spread below it says the market sees the deal as done (Klarman annualises returns by holding period in ch. 12 and hedges the Burlington Northern spin-off pair in ch. 10).
 3. Rights offering: post-offering value per share = (N x P + n x S) / (N + n), with N shares before at value or price P, and n new shares subscribed at price S. Klarman's example: 1,000,000 shares at 25 and rights to buy one more share at 15; if all subscribe, value is 20; if rights for 50,000 shares go unused, value is 20.13 and non-subscribers lose almost 20%. An oversubscription privilege can pay: 50,000 extra shares bought at 15 and worth 20 gain 250,000 (ch. 10).
 4. Conversion of a mutual financial company: pro forma book value per share = (pre-conversion net worth + net proceeds) / shares after conversion. Net worth of 10 million plus 10 million raised on 1 million shares gives 20 per share: buyers get the existing capital at no cost. In an ordinary IPO where insiders bought 1 million shares at 1 and the public pays 11 for 1 million, book value is 6 and the public is diluted by 5 per share (Klarman ch. 11).
 5. Buyback accretion from excess capital: book value per share after = (E - B) / (N - B / P), with E equity, B cash spent, P the buyback price and N shares before. JSB Financial (1990): buying back at two-thirds of book would lift pro forma book value from 21.12 to 25.00, up 18% (Klarman ch. 11).
@@ -113,7 +113,7 @@ Process (Klarman ch. 12): (1) separate the ongoing business from assets availabl
 
 ## Sources
 
-- Notes: klarman.md (ch. 6 to 12, sections 3 to 6); security-analysis.md (ch. 43, Merkin, section 4); mckinsey-part2.md (ch. 21, 22); mckinsey-part1.md (ch. 12 and the addendum to ch. 1-2); capital-allocation.md (sections 1.3 and 3.2).
+- Notes: Klarman, Margin of Safety (ch. 6 to 12, sections 3 to 6); Graham and Dodd, Security Analysis, 6th ed. (ch. 43, Merkin, section 4); McKinsey, Valuation, 5th ed. (ch. 21, 22); McKinsey, Valuation, 5th ed. (ch. 12 and the addendum to ch. 1-2); capital-allocation.md (sections 1.3 and 3.2).
 - Klarman, Margin of Safety (1991): ch. 6, 8, 9, 10, 11, 12.
 - Graham and Dodd, Security Analysis, 6th ed. (2009): Merkin introduction p. 265-288; ch. 43 p. 559-574; p. 441.
 - McKinsey, Valuation, 5th ed. (2010): ch. 12 p. 282-290; ch. 22 p. 469-488; addendum to ch. 1-2.

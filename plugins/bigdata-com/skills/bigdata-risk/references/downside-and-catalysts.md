@@ -10,11 +10,11 @@ Load it for a thesis or memo, deep dive, quick take (the downside line and the n
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Cash, marketable securities, receivables, inventories, PP&E gross and net, goodwill and intangibles, current and total liabilities, debt, leases | `bigdata_company_tearsheet`, `financial_statements, financial_ratios, key_metrics` balance sheet, five fiscal periods | reported |
-| Free cash flow, capex, depreciation, stock-based compensation | `financial_statements, financial_ratios, key_metrics` cash flow and income statement | reported |
-| Market cap, EV, net debt, FCF yield, multiples, share count | `financial_statements, financial_ratios, key_metrics` key metrics | reported |
+| Cash, marketable securities, receivables, inventories, PP&E gross and net, goodwill and intangibles, current and total liabilities, debt, leases | `bigdata_company_tearsheet`, `financial_statements` balance sheet, five fiscal years (`interval` annual) | reported |
+| Free cash flow, capex, depreciation, stock-based compensation | `financial_statements` cash flow and income statement | reported |
+| Market cap, EV, net debt, FCF yield, multiples, share count | `key_metrics` | reported |
 | Segment revenue and profit | `revenue_segmentation` | reported |
-| Holders and changes (who sold, who bought) | `fund_trends_history`, `fund_trends_history` | reported |
+| Holders and changes (who sold, who bought) | `fund_trends_history`: 13F holders, top buyers and sellers, position changes, options activity; quarterly and filed with a lag, so it shows who was selling over the quarter, not who sold on a given day | reported |
 | Dated catalysts: next earnings, shareholder meeting, deal milestones | `bigdata_events_calendar`; `bigdata_search` over filings and news | reported |
 | Buyback authorisations, spin-offs, asset sales, activist stakes, covenants, pension and contingent liabilities, insider purchases | `bigdata_search` over filings, news and transcripts | reported |
 | M&A history, executives, insider ownership | `mergers_acquisitions`, `c_level_leadership` | reported |
@@ -131,7 +131,7 @@ Not in the sources: a kill-criteria template as such; table 4 is this file's con
 
 ## Sources
 
-- Notes: klarman.md (sections 1 to 3 and 5: Ch.1, 2, 3, 6 to 10, 13); security-analysis.md (Klarman preface, Ch.42 and 43, Greenwald, Greenberg, Russo, sections 3 to 5); decisions-price-moves.md (MI, FC, 30Y).
+- Notes: Klarman, Margin of Safety (sections 1 to 3 and 5: Ch.1, 2, 3, 6 to 10, 13); Graham and Dodd, Security Analysis, 6th ed. (Klarman preface, Ch.42 and 43, Greenwald, Greenberg, Russo, sections 3 to 5); Mauboussin, Man Overboard (2015) and Celebrating the Summit (2016) (MI, FC, 30Y).
 - Klarman, Margin of Safety: Risk-Averse Value Investing Strategies for the Thoughtful Investor (1991).
 - Graham and Dodd, Security Analysis, 6th ed. (2009; text of the 1940 edition, with essays by Klarman, Greenberg, Greenwald and Russo).
 - Credit Suisse Global Financial Strategies: "Methods to Improve Decisions" (24 Feb 2014); "Sharpening Your Forecasting Skills" (28 Sep 2015); "Thirty Years: Ten Attributes of Great Investors" (4 Aug 2016).

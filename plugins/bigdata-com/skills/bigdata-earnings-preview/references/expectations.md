@@ -10,14 +10,14 @@ Load it wherever a view on a stock is formed: valuation and reverse DCF, multipl
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Market cap, enterprise value, net debt | `bigdata_company_tearsheet`, `financial_statements, financial_ratios, key_metrics` key metrics. Add minorities, preferred, pension deficit and leases from the balance sheet when the EV field leaves them out | reported |
-| EBIT, income tax, pretax income, sales, capex, depreciation, working capital, invested capital | `financial_statements, financial_ratios, key_metrics` statements, five fiscal periods | reported |
+| Market cap, enterprise value, net debt | `bigdata_company_tearsheet`, `key_metrics`. Add minorities, preferred, pension deficit and leases from the balance sheet when the EV field leaves them out | reported |
+| EBIT, income tax, pretax income, sales, capex, depreciation, working capital, invested capital | `financial_statements`, five fiscal years (`interval` annual) | reported |
 | Tax rate | Income tax / pretax income, normalised for one-off tax items | derived |
 | Consensus sales, EBIT, EPS to FY+4, long-term growth | `analyst_estimates`, with the vintage date and the number of estimates | reported |
 | NOPAT0, NOPAT1 | EBIT x (1 - tax rate); NOPAT1 uses consensus EBIT for the next fiscal year | derived |
 | Investment | Change in working capital + capex net of depreciation + acquisitions (EI p.63) | derived |
-| ROIIC | (NOPAT1 - NOPAT0) / Investment0; use rolling averages when investment is lumpy (PE p.9) | derived |
-| Cost of capital | Not in Bigdata.com. Set from the current 10-year government yield in the currency of the cash flows plus an equity risk premium, and show a sensitivity of at least plus and minus 1 point | assumed |
+| ROIIC | (NOPAT1 - NOPAT0) / Investment0, as a three-year rolling average; a one-year ROIIC is noisy and can reflect operating leverage rather than returns on new capital (PE p.9; Calculating ROIC, 2014, p. 13; Damodaran 2007, p. 51) | derived |
+| Cost of capital | Not in Bigdata.com. Use the WACC built in `references/valuation.md` when that file is loaded. Otherwise: cost of equity = 10-year government yield in the currency of the cash flows + beta x equity risk premium; WACC weights it with the after-tax cost of debt at market values. State every input and show a sensitivity of at least plus and minus 1 point | assumed |
 
 Use free cash flow as "cash earnings minus investments", where cash earnings = sales x operating margin less cash taxes. Do not substitute cash from operations less capex (EI p.63). Treat large R&D as investment when judging returns (EI p.63-64).
 
@@ -36,7 +36,7 @@ Use free cash flow as "cash earnings minus investments", where cash earnings = s
 **1. Steady state and future value creation** (Mauboussin and Callahan, "What Does a Price-Earnings Multiple Mean?", 2014, pp.3-9; "PE")
 
 - Firm value = steady-state value + future value creation.
-- Steady-state value = (normalised NOPAT + excess cash) / cost of capital. It assumes current NOPAT lasts forever and new investment earns exactly the cost of capital.
+- Steady-state value = normalised NOPAT / cost of capital. This is the operating business alone; excess cash is added once, in the equity bridge below, never inside the perpetuity. It assumes current NOPAT lasts forever and new investment earns exactly the cost of capital.
 - Future value creation = Investment x (ROIIC - cost of capital) x CAP / [cost of capital x (1 + cost of capital)].
 - Equity value = steady state + future value creation + excess cash - debt. Excess cash is net of any repatriation tax; debt includes preferred and other senior claims (PE p.4).
 - Steady-state P/E = 1 / cost of equity. At an 8 percent cost of equity it is 12.5x (PE p.4, using a 3 percent 10-year yield plus a 5 percent premium on 1 Jan 2014; verify and recompute from today's inputs).
@@ -71,6 +71,8 @@ The three triggers are sales, operating costs and investments; they move the thr
 - ROIIC near the cost of capital (value-neutral business): the incremental return moves value; growth does not. EI's distributor example: changing growth did not move value, while 300 basis points more incremental return almost doubled it.
 - ROIIC far above the cost of capital (value-creating business): sales growth moves value.
 - ROIIC below the cost of capital: faster growth destroys value.
+
+Classify on the three-year rolling ROIIC from the inputs table, never on a single year, and say when operating leverage rather than returns on new investment could explain a high reading (Calculating ROIC, 2014, p. 13).
 
 Run "if, then" cases on the trigger that matters: if consensus sales growth moves 2 points either way, what happens to margin, investment and value. Analysts consistently underestimate how changes in sales flow into margins, on the way up and on the way down (EI p.68).
 
@@ -129,7 +131,7 @@ Not in the sources: an "80/20" rule on where expectations sit in a share price. 
 
 ## Sources
 
-- Note: expectations-multiples-dcf.md, sections 1.1 to 1.3, 2.6, 2.7, 3.1 (rows 2 and 9), 5 and 6.
+- Note: Mauboussin, Expectations Investing; Robinson and Weyns, UBS multiples and DCF papers (2017), sections 1.1 to 1.3, 2.6, 2.7, 3.1 (rows 2 and 9), 5 and 6.
 - Mauboussin, "Expectations Investing: Reading Stock Prices for Better Returns", CFA Institute Conference Proceedings Quarterly, Sept 2006, pp.61-70 ("EI").
 - Mauboussin and Callahan, "What Does a Price-Earnings Multiple Mean?", Credit Suisse, 29 Jan 2014, pp.2-21 ("PE").
 - Robinson and Weyns, UBS, "How to analyse and talk the language of multiples", 16 Mar 2017 ("MULT").

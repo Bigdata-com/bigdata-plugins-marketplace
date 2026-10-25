@@ -10,7 +10,7 @@ bigdata-capital-allocation runs the whole method; bigdata-deal-analysis runs ste
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| CFO, capex, depreciation, acquisitions, divestitures, working capital, dividends, buybacks, issuance, SBC, debt, gross and net PP&E, invested capital, ROIC, cash conversion cycle, market cap, EV | `bigdata_company_tearsheet`, section `financial_statements, financial_ratios, key_metrics` | reported |
+| CFO, capex, depreciation, acquisitions, divestitures, working capital, dividends, buybacks, issuance, SBC, debt, gross and net PP&E, invested capital, ROIC, cash conversion cycle, market cap, EV | `bigdata_company_tearsheet`, section `financial_statements`, `financial_ratios`, `key_metrics` | reported |
 | Deal history | `mergers_acquisitions` section; `bigdata_search` for each announcement (price, premium, synergies, payment form, integration cost) | reported |
 | Price series around announcements and over the buyback years | `company_overview` section; `bigdata_computer` for daily series | reported, derived |
 | Repurchase actuals, proxy statement (incentive metrics, performance period, clawback), insider sales | `bigdata_search` over filings, then `bigdata_fetch_document` | reported |
@@ -128,7 +128,7 @@ EBITA / interest of about 5 to 11 corresponds to A+ to BBB-, and value barely ch
 
 ## Sources
 
-- Notes: capital-allocation.md (sections 1-4, 6, 9); security-analysis.md (Berkowitz, Ch. 29, 44); mckinsey-part1.md (ch. 2, 8); mckinsey-part2.md (ch. 21-23); tam-leverage-profit-pools.md (section 2.6); decisions-price-moves.md (JD).
+- Notes: capital-allocation.md (sections 1-4, 6, 9); Graham and Dodd, Security Analysis, 6th ed. (Berkowitz, Ch. 29, 44); McKinsey, Valuation, 5th ed. (ch. 2, 8); McKinsey, Valuation, 5th ed. (ch. 21-23); Mauboussin, Total Addressable Market (2015), Operating Leverage (2016) and Global Industry Profit Pools (2016) (section 2.6); Mauboussin, Man Overboard (2015) and Celebrating the Summit (2016) (JD).
 - Mauboussin (Credit Suisse): Capital Allocation, 2 Jun 2015 and 19 Oct 2016; Capital Allocation Outside the U.S., 15 Nov 2016; Disbursing Cash to Shareholders, 6 May 2014; To Buy or Not To Buy, 27 Feb 2017; Operating Leverage, 14 Jun 2016; Cultivating Your Judgment Skills, 7 May 2013.
 - McKinsey, Valuation, 5th ed. (2010): ch. 2 p. 17-44; ch. 8 p. 165-186; ch. 21 p. 445-468; ch. 22 p. 469-488; ch. 23 p. 489-524.
 - Graham and Dodd, Security Analysis, 6th ed. (2009): Berkowitz p. 341-347; ch. 29 p. 376-392; ch. 44 p. 575-590.

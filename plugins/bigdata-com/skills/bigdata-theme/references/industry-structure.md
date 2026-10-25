@@ -10,7 +10,7 @@ Moat, deep dive, thesis, sector and theme work, and any valuation that sets a co
 
 | Input | Where in Bigdata.com | Basis |
 |---|---|---|
-| ROIC, margins, revenue, invested capital for the company and each peer | `bigdata_company_tearsheet`, `financial_statements, financial_ratios, key_metrics` | reported |
+| ROIC, margins, revenue, invested capital for the company and each peer | `bigdata_company_tearsheet`, `financial_statements`, `financial_ratios`, `key_metrics` | reported |
 | Revenue by product and geography, five years | `revenue_segmentation` | reported |
 | Peer candidates | `bigdata_screen_companies`, peers named in filings, `mergers_acquisitions` | reported |
 | Industry size and shares, supplier and customer concentration, contract terms, price changes, capacity, entrants and exits | `bigdata_search` (one aspect and one period per call; see the evidence table) | reported |
@@ -125,7 +125,7 @@ Barrier checklist (pp. 19-25): asset specificity; minimum efficient scale agains
 
 ## Sources
 
-- Notes: roic-moat.md (paper E, steps 1 to 6 and the checklist); tam-leverage-profit-pools.md (sections 1.5, 2.3, 3, 4, 5); skill-market-structure.md (How Well Do You Compare, Triple Crown, energy cost curves); expectations-multiples-dcf.md (1.1, market-implied CAP); old skill bigdata-moat-governance-review references porter-five-forces.md and moat-taxonomy.md.
+- Notes: Mauboussin, Calculating ROIC (2014) and Measuring the Moat (2016) (paper E, steps 1 to 6 and the checklist); Mauboussin, Total Addressable Market (2015), Operating Leverage (2016) and Global Industry Profit Pools (2016) (sections 1.5, 2.3, 3, 4, 5); Mauboussin, Looking for Easy Games (2017) (How Well Do You Compare, Triple Crown, energy cost curves); Mauboussin, Expectations Investing; Robinson and Weyns, UBS multiples and DCF papers (2017) (1.1, market-implied CAP); old skill bigdata-moat-governance-review references Mauboussin, Measuring the Moat (2016), the five-forces section and Mauboussin, Measuring the Moat (2016).
 - Mauboussin, M. and Callahan, D., "Measuring the Moat: Assessing the Magnitude and Sustainability of Value Creation", Credit Suisse, 22 July 2013, pp. 3-55 (page references without a title are to this paper).
 - Mauboussin, M. and Callahan, D., "Calculating Return on Invested Capital", Credit Suisse, 2014, pp. 12-15.
 - Mauboussin, M. et al., "Global Industry Profit Pools", Credit Suisse HOLT, July 2016; "Total Addressable Market", Sep 2015; "Operating Leverage", June 2016; "Corporate Longevity", Feb 2017; "The Incredible Shrinking Universe of Stocks", Mar 2017.
