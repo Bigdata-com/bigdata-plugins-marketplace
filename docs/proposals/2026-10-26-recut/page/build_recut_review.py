@@ -42,7 +42,7 @@ er_cur = rd(f"{PLUG}/skills/bigdata-earnings-review/SKILL.md")
 val_new = rd(f"{RECUT}/valuation.recut.md")
 er_new = rd(f"{RECUT}/earnings-review.recut.md")
 std_cur = rd(f"{PLUG}/library/output-standard.md")
-style_new = rd(f"{RECUT}/house-style.md")
+style_new = rd(f"{RECUT}/output-standard.recut.md")
 br = rd(f"{PLUG}/library/methods/base-rates.md")
 br_formula = section(br, "Formulas").split("\n**2.")[0].strip()
 br_sources = section(br, "Sources").strip()
@@ -67,88 +67,71 @@ val_new_words = len(body_of(val_new).split()); er_new_words = len(body_of(er_new
 def md_list(items): return "\n".join(f"- {i}" for i in items)
 
 ITEMS = []
-def item(id, title, what, before, after, options=("Approve", "Approve with changes", "Reject"), before_label="Now", after_label="Proposed", layout="two"):
-    ITEMS.append({"id": id, "title": title, "what": what, "before": before, "after": after, "options": list(options),
+def item(id, title, q, why, before, after, options=("Yes", "Yes, with the changes in my comment", "No"), before_label="Now", after_label="Proposed", layout="two"):
+    ITEMS.append({"id": id, "title": title, "q": q, "why": why, "before": before, "after": after, "options": list(options),
                   "before_label": before_label, "after_label": after_label, "layout": layout})
 
-item("body-valuation", "Skill body: valuation",
-     f"A middle ground, not a rewrite. The opener, the scope, the ordered gather steps and the ordered analyse steps stay, because the method is sequential and the gather steps are what found the better evidence in the evals. What goes: the \"done when\" line on every step, the step-number pointers into the method files (replaced by the file named by topic), the 10-table write template with fixed columns, the formula numbers, the hand-offs section and the 11-item checklist. The pitfalls the audit found (beta, excess cash, capex from net PP&E, the horizon set from the price) sit inside the step they belong to. The write section gives the natural order of the tables and lets a narrower question keep only what it needs. "
-     f"Current body {vb:,} words plus {vl:,} words of library the agent is told to read before the first call; proposed {val_new_words:,} words, with the method files opened when a step needs them. Both in full. The description does not change, so triggering is unaffected.",
+item("body-valuation", "Skill bodies: the valuation example",
+     "Is this the shape for all the skill bodies?",
+     f"Same steps as today, in the same order. Gone: the \"done when\" after every step, the step-number pointers into the method files, the fixed-column report template, the eleven checks and the hand-offs. The pitfalls sit inside the step they belong to. {val_new_words:,} words instead of {vb:,}, and the method files open only when a step needs them instead of {vl:,} words read before the first call.",
      body_of(val_cur), body_of(val_new))
 
-item("body-earnings-review", "Skill body: earnings review",
-     f"The same treatment for the skill behind the GM report. The scope now checks the premise of the question against the release (GM did not lower its outlook) and settles the reader before gathering; the write section puts the results and guidance tables first and then follows the order of the question, with the investor sections left out for a supplier, customer or competitor unless asked. "
-     f"Current body {eb:,} words plus {el:,} words of library read up front; proposed {er_new_words:,} words. Both in full.",
+item("body-earnings-review", "Skill bodies: the earnings review example",
+     "Same question, for the skill behind the GM report.",
+     f"This one also checks the premise of the question against the release first (GM did not lower its outlook), and puts a supplier's or customer's questions before the investor sections. {er_new_words:,} words instead of {eb:,}.",
      body_of(er_cur), body_of(er_new))
 
 gm_after = [
     "What happened against expectations (the beat, the narrowed range with the midpoint unchanged)",
+    "Results and guidance tables",
     "What the quarter says about North American vehicle demand",
-    "The 2026 outlook change, precisely (prior against new, dated, and what management stopped saying)",
-    "GM's cost plans and where a supplier sits in them (warranty and EV savings fading, purchased material next, the December budget)",
+    "GM's cost plans and where a supplier sits in them",
     "Programme timing: the full-size pickup changeover and other capacity moves",
-    "How the Street read it (revisions, targets, the reasons given)",
+    "How the Street read it",
     "What our planning team should take from it: volume, commercial and pricing, footprint, finance (the $4.5bn inventory banking facility and the $1.2bn supplier-finance programme go here)",
     "What to watch, with dates",
 ]
-item("write-step", "Write step: the GM prompt as the test",
-     "The write step keeps the tables that everything rests on in a fixed place and lets the rest follow the question. "
-     "Below, what the current template produced for the supplier prompt against what the proposed rule would produce for the same prompt, using the evidence the with-skill run actually found (the inventory banking facility, the supplier-finance programme, the dropped free-cash-flow language). "
-     "The point is not that the without-skill structure was perfect; it is that the structure should come from the question.",
-     "**The prompt**\n\n> " + gm_meta["prompt"] + "\n\n**Sections the current template produced (with skill, round 1)**\n\n" + "\n".join(f"{i+1}. {h}" for i, h in enumerate(gm_heads)) +
-     "\n\nThe supplier's three questions are answered in section 12 of 16, after valuation and targets, peer read-across, quality signals and market reaction. The results grid carries nine n/a cells where GM does not guide.",
-     "**The prompt**\n\n> " + gm_meta["prompt"] + "\n\n**Sections the proposed write rule gives for the same prompt**\n\n" + "\n".join(f"{i+1}. {h}" for i, h in enumerate(gm_after)) +
-     "\n\n**The rule, as it reads in the skill**\n\n> The results table and the guidance table come next, because everything else rests on them. Then the sections the question needs, in the order the question asked them: for a thesis holder, the thesis check, the valuation refresh, quality signals, the reaction, the read-across; for a supplier, customer or competitor, what the print means for their business, then the Street's reception and the read-across, with the investor sections left out unless asked. A row exists only where there is a figure.\n\n"
-     "**For comparison, the sections the without-skill run chose**\n\n" + "\n".join(f"{i+1}. {h}" for i, h in enumerate(gm_wo_heads)),
-     before_label="Now (round 1 with skill)", after_label="Proposed")
+item("write-step", "Report structure follows the question",
+     "Should only the core tables be fixed, with the rest of the report following the question?",
+     "For the GM supplier prompt the template put the supplier's three questions in section 12 of 16, after valuation, peer read-across and market reaction. The rule on the right fixes the results and guidance tables and lets the question set the rest.",
+     "**The prompt**\n\n> " + gm_meta["prompt"] + "\n\n**Sections the template produced**\n\n" + "\n".join(f"{i+1}. {h}" for i, h in enumerate(gm_heads)),
+     "**Sections for the same prompt under the new rule**\n\n" + "\n".join(f"{i+1}. {h}" for i, h in enumerate(gm_after)) +
+     "\n\n**The rule, as it reads in the earnings review skill**\n\n> The results table and the guidance table come next, because everything else rests on them. Then the sections the question needs, in the order the question asked them: for a thesis holder, the thesis check, the valuation refresh, quality signals, the reaction, the read-across; for a supplier, customer or competitor, what the print means for their business, then the Street's reception and the read-across, with the investor sections left out unless asked. A row exists only where there is a figure.",
+     options=("Yes", "No, keep a fixed order per skill"))
 
-item("house-style", "Output standard becomes a house style",
-     f"The current output standard ({len(std_cur.split()):,} words) fixes a six-part frame, mandatory Basis and Source columns, a Gaps section, a Sources section and the footer on every deliverable including one-line answers. "
-     f"The proposed house style ({len(style_new.split()):,} words) keeps what protects quality (answer first, numbers with their basis, citations at capture, no recommendation, plain language) and drops the frame, the mandatory columns and the hand-off offers. Both in full.",
-     std_cur, style_new)
+item("output-rules", "The shared output rules",
+     "Keep one short shared file of rules every report follows, trimmed to this?",
+     f"Today's file (output-standard.md, {len(std_cur.split()):,} words) fixes a six-part frame, mandatory Basis and Source columns, a Gaps section and the footer on every answer including one-liners. The draft is {len(style_new.split()):,} words: answer first, numbers with their basis, citations as links at the claim, no recommendation, the footer. Each skill points to it instead of repeating it.",
+     std_cur, style_new, options=("Keep, trimmed to this", "Drop the file, put the few rules in each skill", "Keep as it is today"))
 
-item("provenance", "Library: research provenance out of the text the agent reads",
-     "The method files carry the research phase's audit trail in the running text: file keys for the literature folder (\"F\", \"A\"), \"source example\" lines, \"(verify)\" working notes (65 of them in the sector primers), and notes about what the note author approximated. "
-     "The agent reproduces them (\"method gaps about missing primers\", \"1950 to 2015 base rates\" in a corporate memo). Proposed: the keys and working notes move to one provenance file under docs/, each method file keeps its Sources section at the end, and the formulas read as formulas. Example: formula 1 of base-rates.md.",
-     br_formula + "\n\n*(and, at the end of the file)*\n\n" + br_sources,
-     """**1. Regression to the mean and shrinkage**
+lib_before = ("**base-rates.md, formula 1, as it reads now**\n\n" + br_formula + "\n\n**base-rates.md, the Sources section at the end**\n\n" + br_sources +
+              "\n\n**expectations.md, the Output lines section**\n\n" + exp_out)
+lib_after = """**base-rates.md, formula 1**
+
+**1. Regression to the mean and shrinkage**
 
 - Expected outcome = mean + r x (current outcome - mean), where r is the correlation between the metric now and the same metric earlier. With r = 1 the best estimate is the last value; with r = 0 it is the mean.
-- Shrinkage form: estimated true level = grand average + c x (observed - grand average), c between 0 and 1, with r as the proxy for c. Example: grand average 8 percent, observed 12 percent, c = 0.10 gives 8.4 percent.
+- Shrinkage form: estimated true level = grand average + c x (observed - grand average), c between 0 and 1, with r as the proxy for c.
 - The more luck in the outcome, the more weight on the base rate; the more skill, the more on the inside view.
-- Use the r that matches the horizon. The four-year r is higher than the one-year r compounded, so applying a one-year r four times overstates the speed of fading. Interpolating between years with r^(t/4) is an approximation, not a published method.
+- Use the r that matches the horizon. The four-year r is higher than the one-year r compounded, so applying a one-year r four times overstates the speed of fading.
 
-*(at the end of the file, unchanged)*
+**Removed from every method file and primer**
 
-## Sources
+- The Sources sections and the literature file keys ("A" to "G", "PE", "EI", "DCF2").
+- The "(verify)" working notes (65 of them, mostly in the sector primers).
+- The Output lines sections: scripted sentences for the agent to fill in.
+- Worked examples copied from the papers (Microsoft CFROI, staples fade).
+- "Note author" remarks about what was approximated.
 
-- Mauboussin, Callahan and co-authors, Credit Suisse: The Base Rate Book (2016) and its sales growth, earnings growth and gross profitability volumes (2015 to 2016); How to Model Reversion to the Mean (2013); What Makes for a Useful Statistic (2016).
+**What stays**: when to use the method, the inputs and where they come from, the procedure, the formulas, the reference tables with their sample and period, the limits.
 
-*(and in docs/proposals/2026-10-26-recut/provenance.md, for the team, never read by the agent)*
+The research trail (which paper each formula came from, the worked examples, the open verify notes) moves to docs/proposals/2026-10-26-recut/provenance.md for the team. The agent never reads it."""
+item("library", "The library: only what the agent acts on",
+     "Strip the method files to procedure, formulas, tables and pitfalls?",
+     "Everything else goes: the sources sections, the literature file keys, the verify notes, the scripted output sentences, the worked examples from the papers. The research trail moves to a file under docs that the agent never reads. Example: the regression formula in base-rates.md and the output lines of expectations.md.",
+     lib_before, lib_after, options=("Yes", "Yes, but keep the worked examples", "No"))
 
-**base-rates.md, formula 1.** From "F" How to Model Reversion to the Mean (17 Sep 2013) and "A" The Base Rate Book (26 Sep 2016). Worked examples: Microsoft CFROI 16.1 percent, IT sector mean 9.0 percent, four-year r 0.50 gives 12.6 percent (F). Staples with CFROI 10 points above the sector mean: 0.89 applied four times leaves 6.3 points, the four-year r of 0.78 leaves 7.8 (paper F with its 2013 data gives 6.0 against 7.3). The r^(t/4) interpolation is the note author's, not in the papers.""")
-
-item("reader-gating", "Library: investor-only outputs marked as such",
-     "The method files produce investor outputs by default: the implied competitive advantage period, the steady-state P/E, kill criteria, who must own the stock. A corporate ask inherits them, which is how a supplier memo got a competitive advantage period. "
-     "Proposed: each method file's output section names which lines are for an investor reader; the skill's reader paragraph says the same from the other side. Example: the output lines of expectations.md.",
-     exp_out,
-     """## Output lines
-
-For every reader:
-
-- "EV is Z, from market cap X and net debt Y (reported). NOPAT1 is N from consensus EBIT of E [vintage] at a T percent tax rate (derived)."
-- "At an assumed cost of capital of K percent (assumed; range K-1 to K+1), the price implies perpetual NOPAT growth of g percent at ROIIC of R percent (derived)."
-- "The price needs g percent growth for N years at R percent ROIIC. Consensus is A. In the reference class, B percent of companies achieved this [sample and period] (reported, historical base rate)."
-
-For an investor reader, when they asked what is priced in or for a view:
-
-- "The steady state explains S percent of EV; V turns of the P/E pay for future value creation (derived)."
-- "The implied terminal multiple is X against Y today (derived)."
-- "The value trigger is [incremental return | sales growth] because ROIIC is [near | well above] the cost of capital (judgment)."
-
-A corporate reader gets the first three and what they mean for the decision they asked about (a target's price, their own plan, a competitor's rating). The investor lines appear only when asked for.""")
-
-footer_before = """**Did Nike beat?**
+footer_now = """**Did Nike beat?**
 
 Yes. Revenue of $12.4bn against consensus of $12.1bn and EPS of $0.78 against $0.70 ([Nike Q1 FY2027 release, 30 Sep 2026](https://app.bigdata.com/documents/...)). Guidance for Q2 was held at low-single-digit growth ([Q1 call, 30 Sep 2026](https://app.bigdata.com/documents/...)).
 
@@ -158,81 +141,67 @@ Data: Bigdata.com company tearsheet for Nike, FactSet consensus, retrieved 26 Oc
 
 ## Disclaimer
 
-This output is for informational and research-assistance purposes only. It does **not** constitute investment, legal, tax, accounting, or other professional advice, and it is **not** a recommendation to buy, sell, or hold any security or instrument or to pursue any strategy. Information may be incomplete, estimated, delayed, or inaccurate. Past performance does not guarantee future results. Verify material facts independently and consult qualified advisors before making decisions.
+This output is for informational and research-assistance purposes only. It does **not** constitute investment, legal, tax, accounting, or other professional advice, and it is **not** a recommendation to buy, sell, or hold any security or instrument or to pursue any strategy. Information may be incomplete, estimated, delayed, or inaccurate. Past performance does not guarantee future results. Verify material facts independently and consult qualified advisors before making decisions."""
+footer_found = """**What a search of Slack, Confluence, Jira, Drive and the repo found**
 
-*(the same two blocks close every deliverable, from a one-line answer to a ten-page deep dive)*"""
-footer_after = """**Option A: as now.** The Powered by line and the full disclaimer close every deliverable, including a one-line answer. Nothing changes.
+- The disclaimer started as a product decision, not a legal one. Jira [PX-1575, "Skills - Add disclaimer in reports"](https://ravenpack.atlassian.net/browse/PX-1575), opened 5 Mar 2026 by the plugin's product manager: the LLM judge in the comparative evals flagged that outputs had no disclaimer, and adding one would improve the score. Done 14 Apr 2026. No legal reviewer on the ticket.
+- The wording asked for there was one line: *"Disclaimer: This report is for informational purposes only and does not constitute investment advice. Past performance is not indicative of future results."* The longer text now in use first appears in the repo on 8 May 2026 (commit 6a57dfe); nothing found says why it grew.
+- The ticket scopes it to reports. Nothing found says verbatim, at the end, or on every message.
+- "Powered by Bigdata.com" came from a [sales thread in #bigdata-api, 4 Feb 2026](https://ravenpack.slack.com/archives/C06QREADVK6/p1770228042488039) asking for a watermark on the skill; the product manager replied it was already at the bottom. Branding, not legal.
+- The one disclaimer a product manager called a legal requirement (18 Aug 2026, DM) is the chat-interface notice "You are interacting with an AI system", which is a different text for a different surface.
+- Not covered: the Responsible AI Management Policy page on Confluence was not read, the Jira search stopped after one page, Drive hits were not opened.
 
-**Option B: full text on documents, one line in chat.** A report delivered as a document or a file (Word, a saved report) ends on the full disclaimer. A chat answer ends on one line:
-
-> *Research assistance from Bigdata.com (https://bigdata.com), not investment advice.*
-
-So the Nike answer above would end:
-
-> Data: Bigdata.com company tearsheet for Nike, FactSet consensus, retrieved 26 Oct 2026.
-> *Research assistance from Bigdata.com (https://bigdata.com), not investment advice.*
-
-**Option C: full text once per conversation.** The first deliverable in a conversation ends on the full disclaimer; later ones in the same conversation end on the one-liner.
-
-In every option the no-recommendation rule stays as it is. Whether the full text is a legal requirement is a question for your side; the page does not assume an answer."""
-item("footer", "Footer and disclaimer", "Where the footer came from: the shipped plugin on main already required both blocks verbatim at the end of every deliverable, the 23 October proposal carried it, and the output standard added \"including a one-line answer\". The position at the end is convention, not a decision anyone took. Pick a policy.",
-     footer_before, footer_after, options=("A: full text everywhere", "B: documents full, chat one line", "C: full once per conversation"), before_label="Now, on a one-line answer", after_label="Options")
+So the search did not find the requirement you confirmed. If it lives somewhere the search did not reach, say where and it can be checked."""
+item("footer", "The disclaimer",
+     "No decision now. You confirmed it has to be there, so it stays as it is.",
+     "Below, the current footer on a one-line answer, and what a search for the requirement's origin found. Comment if there is a placement you want looked at later.",
+     footer_now, footer_found, options=(), before_label="Now, on a one-line answer", after_label="What the search found", layout="two")
 
 merges = [
-    ("merge-scenarios", "Merge: scenarios into valuation",
-     "Valuation already produces three cases with probabilities and an expected value; scenarios adds signposts and nothing else. One skill, one description.",
+    ("merge-scenarios", "Merge: scenarios into valuation", "Fold scenarios into valuation?",
+     "Valuation already produces three cases with probabilities and an expected value. Scenarios adds signposts. One skill, one description; the trigger words move across.",
      f"**bigdata-valuation**\n\n{desc_of('valuation')}\n\n**bigdata-scenarios**\n\n{desc_of('scenarios')}",
-     "**bigdata-valuation**\n\nWhat a company is worth: the growth, margin and return the price implies, a DCF with the equity bridge checked, three cases with probabilities and signposts, a multiples cross-check, a range. Use for fair value, DCF, is it cheap, what is priced in, scenarios, what if a driver changes. Not peers only: bigdata-comps.\n\n*bigdata-scenarios is removed; its signposts step joins the valuation checklist.*"),
-    ("merge-catalysts", "Merge: catalysts into watchlist, earnings preview and quick take",
-     "Catalysts is a dated-events list with expected impact. The watchlist already carries the next event per name, the earnings preview carries the setup, and the quick take carries the next catalyst for one name. The one thing lost is a standalone \"what is coming up for X\" list, which the watchlist description picks up.",
+     "**bigdata-valuation**\n\nWhat a company is worth: the growth, margin and return the price implies, a DCF with the equity bridge checked, three cases with probabilities and signposts, a multiples cross-check, a range. Use for fair value, DCF, is it cheap, what is priced in, scenarios, what if a driver changes. Not peers only: bigdata-comps."),
+    ("merge-catalysts", "Merge: catalysts into watchlist", "Fold catalysts into watchlist?",
+     "Catalysts is a dated-events list with expected impact. Watchlist already carries the next event per name, earnings preview the setup, quick take the next catalyst for one name.",
      f"**bigdata-watchlist**\n\n{desc_of('watchlist')}\n\n**bigdata-catalysts**\n\n{desc_of('catalysts')}",
-     "**bigdata-watchlist**\n\nDaily or weekly check on a list of companies, or the dated events ahead for one: price move, the news behind it, earnings vs estimates, what is coming up and what it could move. Use for holdings, watchlist, peer or competitor set, what changed today, what is coming up, events to watch. Not one company's news: bigdata-company-brief.\n\n*bigdata-catalysts is removed; its \"what happens if nothing happens\" step joins the thesis checklist.*"),
-    ("merge-macro", "Merge: macro-compare into country",
-     "Macro-compare is the country skill with more than one country. The trigger suite confused the two until the descriptions were retuned, which is the sign of a boundary that should not exist.",
+     "**bigdata-watchlist**\n\nDaily or weekly check on a list of companies, or the dated events ahead for one: price move, the news behind it, earnings vs estimates, what is coming up and what it could move. Use for holdings, watchlist, peer or competitor set, what changed today, what is coming up, events to watch. Not one company's news: bigdata-company-brief."),
+    ("merge-macro", "Merge: macro-compare into country", "Fold macro-compare into country?",
+     "It is the country skill with more than one country, and the two kept triggering on each other's prompts until the descriptions were retuned.",
      f"**bigdata-country**\n\n{desc_of('country')}\n\n**bigdata-macro-compare**\n\n{desc_of('macro-compare')}",
-     "**bigdata-country**\n\nOne country's economy and markets, or several compared on the same indicators: growth, inflation, rates, currency, fiscal and external balances, politics, what is priced in. Use for a country outlook, political risk, market entry, compare economies, which country is stronger, where to expand.\n\n*bigdata-macro-compare is removed; its comparison table joins the country checklist.*"),
+     "**bigdata-country**\n\nOne country's economy and markets, or several compared on the same indicators: growth, inflation, rates, currency, fiscal and external balances, politics, what is priced in. Use for a country outlook, political risk, market entry, compare economies, which country is stronger, where to expand."),
 ]
-for id, t, w, b, a in merges: item(id, t, w, b, a, options=("Merge", "Keep separate"), before_label="Now, two skills", after_label="Proposed, one skill")
-item("thesis", "Keep or cut: thesis",
-     "Thesis is the deep dive minus the economics plus \"where my view differs from consensus\". Portfolio managers ask for it; corporate readers never do. It stays unless you say otherwise.",
-     f"**bigdata-thesis**\n\n{desc_of('thesis')}\n\n**bigdata-deep-dive**\n\n{desc_of('deep-dive')}",
-     "Keep: thesis stays as a separate skill for the investor reader.\n\nCut: the variant-view and kill-criteria steps join the deep-dive checklist as investor-only items, and the thesis description's triggers (a thesis, variant view, bull and bear case, stress-test my idea) move to the deep-dive description.",
-     options=("Keep", "Cut"), before_label="Now", after_label="The two options")
+for id, t, q, w, b, a in merges: item(id, t, q, w, b, a, options=("Merge", "Keep separate"), before_label="Now, two skills", after_label="Proposed, one skill")
+item("thesis", "Thesis", "Keep thesis as its own skill?",
+     "It is the deep dive minus the economics, plus the variant view and kill criteria. Investors ask for it; corporate readers do not.",
+     f"**bigdata-thesis**\n\n{desc_of('thesis')}", f"**bigdata-deep-dive**\n\n{desc_of('deep-dive')}",
+     options=("Keep", "Fold into deep dive"), before_label="Thesis", after_label="Deep dive")
 
-gm_assert_new = [
-    "States the outlook change precisely: the EBIT-adjusted range narrowed from $14 to 16bn to $14.5 to 15.5bn with the midpoint unchanged, and corrects the prompt's \"lowered\" premise",
+cur_template = [a for a in gm_meta["assertions"] if a.startswith(("No table", "No '(verify)'", "The deliverable states what data", "The deliverable closes"))]
+new_assert = [
+    "States the outlook change precisely: the EBIT-adjusted range narrowed from $14 to 16bn to $14.5 to 15.5bn with the midpoint unchanged, and corrects the prompt's \"lowered\"",
     "Answers what the quarter says about North American vehicle demand, with GMNA volumes, pricing and inventory figures and their sources",
-    "Describes GM's cost plans and where a tier-1 supplier sits in them (warranty, EV, purchased material, the budget timing), with sources",
-    "Gives programme timing a supplier can plan against (the full-size pickup changeover and other capacity moves), with dates",
-    "Gives the planning team concrete takeaways by function (volume, commercial, footprint, finance), each tied to a fact in the note",
-    "The supplier's questions are answered before any section an investor would want; nothing in the note serves only an investor",
-    "Prior guidance is quoted from the earlier call with its date, next to the new range",
-    "Every number in the opening agrees with the table it came from",
-    "Citations sit next to the claims they support as links; five sampled citations point at documents that can plausibly hold the fact",
-    "No n/a cells: a figure the data could not give is a line under Gaps, not a table cell",
+    "Describes GM's cost plans and where a tier-1 supplier sits in them, with sources",
+    "The supplier's questions come before any section an investor would want; nothing in the note serves only an investor",
 ]
-item("evals", "Evals: assertions from the question, not the template",
-     "Six of the current assertions mirror the output standard and the rest mirror the skill's sections, so a templated report scores 11 of 11 while a supplier cannot use it. Proposed: assertions written from each prompt (what the reader asked, what a wrong answer would look like), a pairwise judge given the reader persona and both reports, and a residue lint script that counts n/a cells, numbered citations, method-gap notes, investor-only terms in a corporate report and template section order. "
-     "Regrade the 24 existing reports on this first, so there is a before number without new runs. Example: the GM prompt.",
-     "**Current assertions for the GM prompt**\n\n" + md_list(gm_meta["assertions"]),
-     "**Proposed assertions for the GM prompt**\n\n" + md_list(gm_assert_new) + "\n\n**Pairwise judge**\n\nA Sonnet judge is given the prompt, the reader persona (a tier-1 supplier's planning team) and both reports, and asked which one that reader would use and why, with the evidence named. Run both orders to cancel position bias.\n\n**Residue lint, run on every report**\n\n" + md_list([
-         "n/a, dash and \"not found\" cells per table", "numbered citations", "method-gap notes (\"primer not found\", \"method notes\", \"(verify)\")",
-         "investor-only terms in a corporate report (competitive advantage period, steady-state P/E, kill criteria, who must own it, position)",
-         "section order equal to the skill's section list", "closing offers (save, monitor, build a skill)", "words, tokens, tool calls"]))
+item("evals", "How the next round is graded",
+     "Grade on whether the report answers the question, not on whether it follows the template?",
+     "Today six of the twelve assertions mirror the output standard and the rest mirror the skill's sections, so the GM template scored 11 of 11 while a supplier could not use it.",
+     "**Four of today's assertions for the GM prompt**\n\n" + md_list(cur_template),
+     "**Four proposed ones**\n\n" + md_list(new_assert) + "\n\nPlus a side-by-side judge given the reader's role and both reports, and a script that counts empty cells, numbered citations and investor terms in a corporate report.",
+     options=("Yes", "No"))
 
 seq = [
-    "Three decisions from you: the footer policy, the merges, and that the research provenance moves to docs rather than being deleted. (This page.)",
-    "House style and the two exemplar bodies, by hand (the drafts on this page, revised with your comments). You read them before anything fans out.",
-    "Three Opus agents re-cut the remaining bodies to the shape, from the existing bodies: every pitfall and data step survives, every step-number pointer and table template goes. I read each one.",
-    "Library pass: provenance to docs, investor-only outputs marked, a Haiku check that no formula changed.",
-    "Residue lint and the new assertions; regrade the 24 existing reports for the before number.",
-    "Rerun the ten prompts with the re-cut skills, grade the same way, compare against both old arms.",
-    "Trigger suite rerun (descriptions unchanged except the merges), packages, pages.",
+    "Your answers on this page.",
+    "I finish the two example bodies and the shared rules with your comments. You read them.",
+    "The other 21 bodies get the same treatment. I read each one.",
+    "The library stripped; the existing 24 reports re-graded the new way for a before number.",
+    "The ten prompts rerun with the new skills and compared with both old runs.",
 ]
-item("sequence", "Sequence", "The order of work and the one gate that matters: nothing fans out to 23 skills before you have read the two exemplars. About one working day of my time and roughly $100 of agent and eval runs, most of it step 6.",
-     "", md_list([f"{i+1}. {s}" for i, s in enumerate(seq)]).replace("- ", ""), options=("Go", "Change the order"), layout="one", after_label="Proposed")
+item("sequence", "Order of work", "Go in this order?", "About a day of my time and roughly $100 of agent and eval runs, most of it the rerun.",
+     "", "\n".join(f"{i+1}. {s}" for i, s in enumerate(seq)), options=("Go", "Change"), layout="one", after_label="Proposed")
 
-item("general", "Anything else", "Anything the items above did not cover.", "", "", options=(), layout="none")
+item("general", "Anything else", "", "", "", "", options=(), layout="none")
 
 fonts = rd(f"{INPUTS}/fonts-platform.css")
 logo = rd(f"{INPUTS}/logo.datauri").strip()
@@ -244,6 +213,7 @@ rail_items = "".join(f'<li><a href="#{it["id"]}">{it["title"]}</a></li>' for it 
 sections = "".join(f'''
 <section id="{it["id"]}" data-rail="{it["title"]}" data-item="{it["id"]}">
   <h2>{it["title"]}</h2>
+  <p class="q" id="q-{it["id"]}"></p>
   <p class="what" id="what-{it["id"]}"></p>
   <div class="cmp {it["layout"]}" id="cmp-{it["id"]}"></div>
   <div class="decide" id="decide-{it["id"]}"></div>
@@ -297,11 +267,13 @@ kbd { font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--li
 .progress { font-size: 13px; color: var(--fg-3); margin-top: 8px; font-variant-numeric: tabular-nums; }
 section[id] { margin-bottom: 56px; padding-top: 8px; }
 h2 { font-size: 24px; font-weight: 600; line-height: 1.2; margin: 0 0 12px; text-wrap: balance; }
+p.q { font-size: 17px; font-weight: 600; margin: 0 0 6px; max-width: 80ch; }
 p.what { color: var(--fg-2); margin: 0 0 16px; max-width: 90ch; }
+p.q:empty, p.what:empty { display: none; }
 
 /* Before and after */
 .cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-.cmp.one { grid-template-columns: 1fr; }
+.cmp.one, .cmp.one-before { grid-template-columns: 1fr; }
 .cmp.none { display: none; }
 .pane { border: 1px solid var(--line); border-radius: 8px; background: var(--surface); min-width: 0; }
 .pane-h { padding: 8px 16px; border-bottom: 1px solid var(--line); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--fg-3); font-weight: 600; display: flex; justify-content: space-between; gap: 12px; }
@@ -365,7 +337,7 @@ section.answered h2::after { content: "answered"; font-family: var(--font-mono);
 <header class="top">
   <div class="eyebrow">Bigdata.com skills, re-cut</div>
   <h1>Skills Re-cut Review</h1>
-  <p class="sub">Each proposed change to how the Bigdata.com skills are packaged, with the current text and the proposed text in full. Pick a decision and leave a comment on each; the answers are saved on this page and read back from it.</p>
+  <p class="sub">One question per item, with the current text and the proposed text in full underneath. Pick an answer and leave a comment where you want something changed; the answers are saved on this page.</p>
   <div class="meta">Produced __PRODUCED__. The reports behind this are on the <a href="__READER_URL__" target="_blank" rel="noopener">Skills Eval Reader</a>; the score tables and the audit are on the <a href="__PROPOSAL_URL__" target="_blank" rel="noopener">Job Skills Proposal</a>.</div>
   <div class="keys">Keys: <kbd>j</kbd> and <kbd>k</kbd> move between items, <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> pick a decision on the item in view, <kbd>c</kbd> jumps to its comment box, <kbd>Cmd</kbd>+<kbd>K</kbd> searches the page.</div>
   <div class="save-state" id="save-state"><span class="dot"></span><span id="save-text">Connecting to the page's database</span></div>
@@ -409,10 +381,11 @@ __SECTIONS__
       .catch(function (e) { state.textContent = "Not saved (" + (e && e.code ? e.code : "error") + "). Try again, or paste the answer in chat."; setState("warn", "A save failed; see the item"); });
   }
   function renderItem(it) {
-    document.getElementById("what-" + it.id).textContent = it.what;
+    document.getElementById("q-" + it.id).textContent = it.q; document.getElementById("what-" + it.id).textContent = it.why;
     var c = document.getElementById("cmp-" + it.id); c.textContent = "";
     if (it.layout === "two") { c.appendChild(pane(it.before_label, it.before, "before")); c.appendChild(pane(it.after_label, it.after, "after")); }
     else if (it.layout === "one") { c.appendChild(pane(it.after_label, it.after, "after")); }
+    else if (it.layout === "one-before") { c.appendChild(pane(it.before_label, it.before, "before")); }
     var d = document.getElementById("decide-" + it.id); d.textContent = ""; d.classList.toggle("noopts", !it.options.length);
     var a = answers[it.id] || {};
     if (it.options.length) {

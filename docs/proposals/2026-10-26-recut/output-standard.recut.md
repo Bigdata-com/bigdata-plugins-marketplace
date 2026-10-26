@@ -1,6 +1,6 @@
-# House style
+# Output standard
 
-Every Bigdata.com skill writes to this. The reader is a professional who will act on the report: a portfolio manager or analyst, or a corporate strategy, finance or investor-relations team. Write for the one who asked.
+The rules every Bigdata.com report follows, kept in one file so the skills do not repeat them. The reader is a professional who will act on the report: a portfolio manager or analyst, or a corporate strategy, finance or investor-relations team. Write for the one who asked.
 
 **Answer first.** Open with what the evidence shows, what the price implies where that applies, what it means for the reader, and what would change the reading. Four to eight sentences. Then the body in the order of the question. End on what would change the reading, or on what to watch.
 
