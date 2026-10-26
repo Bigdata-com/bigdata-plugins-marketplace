@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the Job Skills Proposal page from the markdown sources."""
 import re, json, html, os, datetime, sys
-S = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+S = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # the proposal folder in the repo
 PAGE = os.path.dirname(os.path.abspath(__file__))
 def rd(p): return open(p, encoding="utf-8").read()
 
@@ -145,11 +145,17 @@ def xref(text):
     return text
 
 # ---------- sources ----------
-main = xref(rd(f"{S}/proposal/2026-10-23-job-skills-proposal.md"))
-appA = rd(f"{S}/proposal/appendix-a-descriptions.md")
-appD = rd(f"{S}/proposal/appendix-d-sources.md")
-specs_dir = f"{S}/method-specs"; skills_dir = f"{S}/proposal/skills"
-W = "/Users/mkangrga/python_projects/bigdata-mcp/bigdata-plugins-marketplace/.claude/worktrees/skills-proposal"
+main = xref(rd(f"{S}/proposal.md"))
+appA = rd(f"{S}/appendix-a-descriptions.md")
+appD = rd(f"{S}/appendix-d-sources.md")
+specs_dir = f"{S}/method-specs"
+W = os.environ.get("SKILLS_WORKTREE", "/Users/mkangrga/python_projects/bigdata-mcp/bigdata-plugins-marketplace/.claude/worktrees/skills-audit-fixes")
+OLDW = "/Users/mkangrga/python_projects/bigdata-mcp/bigdata-plugins-marketplace/.claude/worktrees/skills-proposal"  # the 23 Oct build, for the live-run records
+INPUTS = os.environ.get("PAGE_INPUTS", PAGE)  # fonts-platform.css, logo.datauri and plugin/ (from make_tree.py)
+add = rd(f"{S}/addendum-2026-10-26.md")
+ADD = {}
+for k in re.split(r"^## ", add, flags=re.M)[1:]:
+    t, _, body = k.partition("\n"); ADD[t.strip()] = body
 PLUG = f"{W}/plugins/bigdata-com"
 import glob, subprocess
 def built_skill(name):
@@ -225,18 +231,19 @@ s4_intro, _, s4_rest = s4.partition("\n### 4.5")
 s4_rest = "### 4.5" + s4_rest
 
 # ---------- assemble ----------
-fonts = rd(f"{PAGE}/fonts-platform.css")
-logo = rd(f"{PAGE}/logo.datauri").strip()
+fonts = rd(f"{INPUTS}/fonts-platform.css")
+logo = rd(f"{INPUTS}/logo.datauri").strip()
 now = datetime.datetime.now().astimezone().strftime("%d %b %Y, %H:%M %Z")
 
 def section(n, label, title, inner, cls=""):
     return f'<section id="{n}" data-rail="{esc(label)}" class="{cls}"><h2>{esc(title)}</h2>\n{inner}\n</section>'
 
 order = []
-status = ('<p class="status"><strong>Status, ' + esc(datetime.date.today().strftime("%d %b %Y")) + '.</strong> Built on the local branch <code>skills-proposal-2026-10-23</code> at commit <code>' + esc(COMMIT) + '</code>: all 26 skill folders, the shared library (two shared files, 14 method files, 12 sector primers), the library sync and validation scripts, the three host packages, a 156-case trigger suite and live-connector cases. The sections "Skills as built", "Library as built", "Evaluation results" and "Packages built" show the result. Nothing is merged, pushed or published to any host.</p>')
+status = ('<p class="status"><strong>Status, ' + esc(datetime.date.today().strftime("%d %b %Y")) + '.</strong> The 23 October build (branch <code>skills-proposal-2026-10-23</code>) was audited on 25 October and every fix was made on a second branch, <code>skills-audit-fixes-2026-10-25</code>, now at commit <code>' + esc(COMMIT) + '</code>: library formulas corrected, tool steps matched to what the data holds, all 26 descriptions rewritten and the trigger suite grown to 182 cases, skill bodies made tool-agnostic, and ten skills run on live prompts with and without the skill. The section "What changed since 23 October" carries the audit and the fixes, "Quality evals" the live runs, and "Decisions for Marko" the calls still open. The file browser and the eval results show the second branch. Nothing is merged, pushed or published to any host.</p>')
 order.append(section("summary", "Summary", "Summary", status + md(sections[1][1])))
-order.append(section("decisions", "Decisions", "Decisions for Marko", md(sections[10][1])))
-tree = json.load(open(f"{PAGE}/plugin/tree.json"))
+order.append(section("changes", "Since 23 Oct", "What changed since 23 October", md(ADD["What changed since 23 October"])))
+order.append(section("decisions", "Decisions", "Decisions for Marko", "<h3>Open after the audit and the evals, 26 October</h3>" + md(ADD["Decisions still open for Marko"]) + "<h3>From the 23 October proposal</h3><p>Two of these were settled by the evals: the citation format is now inline links carried with each fact, after numbered references put six of ten reports on a wrong document, and the cost of capital stays an assumption but the valuation method now checks the beta and shows the value at the market-implied rate.</p>" + md(sections[10][1])))
+tree = json.load(open(f"{INPUTS}/plugin/tree.json"))
 browse_html = ('<p>The plugin as it stands on the branch, file by file: the manifest, the library, and every skill folder with its SKILL.md, its ChatGPT listing file and the references the build placed in it. Pick a file in the tree, or press Cmd+K and type its name. A reference inside a skill is a copy of a library file; the viewer says which one and shows it from the library, so the same text is not stored twenty times.</p>'
     '<div class="fb"><div class="fb-side"><input id="fb-filter" type="search" placeholder="Filter files" aria-label="Filter files"><nav id="fb-tree" class="fb-tree" aria-label="Plugin files" data-check="skip"></nav></div>'
     '<div class="fb-view"><div class="fb-head"><div class="fb-path" id="fb-path">Pick a file</div><div class="fb-meta" id="fb-meta"></div><div class="fb-nav"><button type="button" id="fb-prev">Previous</button><button type="button" id="fb-next">Next</button><button type="button" id="fb-raw">Raw</button></div></div><div class="fb-body doc" id="fb-body" data-check="skip"><p class="dim">The 26 skills, the library and the manifests are listed on the left. A SKILL.md opens as a document with its frontmatter in a box at the top.</p></div></div></div>')
@@ -256,13 +263,13 @@ CASE_LABELS = {"ep-micron": "Earnings preview, Micron", "ep-narrow": "Narrow que
 COUNTED = ("questions before", "Bigdata.com calls", "uses the method", "no call that changes")
 def eval_results_html():
     parts = []
-    trig = f"{PLUG}/evals/results/trigger-wave1.json"
+    trig = f"{PLUG}/evals/results/run-2026-10-25.json"
     if os.path.isfile(trig):
         try:
             d = json.load(open(trig)); cases = d.get("cases", [])
             agg = d.get("aggregates", {})
             passed = agg.get("casesPassed", 0); total = agg.get("casesTotal", len(cases))
-            parts.append(f"<p><strong>Trigger suite: {passed} of {total} cases passed.</strong> A case passes when the skill does what its prompt is meant to test: a <em>fires</em> case passes when the model invoked that skill on a prompt written for it, a <em>near miss</em> case passes when the model invoked the named neighbour and left this skill alone, and a <em>no fire</em> case passes when no Bigdata.com job skill was invoked on an unrelated prompt. Each skill has three fires, two near-miss and one no-fire prompt. The suite ran once per case (so a single run decides each case), with the plugin loaded and the Bigdata.com server mocked out, on the session's default model, at a list-price cost of ${d.get('costUsd', 0):.2f}. No baseline arm was run: the suite measures routing between the skills, and a run without the plugin could not invoke any of them. The prompts were written by the same team that wrote the skills, so the result says the descriptions route as designed, not how real users phrase things; that comes from usage after release.</p>")
+            parts.append(f"<p><strong>Trigger suite: {passed} of {total} cases passed.</strong> A case passes when the skill does what its prompt is meant to test: a <em>fires</em> case passes when the model invoked that skill on a prompt written for it, a <em>near miss</em> case passes when the model invoked the named neighbour and left this skill alone, and a <em>no fire</em> case passes when no Bigdata.com job skill was invoked on an unrelated prompt. Each skill has three or four <em>fires</em> prompts, one of them in a corporate voice (a head of IR, a supplier, a treasury team), two near-miss and one no-fire prompt. The suite ran once per case (so a single run decides each case), with the plugin loaded and the Bigdata.com server mocked out, on the session's default model, at a list-price cost of ${d.get('costUsd', 0):.2f}. No baseline arm was run: the suite measures routing between the skills, and a run without the plugin could not invoke any of them. The prompts were written by the same team that wrote the skills, so the result says the descriptions route as designed, not how real users phrase things; that comes from usage after release.</p>")
             exc = [c for c in cases if (c.get("aggregates", {}).get("score") or 0) < 1]
             if exc:
                 rows_h = []
@@ -270,15 +277,18 @@ def eval_results_html():
                     nm = c["name"]; pr = ""
                     try: pr = open(f"{PLUG}/evals/{nm}/prompt.md").read().split("---")[-1].strip()
                     except Exception: pass
-                    note = {"bigdata--fires-1": "The prompt was the literal /bigdata; a headless run cannot route a slash command. The prompt was replaced with a natural sentence and the case then passed 2 of 2.",
-                            "bigdata-macro-compare--fires-2": "A colloquial prompt that could be read as sport; on re-run it fired 1 of 2. Left as the one known soft spot."}.get(nm, "")
+                    note = {"bigdata-macro-compare--fires-2": "Fired nothing. The description was retuned with the prompt's own words; the first rerun fired 1 of 3, a second edit took it to 3 of 3.",
+                            "bigdata-quick-take--fires-4": "Fired nothing. Retuned with \"a one-page read on X\"; 3 of 3 on rerun.",
+                            "bigdata-screen--fires-2": "Fired nothing. Retuned with \"who else does what X does\"; 3 of 3 on rerun.",
+                            "bigdata-sector--fires-2": "Fired nothing. Retuned with \"which sectors look interesting\"; 3 of 3 on rerun.",
+                            "bigdata-special-situations--fires-3": "Fired nothing. Retuned with \"a rights issue\"; the first rerun fired 1 of 3, a second edit took it to 3 of 3."}.get(nm, "")
                     rows_h.append(f"<tr><td>{esc(nm.split('--')[0])}</td><td>{esc(nm.split('--')[1].rsplit('-', 1)[0])}</td><td>{esc(pr)}</td><td>{esc(note)}</td></tr>")
                 parts.append("<p>The cases that did not pass on the first run:</p>" + '<div class="tbl"><table><thead><tr><th>Skill</th><th>Kind</th><th>Prompt</th><th>What happened</th></tr></thead><tbody>' + "".join(rows_h) + "</tbody></table></div>")
         except Exception as e:
             parts.append(f"<p>Trigger suite result could not be read: {esc(str(e))}</p>")
     else:
         parts.append("<p>Trigger suite: not yet run when this page was built.</p>")
-    live = sorted(glob.glob(f"{W}/evals/results/*/summary.json"))
+    live = sorted(glob.glob(f"{OLDW}/evals/results/*/summary.json"))
     if live:
         recs = []
         for f in live:
@@ -288,7 +298,7 @@ def eval_results_html():
         for r in recs: latest[r["case"]] = r
         recs = [latest[k] for k in ["ep-micron", "ep-narrow", "sm-move", "qt-jpm", "qt-connector-off", "dd-asml"] if k in latest] + [v for k, v in latest.items() if k not in CASE_LABELS]
         n_pass = sum(1 for r in recs if r["pass"])
-        parts.append(f"<p><strong>Live runs: {n_pass} of {len(recs)} cases passed every check.</strong> Each case sends one prompt to Claude Code headless on Opus with the plugin loaded and the production Bigdata.com connector connected, then grades the transcript twice: counted checks (questions asked before the first result, the number of Bigdata.com calls, whether the intended skill ran, no call that changes the account) and judged checks (a Sonnet judge reads the transcript against the method checklist for that skill, one item at a time). A case passes only when every check passes; the table lists each failed item in full. The latest run of each case is shown; earlier runs, with the fixes they led to, are in the repo under evals/results. Costs are the list price of the model calls for the run under test, in US dollars. The transcripts hold licensed content and stay on the machine.</p>")
+        parts.append(f"<p><strong>Live runs on the 23 October build: {n_pass} of {len(recs)} cases passed every check.</strong> These ran before the audit and are kept as the record of that build; the 26 October quality evals below ran on the audited branch. Each case sends one prompt to Claude Code headless on Opus with the plugin loaded and the production Bigdata.com connector connected, then grades the transcript twice: counted checks (questions asked before the first result, the number of Bigdata.com calls, whether the intended skill ran, no call that changes the account) and judged checks (a Sonnet judge reads the transcript against the method checklist for that skill, one item at a time). A case passes only when every check passes; the table lists each failed item in full. The latest run of each case is shown; earlier runs, with the fixes they led to, are in the repo under evals/results. Costs are the list price of the model calls for the run under test, in US dollars. The transcripts hold licensed content and stay on the machine.</p>")
         rows_h = []
         for r in recs:
             cc = [(c["check"], c["pass"]) for c in r["counted_checks"]]; jj = [(g["criterion"], g["pass"], g.get("reason", "")) for g in r["judge"]]
@@ -301,12 +311,17 @@ def eval_results_html():
         parts.append("<p>Live runs: none recorded when this page was built.</p>")
     return "".join(parts)
 order.append(section("results", "Eval results", "Evaluation results", eval_results_html()))
+order.append(section("quality", "Quality evals", "Quality evals, 26 October", md(ADD["Quality evals, 26 October"]) + "<h3>Tool-agnostic bodies and the second round</h3>" + md(ADD["Tool-agnostic bodies and the second round"]) + "<h3>Open after 26 October</h3>" + md(ADD["Open after 26 October"])))
 
 PKG_DESC = {"claude-plugin": ("Claude, development zip", "The plugin folder as claude.ai accepts it under Customize, Plugins, Upload, so a branch can be tried on claude.ai next to the released plugin. All 26 skills. The version is the plugin manifest's, with the commit in the name."),
             "openai-plugin": ("ChatGPT and Codex", "The zip submitted to OpenAI's plugin directory: plugin.json, mcp.json, the assets and all 26 skills with their listing files. The OpenAI app has its own version line, 11.0.0 for this release."),
             "microsoft-cowork": ("Microsoft 365 Copilot Cowork", "The zip uploaded to Cowork: manifest.json with agentSkills, the icons and the 20 skills the manifest names, because Cowork allows at most 20 per package. Left out for the first release: capital-allocation, comps, credit, macro-compare, screen and special-situations.")}
 pk = []
-for z in sorted(glob.glob(f"{W}/packaging/bigdata-com/dist/*.zip")):
+newest = {}
+for z in glob.glob(f"{W}/packaging/bigdata-com/dist/*.zip"):
+    key = next((k for k in PKG_DESC if os.path.basename(z).startswith(k)), os.path.basename(z))
+    if key not in newest or os.path.getmtime(z) > os.path.getmtime(newest[key]): newest[key] = z
+for z in sorted(newest.values()):
     base = os.path.basename(z); key = next((k for k in PKG_DESC if base.startswith(k)), None)
     host, what = PKG_DESC.get(key, ("", ""))
     pk.append(f'<tr><td>{esc(host)}</td><td><code>{esc(base)}</code></td><td>{esc(what)}</td><td class="num">{os.path.getsize(z)/1e6:.1f} MB</td></tr>')
