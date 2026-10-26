@@ -1,0 +1,28 @@
+# Checklist: make the skill bodies tool-agnostic (26 Oct 2026)
+
+Applies to every `plugins/bigdata-com/skills/bigdata-*/SKILL.md` except the entry skill `bigdata`. The library now carries the tool map: `library/working-with-bigdata.md` has a "Data needs the skills ask for, and how to meet them" table with routes and fallbacks, and the tools' own descriptions are the authority on arguments. The bodies stop naming tools and arguments and say what data each step needs.
+
+## Rules
+
+1. **No tool names in the body.** Remove every `bigdata_*`, `find_securities`, `get_securities`, `find_entities` and every backticked tool argument or value: `sections`, `interval`, `reporting_periods`, `document_type`, `rp_entity_ids`, `max_chunks`, section values such as `financial_statements`, mode words "smart mode" and "fast mode", "the reporting period filter". The two exceptions: the slug line under "Before starting" keeps `plugin_slug: "<skill name>"` (it is the skill's own name, not a tool), and the hand-off lines keep skill names.
+2. **Replace each tool step with the data it needs, in plain words,** keeping the step's number, its purpose and its "Done when" line. Say what the data must be (periods, quarter, window, set of companies), not how to call for it. Examples:
+   - "`bigdata_company_tearsheet` with `sections` set to `company_overview, latest_earnings, earnings_calendar`; then `analyst_estimates, analyst_ratings`; then `financial_statements, revenue_segmentation` at the default quarterly interval; then `financial_statements, key_metrics` with `interval` annual (five fiscal years)" becomes "The company's numbers: profile and quote, the latest quarter against consensus and the next report date, consensus with its vintage and the ratings and targets, quarterly statements and segments for the quarter and the year-ago quarter, and five fiscal years of annual statements for the rolling ROIIC."
+   - "`bigdata_search` in fast mode with the reporting period filter set to the quarter, for the earnings release and the transcript, then `bigdata_fetch_document` on both" becomes "The release and the full transcript for the quarter just reported, with the period fixed rather than inferred."
+   - "`bigdata_computer` on the daily price series for the stock and its index for the event day and the 60 months before it" becomes "Daily prices for the stock and its index over the event day and the 60 months before it, computed, not estimated."
+   - "Two or three `bigdata_search` calls, one aspect each, since the release" becomes "Two or three searches, one aspect each, since the release" (the word "search" is fine; the tool name is not).
+   - "`bigdata_screen_companies` ... then `bigdata_portfolio_tearsheet`" becomes "A screen on the criteria, then current figures for the set in one pull."
+   - "`bigdata_events_calendar`" becomes "the corporate calendar" or "the economic calendar".
+   - "`bigdata_sentiment_tearsheet`" becomes "the sentiment report (it has no window; say which period its narrative covers)".
+   - "`find_securities`" becomes "resolved to its Bigdata.com entity, with its listing status taken from the lookup".
+3. **Keep the data realities** that make a step work. They are facts about the data, not tool mechanics, and they stay in the body in plain words: five periods per pull, annual periods when years are wanted, the latest-earnings record is one quarter, consensus is a snapshot with no revision history (revisions come from dated research and news, labelled press or research summary), the call for the quarter just reported carries next quarter's guidance, the corporate calendar holds earnings, conferences, IPOs and delistings only, credit signals carry no prices, sentiment has no window, the market tearsheet's multi-day columns do not measure a Friday-to-Friday week.
+4. **Point once.** In "Before starting", replace the line about reading `references/working-with-bigdata.md` with: "Read `references/working-with-bigdata.md` before the first call: it maps each data need below to a tool, with fallbacks when a tool is not available, and the tools' own descriptions decide the arguments." Do not repeat the pointer in every step.
+5. **Peer sets.** Where a step asked for several tearsheet calls per peer, say "statements, estimates and ratios for the peer set, pulled as a set rather than one company at a time where the account allows" and nothing more; the route is in the library.
+6. **Arithmetic.** Where a step said to compute with `bigdata_computer`, say "computed, with the working shown" or "through the computing tool or the host's code execution".
+7. **Leave everything else alone:** frontmatter, descriptions, the Analyse and Write sections (unless they name a tool), checks, hand-offs, the sector-primer grep instruction (it names a file, not a tool), voice and length. Do not shorten or restructure steps beyond what rule 2 requires. Do not touch files outside the group.
+8. **Verify** with `grep -n -E "bigdata_[a-z_]+|find_securities|get_securities|find_entities|\`sections\`|\`interval\`|reporting_periods|fast mode|smart mode" SKILL.md` on each file: only the slug line may match.
+
+## Groups
+
+- A: bigdata-company-brief, bigdata-watchlist, bigdata-markets-today, bigdata-catalysts, bigdata-quick-take, bigdata-earnings-preview, bigdata-earnings-review, bigdata-stock-move
+- B: bigdata-deep-dive, bigdata-thesis, bigdata-valuation, bigdata-comps, bigdata-scenarios, bigdata-earnings-quality, bigdata-moat, bigdata-capital-allocation, bigdata-risk
+- C: bigdata-deal-analysis, bigdata-screen, bigdata-sector, bigdata-theme, bigdata-country, bigdata-macro-compare, bigdata-credit, bigdata-special-situations

@@ -1,8 +1,8 @@
 # Working with Bigdata.com
 
-Guidance for using the Bigdata.com tools well. It describes approaches, not arguments: each tool's own description is the authority on what it takes and returns, so read it before the first call. Tool names below are the base names; a host may add a prefix to them.
+How to get the data a skill asks for. The skills say what a step needs in data terms (five fiscal years of statements, the transcript for the quarter just reported, daily prices over a window, the Street's revisions since a date); this file maps those needs to the Bigdata.com tools and records what the data can and cannot do. Each tool's own description is the authority on what it takes and returns, so read the descriptions before the first call and let them decide the arguments. Tool names below are the base names; a host may add a prefix to them, and a user's account may not carry every tool, so the fallbacks here matter.
 
-Use judgment. A one-line question needs one or two calls. A research task needs a plan, several calls, and a second look when the first results leave a gap.
+Use judgment. A one-line question needs one or two calls. A research task needs a plan, several calls, and a second look when the first results leave a gap. Carry the source with every fact you take: the attribution URL from the result goes into your notes next to the figure, so the report can cite it inline without re-mapping at the end.
 
 ## Which data answers which question
 
@@ -26,6 +26,32 @@ Use judgment. A one-line question needs one or two calls. A research task needs 
 
 Most tasks combine two or three of these: numbers from a tearsheet, the story behind them from search, the next event from the calendar.
 
+## Data needs the skills ask for, and how to meet them
+
+| A skill step asks for | Route | What the data allows |
+|---|---|---|
+| The company resolved, and whether it is public or private | Entity lookup (`find_securities`; `get_securities` for ISIN, CUSIP, SEDOL or listing) | Listing status comes from the lookup, never from memory |
+| Five fiscal years of statements | Company tearsheet, financial statements, asking for annual periods | Five periods per call; the default is quarters, so ask for annual when years are wanted. No older periods exist in this tool; say so in Gaps when a step wanted ten years |
+| The latest quarter against consensus, and the surprise record | Company tearsheet: the latest-earnings section for the last quarter; actuals in the estimates section for earlier quarters; search for older prints | One quarter in the latest-earnings section |
+| Consensus estimates, guidance fields, targets and ratings | Company tearsheet, estimates and ratings sections | A snapshot with its vintage date. No revision history and no past targets: "what changed since" comes from dated research and news, labelled press or research summary |
+| The transcript or release for a named quarter | Search with the reporting period fixed (fiscal year and quarter) and the document type, then fetch the full document | The call for the quarter just reported carries next quarter's guidance; the prior call carries the guidance being replaced |
+| The Street's revisions, target changes, reactions since a date | Search, one aspect per call, over the window | Press and research summaries, quoted with their dates |
+| Daily prices over a specific window, a beta, an abnormal return, a weekly change | The computing tool on the price series for the stock and its index | Standard windows (1D, 5D, 1M, 3M, YTD) are in the overview; any other window needs the series. If the computing tool is not available, use the standard windows and dated press reports, and say which |
+| Several companies' current figures (price, move, surprise, targets) | Portfolio tearsheet, one call for the set | One row per company |
+| Statements, estimates or ratios for a peer set | The computing tool over the set, in one session; otherwise the company tearsheet per peer with only the sections needed | Per-peer tearsheets are large; a set of ten is ten large responses |
+| Price-implied growth, a DCF, a sensitivity grid, any arithmetic beyond a few steps | The computing tool, or the host's code execution | Show the working either way |
+| Market moves across indexes, sectors, rates, currencies | Market tearsheet for levels; the computing tool on daily ETF series for a defined window | The tearsheet's multi-day change columns run from its own refresh time, not from a Friday close, so a "last week" figure comes from the series or from dated reports; its yield change columns are percent of the yield, not basis points |
+| Sentiment | Sentiment tearsheet | No window can be set; say which period its narrative covers |
+| Upcoming dated events | Events calendar, corporate or economic | Corporate: earnings, conferences, IPOs, delistings only. Deal votes, court dates, regulatory deadlines and product events come from filings and news |
+| Credit news signals | Credit factor tools | Event catalysts and scores; no bond prices, yields, spreads or ratios. Debt fair values sit in the filings' debt notes |
+| The user's own documents | Connectors, tags and document listing, then search or fetch | |
+
+When a tool a step wants is not in the conversation, use the nearest route in this table and name the substitution in the Gaps line. Never give a figure from memory or the open web in its place without saying so.
+
+## Large responses
+
+A company tearsheet with several sections can run to hundreds of thousands of characters, and the host may save it to a file rather than return it. Ask for the sections a step needs, two or three per call, and read the saved file with a parser rather than in full. The same applies to an unfiltered corporate calendar and to a full filing: fetch the full document only when the excerpts cut off what the step needs.
+
 ## Resolve the company first
 
 - Resolve every company, ticker, ETF or fund to its Bigdata.com entity before calling a tool that needs an entity id: tearsheets, the calendar, watchlists, fast searches with entity filters. Use `find_securities` for names and tickers, `get_securities` for ISIN, CUSIP, SEDOL or exchange listings, and `find_entities` for people, places, products and organizations that are not companies.
@@ -43,6 +69,7 @@ Most tasks combine two or three of these: numbers from a tearsheet, the story be
 - **List the angles first.** For a broad question, plan one search per angle. One relevant-looking result is not a reason to stop.
 - **Pass a scope hint only when the user gave one:** their own files, a source, a tag, a broker.
 - **The open web is a last resort,** for things outside Bigdata.com's content (a product page, a blog), and the user is told when an answer comes from it. News is not one of them.
+- **Keep the link with the fact.** Each excerpt comes with its document's attribution URL. Write it next to the figure or quote as you take it. The report cites inline from those notes; citation numbers assigned at the end, from memory, land on the wrong document.
 
 ## When a smart search comes back weak
 
@@ -106,7 +133,7 @@ Rules that follow from the data:
 - Not in Bigdata.com: a cost of capital or WACC, short interest, option prices and implied volatility, intraday prices, bond prices and spreads. `fund_trends_history` carries institutional options activity as positioning, not prices. State the cost of capital as an assumption with its basis and show a sensitivity. Say in the Gaps line when positioning data would have mattered.
 - `company_overview` carries price changes over standard windows only. A move over a specific window (an event day, the week before a print) comes from `bigdata_computer` on the price series, and the index over the same window from the same tool.
 - Consensus has a vintage: the date in the estimates section. Quote it next to any consensus figure, with the number of estimates when given.
-- Price series and anything that needs more than a few steps of arithmetic go through `bigdata_computer`.
+- Price series and anything that needs more than a few steps of arithmetic go through the computing tool, or the host's code execution when the computing tool is not available.
 
 ## Transcripts and guidance
 
@@ -117,4 +144,4 @@ Rules that follow from the data:
 
 ## The skill slug
 
-Pass `plugin_slug` with the skill's name on every Bigdata.com call that accepts it. It tells Bigdata.com which skill is running, which is how usage per skill is counted. The value is the skill's `name` field, for example `bigdata-earnings-preview`.
+Every Bigdata.com call that accepts a skill slug (`plugin_slug`) takes the running skill's `name` field, for example `bigdata-earnings-preview`. It tells Bigdata.com which skill is running, which is how usage per skill is counted. Each skill states its slug once under "Before starting".

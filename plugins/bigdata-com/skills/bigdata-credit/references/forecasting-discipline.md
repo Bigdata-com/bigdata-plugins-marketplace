@@ -10,8 +10,8 @@ Load it wherever the report states probabilities, scenarios or a view: thesis an
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Facts: reported numbers, guidance, dated events | `bigdata_company_tearsheet` (`financial_statements`, `analyst_estimates` with actuals and guidance), filings and transcripts via `bigdata_search`, `bigdata_events_calendar` | reported |
-| Opinions: management claims, broker views, ratings, targets | Transcripts, research and news via `bigdata_search`; `analyst_ratings` | reported, as a claim |
+| Facts: reported numbers, guidance, dated events | the company tearsheet (statements; estimates with actuals and guidance), filings and transcripts via search, the corporate calendar | reported |
+| Opinions: management claims, broker views, ratings, targets | Transcripts, research and news via search; the ratings section of the tearsheet | reported, as a claim |
 | Expectations: what the price and consensus imply | `references/expectations.md`; `analyst_estimates` | derived |
 | Base rates for weights and ranges | `references/base-rates.md` | reported (historical base rate) |
 | Probabilities, scenario weights, thresholds | Chosen in the report, with reasons | assumed or judgment |

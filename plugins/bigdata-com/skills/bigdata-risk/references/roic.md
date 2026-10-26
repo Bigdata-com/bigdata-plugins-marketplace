@@ -10,12 +10,12 @@ Whenever a report states a return on capital, a spread, a moat or a fade assumpt
 
 | Input | Where in Bigdata.com | Basis |
 |---|---|---|
-| Revenue, EBIT, amortization of acquired intangibles, pretax income, tax expense, interest expense and income, non-operating income, R&D | `bigdata_company_tearsheet`, section `financial_statements`, `financial_ratios`, `key_metrics` (income statement), five fiscal periods per call | reported |
+| Revenue, EBIT, amortization of acquired intangibles, pretax income, tax expense, interest expense and income, non-operating income, R&D | the company tearsheet: statements, ratios and key metrics (income statement), five fiscal periods per pull | reported |
 | Receivables, inventory, prepaid, payables, accruals, deferred revenue, net and gross PP&E, goodwill and intangibles, cash and securities, debt, lease liabilities where reported, equity, minority interest, invested capital field | `financial_statements`, `financial_ratios`, `key_metrics` (balance sheet) | reported |
 | FactSet ROIC, margins, cash conversion cycle | `financial_ratios` | reported |
 | Revenue by segment | `revenue_segmentation` (revenue only, no segment capital) | reported |
-| Tax reconciliation, lease note, deferred tax note, R&D, restructuring and impairment history, segment assets | `bigdata_search` on filings, then `bigdata_fetch_document` for the note | reported |
-| Risk-free rate, equity risk premium, beta, credit spread, target weights | Not in Bigdata.com. Beta can be computed with `bigdata_computer` where it returns a price series; otherwise cite an industry beta | assumed |
+| Tax reconciliation, lease note, deferred tax note, R&D, restructuring and impairment history, segment assets | a search on filings, then the full document for the note | reported |
+| Risk-free rate, equity risk premium, beta, credit spread, target weights | Not in Bigdata.com. Beta can be computed from the price series through the computing tool; otherwise cite an industry beta | assumed |
 
 For a ten-year series request earlier periods if the tool allows it; otherwise work with five and say so in Gaps.
 

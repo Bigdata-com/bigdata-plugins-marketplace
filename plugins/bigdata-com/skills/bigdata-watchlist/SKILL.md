@@ -17,28 +17,28 @@ This skill gives a portfolio manager the morning check on a list of names: one t
 
 - If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Give no figures, dates or view from memory or the web in the meantime, because an unsourced answer would look like Bigdata.com data.
 - Pass `plugin_slug: "bigdata-watchlist"` on every Bigdata.com call that accepts it.
-- Read `references/working-with-bigdata.md` before the first call.
+- Read `references/working-with-bigdata.md` before the first call: it maps each data need below to a tool, with fallbacks when a tool is not available, and the tools' own descriptions decide the arguments.
 - Treat this skill as guidelines. A quiet day needs the table and one line; a day with three prints needs the three read properly.
 
 ## Scope the request
 
 Establish the list and the window.
 
-- **Names given in the message.** Resolve each with `find_securities`, in parallel, one call per name. Keep any name that does not resolve in the Gaps line rather than guessing.
-- **A saved list** ("my watchlist", "my holdings", a list name). Call `bigdata_get_watchlist` with no id to list the user's own watchlists, pick the one the user named, then call it again with that id to load the entity ids. Do not ask the user to retype the names. If several saved lists fit and the user named none, ask which one: this is the one question worth asking.
+- **Names given in the message.** Resolve each to its Bigdata.com entity, in parallel, one lookup per name. Keep any name that does not resolve in the Gaps line rather than guessing.
+- **A saved list** ("my watchlist", "my holdings", a list name). Load it from the user's saved Bigdata.com watchlists: list them, pick the one the user named, and take its companies from it. Do not ask the user to retype the names. If several saved lists fit and the user named none, ask which one: this is the one question worth asking.
 - **The window.** Today by default; "this week" is the trailing five trading days; "since Friday" or "since earnings" is taken as said. State it in the header.
 
 A peer group or a competitor set is as valid a list as a portfolio: a strategy or IR team checking its rivals gets the same table, with the read written for that reader. If the user gives position sizes or weights with the names, use them only to order the table; the skill does not size, rebalance or judge positions. Done when the list is resolved, unresolved names are noted for the Gaps line, and the window is fixed.
 
-Size the calls to the list. The portfolio tearsheet returns earnings, targets and sentiment for up to 100 names, and price columns alone for up to 3,000. For a longer list, take the price grid for all names and the full grid for a shortlist (the movers, the names with news, the names reporting in the window), and say so in the header.
+Size the calls to the list. The grid of current figures for a list carries earnings, targets and sentiment for up to 100 names, and price columns alone for up to 3,000. For a longer list, take the price grid for all names and the full grid for a shortlist (the movers, the names with news, the names reporting in the window), and say so in the header.
 
 ## Gather
 
-1. **The grid.** `bigdata_portfolio_tearsheet` with the list's entity ids. The table below uses the EPS, surprise, target and sentiment columns, so request them for up to 100 names; above 100, request price, 1-day change, after-hours and market cap for all names and the full set for the shortlist. Done when each row has its price and when it was set, the 1-day move, the last reported EPS against its estimate with the fiscal period, the consensus target with its low, median and high, the sentiment score with its direction, and the market cap.
-2. **The window move and each name's typical range.** The grid carries the 1-day move only. For a window longer than a day, take each name's move and its home index's move over the exact window from `bigdata_computer` on the daily series (`company_overview` and `bigdata_market_tearsheet` carry standard windows only; use them when the window is one, such as five days). In the same call, derive each name's typical daily move: the standard deviation of its daily return against the index over the last 60 trading days, labelled derived. For a list above 100, compute it for the shortlist. Done when each name has its move, its move against the index and its typical daily move.
-3. **The news.** `bigdata_watchlist_search` in fast mode, with the saved list's id or the inline entity ids, a timestamp filter for the window, and the default budget of five excerpts per name (fewer per name for a long list; cost scales with names times excerpts). Run one query for material company news (results, guidance, deals, management, regulation, litigation) and one for analyst reactions (target and rating changes, estimate cuts), with the research and news categories. Done when each name has its items for the window, or an explicit "no items found" (with a per-name budget an empty group does mean nothing matched).
-4. **Next dates.** `bigdata_events_calendar` with `calendar_type` set to `corporate_calendar`, the entity ids, and a window running to the next 30 days. Done when each name has its next earnings date or conference, or "none in the next 30 days".
-5. **Drill-down on flagged names only** (Analyse step 1). For each: `bigdata_company_tearsheet` with `analyst_estimates, analyst_ratings` for current consensus with its vintage and the rating counts. The tearsheet holds no consensus or target history, so a revision over the window comes from a `bigdata_search` of research and news for the period that quotes the earlier figure, with the document's date, labelled press or research summary, or it is marked not found. `bigdata_fetch_document` on the release, filing or call that carries the news when the excerpt leaves out the number that matters; `bigdata_sentiment_tearsheet` when sentiment turned and the reason is not in the news (it takes no window; say which period its narrative covers). Fetch `financial_ratios, key_metrics` only if the user asks for a flagged name's fundamentals. Done when each flagged item has its figure, its date and its source, and each revision is dated or marked not found.
+1. **The grid.** Current figures for the whole list in one pull. The table below uses the EPS, surprise, target and sentiment columns, so get them for up to 100 names; above 100, get price, 1-day change, after-hours and market cap for all names and the full set for the shortlist. Done when each row has its price and when it was set, the 1-day move, the last reported EPS against its estimate with the fiscal period, the consensus target with its low, median and high, the sentiment score with its direction, and the market cap.
+2. **The window move and each name's typical range.** The grid carries the 1-day move only. For a window longer than a day, each name's move and its home index's move over the exact window come from daily prices, computed, not estimated (the company quote and the market overview carry standard windows only; use them when the window is one, such as five days). From the same series, derive each name's typical daily move: the standard deviation of its daily return against the index over the last 60 trading days, labelled derived. For a list above 100, compute it for the shortlist. Done when each name has its move, its move against the index and its typical daily move.
+3. **The news.** A news search across the whole list over the window that gives every name its own share of results, five excerpts per name by default (fewer per name for a long list; cost scales with names times excerpts). Run one search for material company news (results, guidance, deals, management, regulation, litigation) and one for analyst reactions (target and rating changes, estimate cuts), over research and news. Done when each name has its items for the window, or an explicit "no items found" (with a per-name budget an empty group does mean nothing matched).
+4. **Next dates.** The corporate calendar for the list, over the next 30 days. Done when each name has its next earnings date or conference, or "none in the next 30 days".
+5. **Drill-down on flagged names only** (Analyse step 1). For each: current consensus with its vintage, the targets and the rating counts. Consensus is a snapshot with no history of consensus or targets, so a revision over the window comes from a search of research and news for the period that quotes the earlier figure, with the document's date, labelled press or research summary, or it is marked not found. The full release, filing or call that carries the news when the excerpt leaves out the number that matters; the sentiment report when sentiment turned and the reason is not in the news (it has no window; say which period its narrative covers). Get ratios and valuation metrics only if the user asks for a flagged name's fundamentals. Done when each flagged item has its figure, its date and its source, and each revision is dated or marked not found.
 6. **Sector primer.** For a flagged name, find its sector in `references/sector-primers.md` (grep the slug from its contents list, read to the next `## ` heading) and read its metrics that matter, so a bank's item is read on net interest income and provisions rather than on EPS alone. Done when each flagged name in such a sector has the primer's metrics noted for the read.
 
 ## Analyse
@@ -59,7 +59,7 @@ Size the calls to the list. The portfolio tearsheet returns earnings, targets an
 
 Special cases on a list:
 
-- ETFs and funds keep their row in the grid with blank cells. Take their move from `bigdata_etf_tearsheet` and leave the earnings and target columns empty with a note.
+- ETFs and funds keep their row in the grid with blank cells. Take their move from the ETF's own profile and quote and leave the earnings and target columns empty with a note.
 - A private company has no market data. Keep its row for news and dates and mark the price columns "private".
 - A non-US listing is measured against its home index, in local currency; say so in the column note.
 - Outside trading hours the price is the last close. For a US name before the open, include the pre-market trade from the grid and say which figure is the latest and when it was set.
@@ -103,7 +103,7 @@ Bigdata.com), and any window the grid could not cover.
 ## Sources, then the Data line, then the Powered by Bigdata.com line and the disclaimer.
 ```
 
-Citations: `bigdata_watchlist_search` asks that its documents are cited inline and never listed as a numbered catalogue, so cite its items inline in the "What changed" cell and in "Worth reading" in the tool's own format: a markdown link whose text is the source name and date ("Reuters - Oct 24, 2026") and whose target is the URL the tool returned. Keep the numbered Sources section for documents from the other tools (searches, fetched filings, calendar) and the Data line for the grid.
+Citations: the list-wide news search asks that its documents are cited inline and never listed as a numbered catalogue, so cite its items inline in the "What changed" cell and in "Worth reading" in its own format: a markdown link whose text is the source name and date ("Reuters - Oct 24, 2026") and whose target is the URL the search returned. Keep the numbered Sources section for the other documents (single-company searches, fetched filings, calendar) and the Data line for the grid.
 
 Length: one to two pages. A user who asks about one item on the list ("anything on Nvidia in my list?") gets that row, its item and the sources.
 
@@ -120,7 +120,7 @@ Length: one to two pages. A user who asks about one item on the list ("anything 
 9. Each "no items found" comes from a per-name search budget, not a shared one, so it means no coverage rather than a lost share of the budget.
 10. Prices state when they were set, and pre-market or after-hours figures are labelled as such.
 11. Every name in "Coming up" has its date from the calendar, not from a news mention.
-12. Watchlist-search items are cited inline in the tool's format and do not appear in the numbered Sources list.
+12. Items from the list-wide news search are cited inline in its own format and do not appear in the numbered Sources list.
 
 ## Hand-offs
 

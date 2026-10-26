@@ -17,12 +17,12 @@ One page, written the way a portfolio manager answers "what do you think of Micr
 
 - If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Give no figures, dates or view from memory or the web in the meantime, because an unsourced answer would look like Bigdata.com data.
 - Pass `plugin_slug: "bigdata-quick-take"` on every Bigdata.com call that accepts it.
-- Read `references/working-with-bigdata.md` before the first call.
+- Read `references/working-with-bigdata.md` before the first call: it maps each data need below to a tool, with fallbacks when a tool is not available, and the tools' own descriptions decide the arguments.
 - Treat this skill as guidelines. The page is the limit; the research behind it is not.
 
 ## Scope the request
 
-Resolve the company with `find_securities`. If the user gave an angle ("is it interesting after the drop", "versus Samsung"), the page answers that angle. The subject may be the user's own company, a competitor, a customer or a supplier: the page then says what the price assumes about that company and what it means for the reader, still with no rating. Do not ask a question unless the name is ambiguous; a quick take is asked for because the user wants it now. Done when the company is resolved and any angle the user gave is noted.
+Resolve the company to its Bigdata.com entity, with its listing status taken from the lookup. If the user gave an angle ("is it interesting after the drop", "versus Samsung"), the page answers that angle. The subject may be the user's own company, a competitor, a customer or a supplier: the page then says what the price assumes about that company and what it means for the reader, still with no rating. Do not ask a question unless the name is ambiguous; a quick take is asked for because the user wants it now. Done when the company is resolved and any angle the user gave is noted.
 
 If the company is Private, say that there is no price to read expectations from and offer a document-based summary instead.
 
@@ -30,11 +30,11 @@ If the company is Private, say that there is no price to read expectations from 
 
 Five steps, no more unless a driver needs one.
 
-1. `bigdata_company_tearsheet` in two calls: `company_overview, analyst_estimates, analyst_ratings, earnings_calendar`, then `financial_statements, financial_ratios, key_metrics` with `interval` annual. Done when market cap, enterprise value, the forward multiples, consensus for the next two fiscal years with its vintage, the last reported quarter's actual against consensus, targets and ratings, the next report date, the competitors block and five fiscal years of statements are in hand.
-2. `bigdata_search` for the company's news over the last 30 days, and in the same pass for research and news that quote a consensus or target change over those 30 days (the tearsheet holds no history). Done when the two or three developments that moved the stock or the estimates are known with dates, and the revision is quoted with its document's date, labelled press or research summary, or marked not found.
-3. `bigdata_search` for the last earnings call, with the reporting period filter, and `bigdata_fetch_document` on it. Done when guidance and the one exchange that shows what management is worried about are known.
-4. `bigdata_sentiment_tearsheet` (it takes no window; say which period its narrative covers). Done when the direction of sentiment and its period are known.
-5. **Peers, for one relative-valuation line.** Take two or three peers from the competitors block in `company_overview` (it carries symbol, price and market cap only, and `bigdata_portfolio_tearsheet` carries no multiples) and pull `key_metrics, analyst_estimates` for each with `bigdata_company_tearsheet`. When the user asks for a peer angle, take up to five. Done when each peer has its EV/EBITDA and its forward P/E (price over next-year consensus EPS, derived), or the line says which peers had no data.
+1. The company's numbers: profile and quote with its competitors block, consensus with its vintage, the latest quarter against consensus, ratings and targets and the next report date; then ratios, valuation metrics and five fiscal years of annual statements (annual periods, not the default quarters). Done when market cap, enterprise value, the forward multiples, consensus for the next two fiscal years with its vintage, the last reported quarter's actual against consensus, targets and ratings, the next report date, the competitors block and five fiscal years of statements are in hand.
+2. Searches for the company's news over the last 30 days, and in the same pass for research and news that quote a consensus or target change over those 30 days (consensus and targets are a snapshot with no history). Done when the two or three developments that moved the stock or the estimates are known with dates, and the revision is quoted with its document's date, labelled press or research summary, or marked not found.
+3. The full transcript of the last earnings call, with the period fixed rather than inferred. Done when guidance and the one exchange that shows what management is worried about are known.
+4. The sentiment report (it has no window; say which period its narrative covers). Done when the direction of sentiment and its period are known.
+5. **Peers, for one relative-valuation line.** Take two or three peers from the competitors block in the company's profile (it carries symbol, price and market cap only, and the several-company grid carries no multiples), then the key metrics (EV, EV/EBITDA) and next-year consensus EPS for the peer set, pulled as a set rather than one company at a time where the account allows. When the user asks for a peer angle, take up to five. Done when each peer has its EV/EBITDA and its forward P/E (price over next-year consensus EPS, derived), or the line says which peers had no data.
 
 Find the company's sector in `references/sector-primers.md` (grep the slug from its contents list, read to the next `## ` heading) and read its metrics that matter, so the drivers are the sector's drivers. Done when the sector's own drivers are noted, or no primer applies.
 

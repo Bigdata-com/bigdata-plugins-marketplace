@@ -10,10 +10,10 @@ Moat, deep dive, thesis, sector and theme work, and any valuation that sets a co
 
 | Input | Where in Bigdata.com | Basis |
 |---|---|---|
-| ROIC, margins, revenue, invested capital for the company and each peer | `bigdata_company_tearsheet`, `financial_statements`, `financial_ratios`, `key_metrics` | reported |
+| ROIC, margins, revenue, invested capital for the company and each peer | the company tearsheet: statements, ratios and key metrics | reported |
 | Revenue by product and geography, five years | `revenue_segmentation` | reported |
-| Peer candidates | `bigdata_screen_companies`, peers named in filings, `mergers_acquisitions` | reported |
-| Industry size and shares, supplier and customer concentration, contract terms, price changes, capacity, entrants and exits | `bigdata_search` (one aspect and one period per call; see the evidence table) | reported |
+| Peer candidates | a company screen, peers named in filings, the tearsheet's M&A section | reported |
+| Industry size and shares, supplier and customer concentration, contract terms, price changes, capacity, entrants and exits | a search (one aspect and one period per call; see the evidence table) | reported |
 | Hiring by rivals and entrants | `hiring_trends` section, news | reported |
 | Cost of capital | Not in Bigdata.com; see `references/roic.md` | assumed |
 

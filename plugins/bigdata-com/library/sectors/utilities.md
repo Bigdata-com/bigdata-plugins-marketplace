@@ -30,7 +30,7 @@ Unregulated segments (merchant generation, contracted renewables, trading) earn 
 | Customer bill growth | change in average bill | Affordability limits future rate increases | above inflation draws political pressure |
 | Load growth | change in electricity sales volume | New demand (data centres, electrification) | was near zero for years; now rising in some regions |
 
-Rate case filings and decisions, capital plans and rate base are in investor presentations and regulatory filings; use `bigdata_search` and `bigdata_fetch_document`.
+Rate case filings and decisions, capital plans and rate base are in investor presentations and regulatory filings; search for them and read the full document.
 
 ## Financial statements and accounting traps
 

@@ -22,7 +22,7 @@ Capital goods (aerospace and defense, machinery, electrical equipment, building 
 | Free cash flow conversion | Free cash flow / net income | Countercyclical: working capital absorbs cash in upturns and releases it in downturns. |
 | ROIC, with and without goodwill | NOPAT / invested capital | Many industrials are serial acquirers; the two figures can differ widely (load `references/roic.md`). |
 
-Most are not tearsheet fields: take them from filings and transcripts through `bigdata_search`, or state them as assumptions.
+Most are not tearsheet fields: take them from filings and transcripts through search, or state them as assumptions.
 
 ## Operating leverage and capacity utilisation
 

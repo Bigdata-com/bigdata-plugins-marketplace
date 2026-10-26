@@ -10,11 +10,11 @@ Earnings previews and reviews (the sales-to-margin sensitivity), deep dives, val
 
 | Input | Where in Bigdata.com | Basis |
 |---|---|---|
-| Revenue, COGS, SG&A, R&D, depreciation, EBIT, interest, net debt, gross and net PP&E, capex, five fiscal periods per call | `bigdata_company_tearsheet`, `financial_statements`, `interval` annual | reported |
+| Revenue, COGS, SG&A, R&D, depreciation, EBIT, interest, net debt, gross and net PP&E, capex, five fiscal periods per call | the company tearsheet, annual statements | reported |
 | Consensus sales, EBIT, EPS to four years out, surprise history, company guidance | `analyst_estimates`, `latest_earnings` | reported |
 | Revenue by product and geography, five years | `revenue_segmentation` | reported |
-| Fixed and variable cost, capacity utilization, price against volume against mix, customer counts, penetration | `bigdata_search` on transcripts and filings | reported |
-| Market size, adoption, competitor capacity and pricing | `bigdata_search` on research and news | reported |
+| Fixed and variable cost, capacity utilization, price against volume against mix, customer counts, penetration | a search on transcripts and filings | reported |
+| Market size, adoption, competitor capacity and pricing | a search on research and news | reported |
 | Incremental margins per scenario, cost of capital, amortizable lives | none | assumed |
 
 Not in the sources and not in the tearsheet: capacity utilization and the fixed and variable split. Take them from filings, transcripts or research; otherwise state them as assumed.

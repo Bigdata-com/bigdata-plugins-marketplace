@@ -10,10 +10,10 @@ bigdata-capital-allocation runs the whole method; bigdata-deal-analysis runs ste
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| CFO, capex, depreciation, acquisitions, divestitures, working capital, dividends, buybacks, issuance, SBC, debt, gross and net PP&E, invested capital, ROIC, cash conversion cycle, market cap, EV | `bigdata_company_tearsheet`, section `financial_statements`, `financial_ratios`, `key_metrics` | reported |
-| Deal history | `mergers_acquisitions` section; `bigdata_search` for each announcement (price, premium, synergies, payment form, integration cost) | reported |
-| Price series around announcements and over the buyback years | `company_overview` section; `bigdata_computer` for daily series | reported, derived |
-| Repurchase actuals, proxy statement (incentive metrics, performance period, clawback), insider sales | `bigdata_search` over filings, then `bigdata_fetch_document` | reported |
+| CFO, capex, depreciation, acquisitions, divestitures, working capital, dividends, buybacks, issuance, SBC, debt, gross and net PP&E, invested capital, ROIC, cash conversion cycle, market cap, EV | the company tearsheet: statements, ratios and key metrics | reported |
+| Deal history | the tearsheet's M&A section; a search for each announcement (price, premium, synergies, payment form, integration cost) | reported |
+| Price series around announcements and over the buyback years | the tearsheet overview (quote and standard-window performance); the computing tool for daily series | reported, derived |
+| Repurchase actuals, proxy statement (incentive metrics, performance period, clawback), insider sales | a search over filings, then the full document | reported |
 | Executives and CEO changes | `c_level_leadership` section | reported |
 | Cost of equity and of capital, intrinsic value per share by year | Not in Bigdata.com; stated with basis and sensitivity | assumed |
 

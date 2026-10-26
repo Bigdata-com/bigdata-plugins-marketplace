@@ -26,7 +26,7 @@ Upstream exploration and production (E&P), integrated oil and gas, oilfield serv
 | Contract mix and tenor (midstream) | Fee-based share; weighted remaining term | Determines how much of the cycle reaches cash flow. |
 | Distribution or dividend coverage | Distributable cash flow / payouts | Payout sustainability through a trough. |
 
-Most are not tearsheet fields: take them from filings, reserve reports and transcripts through `bigdata_search`.
+Most are not tearsheet fields: take them from filings, reserve reports and transcripts through search.
 
 ## Operating leverage and capacity utilisation
 

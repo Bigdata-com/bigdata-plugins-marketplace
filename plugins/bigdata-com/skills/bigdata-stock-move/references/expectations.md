@@ -10,8 +10,8 @@ Load it wherever a view on a stock is formed: valuation and reverse DCF, multipl
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Market cap, enterprise value, net debt | `bigdata_company_tearsheet`, `key_metrics`. Add minorities, preferred, pension deficit and leases from the balance sheet when the EV field leaves them out | reported |
-| EBIT, income tax, pretax income, sales, capex, depreciation, working capital, invested capital | `financial_statements`, five fiscal years (`interval` annual) | reported |
+| Market cap, enterprise value, net debt | the company tearsheet, key metrics. Add minorities, preferred, pension deficit and leases from the balance sheet when the EV field leaves them out | reported |
+| EBIT, income tax, pretax income, sales, capex, depreciation, working capital, invested capital | annual statements (five fiscal years) | reported |
 | Tax rate | Income tax / pretax income, normalised for one-off tax items | derived |
 | Consensus sales, EBIT, EPS to FY+4, long-term growth | `analyst_estimates`, with the vintage date and the number of estimates | reported |
 | NOPAT0, NOPAT1 | EBIT x (1 - tax rate); NOPAT1 uses consensus EBIT for the next fiscal year | derived |

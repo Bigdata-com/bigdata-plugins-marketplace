@@ -10,13 +10,13 @@ Load it for a thesis or memo, deep dive, quick take (the downside line and the n
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Cash, marketable securities, receivables, inventories, PP&E gross and net, goodwill and intangibles, current and total liabilities, debt, leases | `bigdata_company_tearsheet`, `financial_statements` balance sheet, five fiscal years (`interval` annual) | reported |
+| Cash, marketable securities, receivables, inventories, PP&E gross and net, goodwill and intangibles, current and total liabilities, debt, leases | the company tearsheet, annual balance sheets (five fiscal years) | reported |
 | Free cash flow, capex, depreciation, stock-based compensation | `financial_statements` cash flow and income statement | reported |
 | Market cap, EV, net debt, FCF yield, multiples, share count | `key_metrics` | reported |
 | Segment revenue and profit | `revenue_segmentation` | reported |
 | Holders and changes (who sold, who bought) | `fund_trends_history`: 13F holders, top buyers and sellers, position changes, options activity; quarterly and filed with a lag, so it shows who was selling over the quarter, not who sold on a given day | reported |
-| Dated catalysts: next earnings, shareholder meeting, deal milestones | `bigdata_events_calendar`; `bigdata_search` over filings and news | reported |
-| Buyback authorisations, spin-offs, asset sales, activist stakes, covenants, pension and contingent liabilities, insider purchases | `bigdata_search` over filings, news and transcripts | reported |
+| Dated catalysts: next earnings, shareholder meeting, deal milestones | the corporate calendar; a search over filings and news | reported |
+| Buyback authorisations, spin-offs, asset sales, activist stakes, covenants, pension and contingent liabilities, insider purchases | a search over filings, news and transcripts | reported |
 | M&A history, executives, insider ownership | `mergers_acquisitions`, `c_level_leadership` | reported |
 | Liquidation haircuts, discount rate, probabilities | Chosen in the report, with reasons | assumed |
 

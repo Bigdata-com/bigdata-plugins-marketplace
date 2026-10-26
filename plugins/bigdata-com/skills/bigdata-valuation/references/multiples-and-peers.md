@@ -10,13 +10,13 @@ Comps and peer comparison, valuation snapshots and full valuations (as the cross
 
 | Input | Where in Bigdata.com | Basis |
 |---|---|---|
-| Market cap, EV, EV/EBITDA, P/E, FCF yield, net debt | `bigdata_company_tearsheet`, `financial_statements`, `financial_ratios`, `key_metrics` (key metrics), per peer | reported |
+| Market cap, EV, EV/EBITDA, P/E, FCF yield, net debt | the company tearsheet per peer: statements, ratios and key metrics (pulled as a set where the account allows) | reported |
 | Statements: debt, cash and securities, minorities, leases, pensions, equity-method investments, attributable net income | `financial_statements`, `financial_ratios`, `key_metrics` | reported |
 | ROIC, ROE, margins, cash conversion | `financial_ratios` | reported |
 | Consensus sales, EBITDA, EBIT, EPS, FCF, long-term growth, with vintage | `analyst_estimates` | reported |
-| Peer candidates | `bigdata_screen_companies` on sector, size, growth, margin and return; peers named in filings | reported |
-| Current figures for a peer set | `bigdata_portfolio_tearsheet` | reported |
-| Non-recurring items, JV income, option and share tables, segment profit | `bigdata_search` and `bigdata_fetch_document` on filings | reported |
+| Peer candidates | a company screen on sector, size, growth, margin and return; peers named in filings | reported |
+| Current figures for a peer set | the portfolio tearsheet | reported |
+| Non-recurring items, JV income, option and share tables, segment profit | search and the full document, on filings | reported |
 | Cost of capital | Not in Bigdata.com; see `references/roic.md` | assumed |
 
 Not in the sources: how the tearsheet's enterprise value is built (minorities, pensions, leases, period-end or average net debt) and whether its EBITDA is cleaned. Rebuild EV from the balance sheet for the target and each peer, and say which one is quoted.

@@ -10,7 +10,7 @@ Load it next to any growth, margin or return claim: earnings preview, valuation,
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Prior-year sales (sets the size class), sales and net income history | `bigdata_company_tearsheet`, `financial_statements`, five fiscal years (`interval` annual) | reported |
+| Prior-year sales (sets the size class), sales and net income history | the company tearsheet, annual statements (five fiscal years) | reported |
 | Gross profitability = (revenue - cost of goods sold) / total assets | `financial_statements` income statement and balance sheet | derived |
 | Operating margin, ROIC | `financial_ratios` and `financial_statements` | reported or derived |
 | Sector | `company_overview` | reported |

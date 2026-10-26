@@ -27,7 +27,7 @@ For a P&C insurer the value drivers are the combined ratio across the pricing cy
 | Operating ROE | operating earnings / average equity excluding unrealised gains and losses | The return that drives price to book | about 8% to 16% |
 | Life: value of new business, new-business margin, contractual service margin (CSM) | present value of profits on new policies; CSM is the unearned profit under IFRS 17 | Growth and quality of new sales | trend, not level |
 
-These come from the earnings release, the financial supplement and the solvency reports; use `bigdata_search` and `bigdata_fetch_document`.
+These come from the earnings release, the financial supplement and the solvency reports; search for them and read the full document.
 
 ## Financial statements and accounting traps
 

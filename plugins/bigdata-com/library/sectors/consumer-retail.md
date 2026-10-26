@@ -23,7 +23,7 @@ Retailers (broadline, specialty, grocery, off-price, e-commerce), restaurants, b
 | New-unit economics | Cash-on-cash return or payback per new store | Tests whether unit growth creates value; new units often open below mature productivity and cannibalise (judgment, verify). |
 | Channel economics | Margin by store, e-commerce, wholesale, direct-to-consumer | Direct-to-consumer gross margin is higher than wholesale, but fulfilment, returns and paid acquisition can leave operating margin lower (judgment, verify). |
 
-Most are not tearsheet fields: take them from filings, transcripts and investor-day material through `bigdata_search`.
+Most are not tearsheet fields: take them from filings, transcripts and investor-day material through search.
 
 ## Financial statements and accounting traps
 

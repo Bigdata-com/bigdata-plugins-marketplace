@@ -28,7 +28,7 @@ In the US a REIT avoids corporate tax by distributing at least 90% of taxable in
 | Debt maturity and share secured | debt due by year; secured / total | Refinancing wall | |
 | Implied cap rate | NOI / (equity market value + debt + preferred - non-income assets) | Price the market puts on the properties | compare with private-market deals |
 
-FFO, AFFO and same-store NOI come from the company's supplemental package; use `bigdata_search` and `bigdata_fetch_document`.
+FFO, AFFO and same-store NOI come from the company's supplemental package; search for them and read the full document.
 
 ## Financial statements and accounting traps
 

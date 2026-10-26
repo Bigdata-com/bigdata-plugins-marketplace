@@ -10,13 +10,13 @@ bigdata-credit runs the whole method; bigdata-risk runs steps 2 to 8 and the dis
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Short- and long-term debt, notes payable, leases where reported, cash, current assets and liabilities, inventory, receivables, goodwill, PP&E, equity | `bigdata_company_tearsheet`, `financial_statements`, `interval` annual, five fiscal years | reported |
+| Short- and long-term debt, notes payable, leases where reported, cash, current assets and liabilities, inventory, receivables, goodwill, PP&E, equity | the company tearsheet, annual statements (five fiscal years) | reported |
 | EBIT, EBITDA, interest expense, CFO, capex, depreciation, FCF, dividends, buybacks | `financial_statements` | reported |
 | Net debt, EV, market cap; Altman Z and Piotroski as FactSet computes them | `key_metrics` and `financial_ratios` | reported |
 | Forward EBIT and EBITDA | `analyst_estimates`, to FY+4 | reported |
-| Rent expense, maturity schedule, credit agreement and covenants, rating actions, pension deficit, contingent liabilities, deconsolidated entities, related-party loans | `bigdata_search` over filings and news, then `bigdata_fetch_document` | reported |
-| Credit news signals | `bigdata_get_credit_factor`: the strongest positive and negative credit-news catalysts for the company (event type, score, direction) over a daily, weekly or monthly horizon; `bigdata_screen_credit_factor` ranks many companies the same way. Neither returns prices, yields, spreads or ratios | reported |
-| Bond prices, yields, spreads, rating-agency commentary, fixed-floating split, hedges | Not in a Bigdata.com data set. Quoted figures from news, research and the filing's debt note via `bigdata_search` and `bigdata_fetch_document`; otherwise state the gap | reported or not available |
+| Rent expense, maturity schedule, credit agreement and covenants, rating actions, pension deficit, contingent liabilities, deconsolidated entities, related-party loans | a search over filings and news, then the full document | reported |
+| Credit news signals | the credit-factor tool: the strongest positive and negative credit-news catalysts for the company (event type, score, direction) over a daily, weekly or monthly horizon; its screening form ranks many companies the same way. Neither returns prices, yields, spreads or ratios | reported |
+| Bond prices, yields, spreads, rating-agency commentary, fixed-floating split, hedges | Not in a Bigdata.com data set. Quoted figures from news, research and the filing's debt note via search and the full document; otherwise state the gap | reported or not available |
 | Cost of debt, size of the stress shock, scenario enterprise values | Chosen and stated | assumed |
 
 ## Procedure

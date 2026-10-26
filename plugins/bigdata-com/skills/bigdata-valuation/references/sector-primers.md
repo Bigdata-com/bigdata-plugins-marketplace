@@ -246,7 +246,7 @@ Not all NII creates value. A bank that funds long-term loans with short-term dep
 | Unrealised securities losses / CET1 | AOCI and held-to-maturity marks against tangible common equity | Capital that disappears if securities must be sold | judgment, not in the sources: above about 30% of CET1 was the 2023 warning level |
 | CRE concentration | commercial real estate loans / total risk-based capital | Concentration the US supervisors screen for | US supervisory screen: above 300%, or 100% for construction, draws scrutiny (not in the sources, verify) |
 
-Most of these sit in the earnings release, supplement and capital disclosures, not the tearsheet ratios; get them with `bigdata_search` and `bigdata_fetch_document`.
+Most of these sit in the earnings release, supplement and capital disclosures, not the tearsheet ratios; search for them and read the full document.
 
 ### Financial statements and accounting traps
 
@@ -330,7 +330,7 @@ For a P&C insurer the value drivers are the combined ratio across the pricing cy
 | Operating ROE | operating earnings / average equity excluding unrealised gains and losses | The return that drives price to book | about 8% to 16% |
 | Life: value of new business, new-business margin, contractual service margin (CSM) | present value of profits on new policies; CSM is the unearned profit under IFRS 17 | Growth and quality of new sales | trend, not level |
 
-These come from the earnings release, the financial supplement and the solvency reports; use `bigdata_search` and `bigdata_fetch_document`.
+These come from the earnings release, the financial supplement and the solvency reports; search for them and read the full document.
 
 ### Financial statements and accounting traps
 
@@ -511,7 +511,7 @@ In the US a REIT avoids corporate tax by distributing at least 90% of taxable in
 | Debt maturity and share secured | debt due by year; secured / total | Refinancing wall | |
 | Implied cap rate | NOI / (equity market value + debt + preferred - non-income assets) | Price the market puts on the properties | compare with private-market deals |
 
-FFO, AFFO and same-store NOI come from the company's supplemental package; use `bigdata_search` and `bigdata_fetch_document`.
+FFO, AFFO and same-store NOI come from the company's supplemental package; search for them and read the full document.
 
 ### Financial statements and accounting traps
 
@@ -589,7 +589,7 @@ Capital goods (aerospace and defense, machinery, electrical equipment, building 
 | Free cash flow conversion | Free cash flow / net income | Countercyclical: working capital absorbs cash in upturns and releases it in downturns. |
 | ROIC, with and without goodwill | NOPAT / invested capital | Many industrials are serial acquirers; the two figures can differ widely (load `references/roic.md`). |
 
-Most are not tearsheet fields: take them from filings and transcripts through `bigdata_search`, or state them as assumptions.
+Most are not tearsheet fields: take them from filings and transcripts through search, or state them as assumptions.
 
 ### Operating leverage and capacity utilisation
 
@@ -688,7 +688,7 @@ Retailers (broadline, specialty, grocery, off-price, e-commerce), restaurants, b
 | New-unit economics | Cash-on-cash return or payback per new store | Tests whether unit growth creates value; new units often open below mature productivity and cannibalise (judgment, verify). |
 | Channel economics | Margin by store, e-commerce, wholesale, direct-to-consumer | Direct-to-consumer gross margin is higher than wholesale, but fulfilment, returns and paid acquisition can leave operating margin lower (judgment, verify). |
 
-Most are not tearsheet fields: take them from filings, transcripts and investor-day material through `bigdata_search`.
+Most are not tearsheet fields: take them from filings, transcripts and investor-day material through search.
 
 ### Financial statements and accounting traps
 
@@ -774,7 +774,7 @@ Upstream exploration and production (E&P), integrated oil and gas, oilfield serv
 | Contract mix and tenor (midstream) | Fee-based share; weighted remaining term | Determines how much of the cycle reaches cash flow. |
 | Distribution or dividend coverage | Distributable cash flow / payouts | Payout sustainability through a trough. |
 
-Most are not tearsheet fields: take them from filings, reserve reports and transcripts through `bigdata_search`.
+Most are not tearsheet fields: take them from filings, reserve reports and transcripts through search.
 
 ### Operating leverage and capacity utilisation
 
@@ -877,7 +877,7 @@ Chemicals (commodity and specialty), metals and mining (steel, aluminium, copper
 | Sustaining against growth capex | Capex to hold capacity / capex to add it | Separates free cash flow from reinvestment. |
 | Energy intensity | Energy cost / total cost | Aluminium, cement, fertiliser and chlor-alkali are exposed to power and gas prices. |
 
-Most are not tearsheet fields: take them from filings, reserve statements and transcripts through `bigdata_search`.
+Most are not tearsheet fields: take them from filings, reserve statements and transcripts through search.
 
 ### Operating leverage and capacity utilisation
 
@@ -1073,7 +1073,7 @@ Unregulated segments (merchant generation, contracted renewables, trading) earn 
 | Customer bill growth | change in average bill | Affordability limits future rate increases | above inflation draws political pressure |
 | Load growth | change in electricity sales volume | New demand (data centres, electrification) | was near zero for years; now rising in some regions |
 
-Rate case filings and decisions, capital plans and rate base are in investor presentations and regulatory filings; use `bigdata_search` and `bigdata_fetch_document`.
+Rate case filings and decisions, capital plans and rate base are in investor presentations and regulatory filings; search for them and read the full document.
 
 ### Financial statements and accounting traps
 

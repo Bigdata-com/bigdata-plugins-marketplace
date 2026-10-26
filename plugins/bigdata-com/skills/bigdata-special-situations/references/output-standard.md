@@ -9,7 +9,7 @@ Every Bigdata.com skill writes to this standard, so a reader who has seen one re
 3. **The body** in the sections the skill defines, in its order.
 4. **What would change this reading.** Two to five conditions, each observable and dated where possible. In a report that gives no view of its own (a brief, a watchlist check, a market wrap) call the section "What to watch".
 5. **Gaps.** What Bigdata.com could not answer, in one or two lines. Never fill a gap from memory or the open web without saying so in this line.
-6. **Sources**, then the footer, verbatim.
+6. **Sources** (optional, see Citations) and the **Data** line, then the footer, verbatim.
 
 ## Numbers
 
@@ -19,14 +19,18 @@ Every Bigdata.com skill writes to this standard, so a reader who has seen one re
 - Assumptions appear once, in a table or an Assumptions line, with the reason for each value and a sensitivity where the result depends on it.
 - Historical base rates are labelled with their sample and period ("top 1,000 global companies by market cap, 1950 to 2015, inflation-adjusted") and never presented as current facts. Dated figures from the method files are quoted with their source and period and the words "historical, not current"; the "(verify)" marks inside the method files are a working note for the analyst and do not appear in the deliverable.
 - Ranges, not points, for forecasts and values. Probabilities sum to 100 and say where the weights came from.
-- Compute with `bigdata_computer` or the host's code execution when the arithmetic has more than a few steps, and show the working for anything a reader would want to check.
+- Compute with the host's code execution or Bigdata.com's computing tool when the arithmetic has more than a few steps, and show the working for anything a reader would want to check.
+- Before finishing, re-read every number in the opening section and in prose against the table it came from. They must agree, to the same rounding. A summary that says "third" when the table says second, or 2.39 points when the table gives 2.45, is the commonest error in these reports and the easiest to catch.
 
 ## Citations
 
-- Cite inline with numbers in square brackets right after the claim: "guided to $9.6bn at the midpoint [3]". One number per source; reuse the number for a source cited twice.
-- The **Sources** section lists every number once, in the server's link format: `[3] [Micron Q4 FY2026 earnings call - Sep 24, 2026](url)`, with the attribution URL the tool result gave. Never invent a URL or a document id.
-- Figures computed from Bigdata.com data sets that have no document behind them (prices, estimates, statements, screens) are covered by one **Data** line after the numbered sources: "Data: Bigdata.com company tearsheet for Micron, FactSet fundamentals and consensus estimates, retrieved Oct 23, 2026."
-- A claim with no source and no Basis label does not go in the report. This applies to numbers inside sentences as much as to tables: a figure in prose carries its citation number or its basis word (derived, assumed) in the same sentence.
+- **Attach the source when you write the sentence, not at the end.** The moment a fact is taken from a search result, a document or a data set, its link travels with it into the notes and then into the report. Citation numbers assigned afterwards, from memory of thirty excerpts, land on the wrong document; a link carried from the excerpt does not.
+- Cite inline, right after the claim, as a link with the source name and date: "guided to $9.6bn at the midpoint ([Micron Q4 FY2026 call, 24 Sep 2026](url))". The URL is the attribution URL the tool result gave, never invented. A source cited several times can be given a short name after its first full citation ("[the Q4 call](url)").
+- Prefer the primary document (the filing, the transcript, the release, the rating action) to the article that quotes it, and cite one document per fact. Fewer, better sources: a report that leans on twenty documents has fewer wrong citations than one that leans on sixty.
+- A **Sources** section at the end is optional. When used, it is the list of the inline links, each once, in the server's link format, and it adds no source that the body does not cite.
+- Figures computed from Bigdata.com data sets that have no document behind them (prices, estimates, statements, screens) are covered by one **Data** line at the end: "Data: Bigdata.com company tearsheet for Micron, FactSet fundamentals and consensus estimates, retrieved Oct 23, 2026."
+- A claim with no source and no Basis label does not go in the report. This applies to numbers inside sentences as much as to tables: a figure in prose carries its link or its basis word (derived, assumed) in the same sentence.
+- Last pass before sending: read each citation next to the claim it supports and ask whether that document can contain that fact. A debt figure cited to a market-wrap article, or a reporting date cited to an unrelated story, is the sign that a number was assigned from memory; find the excerpt it came from or drop the claim.
 
 ## No recommendation
 
@@ -34,14 +38,7 @@ The report describes the balance of evidence and what would change it. It never 
 
 ## Size
 
-| Skill | Length |
-|---|---|
-| quick-take | one page |
-| company-brief, stock-move, catalysts, watchlist, markets-today | one to two pages |
-| earnings-preview, earnings-review, valuation, comps, scenarios, earnings-quality, moat, capital-allocation, risk, credit, screen | two to four pages |
-| deep-dive, thesis, sector, theme, country, macro-compare, deal-analysis, special-situations | four to eight pages |
-
-A narrow question gets a direct answer in the skill's method with the relevant table and the sources, not the full report. The footer stays.
+Length follows the ask, not a page count. The skills' sections are guidance for what a complete answer covers; a report that needs more pages to cover them takes more pages, and a narrow question ("did they beat") gets the relevant table, the sources and the footer. What keeps a long report cheap for the reader is the frame above: the answer and the decision table first, so the rest can be read or skipped. As a rough guide, a quick take is a page, a brief or a wrap one to three, a single-method report (preview, review, valuation, credit) three to six, and a deep dive, sector, theme or country note six to ten.
 
 ## Language
 

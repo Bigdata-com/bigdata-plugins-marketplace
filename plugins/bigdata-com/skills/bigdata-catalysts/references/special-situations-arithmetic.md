@@ -10,13 +10,13 @@ bigdata-special-situations runs the whole method. bigdata-deal-analysis uses ste
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Deal terms: consideration and mix, conditions, expected close, regulatory steps, termination fee, financing | `bigdata_search` over filings and news; `bigdata_fetch_document` on the merger agreement, proxy, tender offer or Form 10 | reported |
-| Current price and the unaffected price before rumours and the announcement | `company_overview` section; `bigdata_computer` for the daily series | reported |
+| Deal terms: consideration and mix, conditions, expected close, regulatory steps, termination fee, financing | a search over filings and news; the full merger agreement, proxy, tender offer or Form 10 | reported |
+| Current price and the unaffected price before rumours and the announcement | the tearsheet overview (quote and standard-window performance); the computing tool for the daily series | reported |
 | Dividends and interest during the hold | `financial_statements`, `dividends`; filings | reported |
 | Spin-off: capitalisation, segment profit, management ownership and option terms, holder base | Form 10 and filings via search; `revenue_segmentation`; `fund_trends_history` | reported |
 | Capital structure by seniority, cash, assets for sale, off-balance-sheet claims | Filings via search; `financial_statements`, `key_metrics` | reported |
-| Vote, hearing, record, expiry and regulatory dates | The proxy, merger agreement, tender documents and 8-Ks via `bigdata_search` and `bigdata_fetch_document`; the corporate calendar carries earnings, conferences, IPOs and delistings only | reported |
-| Prices of distressed bonds or other layers | Not in a Bigdata.com data set (`bigdata_get_credit_factor` returns credit-news catalysts, not prices); quoted prices from news and research via `bigdata_search` when a document carries them, else state the gap | reported or not available |
+| Vote, hearing, record, expiry and regulatory dates | The proxy, merger agreement, tender documents and 8-Ks via search and the full document; the corporate calendar carries earnings, conferences, IPOs and delistings only | reported |
+| Prices of distressed bonds or other layers | Not in a Bigdata.com data set (the credit-factor tool returns credit-news catalysts, not prices); quoted prices from news and research via a search when a document carries them, else state the gap | reported or not available |
 | Break price, outcome probabilities, resolution dates, financing cost | Chosen and stated with the reason | assumed |
 
 ## Procedure

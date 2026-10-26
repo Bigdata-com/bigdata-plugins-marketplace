@@ -23,7 +23,7 @@ Chemicals (commodity and specialty), metals and mining (steel, aluminium, copper
 | Sustaining against growth capex | Capex to hold capacity / capex to add it | Separates free cash flow from reinvestment. |
 | Energy intensity | Energy cost / total cost | Aluminium, cement, fertiliser and chlor-alkali are exposed to power and gas prices. |
 
-Most are not tearsheet fields: take them from filings, reserve statements and transcripts through `bigdata_search`.
+Most are not tearsheet fields: take them from filings, reserve statements and transcripts through search.
 
 ## Operating leverage and capacity utilisation
 

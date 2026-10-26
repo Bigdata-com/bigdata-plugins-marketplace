@@ -10,9 +10,9 @@ Load it for a stock-move note, an earnings review when the print moved the stock
 
 | Input | Bigdata.com source | Basis |
 |---|---|---|
-| Event date, stock and index returns, 60 monthly returns for beta, daily returns for the windows | `bigdata_computer` on price series; the tearsheet carries performance fields only. Index: the S&P 500 as in the papers, or the home-market index (state which) | reported, then derived |
-| Event type: scheduled earnings release or not | `bigdata_events_calendar`; `bigdata_search` over filings and news for the event date | reported |
-| Cause stated by the company or the press | `bigdata_search` over news, filings and transcripts for the event date | reported |
+| Event date, stock and index returns, 60 monthly returns for beta, daily returns for the windows | the computing tool on the price series (the tearsheet carries standard-window performance only; without the computing tool, use those windows and dated reports and say so). Index: the S&P 500 as in the papers, or the home-market index (state which) | reported, then derived |
+| Event type: scheduled earnings release or not | the corporate calendar; a search over filings and news for the event date | reported |
+| Cause stated by the company or the press | a search over news, filings and transcripts for the event date | reported |
 | Momentum proxies | `company_overview` (52-week relative performance, excluding the event); `analyst_estimates` (13-week change in consensus EPS and EBIT); `analyst_ratings` (target and rating changes) | derived |
 | Valuation proxies | `key_metrics` and `financial_ratios`, re-based to the pre-event price (formula 4): EV/EBITDA, P/E, FCF yield, price to book, dividend yield, against sector peers | derived |
 | Quality proxies | `financial_ratios` (FactSet ROIC) and five fiscal periods of margins and invested capital | derived |

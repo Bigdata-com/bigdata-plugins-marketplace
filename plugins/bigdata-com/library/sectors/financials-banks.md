@@ -33,7 +33,7 @@ Not all NII creates value. A bank that funds long-term loans with short-term dep
 | Unrealised securities losses / CET1 | AOCI and held-to-maturity marks against tangible common equity | Capital that disappears if securities must be sold | judgment, not in the sources: above about 30% of CET1 was the 2023 warning level |
 | CRE concentration | commercial real estate loans / total risk-based capital | Concentration the US supervisors screen for | US supervisory screen: above 300%, or 100% for construction, draws scrutiny (not in the sources, verify) |
 
-Most of these sit in the earnings release, supplement and capital disclosures, not the tearsheet ratios; get them with `bigdata_search` and `bigdata_fetch_document`.
+Most of these sit in the earnings release, supplement and capital disclosures, not the tearsheet ratios; search for them and read the full document.
 
 ## Financial statements and accounting traps
 
