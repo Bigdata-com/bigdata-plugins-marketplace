@@ -72,14 +72,12 @@ def item(id, title, what, before, after, options=("Approve", "Approve with chang
                   "before_label": before_label, "after_label": after_label, "layout": layout})
 
 item("body-valuation", "Skill body: valuation",
-     f"The body stops being a procedure manual and becomes a guideline: the job, who asks, what a complete answer covers (a checklist), where it goes wrong (the pitfalls we found), the data, where the methods are, how to write, what to check. "
-     f"The current body is {vb:,} words and tells the agent to read {vr} library files ({vl:,} words) plus a sector primer before the first call, about {vb+vl+vp:,} words. "
-     f"The proposed body is {val_new_words:,} words and points at the method files by topic, to be opened when a step needs them. Every formula fix from the audit survives in the pitfalls list; the 14 numbered analyse steps, the step-number pointers and the 10-table template go. "
-     f"Both are shown in full. The description does not change, so triggering is unaffected.",
+     f"A middle ground, not a rewrite. The opener, the scope, the ordered gather steps and the ordered analyse steps stay, because the method is sequential and the gather steps are what found the better evidence in the evals. What goes: the \"done when\" line on every step, the step-number pointers into the method files (replaced by the file named by topic), the 10-table write template with fixed columns, the formula numbers, the hand-offs section and the 11-item checklist. The pitfalls the audit found (beta, excess cash, capex from net PP&E, the horizon set from the price) sit inside the step they belong to. The write section gives the natural order of the tables and lets a narrower question keep only what it needs. "
+     f"Current body {vb:,} words plus {vl:,} words of library the agent is told to read before the first call; proposed {val_new_words:,} words, with the method files opened when a step needs them. Both in full. The description does not change, so triggering is unaffected.",
      body_of(val_cur), body_of(val_new))
 
 item("body-earnings-review", "Skill body: earnings review",
-     f"The same re-cut for the skill behind the GM report, with a reader paragraph that says what a supplier, customer or IR team wants instead of a portfolio manager, and a pitfall list that includes the two things the GM runs got wrong (the premise in the question, the reader's question answered last). "
+     f"The same treatment for the skill behind the GM report. The scope now checks the premise of the question against the release (GM did not lower its outlook) and settles the reader before gathering; the write section puts the results and guidance tables first and then follows the order of the question, with the investor sections left out for a supplier, customer or competitor unless asked. "
      f"Current body {eb:,} words plus {el:,} words of library read up front; proposed {er_new_words:,} words. Both in full.",
      body_of(er_cur), body_of(er_new))
 
@@ -94,13 +92,13 @@ gm_after = [
     "What to watch, with dates",
 ]
 item("write-step", "Write step: the GM prompt as the test",
-     "The write step stops prescribing sections and says: open with the answer in the reader's terms, then the sections the question needs in the order it asked them, a row only where there is a figure. "
+     "The write step keeps the tables that everything rests on in a fixed place and lets the rest follow the question. "
      "Below, what the current template produced for the supplier prompt against what the proposed rule would produce for the same prompt, using the evidence the with-skill run actually found (the inventory banking facility, the supplier-finance programme, the dropped free-cash-flow language). "
      "The point is not that the without-skill structure was perfect; it is that the structure should come from the question.",
      "**The prompt**\n\n> " + gm_meta["prompt"] + "\n\n**Sections the current template produced (with skill, round 1)**\n\n" + "\n".join(f"{i+1}. {h}" for i, h in enumerate(gm_heads)) +
      "\n\nThe supplier's three questions are answered in section 12 of 16, after valuation and targets, peer read-across, quality signals and market reaction. The results grid carries nine n/a cells where GM does not guide.",
      "**The prompt**\n\n> " + gm_meta["prompt"] + "\n\n**Sections the proposed write rule gives for the same prompt**\n\n" + "\n".join(f"{i+1}. {h}" for i, h in enumerate(gm_after)) +
-     "\n\n**The rule, as it reads in the skill**\n\n> Open with the answer in the reader's terms: what happened against expectations, what changed, what it means for them, the next date. Then the sections the question needs, in the order the question asked them; the results and guidance tables come early because everything else rests on them. A row exists only where there is a figure.\n\n"
+     "\n\n**The rule, as it reads in the skill**\n\n> The results table and the guidance table come next, because everything else rests on them. Then the sections the question needs, in the order the question asked them: for a thesis holder, the thesis check, the valuation refresh, quality signals, the reaction, the read-across; for a supplier, customer or competitor, what the print means for their business, then the Street's reception and the read-across, with the investor sections left out unless asked. A row exists only where there is a figure.\n\n"
      "**For comparison, the sections the without-skill run chose**\n\n" + "\n".join(f"{i+1}. {h}" for i, h in enumerate(gm_wo_heads)),
      before_label="Now (round 1 with skill)", after_label="Proposed")
 
