@@ -62,3 +62,27 @@ What the baseline lost points on, consistently: facts without inline sources or 
 ## Gaps in this eval
 
 One run per arm per prompt, so no variance estimate. The assertion grader rewards structure more than correctness; two of its own suspicions (Lam third vs second, the 2.39 points) are the kind of slip it cannot score. Prompts were written by me, not sampled from users. The Skill tool was blocked in both arms, so the eval does not test whether the installed plugin would have fired the right skill (the trigger suite covers that).
+
+## Iteration 2: after the tool-agnostic pass (26 Oct, afternoon)
+
+Changes between iterations (commit eda22f8): bodies state data needs instead of tool names and arguments; `working-with-bigdata.md` maps needs to tools with fallbacks; citations attached at capture with inline links; length as guidance; a number-reconciliation line; a beta sanity check in valuation.md. Four skills rerun, with-skill arm only, same prompts, same opus agents, graded on the iteration-1 assertions plus a citation-fidelity assertion (five sampled citations plus a whole-report scan for citations whose source cannot contain the claim). Iteration-1 reports were regraded on that assertion for the comparison.
+
+| Skill | Pass i1 → i2 | Implausible citations i1 → i2 | Words i1 → i2 | Tokens (k) i1 → i2 | Tool calls i1 → i2 |
+|---|---|---|---|---|---|
+| company-brief | 11/12 → 12/12 | 3 → 1 | 4,283 → 3,349 | 349 → 345 | 60 → 61 |
+| earnings-review | 12/12 → 11/12 | 0 → 1 | 5,053 → 4,658 | 364 → 306 | 58 → 51 |
+| valuation | 11/13 → 13/13 | 1 → 0 | 4,278 → 3,939 | 397 → 381 | 57 → 49 |
+| theme | 12/12 → 12/12 | 4 → 3 | 4,740 → 4,732 | 490 → 450 | 134 → 86 |
+| **All** | **46/49 → 48/49** | **8 → 5** | **−7%** | **−6%** | **−20%** |
+
+What held and what did not:
+
+- **No regression from removing tool names.** All four runs pulled annual statements when years were wanted, fixed the reporting period for transcripts, used the computing tool for windows and peer batches, and fell back correctly where data was missing. The "five quarters instead of five years" failure did not come back. The agents read `working-with-bigdata.md` first in every run.
+- **Cost of capital fixed.** The Nvidia run applied the beta check: raw 2.19, Blume 1.80, peer median 2.23, judgment 1.40 to stay inside the stated band, with the 1.80 alternative shown ($163). WACC 11.9%, base case $197 against a $211 price, expected value $174, market-implied WACC 11.3% shown. Implied-growth arithmetic shown. The iteration-1 conclusion (bull case below the price at 13.9%) is gone.
+- **Citations improved, not solved.** Eight implausible citations across the four reports became five. The CoreWeave and Nvidia reports moved to inline links carried with the claim and dropped to one and zero. The nVent report still used bracket numbers resolved at the end (it wrote `[[n]](url)` links but assembled the list afterwards) and kept three. The GM report gained one. Inline-at-capture works when the agent follows it; the rule needs the stronger form "no citation numbers" rather than "Sources list optional".
+- **Length fell on its own** once the page table was removed and the answer-first frame did the work: −7% on average, −22% for the brief.
+- **Theme skill cost fell by a third** (134 calls to 86, 490k tokens to 450k) because the library now names batch pulls for peer sets as the preferred route and the body no longer prescribes three tearsheet calls per peer.
+- **Text-versus-table slips persist** in three of four reports (the "about 5 points" against "2 to 2.5 points" in the brief, "within 1.1 turns" against 2.1 in the valuation, "at or below consensus" against Modine's 13.4% vs 12.3% in the theme note). The reconciliation line in output-standard.md did not remove them in one pass; a checklist item in each skill's "Checks before sending" may work better than a library rule.
+- **One new gap:** the GM run assumed a 4% ten-year yield instead of fetching the 5% figure, because the earnings-review body no longer names the country tearsheet as the source of the risk-free rate. The data-need table covers it ("a country's rates"), but the body should say "the current 10-year yield, from the data, not assumed".
+
+Follow-ups left open: the stronger citation wording, a per-skill number check, the risk-free-rate line in the bodies that compute implied growth, and the tool-description requests in `docs/proposals/2026-10-26-tool-description-requests.md`.
