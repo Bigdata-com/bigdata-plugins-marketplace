@@ -5,137 +5,56 @@ description: >-
   returns side by side. Use for comps, relative valuation, benchmark against competitors. Not
   intrinsic value: bigdata-valuation.
 metadata:
-  bigdata-refs: working-with-bigdata, output-standard, multiples-and-peers, expectations, roic
+  bigdata-refs: working-with-bigdata, output-standard, multiples-and-peers, expectations, roic, valuation
   bigdata-sector-primer: auto
 ---
 
 # Comps
 
-This skill builds a comparables table a professional reader can trust: a peer set chosen by the economics that drive value, with the selection rule written down before any multiple is shown; every multiple built the same way, numerator and denominator on the same claimants, enterprise value on one basis, the metric cleaned of one-offs on the same items for every company; growth, margins, returns and cash conversion beside the multiples; medians rather than means; and then the two questions that matter, where the company should sit given its returns and growth, and what its multiple says the market expects. A multiple is a cash-flow model with the forecast left implicit, so this skill makes the forecast explicit. It never calls a stock cheap or expensive as a recommendation. "What is Micron's forward EV/EBITDA against peers?" gets that multiple, the peer table behind it and the median, not the full report.
+Never calls a stock cheap or expensive, and the value the peer range implies is a range, never a target. A multiple is a cash-flow model with the forecast left implicit, so the work makes the forecast explicit: where the company should sit given its returns and growth, and what its multiple says the market expects. A company benchmarking itself against competitors asks a different question, how its operations compare: growth, margins, returns, cash conversion and total shareholder return come first, and multiples only as far as asked. Size the work to the question: "what is Micron's forward EV/EBITDA against peers" gets that multiple, the peer table behind it and the median, not the split of the multiple or the implied growth.
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Give no figures, dates or view from memory or the web in the meantime, because an unsourced answer would look like Bigdata.com data.
+- Without the Bigdata.com tools, say so and ask for the connector. No figures from memory in the meantime.
 - Pass `plugin_slug: "bigdata-comps"` on every Bigdata.com call that accepts it.
-- Read `references/working-with-bigdata.md` before the first call: it maps each data need below to a tool, with fallbacks when a tool is not available, and the tools' own descriptions decide the arguments.
-- Treat this skill as guidelines. Skip a step that does not apply, and research further where the task needs it.
+- `references/working-with-bigdata.md` maps each data need to a tool. The other reference files are working notes for the parts named below; the reader never sees them.
 
-## Scope the request
+## Method choices that are not the default
 
-Resolve the target to its Bigdata.com entity, with its listing status taken from the lookup, and resolve every peer the user names in parallel. Establish the multiple the user cares about if they named one, the peers they want included (keep them, and say if the value drivers argue against one), and whether the question is relative value today or a peer set to reuse. Assume forward multiples on the next fiscal year unless the user says otherwise.
+- **The user's parts first.** The parts the user asked for come first, in the user's order, each answered in full; the choices below apply where the question reaches them, and a note that answers the question with fewer tables and pieces is the better note.
+- **Peers by value drivers, the rule written before any multiple.** Candidates from the industry screen, the competitors block, the competitors named in the annual filing and past deal counterparties, then tested on growth, operating margin, ROIC and capital intensity, because a firm in another industry can be closer on drivers than one in the same industry, and a rule written after the multiples tends to pick high-multiple peers (`references/multiples-and-peers.md`, peer selection by value drivers). Each peer's reason is a clause where it first appears, and the obvious companies left out are named with why; how many candidates the test removed stays in the working. Peers the user names stay in, with a line if the drivers argue against one.
+- **Enterprise value rebuilt on one basis.** Debt, cash, minorities, preferred, leases, pensions and equity stakes are taken from each company's latest filing the same way, and every multiple uses them. The inputs appear once on the page (each company's share count, the claims and stakes between equity value and enterprise value, and the net figure) so the reader can rebuild each multiple. An item missing for some peers is dropped for all or named (`references/multiples-and-peers.md`, building the multiple).
+- **Claimants matched.** Equity multiples sit on equity value and enterprise multiples on enterprise value; P/E uses net income attributable to the parent and is used only where net debt to EBITDA sits in a narrow band across the set, because leverage moves P/E with no change in the business. The profit a multiple is applied to says whether it is before or after tax.
+- **The metric cleaned on the same items for every company, or for none.** A "one-time" charge in two or more of the last five years is a cost and stays in; equity-accounted income comes out of EBITDA and the stake goes into the bridge from equity value to enterprise value (`references/multiples-and-peers.md`, building the multiple).
+- **Multiple and base.** Forward, calendarized to the same twelve months, the sector primer's convention where it has one; EV/EBITA over EV/EBITDA where capital intensity or outsourcing differs; EV/EBITDA across IFRS and US GAAP companies only after the lease adjustment, because IFRS 16 moves lease costs out of EBITDA (`references/multiples-and-peers.md`, which multiple and which base).
+- **Medians, not means, and the outlier's weight where it matters.** Peer sets are small and skewed, so where one company moves the median, the note says by how much. A comparison with the company's own history or the market holds only if returns, growth, rates and accounting are unchanged, and the note says whether they are.
+- **Where it should sit, when the question is why the company trades where it does.** How much of the premium or discount to the median the ROIC spread and growth explain, at one stated cost of capital (the 10-year yield from the country data, the beta and the premium in a single clause, no regression statistics) with a one-point range. What is left is unexplained, and risk sits inside it. The split of the multiple into the part that needs no growth and the part paid for growth stays in the working unless the user asks what the multiple means (`references/multiples-and-peers.md`, what a multiple implies; `references/valuation.md`, cost of capital).
+- **What the multiple implies, when the question is what the market expects.** The growth and return the multiple needs at the three-year rolling return on new investment, set beside consensus growth, and which path to that multiple the company is on, since the same P/E can mean fast growth on a thin spread or slow growth on a wide one (`references/expectations.md`, implied growth; `references/multiples-and-peers.md`, the warranted P/E; `references/roic.md`, ROIIC and the spread). Otherwise it stays in the working.
+- **Special cases.** Banks and insurers on price to book against ROE; cyclicals on mid-cycle earnings; loss-making growth companies on forward EV/sales with the long-run margin stated; emerging-market listings checked against a cash-flow value; niche industries widened to global listings or adjacent sub-industries, and the note says so (`references/multiples-and-peers.md`, banks; errors).
 
-Establish the reader. An investor gets the report below. A corporate strategy, finance or investor-relations team benchmarking its own company against competitors gets corporate mode: the operating benchmark (growth, margins, returns, cash conversion and total shareholder return) as the first section, and the multiples as the second; write the implications for that reader.
+## Where it goes wrong
 
-Ask one question only when the answer changes the work: the target resolves to more than one listing, or the company has segments so different that the user must choose which business to compare. Otherwise state the assumptions under the header and proceed. Done when the target and named peers are resolved and the multiple, the base, the reader and the mode are stated.
+- **The EV field used as given.** Its treatment of minorities, pensions, leases and the date of net debt is not documented, so it differs from a bridge built from the statements; rebuild it and say which one the note quotes.
+- **FactSet ROIC mixed with a hand-built figure.** The two differ in tax rate, goodwill and leases; use one for every company, and never both in one comparison.
+- **A mean, or a median that one company drives.**
+- **A single year of return on new investment behind the implied growth.** One year can be operating leverage; five annual periods allow a three-year figure and nothing longer.
+- **The peer-range value read as a target.** It is the median and quartile multiples applied to the company's metric, next to the price.
+- **Peers pulled one tearsheet each.** The set comes in one batch.
+- **Citations assembled at the end.** The link goes next to each cleaning item and filing figure when it is captured.
 
-If the target is Private, there is no market value to put in a multiple. Offer the peers' multiples and operating metrics as a reference set instead, labelled as such.
+## What the data has, and does not
 
-## Gather
-
-Work through these in order. Each step says what it must produce.
-
-1. **The target.** Profile and quote with the competitors block, and revenue by segment and geography; five fiscal years of annual statements, ratios and key metrics; consensus estimates with their vintage. Done when market cap, the EV field, debt, cash and securities, leases, pensions, minorities, preferred, equity-method investments, attributable net income, five annual periods of statements, consensus for the next two fiscal years with vintage and estimate counts, the segment mix and the competitors block in the company profile are in hand.
-2. **Candidates.** A screen on the target's industry, region and size (the classification route); the competitors block from step 1; the competitors named in the target's annual filing (one search for the competition section); and the counterparties in the target's deal history where the account carries the deal history (it needs FactSet access). Done when there are ten to twenty candidates, each tagged with where it came from.
-3. **Driver figures for the selection.** The current figures for a set of companies do not carry growth, margin, ROIC or capital intensity, so the driver test needs annual statements, estimates and ratios for six to ten candidates, pulled as a set rather than one company at a time where the account allows. When the user wants a quick set, start from the competitors block and one search for the rest, and say the driver test was not run. Done when each candidate tested has growth, EBITA margin, FactSet ROIC and capex over sales on the same fiscal basis, with fiscal year-ends noted so periods can be calendarized.
-4. **Current prices.** Current figures for the peers kept after Analyse step 1, in one pull for the set, using price and market cap only (the report does not use the surprise, target or sentiment figures). Done when every peer has a price and market cap of the same date.
-5. **Items to clean.** Searches of the latest annual and quarterly filings of the target and of every peer kept, with each filing's period fixed rather than inferred, for restructuring, impairment, write-down, integration costs, litigation and equity-accounted income, and the full filing where a table is needed. When that is more searching than the request deserves, compare reported figures for every company and say so. Done when each item has an amount, a year and a source for every company, or the report states that all figures are reported, uncleaned.
-6. **Total shareholder return, corporate mode only.** Price change over the standard windows in the company profile plus dividends from the statements, or daily prices over another window, computed, with the result labelled derived. Done when every company has TSR over the same windows.
-7. **Sector primer.** Find the company's sector in `references/sector-primers.md` (grep the slug from its contents list, read to the next `## ` heading) and read the valuation-conventions and accounting-traps subsections. Done when the sector's multiple and traps are noted, or their absence is stated.
-
-## Analyse
-
-The five steps of a comparable company analysis (Robinson and Weyns, UBS, "How to analyse and talk the language of multiples", pp. 24-27) run through `references/multiples-and-peers.md`; each step below names its step there and ends in what it must produce.
-
-1. **Pick the universe** (method step 7). Write the selection rule before showing any multiple, test the candidates on the drivers from Gather step 3, report how many classification-route peers survive, give each peer a one-line reason and name the obvious candidates excluded. The sources set no minimum count; state the number. Done when the peer table has a source and a reason for every name.
-
-2. **Build enterprise value on one basis** (method steps 2 and 3). Start from the EV field in each company's key metrics, then take debt, cash and minorities from each company's statements so all are built the same way. Add pensions, leases and options from the statements where present; where a peer's statements lack one, leave it out for every peer, or note which peers are not adjusted for it. Name the flavor (total, operating or core EV). Done when the bridge table shows every item for every company, and the items not adjusted are named.
-
-3. **Match the claimants** (method step 1). Done when each multiple in the table is labelled equity or enterprise, and P/E uses net income attributable to the parent.
-
-4. **Clean the metric** (method step 4), on the same items for the target and every peer, or on none, as Gather step 5 decided. A charge that appears in two or more of the last five years is a cost and stays in. Done when reported and cleaned metrics sit side by side with the items removed and their sources, or the report says all figures are reported.
-
-5. **Choose the multiple and the base** (method step 5 and its table), using the sector primer's convention where it has one. Before comparing EBITDA multiples, check the accounting standard of each company: IFRS 16 moves operating lease costs out of EBITDA, US GAAP keeps most of them in, so compare EV/EBITDA across the two only after the lease adjustment, or use EV/EBITA. Use P/E only after checking that leverage is similar (net debt over EBITDA within a narrow band), because leverage moves P/E without any change in the business. Calendarize to the same twelve months for every company. Done when the multiple, the base, the period and the standards check are stated once and applied to every company.
-
-6. **Put the operating metrics beside the multiples** (method step 6). For each company: consensus sales growth for the next two years and the three-year history, EBITA margin, ROIC, free cash flow over NOPAT, net debt over EBITDA, and capex over sales. Use the FactSet ROIC field for every company, and state under the table that its goodwill and lease treatment is not documented (`references/roic.md`); never mix it with a hand-built figure. Done when the operating table is complete or each gap is marked.
-
-7. **Medians and position** (method step 8). Done when the line "the company trades at X against a peer median of Y (range A to B), a Z percent premium; without [outlier] the median is W" is written, and the report says whether a comparison with history or with the market is valid.
-
-8. **Where the company should sit and why** (method step 9), at a stated cost of capital (assumed, with a range of plus and minus 1 point; `references/expectations.md` inputs table). Split the actual multiple into the steady-state part and the turns paid for value creation. Then say how much of the premium or discount the ROIC spread and growth explain through the justified multiple; the rest is the unexplained remainder. Risk has no separate measure here, so it sits inside that remainder with anything else the drivers miss, and the report says so. Done when the gap between actual and justified multiple is stated in turns, split into the part the spread and growth explain and the remainder.
-
-9. **What the multiple implies about growth and returns.** `references/expectations.md` steps 1 to 5 on the target, at the three-year rolling ROIIC from `references/roic.md` (labelled; a single year is never evidence). Place the forward P/E on the warranted P/E grid (table 1, rerun at the assumed cost of equity) and state which of the three paths to the same multiple the company is on. Compare the implied competitive advantage period with the market-implied average of about 8 years (1976 to 2007, historical, not current). Done when the report states what growth and return the multiple assumes next to consensus growth and the company's ROIIC.
-
-10. **The value the peer range implies** (five-step 5). Apply the peer median and the quartiles to the target's metric, then bridge core EV to equity per share. Present it as a range labelled derived, not as a target. Done when the range per share sits next to the price.
-
-A narrow question gets steps 1 to 7 for the multiple asked about, with the peer table and the median.
-
-Special cases: banks and insurers, cyclicals, loss-making high growth, emerging markets, multi-business companies and niche industries each have a rule in the "Interpretation and limits" of `references/multiples-and-peers.md`; apply the matching one, and hand a sum of the parts to `bigdata-valuation`. Done when the rule applied is named, or none applies.
+Five fiscal years of annual statements, ratios and key metrics per company, the limit; consensus for the next two fiscal years as a snapshot with its date and estimate count, no revision history. The current figures for a set of companies carry price, market cap, the daily move, surprise, targets and sentiment, but not growth, margins, ROIC or capital intensity, so the driver test needs annual statements, estimates and ratios for the candidate set, pulled as a set in one batch. Fiscal year-ends differ across peers, so periods are calendarized. Items to clean come from the latest annual and quarterly filings with the period fixed; when that is more searching than the request deserves, all figures stay as published and the note says so. The deal history that supplies past counterparties needs FactSet access. Total shareholder return over the standard windows comes from the overview plus dividends; any other window needs daily prices. There is no structured field for the cost of capital; build it once from the country data's yield. A private company has no market value, so the peers' multiples and operating metrics become a reference set, and the note calls them that. Sector multiples and accounting traps are in `references/sector-primers.md`.
 
 ## Write
 
-Follow `references/output-standard.md`. The report has these sections in this order. In corporate mode, "Operating benchmark" comes straight after "Where it sits" and before "The peer set", with a TSR column.
+`references/output-standard.md` holds the rules. The title carries the finding in one line ("Micron trades at a third below peers, and its returns explain most of it"). The opening gives the multiple against the peer median, how much of the gap returns and growth explain, and what the multiple implies about growth and returns, each where the question reaches that far. The body follows the question, the user's parts in the user's order, with the selection rule before any multiple. What would change the reading closes the note. Sub-headings state the finding ("Two peers carry the whole premium"), never the step.
 
-```
-# <Company> (<ticker>) comparables, <date>
-Data as of: prices <date>; estimates <date>; statements <period>; newest document <date>.
+## Before sending
 
-## Where it sits
-Four to six sentences: the multiple against the peer median, how much of the gap the returns and
-growth explain, what the multiple implies about growth and returns, and what would change the
-reading. No rating.
-
-## The peer set
-Selection rule, stated first.
-| Peer | Ticker | Found by | Reason | Fiscal year-end | Standard | Source |
-Excluded candidates, each with the reason.
-
-## Enterprise value
-| Company | Market cap | Debt | Minorities, preferred | Leases, pensions, options | Cash, non-core | EV |
-Basis and sources note under the table; items not adjusted for some peers named.
-
-## Cleaned metric
-| Company | Reported EBITA | Items removed | Cleaned EBITA | Years with one-time charges (of 5) | Basis | Source |
-
-## Multiples
-| Company | Chosen multiple (fwd) | Second multiple | Equity or enterprise | Basis | Source |
-Median, interquartile range, median without the outlier, target premium or discount.
-
-## Operating metrics (Operating benchmark in corporate mode, with TSR)
-| Company | Sales growth FY1, FY2 | 3-yr history | EBITA margin | ROIC (FactSet) | FCF / NOPAT | Net debt / EBITDA | Capex / sales |
-Basis and sources note; ROIC definition line under the table.
-
-## Where it should sit and why
-Justified multiple for the target and the peer median at the stated cost of capital; steady-state
-and value-creation turns; the gap split into what spread and growth explain and the remainder.
-
-## What the multiple implies
-Implied growth at the three-year ROIIC, position on the P/E grid, implied advantage period, against
-consensus and history.
-
-## Value from the peer range
-| Multiple | Lower quartile | Median | Upper quartile | Equity value per share | Basis | Source |
-
-## What would change this reading
-## Gaps
-## Sources
-Numbered sources, the Data line, then the footer verbatim.
-```
-
-Length: two to four pages. Offer the peer table as a spreadsheet when the host can create files. For a narrow question, answer it in the method's terms with the peer table and the sources, and keep the footer.
-
-## Checks before sending
-
-1. The selection rule appears before the multiples, every peer has a source and a reason, and the excluded candidates are named.
-2. Every multiple is labelled equity or enterprise, and P/E uses net income attributable to the parent and passed the leverage check.
-3. EV is built on one basis for every company, and the items not adjusted for some peers are named.
-4. The target and every peer are cleaned on the same items, or all figures are reported and the report says so.
-5. The same multiple, base and calendarized period apply to every company, and EBITDA multiples passed the IFRS 16 and US GAAP check.
-6. Medians, not means, with the median recomputed without the outlier.
-7. ROIC is the FactSet field for every company, with the goodwill treatment stated as unknown.
-8. The gap to the justified multiple is split into what spread and growth explain and an unexplained remainder that carries risk.
-9. The implied growth and return are stated at the three-year ROIIC, with the cost of capital as an assumption with its range.
-10. No table passes eight columns. No cheap, expensive, buy, sell or rating language used as a call; the value from the peer range is labelled derived and is not a target.
-
-## Hand-offs
-
-- The user wants an intrinsic value or a DCF: `bigdata-valuation`. New names that fit a profile: `bigdata-screen`. The economics of the whole industry: `bigdata-sector`.
-- After delivering, make one offer: save the peer set as a Bigdata.com watchlist so later comps and checks start from it. Act only on a clear yes.
+- The user's parts are answered in the user's order, each findable by its name, and every table on the page is one the reader needed.
+- The selection rule precedes the multiples, and every peer has a source and a reason.
+- The same EV basis, cleaning, multiple and calendarized period apply to every company, the items not adjusted for some peers are named, and every multiple can be rebuilt from the inputs stated once on the page.
+- Every number in the opening agrees with its table, and the cost of capital is the same figure everywhere it is used.
+- Every code name or internal term is explained where it first appears.
+- Nothing on the page names a file, formula, table, primer, author or method; no figure is tagged with how it was obtained; no sentence describes how the note was made.

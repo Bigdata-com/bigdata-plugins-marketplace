@@ -1,7 +1,7 @@
 interface:
-  display_name: Earnings Review
+  display_name: Earnings Recap
   short_description: Results vs consensus and guidance, outlook change, thesis check, reaction
-  default_prompt: Use $bigdata-earnings-review to review [company]'s latest quarterly results and what they change.
+  default_prompt: Use $bigdata-earnings-recap to review [company]'s latest quarterly results and what they change.
   icon_small: assets/bigdata-icon-black.svg
   icon_large: assets/bigdata-icon-black.svg
 policy:

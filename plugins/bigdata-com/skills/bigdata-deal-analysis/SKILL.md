@@ -5,146 +5,58 @@ description: >-
   at risk, what each side gets. Use for takeovers, bids, deal rationale, a hypothetical deal. Not
   arb maths: bigdata-special-situations.
 metadata:
-  bigdata-refs: working-with-bigdata, output-standard, capital-allocation, valuation, multiples-and-peers, special-situations-arithmetic, credit, roic, expectations, industry-structure
+  bigdata-refs: working-with-bigdata, output-standard, capital-allocation, expectations, roic, valuation, multiples-and-peers, credit, industry-structure, special-situations-arithmetic, forecasting-discipline
   bigdata-sector-primer: auto
 ---
 
 # Deal analysis
 
-This skill writes the note a portfolio manager, or a corporate strategy or finance team, needs when a deal touches a company they own, follow, compete with or want to buy: the terms and timing, why the buyer wants the target and how often such deals work, price against stand-alone value, whether discounted synergies cover the premium, the acquirer's value at stake, the balance sheet afterwards, the regulatory path, and what each side's shareholders get. The arbitrage spread, the implied completion probability and the annualised return belong to `bigdata-special-situations`. The note sizes to the question: "what premium is X paying?" gets the terms table and the premium line. It gives no call on either stock.
+Never a call on either stock and never a recommendation to tender, vote or bid; no arbitrage spread or implied completion probability either. The note says what is paid, what the target is worth on its own, whether the synergies cover the premium, what the acquirer puts at risk and what each side's holders get. Three questions differ from that and lead with their own arithmetic: "what would it cost us to buy X" prices the target at its undisturbed price plus a range of premiums for comparable deals, with one stated financing mix; "what does X buying Y mean for us", from a rival, customer or supplier, leads with the combined share and pricing power in the overlap, the integration window when customers and staff move, likely remedies and divested assets, and the new concentration as a customer or supplier; "cash or stock" or "at what premium" lays each option's arithmetic side by side. Size the work to the question: "what premium is X paying?" gets the terms and the premium against the unaffected price; a bolt-on worth 2 percent of the buyer's value gets the terms and the synergy test, not a regulatory study.
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Give no figures, dates or view from memory or the web in the meantime, because an unsourced answer would look like Bigdata.com data.
+- Without the Bigdata.com tools, say so and ask for the connector. No figures from memory in the meantime.
 - Pass `plugin_slug: "bigdata-deal-analysis"` on every Bigdata.com call that accepts it.
-- Read `references/working-with-bigdata.md` before the first call: it maps each data need below to a tool, with fallbacks when a tool is not available, and the tools' own descriptions decide the arguments.
-- Treat this skill as guidelines. Skip a step that does not apply, and research further where the deal needs it. A bolt-on worth 2 percent of the buyer's value needs the terms and the synergy test, not a regulatory study.
+- `references/working-with-bigdata.md` maps each data need to a tool. The other reference files are working notes for the parts named below; the reader never sees them.
 
-## Scope the request
+## Method choices that are not the default
 
-Establish before gathering: the parties, each resolved to its Bigdata.com entity (public or private comes from the lookup); the status (rumoured, announced, agreed, contested, pending approval, hypothetical); the type (cash, stock or mixed acquisition, merger of equals, divestiture, carve-out); and the side the user cares about. Assume both sides when they do not say.
+- **The user's parts first,** in the user's order, each answered in full. The choices below apply where the question reaches them; a note that answers it with fewer tables and pieces is the better note.
+- **The premium against the price before rumours**, fixed at the first report of talks or a leak, not the day before the announcement, because a run-up already carries part of the premium (`references/capital-allocation.md`, acquisitions). Where the market's first verdict matters, both parties' one-, three- and five-day abnormal returns come from the daily series against the index.
+- **The logic judged against a track record, when the question is whether the deal makes sense.** Which of the five kinds of deal that create value it fits (improve the target, remove excess capacity, accelerate market access, buy skills faster than building them, pick winners early), or that it fits none, which makes value creation unlikely. Its category's success rate, with population and period in the sentence, and the predictors of acquirer success (a strong operator, a low premium, a sole bidder) appear only where they change the reading. A consolidation that relies on changing rivals' pricing works only when three or four players remain and entry is blocked. EPS accretion, relative P/E and relatedness do not predict success and are never evidence; accretion appears only next to the return on price paid (`references/capital-allocation.md`, acquisitions).
+- **Inputs stated once.** Where the note uses an enterprise value, an offer multiple, a sum of the parts or a pro forma ratio, its inputs appear once, from the latest filings: each party's share count, net debt with leases and stakes outside the operating business, the tax rate and the discount convention, so the reader can rebuild every later figure.
+- **Value created against what holders already priced, when the question is whether the acquirer gains.** Value created for the acquirer = (stand-alone value + value of improvements) - (market value + premium), with improvements measured against the growth the undisturbed price implied, at a three-year rolling return on new investment (`references/expectations.md`, implied growth; `references/roic.md`, ROIIC and the spread). Stand-alone value is one central figure and one range for a large deal; for a small one, the bankers' fairness ranges quoted as their opinion. The cost of capital is one stated figure, with the yield from the country data, the beta and the premium in a single clause and no regression statistics (`references/valuation.md`, cost of capital; equity bridge). Return on price paid against the cost of capital, on after-tax profit (`references/capital-allocation.md`, acquisitions). Where the price paid is in question, dated precedents are the main cross-check, because they show what buyers paid for control, with the offer multiple beside the peer median on the same definitions (`references/multiples-and-peers.md`, building the multiple). A divestiture compares the price with the unit's value to the seller, net of stranded costs, the lost tax shield, tax on the gain and transitional services.
+- **Synergies in two cases, when they decide whether the price is justified:** management's figures as disclosed, and a haircut case that cuts revenue synergies far more than cost synergies, the size of the haircut stated once in plain words; revenue synergies are often negative at first as customers and sales staff leave. Both net of integration cost, both next to the premium. For a hypothetical deal, the run-rate pre-tax synergies that cover the premium = premium x cost of capital / (1 - tax rate) (`references/capital-allocation.md`, acquisitions).
+- **What the acquirer puts at risk, when the acquirer's holders are the reader.** Deal value net of the premium in both cases, the share of the acquirer's value at risk with the denominator for the payment form, and the premium at risk in a stock deal (`references/capital-allocation.md`, acquisitions). In a stock or mixed deal the price paid moves with the acquirer's shares: predicted acquirer price = (acquirer market cap + target unaffected market cap + PV synergies - cash paid) / (acquirer shares + shares issued), set against the actual abnormal returns. Among 302 large US deals from 1995 to 2001, about a third drew a positive first reaction and about half of those stayed positive a year later, while two-thirds of the negative ones stayed negative; quote it only where the reader would otherwise read the first reaction as the verdict.
+- **Pro forma credit on the agency ranges first, when the deal adds debt that could move a rating.** Funds from operations over debt and debt over EBITDA on the agency's ranges, the rating medians as the cross-check, combined EBITDA with and without synergies, then the EBIT stress and the refinancing stress on the acquisition debt (`references/credit.md`, placing the company on the rating scales; coverage stress and refinancing stress; recovery by layer if either party is stressed).
+- **Overlaps judged by concentration, with coverage stated, when approval decides the timing or the outcome.** The change in the Herfindahl index from the merger = 2 x share A x share B x 10,000, shares as fractions (`references/industry-structure.md`, concentration and HHI). The current US Merger Guidelines' presumptions are thresholds, not outcomes: the index after the deal above 1,800 with a change above 100, or a combined share above 30 percent with a change above 100; other jurisdictions apply their own tests. Each approval is named with its agency, legal test, stage and date. A clearance probability rests on the agency's record on comparable reviews, searched first and named; note any fees due on a regulatory failure.
+- **The target holders' fallback, when they are the reader,** is the break price: the unaffected price adjusted for the market and peers since, with any non-cash piece at a conservative value from its own terms (`references/special-situations-arithmetic.md`, outcomes and the break price; non-cash consideration).
+- **Two probabilities kept apart, when the question is what the deal is worth across outcomes.** Completion (regulation, the vote, financing, a topping bid) and synergy realisation if it closes rest on different evidence: realisation starts from the strategic category's success rate and the synergy record, completion from the agency's record and the deal's conditions, never a default split. They combine into three outcomes that cover every result: closes with management's synergies, closes with the haircut synergies, fails with any termination fee. Each outcome shows the value per share it rests on, the weights sum to 100, and the probability-weighted value is stated and reconciles with those figures (`references/forecasting-discipline.md`, scenario weights from a reference class; expected value).
 
-Three framings change the note:
+## Where it goes wrong
 
-- **A hypothetical deal** ("what would it cost us to buy X"): the user's company is the acquirer and there are no terms. Price the target at its undisturbed price plus a range of assumed premiums (set from the premium rows of table 2 in `references/capital-allocation.md`, quoted as historical), assume the financing mix, and add the section "What it would cost".
-- **A third-party reading** ("what does X buying Y mean for us" from a rival, customer or supplier): run the terms, logic, synergy and regulatory steps, then add "What it means for <company>": combined share and pricing power in the overlap, the integration window when customers and staff move, likely remedies and divested assets, and concentration as a customer or supplier.
-- **A corporate choice** ("cash or stock", "at what premium"): lay the arithmetic for each option side by side, as `references/output-standard.md` allows, with no call.
+- **The announcement-day price as the unaffected price or the break price**, which understates the premium and the downside when the stock ran up on rumours.
+- **Rumoured terms written as facts.** Until a document sets them, the note says they come from press accounts, and a hypothetical deal says once which inputs it chose.
+- **The cash-deal formula used for a stock deal**, which misstates the acquirer's predicted move because the shares issued are left out.
+- **Non-cash consideration at face.** Notes, preferred, warrants and contingent value rights take a conservative value from their own terms.
+- **One blended probability**, which hides whether the risk is the deal failing or the synergies not arriving.
+- **Market shares from listed companies read as the market.** Private rivals are missing; say which firms the shares cover.
+- **A risk-free rate taken from memory** when the country data carries the current yield.
+- **A gap declared too early.** Market shares in the overlap, bond prices and spreads have no structured field but are often in filings, agency documents and news; search before stating a gap.
 
-For a rumoured deal the terms are reports: say so in the header and label them assumed. For a private target the premium is replaced by the price against its reported financials and listed peers. For a divestiture the question is whether the buyer pays more than the unit is worth to the seller (step 3 of Analyse).
+## What the data has, and does not
 
-Ask one question only if the deal cannot be identified (two live bids, or a name that matches several transactions). Otherwise state the assumptions and proceed.
-
-## Gather
-
-1. **Both companies' numbers.** For the acquirer and the target: profile, quote, market cap, EV and net debt; five fiscal years of annual statements and ratios (annual periods, since the default is quarters); and consensus with its vintage. For the acquirer add its M&A record; it needs FactSet access, so when it comes back empty, search for the acquirer's deals over the five years instead. Done when market cap, EV, net debt, five fiscal years of statements, consensus with its vintage and the acquirer's deal history are in hand for each listed party, or the missing item is named.
-2. **The deal documents.** Search for the announcement release, the investor presentation, the merger agreement, the proxy or registration statement, the tender offer documents, and for a divestiture the sale agreement or Form 10; read each one found in full. Done when these are quoted with sources: price per share; consideration mix and exchange ratio (with any collar); equity and enterprise value; tax structure (stock or asset purchase, tax-free reorganisation or taxable, any step-up in the target's asset basis); financing; conditions; termination fees each way; outside date and expected close; the synergy claim with its cost and revenue split, phasing and integration cost; and the background of the merger (other bidders, the process). Record the bankers' ranges in fairness opinions as opinions.
-3. **The unaffected price.** Search for the first report of talks or a leak, then daily prices for both stocks and the index from 60 trading days before it to today, computed, not estimated. Done when the unaffected price and date are fixed and both parties' one-, three- and five-day abnormal returns after the announcement are computed with the working shown.
-4. **The regulatory path.** Searches, one aspect each: antitrust reviews in each jurisdiction named in the agreement (waiting periods, second requests, phase two, remedies offered); market shares of the parties and their main rivals in each overlapping product and geography; national security, foreign investment or sector regulators; political opposition. Done when each approval has its agency, stage and date or window, and each overlap has shares with a source and date, or the note says they were not located.
-5. **Financing and reaction.** Searches, one aspect each: commitment letters, debt or equity issuance tied to the deal, rating agency comments; sell-side and press reaction on each side, shareholder or activist opposition, a competing bid, litigation. Done when the sources of funds have amounts and each item has its date and source, or is marked none found.
-6. **Peers and precedent deals.** A screen on the target's industry and size, then current multiples for the set in one pull, and annual statements and ratios for four to eight peers, pulled as a set rather than one company at a time where the account allows; then searches for the multiples paid in comparable transactions. Done when the peer table in `references/multiples-and-peers.md` can be filled and each precedent deal has its date, multiple and source, or is marked none found.
-7. **Sector primer.** Find the target's sector in `references/sector-primers.md` (grep the slug from its contents list, read to the next `## ` heading) and read "How the sector makes money", "Profit pool and competitive dynamics" and "Valuation conventions and pitfalls". Done when the sector's value drivers and the valuation conventions that apply to the target are noted.
-
-## Analyse
-
-1. **Terms and timeline.** The terms from Gather, the premium against the unaffected price (formula 8 in `references/capital-allocation.md`; the price before rumours when the stock ran up), and offer EV over the target's trailing and forward EBITA and EBITDA, and offer P/E. Then the dated timeline from signing to the outside date. Done when the reader can see what is paid, in what form, with what tax structure, at what premium, and when each step is due.
-
-2. **Strategic logic.** From step 7 of `references/capital-allocation.md` and its acquisitions rule, state four things:
-   - Which of McKinsey's five archetypes the deal fits (5th edition, listed in the acquisitions rule of that file; the 7th edition adds a sixth, exploiting a business's industry-specific scalability), or that it fits none, which makes value creation unlikely. A consolidation that relies on changing competitors' pricing works only when the industry is down to three or four players and entry is blocked (McKinsey ch. 21).
-   - The strategic category and its success rate from table 1 of that file.
-   - Whether each predictor of acquirer success in that rule holds here.
-   - The deal base rates in table 2, each with its sample and period.
-
-   EPS accretion, relative P/E and relatedness do not predict success; do not use them as evidence. Done when the logic is stated in the company's own words with a source and then placed in its category with the base rate.
-
-3. **Price against value for the target.** From `references/valuation.md`: the target's stand-alone value as a range, from a DCF with three scenarios when the deal is large enough to warrant it, or from the bankers' ranges labelled as opinions when it is not. Cross-check with `references/multiples-and-peers.md`: the offer multiple against the peer median on the same EV and metric definitions, the target's undisturbed multiple, and the precedent deals from Gather. Precedent deals are a primary cross-check, because they show what buyers paid for control; date each one. The circularity warning in `references/valuation.md` applies to exit multiples inside a DCF, not here. Take the target's ROIC with and without goodwill from `references/roic.md`, and the growth the undisturbed price implied from formula 2 in `references/expectations.md` (three-year rolling ROIIC), so improvements are measured against what holders already priced. Then value created for the acquirer = (stand-alone value + value of improvements) - (market value + premium) (McKinsey), and return on price paid against the cost of capital (formula 11 in `references/capital-allocation.md`; cost of capital per the inputs table of `references/expectations.md`). For a divestiture, compare the price with the unit's value to the seller, net of stranded costs, lost tax shield, tax on the gain and transitional services. Done when the price sits against a value range and the return on price paid is stated, each labelled with its basis.
-
-4. **Synergies against the base rates.** Apply formula 9 of `references/capital-allocation.md` to management's claim, split into cost and revenue and net of the disclosed integration cost. Show two cases:
-   - Management's figures, as disclosed, labelled reported.
-   - A haircut case that cuts revenue synergies far more than cost synergies, set from the synergy rows of table 2 and labelled assumed. Revenue synergies are often negative at first, as customers and sales staff leave and prices are conceded (McKinsey ch. 21).
-
-   Size cost synergies against the combined cost base where disclosed, and apply the integration-cost row of table 2. For a hypothetical deal, compute the run-rate pre-tax synergies that cover the premium: premium x cost of capital / (1 - tax rate) (derived from formula 9, before phasing). Done when the present value of synergies in both cases sits next to the premium.
-
-5. **Value at risk and the deal NPV.** From formulas 9 and 10 in `references/capital-allocation.md`: deal NPV in both synergy cases, SVAR with the denominator for the payment form, and premium at risk in a stock deal. The predicted acquirer move for cash is formula 9. For stock or mixed consideration the price paid moves with the acquirer's stock, so predicted acquirer price = (acquirer market cap + target unaffected market cap + PV synergies - cash paid) / (acquirer shares + shares issued), and target holders receive the shares issued times that price plus the cash (derived; formula 9 covers cash only). Set the prediction against the actual abnormal returns from Gather, read with the payment-form row of table 2, and compare SVAR with the SVAR sample there. Done when NPV, SVAR, premium at risk and the predicted against actual move are tabled.
-
-6. **Financing and leverage after the deal.** Run steps 3 to 6 of `references/credit.md` on the pro forma balance sheet, combined EBITDA with and without synergies: FFO over debt and debt over EBITDA on table 3 (agency cash-flow and leverage ranges) first, table 1 as the cross-check, table 2 for the order of magnitude of default risk; the EBIT stress of formula 6 and the refinancing stress of formula 6a on the acquisition debt. If either party is stressed, add step 9, the recovery view. Show EPS accretion only next to return on price paid, to say it is not a test of value. Done when pro forma leverage, coverage and the implied rating bucket are shown with the agencies' stated actions.
-
-7. **The regulatory path.** For each overlap, compute the combined share and the HHI after the deal (formula in `references/industry-structure.md`); the change from merging two firms is 2 x share A x share B x 10,000, shares as fractions. Quote the 2023 US Merger Guidelines presumptions as thresholds, not outcomes: post-merger HHI above 1,800 with a change above 100, or a combined share above 30 percent with a change above 100; other jurisdictions apply their own tests. Say which firms the shares cover, since listed-company shares miss private rivals. For each approval: agency, legal test, the concern that matters (horizontal overlap, vertical foreclosure, national security), stage, date, and remedies offered or likely. The sources give no base rates for completion or remedies, so the probability of clearance is judgment with its evidence; note the fees due if the deal fails on regulation. Done when each overlap has a combined share and HHI change with its coverage, and each approval has a stage, a date or window, and a judgment with its evidence.
-
-8. **What each side's shareholders get.**
-   - Target holders: the premium, the consideration and its tax treatment, the conservative value of any non-cash piece (step 5 of `references/special-situations-arithmetic.md`), their share of the synergies in a stock deal, and the alternative if the deal fails: the break price, set by step 3 of the same file (B in its formula 2), with its source and date.
-   - Acquirer holders: the NPV per share in both synergy cases, SVAR, the ownership dilution in a stock deal, the leverage they now carry, and how often a first reaction persists (Sirower and Sahni, 302 deals, in Mauboussin, A Long Look at Short-Termism, 2014: 34 percent of first reactions positive, about half still positive a year later; 66 percent negative, two-thirds still negative; historical).
-
-   Done when each side has its paragraph with the two or three numbers that decide it. The spread, the implied completion probability and the annualised return are for `bigdata-special-situations`; name it and stop there.
-
-9. **Range for the acquirer.** Keep two probabilities apart, because different evidence drives them: completion, from the regulatory judgment, the vote, the financing and the chance of a topping bid; and realisation of the synergies if it closes, from the category success rate and the synergy rows of table 2. Three outcomes for the acquirer's value per share: closes with management's synergies (completion x realisation), closes with the haircut synergies (completion x (1 - realisation)), fails (1 - completion, with any termination fee). Weights sum to 100, labelled judgment. Done when both input probabilities, the three outcomes, their weights and the expected change in value per share are shown.
+Five fiscal years of annual statements, ratios and key metrics per listed party, nothing older; consensus as a snapshot with its date and no revision history, so "what changed" comes from dated research and news. The acquirer's M&A record needs FactSet access; when it comes back empty, the five years of deals come from search. The terms come from the documents found by search and read in full: the release, the investor presentation, the merger agreement, the proxy or registration statement, tender documents, a sale agreement or Form 10. The unaffected price and abnormal returns need the daily price series for both stocks and the index; the overview has standard windows only. The corporate calendar carries earnings dates, conferences, IPOs and delistings only, so votes, regulatory deadlines, court dates and the outside date come from filings and news. There is no structured field for market shares, bond prices, spreads or the cost of capital; documents often carry the first three, and the risk-free rate comes from the country data. Peers and their statements are pulled as a set in one batch, not one tearsheet each. The target's sector value drivers and valuation conventions are in `references/sector-primers.md`.
 
 ## Write
 
-Follow `references/output-standard.md`.
+`references/output-standard.md` holds the rules. The title carries the finding in one line ("Synergies cover the 38 percent premium only if revenue synergies arrive"). The opening gives the terms and the premium against the unaffected price, where the price sits against stand-alone value, whether the synergies in each case cover the premium, what the acquirer puts at risk and its leverage afterwards, the approval that decides the timing, and what each side gets. The body follows the question, with the dated timeline from signing to the outside date where the deal is live. What would change the reading closes the note. Sub-headings state the finding ("The acquirer pays for synergies it has not delivered before"), never the step.
 
-```
-# <Acquirer> (<ticker>) / <Target> (<ticker>): <deal type>, announced <date>
-Data as of: prices <date>; unaffected price <date>; estimates <date>; newest document <date>.
+## Before sending
 
-## The deal in brief
-Four to eight sentences on terms, logic, price against value, synergies, SVAR, leverage,
-regulation and what each side gets. No call on either stock.
-
-## Terms and timeline
-| Term | Value | Basis | Source |  (the terms listed in Gather step 2, premium, offer multiples)
-| Date | Step | Status | Source |
-
-## Strategic logic
-## Price against value
-
-## Synergies
-| Synergy | Gross | Phasing | After tax | PV (management) | PV (haircut) | Basis | Source |
-
-## Value at risk and NPV
-| Measure | Management case | Haircut case | Basis |
-
-## Financing and leverage after the deal
-| Measure | Acquirer today | Pro forma | Agency range or rating median (period) | Basis | Source |
-
-## Regulatory path
-| Overlap | Share A | Share B | Combined | HHI after | HHI change | Basis |  (sources in a note)
-| Approval | Agency | Test | Stage | Date or window | Judgment | Source |
-
-## What each side's shareholders get
-Target holders; acquirer holders. The arbitrage arithmetic is referred to bigdata-special-situations.
-
-## What it would cost                      (hypothetical deal only)
-| Premium (assumed) | Price per share | Equity value | EV / EBITDA | Synergies needed | SVAR | Pro forma debt / EBITDA | Basis |
-
-## What it means for <company>            (third-party reading only)
-Overlap, pricing power, integration window, remedies, concentration; each with its evidence.
-
-## Range for the acquirer
-| Outcome | What must be true | Probability | Change in value per share | Basis |
-
-## What would change this reading
-## Gaps
-## Sources
-Numbered sources, then the Data line, then the footer verbatim from references/output-standard.md.
-```
-
-Length: four to eight pages for a material deal; two for a bolt-on with a small SVAR. A narrow question gets its step, the table and the sources, and keeps the footer.
-
-## Checks before sending
-
-1. The premium is measured against the unaffected price before rumours, with that date and its source.
-2. Rumoured terms and every input of a hypothetical deal are labelled assumed throughout.
-3. Synergies appear in a management case and a haircut case; a stock deal's predicted acquirer move uses the shares issued.
-4. Every base rate carries its sample and period and is called historical, not current; the HHI thresholds are labelled as guideline presumptions with the share coverage stated.
-5. EPS accretion appears only next to return on price paid, never as evidence of value.
-6. The completion probability and the synergy-realisation probability are stated separately before they are combined.
-7. No spread, implied completion probability or annualised arbitrage return; no buy, sell, tender, vote or bid recommendation; fairness opinions and broker views are labelled as opinions.
-8. Every figure has a Basis label and a source number, or appears in the Gaps line.
-
-## Hand-offs
-
-- The user wants the spread, the implied completion probability, the annualised return to closing or the trade around the break price: `bigdata-special-situations`. This note computes the break price itself.
-- The acquirer's record on past deals and capital discipline: `bigdata-capital-allocation`.
-- A full valuation of either party: `bigdata-valuation`. The combined company's debt in depth: `bigdata-credit`.
-- The industry structure behind the overlap in depth: `bigdata-sector`.
-- After delivering, make one offer: a monitor on the deal's regulatory filings, votes and competing bids until the expected close. Act only on a clear yes.
+- The user's parts are answered in the user's order, and every table on the page is one the reader needed.
+- The premium is measured against the unaffected price before rumours, with that date and its source.
+- Where synergies are on the page, they appear in a management and a haircut case next to the premium; where outcomes are weighted, completion and realisation probabilities are stated separately, and the probability-weighted value matches the figures it rests on.
+- Every number in the opening agrees with the body, and the net debt used anywhere equals the inputs stated once.
+- Every code name, deal term or instrument (a contingent value right, a ticking fee) is explained where it first appears.
+- Nothing on the page names a file, formula, table, primer, author or method; no figure is tagged with how it was obtained; no sentence describes how the note was made.

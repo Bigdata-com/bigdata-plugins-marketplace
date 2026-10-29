@@ -5,99 +5,55 @@ description: >-
   next catalyst. Use for quick take, a one-page read on X, thoughts on a ticker, is X interesting.
   Not a full thesis: bigdata-deep-dive.
 metadata:
-  bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, downside-and-catalysts
+  bigdata-refs: working-with-bigdata, output-standard, expectations, valuation, base-rates, downside-and-catalysts
   bigdata-sector-primer: auto
 ---
 
 # Quick take
 
-One page, written the way a portfolio manager answers "what do you think of Micron" in a morning meeting: what the price already assumes, the three things that decide whether it is right, the two or three ways it goes wrong, and the next date that tells. Short does not mean loose: every number is sourced, the expectations arithmetic is shown, and the page says what would change the reading. It gives no rating.
+One page that answers "what do you think of Micron" the way an analyst would in a morning meeting: what the price already assumes, the three things that decide whether it is right, the ways it goes wrong and the next date that tells. Never a rating, a target or "interesting at this price". Size the work to the question: "is Micron's multiple high?" gets the forward P/E against the steady-state P/E and the peer median, what the multiple means for growth, and the links, not the full page.
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Give no figures, dates or view from memory or the web in the meantime, because an unsourced answer would look like Bigdata.com data.
+- Without the Bigdata.com tools, say so and ask for the connector. No figures from memory in the meantime.
 - Pass `plugin_slug: "bigdata-quick-take"` on every Bigdata.com call that accepts it.
-- Read `references/working-with-bigdata.md` before the first call: it maps each data need below to a tool, with fallbacks when a tool is not available, and the tools' own descriptions decide the arguments.
-- Treat this skill as guidelines. The page is the limit; the research behind it is not.
+- `references/working-with-bigdata.md` maps each data need to a tool. The other reference files are working notes for the parts named below; the reader never sees them.
 
-## Scope the request
+## Method choices that are not the default
 
-Resolve the company to its Bigdata.com entity, with its listing status taken from the lookup. If the user gave an angle ("is it interesting after the drop", "versus Samsung"), the page answers that angle. The subject may be the user's own company, a competitor, a customer or a supplier: the page then says what the price assumes about that company and what it means for the reader, still with no rating. Do not ask a question unless the name is ambiguous; a quick take is asked for because the user wants it now. Done when the company is resolved and any angle the user gave is noted.
+- **The user's parts first,** in the user's order, each answered in full. The choices below apply where the question reaches them; a page that answers it with fewer tables and pieces is the better page.
+- **What the price implies comes first,** because the page opens with the height of the bar rather than the story or the multiple: the growth the enterprise value implies at the stated cost of capital and return on new capital, set against consensus growth (`references/expectations.md`, implied growth). The enterprise value's inputs appear once (share count, net debt with leases and stakes outside the operating business, tax rate, discount convention), so the reader can rebuild it. The profit a multiple is applied to says whether it is before or after tax. The cost of capital is one stated figure, with the yield, beta and premium in a single clause and no regression statistics; the 10-year yield in the cash-flow currency comes from the country data (`references/valuation.md`, cost of capital). One central case and one range cover the sensitivity. The steady-state P/E and the share of the price paid for growth stay in the working unless the user asks what the multiple means (`references/expectations.md`, steady state and value creation).
+- **Implied growth with its return on new capital beside it.** The growth the price implies changes with the return on new capital, so the three-year rolling ROIIC, or the figure used in its place, sits in the same sentence.
+- **Consensus growth placed in its history, when it carries the reading.** When the conclusion rests on a multi-year growth rate and the history changes how it reads, one sentence gives how often companies of this size reached it over three years, with the population and period in the sentence; the one-year figures are too dispersed to mean anything for one company (`references/base-rates.md`, real sales growth by starting size).
+- **A relative line beside the absolute one, when the read of the price would otherwise rest on one measure.** Forward P/E and EV/EBITDA against the median of two or three peers (up to five when the user asks for a peer angle).
+- **Up to three drivers, chosen by what moves value.** Where returns on new capital sit near the cost of capital, the incremental return is the driver that matters; well above it, sales growth. Each driver gets a sentence with what consensus assumes, one dated piece of evidence and the direction the risk runs (`references/expectations.md`, which revision moves value).
+- **Risks that would change the reading, each with its first observable sign.** Usually the one that breaks the drivers; a balance-sheet or accounting risk, or one from outside (a regulator, a customer, a technology), earns a line only when there is one, with how it would show up first.
+- **A downside line, when a floor sits close enough to the price to matter.** The price per share against the floors that apply (net cash, tangible book, a stressed cash-flow value); for software and services the stressed cash-flow value, for banks book value and earnings quality (`references/downside-and-catalysts.md`, floor values and when the floors do not apply).
+- **The next catalyst with who decides it.** The date, its type, who decides it and how much of the gap between price and value it could close (`references/downside-and-catalysts.md`, catalysts).
+- **The price stands unless there is evidence against it.** Where the page's reading differs from what the price implies, it names the evidence.
+- **Special cases.** A bank: price to book against return on equity. A cyclical: earnings normalised to a mid-cycle margin, stated. A loss-making company: the P/E is not meaningful; give the revenue the price needs at a stated margin path (`references/expectations.md`, special cases).
 
-If the company is Private, say that there is no price to read expectations from and offer a document-based summary instead.
+## Where it goes wrong
 
-## Gather
+- **Running long.** A quick take that becomes three pages is a brief nobody asked for: cut each driver to a sentence before cutting a line of what the price implies.
+- **A risk-free rate taken from memory** when the country data has the yield.
+- **Implied growth with no return on new capital beside it.** It cannot be checked.
+- **Peer multiples taken from the profile's competitors block,** which carries symbol, price and market cap only. Pull the peers' key metrics and next-year consensus EPS, and compute the forward P/E.
+- **Citations assembled at the end.** The link goes next to the fact when the fact is captured.
 
-Five steps, no more unless a driver needs one.
+## What the data has, and does not
 
-1. The company's numbers: profile and quote with its competitors block, consensus with its vintage, the latest quarter against consensus, ratings and targets and the next report date; then ratios, valuation metrics and five fiscal years of annual statements (annual periods, not the default quarters). Done when market cap, enterprise value, the forward multiples, consensus for the next two fiscal years with its vintage, the last reported quarter's actual against consensus, targets and ratings, the next report date, the competitors block and five fiscal years of statements are in hand.
-2. Searches for the company's news over the last 30 days, and in the same pass for research and news that quote a consensus or target change over those 30 days (consensus and targets are a snapshot with no history). Done when the two or three developments that moved the stock or the estimates are known with dates, and the revision is quoted with its document's date, labelled press or research summary, or marked not found.
-3. The full transcript of the last earnings call, with the period fixed rather than inferred. Done when guidance and the one exchange that shows what management is worried about are known.
-4. The sentiment report (it has no window; say which period its narrative covers). Done when the direction of sentiment and its period are known.
-5. **Peers, for one relative-valuation line.** Take two or three peers from the competitors block in the company's profile (it carries symbol, price and market cap only, and the several-company grid carries no multiples), then the key metrics (EV, EV/EBITDA) and next-year consensus EPS for the peer set, pulled as a set rather than one company at a time where the account allows. When the user asks for a peer angle, take up to five. Done when each peer has its EV/EBITDA and its forward P/E (price over next-year consensus EPS, derived), or the line says which peers had no data.
-
-Find the company's sector in `references/sector-primers.md` (grep the slug from its contents list, read to the next `## ` heading) and read its metrics that matter, so the drivers are the sector's drivers. Done when the sector's own drivers are noted, or no primer applies.
-
-## Analyse
-
-1. **What the price implies.** From `references/expectations.md`: the forward P/E against the steady-state P/E (one over the cost of equity, formula 1, stated as an assumption with its basis); the perpetual NOPAT growth that the enterprise value implies at a stated cost of capital and a stated incremental return (formula 2), against consensus growth; the share of the value that is steady state and the share that is future value creation (formula 1). The implied growth rests on the assumed incremental return, so state the ROIIC used (the three-year rolling figure from the inputs table, or an assumption) next to it. Then the relative-valuation line: forward P/E and EV/EBITDA against the peers' median from Gather step 5, so the read of the price is not only the steady-state P/E. Then the base-rate sentence for consensus growth from `references/base-rates.md`, from the three-year column for the company's size class (the one-year column is noisy), with its sample and period, called historical. For a bank, use price to book against return on equity; for a cyclical, normalise earnings to mid-cycle and say which margin; for a loss-making company, say the P/E is not meaningful and give the revenue the price needs at a stated margin path. Done when the page can say in two sentences whether the price assumes a lot or a little, and whether consensus sits in a common or a rare part of its reference class.
-
-2. **The three drivers.** The three things that decide whether the price-implied path is beaten or missed, in order of weight. For each: what consensus assumes, the latest evidence with its date and source, which way the risk runs. Use the value-trigger rule (`references/expectations.md`, formula 4), classified on the three-year rolling ROIIC, never one year: near the cost of capital the driver is incremental return, well above it is sales growth. Done when each driver has one dated piece of evidence and a stated direction of risk.
-
-3. **The risks and the downside line.** Two or three risks: the one that breaks the drivers, the one in the balance sheet or the accounting if there is one, the one from outside (regulation, a customer, a technology), each with a sentence on how it would show up first. Then the downside line, which is all `references/downside-and-catalysts.md` asks of a quick take: the price against the floors that apply (net cash, tangible book, a stressed cash-flow value; procedure step 2 and rule 5 for when they do not apply), per share, derived. Done when each risk has an observable early signal and the downside line names its floor or says none applies.
-
-4. **The next catalyst.** The next earnings date from the calendar, plus any other dated event from the news (a product cycle, a regulatory decision, a capital-markets day), written as the file's catalyst output line: type, decider, date and potency. Done when the page names a date and what it decides.
+Consensus is a snapshot with its date and no revision history, so a 30-day revision or target change comes from research and news dated in the window; where none is found, the note says so. The transcript for the last call is fetched with its period fixed; the call for the latest quarter carries next quarter's guidance. Five fiscal periods per pull, annual when years are wanted, which allows a three-year ROIIC and nothing longer. The several-company grid carries price, move, surprise, targets and sentiment but no multiples; peer metrics come as a set in one batch. Sentiment has no window: say which period its narrative covers. The cost of capital has no structured field and is built, with the risk-free rate from the country data. A private company has no price to read expectations from: say so and offer a summary from documents. `references/sector-primers.md` gives the sector's own drivers.
 
 ## Write
 
-Follow `references/output-standard.md`. The whole page:
+`references/output-standard.md` holds the rules. One page: about 450 words before the sources, and at most one table. The title carries the finding in one line ("Micron's price needs a memory upcycle longer than any since 2010"). The opening gives what the price implies, whether the evidence supports it, and what would change the reading, in prose. The body follows the question: the drivers, the risks with their early signs, the downside line where it applies. The next catalyst, with its date and what it decides, closes the page.
 
-```
-# <Company> (<ticker>) quick take, <date>
-Data as of: price <date>; estimates <date>; latest statements <period>; newest document <date>.
+## Before sending
 
-## The view
-Three to five sentences in prose. What the price implies, whether the evidence supports it,
-and what would change the reading. No rating word.
-
-## What the price implies
-| Measure | Value | Basis | Source |
-Forward P/E, steady-state P/E at the stated cost of equity, implied NOPAT growth at the stated
-cost of capital (Basis: derived, resting on the assumed incremental return, stated), consensus
-growth, base-rate share for that growth (three-year class), forward P/E and EV/EBITDA against
-the peer median, estimate revision found in search or "not found", target range against price,
-the downside line.
-
-## The three drivers
-Three short paragraphs, each: assumption, evidence with date, direction of risk.
-
-## Risks and what would change this reading
-Two or three risks with their early signals, then one line on what would make the reading more
-positive and one on what would make it more negative.
-
-## Next catalyst
-The event, the date and what it decides.
-
-## Gaps
-One line: what Bigdata.com could not answer, and any assumption that drives the result.
-
-## Sources, then the Data line, then the Powered by Bigdata.com line and the disclaimer.
-```
-
-Length: one page, which means at most 450 words before Sources and one table. Cut drivers to a sentence each before cutting the expectations table. The assumptions (cost of equity, cost of capital) appear once, in the table, with their basis. A narrower question ("is the multiple high?") gets the relevant rows of the table, the base-rate sentence and the sources, not the full page.
-
-## Checks before sending
-
-1. It fits on one page: at most 450 words before Sources, one table.
-2. The expectations table has the steady-state P/E, the implied growth with its assumed incremental return, the peer line, the downside line and the base-rate sentence from the three-year class, each labelled derived or assumed.
-3. Three drivers, each with dated evidence from Bigdata.com.
-4. Each risk has an early signal.
-5. A dated next event.
-6. No buy, hold, sell, overweight, underweight, interesting-at-this-price, or rating language. "Interesting" is answered with what the price assumes and what the evidence says.
-7. Every figure has a source number or a Basis label.
-
-## Hand-offs
-
-- The user wants the thesis built out: `bigdata-thesis`. The full report: `bigdata-deep-dive`. The valuation range: `bigdata-valuation`.
-- The user asks why it moved today: `bigdata-stock-move`.
-- After delivering, make one offer: add the company to a Bigdata.com watchlist. Act only on a clear yes.
+- The user's parts are answered in the user's order, and every table on the page is one the reader needed.
+- Within one page, and every number in the opening agrees with the body.
+- The net debt or enterprise value used anywhere equals the inputs stated once, and implied growth has its return on new capital beside it.
+- Each driver has a dated piece of evidence, and each risk has an early sign.
+- Every code name or internal term is explained where it first appears.
+- Nothing on the page names a file, formula, table, primer, author or method; no figure is tagged with how it was obtained; no sentence describes how the note was made.

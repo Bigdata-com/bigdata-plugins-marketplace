@@ -3,108 +3,56 @@ name: bigdata-stock-move
 description: >-
   Why a stock moved: the trigger, headline vs change in the long-term outlook, revisions, base
   rates for what follows a move that size. Use for why is X down, why did our stock drop, what
-  moved it. Not the quarter: bigdata-earnings-review.
+  moved it. Not the quarter: bigdata-earnings-recap.
 metadata:
-  bigdata-refs: working-with-bigdata, output-standard, after-a-price-move, expectations, downside-and-catalysts
+  bigdata-refs: working-with-bigdata, output-standard, after-a-price-move, expectations, valuation, downside-and-catalysts
   bigdata-sector-primer: auto
 ---
 
 # Stock move
 
-This skill answers "why is it down" the way a portfolio manager wants it answered: the trigger with its source, then whether the move reflects a change in the company's long-term outlook or a one-quarter headline, then what the people who set the price did next (estimates, targets, ratings), and then what history says follows a move like this, conditioned on the things that matter. It does not say whether to buy the dip.
+A note on why a stock moved, whether the move reflects a change in the company's long-term outlook or a one-quarter headline, what the people who set the price did next, and, for a large one-day move, what history says follows a move like it. Never a view on whether to buy the dip, add or trim. A company asking why its own stock dropped asks a different question: what investors changed their mind about, what they will ask next, and what the company can still show them, ahead of the investor measures. Size to the question: "what happened to Deckers today" gets the trigger with its source, what the market changed its mind about and what the estimate-setters did, with the history in one sentence when the move qualifies.
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Give no figures, dates or view from memory or the web in the meantime, because an unsourced answer would look like Bigdata.com data.
+- Without the Bigdata.com tools, say so and ask for the connector. No figures from memory in the meantime.
 - Pass `plugin_slug: "bigdata-stock-move"` on every Bigdata.com call that accepts it.
-- Read `references/working-with-bigdata.md` before the first call: it maps each data need below to a tool, with fallbacks when a tool is not available, and the tools' own descriptions decide the arguments.
-- Treat this skill as guidelines. A move explained by one filing needs one section, not six.
+- `references/working-with-bigdata.md` maps each data need to a tool. The other reference files are working notes for the parts named below; the reader never sees them.
 
-## Scope the request
+## Method choices that are not the default
 
-Resolve the company to its Bigdata.com entity, with its listing status taken from the lookup. Fix the window: the day the user names, today if they say "today", the week if they say "this week". If the user names no window, take the largest one-day move in the last five trading days from the daily price series, computed. Confirm the size of the move from the price series before explaining it, because a user's "down 10 percent" is sometimes 4 percent after a partial recovery. The reader may be a holder, an analyst or the company's own IR team asking why its stock moved; the evidence is the same, and the note says what the move means for that reader.
+- **The user's parts come first.** The parts the user asked for come first, in the user's order, each answered in full; the choices below apply only where the question reaches them. A note that answers the question with fewer tables and fewer pieces is the better note.
+- **The size of the move is measured before it is explained.** From the daily series for the stock and its index over the exact window, never from the user's figure, stated close to close, or with the time when a pre-market or after-hours price is used. One pre-event price is fixed from the series and every percentage is computed from it. With no window named, take the largest one-day move in the last five trading days.
+- **Pin down what kind of move it was before explaining it.** The move against the index, simple or beta-adjusted with the one used stated, whether it came on earnings, over one day or several, and the part the peers shared over the same window, so the company-specific part is what gets explained. A cause is easy to invent for any move, so this comes before the story, written as a plain sentence with its figures, never as a label or a bolded category (`references/after-a-price-move.md`, classifying the event, abnormal return).
+- **Headline or long-term outlook.** The price capitalises years of cash flow, so a large move is the market revising growth, margins, returns, the period of excess returns or the per-share claim. Say in a sentence, with its evidence, which the trigger changed and by how much, from consensus for the second year out and beyond, guidance and cash flow, or that it changed none and what the move then implies; never a label such as "long-term" or "headline" (`references/after-a-price-move.md`, long-term outlook test). Where the move is large enough to matter for value and the question is what the market now assumes, compare the growth the enterprise value implied before the move with the growth it implies after (`references/expectations.md`, implied growth); otherwise it stays in the working. When it is shown, the inputs appear once, from the latest filing: share count, cash, debt, leases, stakes outside the operating business and the net debt they give, the tax rate on the profit figure, and the discounting convention, so the reader can rebuild both figures; the before and after figures use the same inputs. The cost of capital is one stated figure, with the yield, beta and premium behind it in one clause and no regression statistics; the 10-year yield comes from the country data (`references/valuation.md`, cost of capital).
+- **Price and estimates read together.** Price down with estimates down reads as a fundamental revision; with estimates flat as a multiple or positioning move; with estimates up as unusual, and the note says so. A miss or beat is given on revenue and on EPS, each against consensus with its source.
+- **What followed similar moves, only for a one-day move of 10 percent or more against the index.** Start at the row for the event type and the momentum going in, and step down to valuation and quality only while the row holds about 50 events or more. One sentence carries the population and period (US large caps with one-day moves of 10 percent or more against the S&P 500, 1990 to 2014 for drops and to 2015 for gains), how many events the row holds, the drift at 30, 60 and 90 trading days, and how widely outcomes spread around it, because the median sits below the mean and the spread is wide. A smaller move or a move over several days gets no drift figures; a non-US stock or a recent date says in the same sentence that the history is of US stocks before 2016 (`references/after-a-price-move.md`, drift after one-day drops, drift after one-day gains, drift in the branches with the sharpest contrasts, dispersion of drift, reading the drift tables).
+- **Momentum, valuation and quality as they stood before the event**, when the drift row is stepped down. They choose the row; the page carries the row and the standing that put the stock in it, in a sentence. Valuation is re-based to the pre-event price so a stock is never scored cheap because it just fell; momentum uses the 13-week revisions from dated documents; quality uses the data set's ROIC against peers and its spread over the stated cost of capital (`references/after-a-price-move.md`, momentum, valuation and quality before the event).
+- **Who is selling and the next date.** Forced sellers (an index change, a downgrade, holders who owned it for what just broke) from filings and news, because selling that is not about value tends to reverse; the next dated event that resolves the question the move raised. When the stock fell and the reader is weighing how far it could go, the floors that apply (net cash, asset value, a private-market value only where a dated transaction gives one) (`references/downside-and-catalysts.md`, why it is cheap and who is selling, floor values, catalysts).
+- **No trigger found is an answer.** When the searches find nothing company-specific and the peers do not explain it, the note says the trigger was not found and gives the measured move, the estimates and, for a qualifying move, the history, without a story.
 
-Ask one question only when the ticker is ambiguous. Otherwise state the window and the move in the header. Done when the company is resolved and the window and the size of the move are fixed from the price series.
+## Where it goes wrong
 
-## Gather
+- **Only half the miss quantified.** Revenue and EPS both, each against consensus with its source.
+- **Before and after figures on different measures.** Take before and after targets and estimates from the same provider and measure, or say the change cannot be measured.
+- **Prices that do not reconcile.** Every percentage comes from the one pre-event price fixed from the series.
+- **A record claim resting on one quote** ("the first miss in five years"). Check it against the surprise history, or attribute it.
+- **Citations assembled at the end** land on the wrong document. The link goes next to the fact when the fact is captured.
+- **A drift row with few events quoted as a finding.** Below about 50 events, the parent row is the figure.
 
-1. **Prices and the company's numbers.** Daily prices for the stock and its index (the S&P 500 or the home-market index, stated) over the window and the 30 trading days before it, computed, not estimated, so the stock and the index are compared over the exact window and the pre-event price is known. Then the company's profile and quote, the ratings and targets, the latest quarter against consensus, the last and next report dates and consensus with its vintage; then ratios, valuation metrics and five fiscal years of annual statements (annual periods, not the default quarters). The competitors block in the company's profile gives the peer set for step 5 and for the proxies. Done when the stock and index moves over the window, the pre-event price, the current consensus and target with their vintage, the rating counts, the peers, the last report date and the next one are in hand.
-2. **The trigger.** A search for news on the company in the window, then a second search for the company's own filings and releases in the window (8-K, pre-announcement, guidance change, management change, financing). Done when the earliest dated item that explains the move is identified, with its source, or the search shows no company-specific item.
-3. **Sell-side, before and after.** A search for research and news that quote analyst reactions in the window (target changes, rating changes, estimate cuts), then a second search for the consensus and mean target quoted in documents from the 13 weeks before the event, since consensus and targets are a snapshot with no history. Done when the before and after figures are listed with the date of the document each came from, labelled press or research summaries, or marked as none found.
-4. **If the trigger was earnings.** The release and the full transcript for the quarter just reported, with the period fixed rather than inferred. Done when guidance and the exchange that moved the stock are quoted.
-5. **Peers and the sector, every time.** The peers' move over the same day or window: the one-day move from the current figures for the set in one pull, or daily prices over the window when the move spans more than a day; and a search on the sector for the window (a peer's print, a regulatory action, a macro release, a rotation). The move splits into the part the peers shared and the part specific to the company. Done when the peer and sector moves are tabled and the company-specific part is stated, or the move is recorded as unexplained.
-6. **Sentiment.** The sentiment report (it has no window; its narrative covers recent coverage). Done when the direction of coverage around the event is known and cited.
-7. **Sector primer.** Find the company's sector in `references/sector-primers.md` (grep the slug from its contents list, then read to the next `## ` heading) and read its metrics that matter and its accounting traps, so the trigger is read on the sector's own drivers (a bank on net interest income and provisions, a software company on net retention and billings). Done when the sector's two or three decisive metrics are noted.
+## What the data has, and does not
 
-## Analyse
-
-1. **Classify the event.** From `references/after-a-price-move.md`: the move relative to the index (the stock's return minus the index's, and the beta-adjusted figure computed, with the working shown, as the file's formulas 1 to 3 set out, stating which one is used), the part shared with the peers from Gather step 5, whether the trigger was an earnings release or something else, and whether the move is one day or several. Done when the note states "a one-day move of X percent against the index, earnings-driven" or its equivalent.
-
-2. **Separate the headline from the long-term outlook.** The price capitalises years of cash flow, so a large move is the market revising its view of the company's long-term growth, margins or returns, not reacting to one quarter. State which of the three the trigger changes and by how much, from the evidence: a guidance cut that lowers the growth path, a margin disclosure that resets the steady state, a capital raise that dilutes the per-share claim, a regulatory action that shortens the competitive advantage period. If the trigger changes none of them (a headline with no change in the outlook), say so and say what the move then implies. `references/expectations.md` gives the implied-growth arithmetic: compare the growth the enterprise value implied before the move with the growth it implies after, at a stated cost of capital. Done when the note has one paragraph that says what the market changed its mind about, with the arithmetic labelled derived.
-
-3. **What the estimate-setters did.** Consensus for the next fiscal year and the mean target before the window (from the dated documents in Gather step 3) and after it (the current consensus snapshot with its vintage), the number of target changes and their direction, the rating changes. The reading: price down with estimates down is a fundamental revision; price down with estimates flat is a multiple or positioning move; price down with estimates up is unusual and worth saying. Done when the three quantities are tabled with the date and source of each, or the before figures are marked not found.
-
-4. **Condition the base rates.** The tables in `references/after-a-price-move.md` cover one-day moves of 10 percent or more against the index: table 1 for drops, table 2 for gains. Pick the row for the event type and the company's momentum state, step down to valuation and quality only while N stays at about 50 or more, and quote N, the sample period, the event-day move and the cumulative abnormal return at 30, 60 and 90 days, as a historical average with its sample and period, not a forecast. For a smaller or multi-day move, say the tables do not cover it and skip the row. Momentum, valuation and quality are proxied as the reference file sets out and scored as they stood before the event: the 52-week price performance relative to the sector, excluding the event, plus the 13-week revisions and target changes from Gather step 3 for momentum; forward P/E, EV/EBITDA, free cash flow yield and price to book re-based to the pre-event price (the file's formula 4) against the peers from Gather step 1 for valuation, so a stock is never scored cheap because it just fell; the FactSet ROIC level against those peers, its spread over an assumed cost of capital and the five-year margin history for quality. Each proxy is labelled derived and the note says that the original study used HOLT scores that Bigdata.com does not carry. Done when the row is quoted with its sample, period and parent row, and the three proxies are stated, or the note says the move is outside the tables.
-
-5. **The downside and the catalysts from here.** From `references/downside-and-catalysts.md`: who is likely selling and why (forced sellers after an index change or a rating downgrade, holders who owned it for the thing that just broke), read from the filings and news in the window and from the 13F holder and options data with the caveat that 13F data is quarterly and lagged; what the floors are (net cash, asset value, and a private-market value only where a dated transaction gives one); and the next dated event that resolves the question the move raised. Done when the note names the next date and the floor, or says neither exists.
-
-A full note carries steps 1 to 5; step 4 is read from `references/after-a-price-move.md` in this run, never from memory. When the move is under the 10 percent the tables cover, or spread over several days, step 4 says the tables do not cover it and quotes the nearest row as context only, labelled out of sample. Moves with no identifiable trigger get steps 1, 3 and 4, and the note says the trigger was not found in Bigdata.com.
+The quote carries standard windows only; the move over the exact window, the index over the same days, the pre-event price and the peers' moves over several days need the daily series; the peers' one-day move comes from the current figures for the set in one pull. Consensus is a snapshot with its date and no history, so the before figures come from research and news dated in the 13 weeks before the event, each with its source and date. The snapshot's target and rating counts can come from a provider that has not caught the day's cuts, so after-event figures come from dated documents with the provider named. The transcript for the latest quarter is fetched with its period fixed. Five fiscal periods per pull. 13F holder and options data is quarterly and filed with a lag: it shows who sold over the quarter, not on the day. There is no structured field for short interest, option prices or intraday flows; news and research often carry them, so search before stating a gap. Sentiment has no window: say which period its narrative covers. `references/sector-primers.md` gives the sector's drivers and accounting traps.
 
 ## Write
 
-Follow `references/output-standard.md`.
+`references/output-standard.md` holds the rules. The title carries the finding in one line ("Deckers fell 12 percent on a guide cut, not on the quarter"), and the move against the index over the stated window sits in the first sentence. The opening gives the trigger with its source and time, what the market changed its mind about, what the estimate-setters did, and, for a qualifying move, what history says about the next three months. The body follows the question, and the note closes on who is selling, the floor where one applies, and the next date that settles the question. Sub-headings state the finding, never the step.
 
-```
-# <Company> (<ticker>): <direction> <X> percent on <date or window>, <Y> percent against <index>
-Data as of: prices <date>; estimates <date>; newest document <date>.
+## Before sending
 
-## What happened
-Four to six sentences: the trigger with its source and time, what the market changed its mind
-about, what the estimate-setters did, and what history says about the next three months for
-this kind of move. No rating.
-
-## The trigger
-Timeline table: time or date, event, basis, source. Then the quote that matters, if there is one.
-
-## Headline or outlook
-The paragraph from step 2, with the implied-growth figures before and after labelled derived.
-
-## What the estimate-setters did
-| Measure | Before | After | Change | Date | Basis | Source |
-Rows: next-year consensus sales and EPS, mean target, rating counts, notable target changes.
-
-## What history says
-The base-rate row with N, the event-day move and the 30, 60 and 90-day abnormal returns,
-the three conditioning proxies with their values and basis, and one sentence of caution on
-the sample. No buy or sell sentence.
-
-## Floors and the next date
-Who is selling, the floor if one exists, the next dated event.
-
-## What would change this reading
-Two to four observable conditions.
-
-## Gaps
-Short interest, option prices and intraday flows are not in Bigdata.com, and 13F positioning is quarterly; say so when they matter. Pre-event consensus and targets come from dated documents, or are marked not found.
-
-## Sources, then the Data line, then the Powered by Bigdata.com line and the disclaimer.
-```
-
-Length: one to two pages. A user who asks only "what happened to X today" gets the first three sections and the sources, with the base-rate row reduced to one sentence inside "What happened".
-
-## Checks before sending
-
-1. The move, the index move and the peer move over the same window come from the price series, not from the user's number, and the valuation proxies are re-based to the pre-event price.
-2. The trigger has a source and a time, or the note says none was found.
-3. The headline-versus-outlook paragraph names which of growth, margin, return or duration changed, or says none did.
-4. The base-rate row is quoted with N, period and sample as a historical average, the proxies are labelled derived, and a move the tables do not cover is labelled out of sample.
-5. No sentence recommends buying, selling, adding or trimming; the base rates condition a view, they do not make one.
-6. Every figure has a Basis label and a source number, and every before-the-event consensus or target figure names the dated document it came from.
-7. The next dated event is named with its date, or its absence is stated.
-
-## Hand-offs
-
-- The move was the earnings print and the user wants the full quarter: `bigdata-earnings-review`.
-- The user wants the catalysts beyond the next date: `bigdata-catalysts`.
-- The user wants a view on the stock after the move: `bigdata-quick-take`, which can reuse this note's implied-growth arithmetic.
-- After delivering, make one offer: a monitor on the company's news for the next two weeks. Act only on a clear yes.
+- The move, the index move and the peer move cover the same window from the price series, and every percentage comes from one pre-event price.
+- Every before-the-event consensus or target figure names its dated document and matches the after figure's provider and measure.
+- Drift figures appear only for a one-day move of 10 percent or more against the index, with population and period in the sentence; the net debt used anywhere matches the inputs stated once.
+- The user's parts are answered in the user's order, and every table on the page is one the reader needed.
+- Every number in the opening agrees with its table, and every code name or internal term is explained where it first appears.
+- Nothing on the page names a file, formula, table, primer, author or method; no figure carries a tag saying how it was obtained; no sentence describes how the note was made.

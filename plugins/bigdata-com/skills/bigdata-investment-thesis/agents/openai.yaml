@@ -1,7 +1,7 @@
 interface:
   display_name: Investment Thesis
   short_description: A thesis as testable claims, with evidence, catalysts and dated kill criteria
-  default_prompt: Use $bigdata-thesis to build a thesis on [company], or stress-test my idea that [claim].
+  default_prompt: Use $bigdata-investment-thesis to build a thesis on [company], or stress-test my idea that [claim].
   icon_small: assets/bigdata-icon-black.svg
   icon_large: assets/bigdata-icon-black.svg
 policy:

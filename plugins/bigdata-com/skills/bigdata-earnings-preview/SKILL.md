@@ -3,141 +3,64 @@ name: bigdata-earnings-preview
 description: >-
   Setup before a company reports: drivers of the quarter, consensus vs guidance, what the price
   implies, scenarios, what to check first. Use for an earnings preview, what to expect when X
-  reports. Not results: bigdata-earnings-review.
+  reports. Not results: bigdata-earnings-recap.
 metadata:
-  bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, operating-leverage-and-tam, forecasting-discipline, after-a-price-move, valuation
+  bigdata-refs: working-with-bigdata, output-standard, expectations, base-rates, valuation, operating-leverage-and-tam, forecasting-discipline
   bigdata-sector-primer: auto
 ---
 
 # Earnings preview
 
-This skill writes the note a portfolio manager reads the evening before a company reports: what the quarter turns on, what the market expects and already pays for, what management promised, how a miss or beat on sales reaches earnings, and what to look at first when the release hits. It is sized to the question. "What is consensus for Micron's quarter?" gets the consensus table and the guidance line with sources, not the full note.
+A note on what to expect when a company reports, for someone who will act on it: what the quarter turns on, what the market expects and already pays for, what management promised, and what to check first when the release lands. Never a call on the stock. Size the work to the question: "what is consensus for Micron's quarter" gets the consensus line with its date and the guidance quoted from the last call, nothing more.
 
 ## Before starting
 
-- If the Bigdata.com tools are not available in this conversation, say so and tell the user to connect the Bigdata.com connector and sign in. Give no figures, dates or view from memory or the web in the meantime, because an unsourced answer would look like Bigdata.com data.
+- Without the Bigdata.com tools, say so and ask for the connector. No figures from memory in the meantime.
 - Pass `plugin_slug: "bigdata-earnings-preview"` on every Bigdata.com call that accepts it.
-- Read `references/working-with-bigdata.md` before the first call: it maps each data need below to a tool, with fallbacks when a tool is not available, and the tools' own descriptions decide the arguments.
-- Treat this skill as guidelines. Skip a step that does not apply, and research further where the task needs it.
+- `references/working-with-bigdata.md` maps each data need to a tool. The other reference files are working notes for the parts named below; the reader never sees them.
 
-## Scope the request
+## Method choices that are not the default
 
-Establish three things before gathering data, from the request or from the events calendar: the company (resolved to its Bigdata.com entity), the quarter being reported (fiscal year and quarter, from the company's next report date or the corporate calendar), and the user's angle if they gave one (a position, a driver they care about, a peer that just reported). Assume the next unreported quarter when the user does not say. The reader may be the company's own IR or finance team preparing for its print, or a competitor, customer or supplier reading the setup: write the implications for that reader (the questions the Street will press, the bar the print must clear), with the same evidence and no call.
+- **The user's parts come first.** The parts the user asked for come first, in the user's order, each answered in full; the choices below apply only where the question reaches them. A note that answers the question with fewer tables and fewer pieces is the better note.
+- **Guidance comes from the previous quarter's call.** The guidance for the quarter being previewed was given when the quarter before it was reported, so that transcript is the one to read, with its period fixed. Quote the range verbatim with its date, and note what analysts pressed on, because those are the questions that return.
+- **Consensus is a snapshot, so revisions are reconstructed.** How the number moved since the last print comes from dated research and news that quote an earlier figure. A consensus walked down into the print changes what a beat means; when no earlier figure is found, say so.
+- **The company's own guidance record.** Actual against the guided midpoint for every past quarter found, how often and by how much the company beats its own midpoint, and whether the beat is shrinking. A beat the size of the usual beat is the expected case, not news.
+- **Read the latest filing, not only the call.** The 10-Q or annual report carries liquidity, financing plans, commitments, off-balance-sheet items and legal matters that the call and the press summarise loosely. Where the filing and the press line disagree, the filing wins and the note says so.
+- **Drivers ranked.** Three to five, in order of weight (volume, price and mix, the largest cost lines, the segment that moves the total, currency), each with what consensus assumes for it, the evidence since the last call, and which way the risk runs, written into the sentence rather than as a repeated label. Any claim of acceleration or deceleration states the rate it is measured against.
+- **What the price implies.** The run since the last print against the index, then the growth path the enterprise value implies for the business or the segment the question is about, and whether that bar is high or low and why (`references/expectations.md`, implied growth). The inputs behind the enterprise value appear once, from the latest filing: share count, cash, debt, leases, stakes carried outside the operating business and the net debt they give, the tax rate on the profit figure a multiple is applied to, and the discounting convention, so the reader can rebuild the figure on the page; every later number uses them. The cost of capital is one stated figure, with the yield, beta and premium behind it in a single clause and no regression statistics; the 10-year yield comes from the country data (`references/valuation.md`, cost of capital). One central case and one range cover the sensitivity. When the bar rests on a multi-year growth rate, the sentence that says so carries how often companies of that size achieved it, with the population and period in the same sentence (`references/base-rates.md`, real sales growth by starting size). The steady-state multiple and the share of the price paid for growth stay in the working unless the user asks what the multiple means.
+- **What a point of the key driver is worth.** One or two sentences: what a point of growth in the segment that moves the stock adds to revenue and operating income this quarter, at the company's own incremental margin. The full sales-to-earnings sensitivity (3 and 5 percent miss and beat, inside and outside view) only when the user asks about a sales miss or beat (`references/operating-leverage-and-tam.md`, sales sensitivity around consensus).
+- **Scenarios on the size of the beat and the guide.** Beat and raise, in line, miss or soft guide. Probabilities start from the company's own beat rate over the quarters found, never a default split. When brokers or the buy side sit above published consensus on the metric that matters, their figure is the bar the cases are cut on, and the note says so. When the question names spending or funding, the capex figure or its wording is a case variable with its own cut-off, not a side note. The cases partition the outcomes: every value of each metric used (growth rate, operating income, guide midpoint, capex) falls in exactly one case, and a metric has one cut-off in the whole note. The likely reaction for each case is sized on the earnings-day moves after past prints, listed so the reader can see them, and on the options-implied move when a document carries it; the probability-weighted expected move is stated and reconciles with the cases (`references/forecasting-discipline.md`, scenario weights and expected value).
+- **What to check first, with thresholds.** Five to seven items in the order to read them when the release lands, each a metric, the consensus or guided figure, and the threshold that changes the reading, using the same cut-offs as the scenarios. When the company usually gives a figure on a different call (next year's capex on the fourth-quarter call), say so and set the trigger on the wording instead. Then at most five call questions, each tied to a driver or to a claim management made last time and none repeating a checklist item; the sector primer's questions are the starting list, rewritten for this company.
+- **Peers reporting first.** Companies in the same business that report in the days before the print, and what in their release resets the bar (a cloud peer's growth and capex the night before). One or two lines in the setup and a line in what to check.
+- **Items that move the stock without a number.** An accounting or policy change (asset lives, capitalisation, a segment redefinition), a buyback or dividend change, a management change, restructuring, a disclosure that starts or stops. One line each where they bear on the quarter, in the checklist when a tell exists.
+- **Each case carries its tell in management's words.** Beside the numbers that define a case, the phrase or guidance wording that would signal it on the call, so the reader can place the quarter from the first minutes of the call.
+- **Cyclicals and banks.** For a cyclical, the mid-cycle margin beside the consensus margin, so a peak-margin print is not read as a run rate. For a bank, net interest income against rate assumptions and provisions against the credit cycle, in place of the sales sensitivity.
 
-Ask one question only if the answer changes the work: the company name resolves to more than one listing, or the user seems to want a different quarter than the next one. Otherwise state the assumption in the header and proceed.
+## Where it goes wrong
 
-If the lookup returns the company as Private, say that the estimates and market data do not exist for it and offer a document-based summary of what is known about its results instead.
+- **Guidance read from the wrong call.** A search that lands on the call for the quarter being previewed, or a later one, has the period wrong.
+- **A beat written as the bullish case.** Most companies beat; the reaction turns on the size of the beat against the usual beat and on the guide against next-period consensus.
+- **A risk-free rate assumed** when the country data has the yield.
+- **Citations assembled at the end.** The link goes next to the fact when the fact is captured.
+- **The note mirrors the method.** The reader needs the bar, what is priced in, the scenarios and what to check first. A figure that does not change the reading stays in the working, and the working itself (files, formulas, labels) never reaches the page.
+- **A gap declared too early.** Options-implied moves, credit spreads, whisper numbers and financing details are often in news, research and filings; search before stating a gap.
+- **An event the user named retold at length.** When the question names last week's event, two lines of what happened, then the company's own exposure with figures from its filing.
+- **A balance sheet from a press summary.** Debt, cash and stakes come from the latest filing; a broker's or news figure for them is used only when the filing is not found, and the note says so.
 
-## Gather
+## What the data has, and does not
 
-Work through these in order.
-
-1. **The company's numbers.** Profile and quote, the next report date and the latest quarter against consensus; consensus with its vintage, the ratings and targets, and the 13F holder changes and options activity; five fiscal years of annual statements, valuation metrics and segments (annual periods, not the default quarters); and quarterly statements for the prior quarter and the same quarter a year earlier. Done when the report date, the consensus for the quarter and the next fiscal year with its vintage, the actuals and surprises the estimates section gives for past quarters, any guidance fields, the targets and rating counts, the 13F holder changes and options activity, five fiscal years and five quarters of statements are in hand.
-2. **The last earnings call.** The full transcript of the previous quarter's call, with the period fixed to that quarter rather than inferred. Done when management's guidance for the quarter being previewed is quoted verbatim with its ranges, and the questions analysts pressed on are listed. Guidance for the next quarter is given on the current quarter's call, so the call to read is the one for the quarter before the one being previewed, never a later one.
-3. **What changed since that call.** Three to five searches, one aspect each: company news since the last print; the company's own filings or releases since then (8-K, pre-announcements, investor-day material); peer and supplier prints that bear on the quarter; sell-side notes on the setup (research and news that quote analysts); the data points the drivers depend on (pricing, volumes, channel checks, macro series). Done when every driver in the analysis has at least one dated piece of evidence or is marked as having none.
-4. **Revisions and the print record.** Consensus is a snapshot with no history, and the latest-earnings record is one quarter. Two searches: research and news over the last 90 days that quote the quarter's or the year's consensus at an earlier date (the revision route), and the results releases or reports of the prior two to four prints (dates, actual against consensus, guidance given). Use the actuals the consensus data gives for past quarters before searching. Done when each revision found is quoted with its document's date and labelled press or research summary, or marked not found, and the number of past quarters found is stated.
-5. **The typical earnings-day move.** Daily prices for the stock and its index around the last four print dates found in step 4 (the day after for an after-market report), and over the run since the last print, computed, not estimated, since the company's quote gives standard windows only. Done when each found print has its move against the index, the median absolute move is stated with the number of prints, and the run since the last print against the index is in hand, all labelled derived.
-6. **Sentiment and positioning.** The sentiment report (it has no window; say which period its narrative covers), and the holder and options data from step 1: 13F holders and options activity, quarterly and lagged, so it shows who held the stock last quarter, not who is positioned today. Options prices, implied volatility and short interest are not in Bigdata.com; say so in Gaps. Done when the direction of news sentiment into the print, its period, and the holder changes with their quarter are known.
-7. **Sector primer.** Find the company's sector in `references/sector-primers.md` (grep the slug from its contents list, read to the next `## ` heading) and read its metrics that matter, its accounting traps and its "Questions for the earnings call" subsection (some sectors title it "Questions a specialist asks on the earnings call"). Banks and insurers report different lines (net interest income, provisions, combined ratio) and the preview's tables follow the primer. Done when the sector's reporting lines, traps and call questions are noted, or their absence is stated.
-
-## Analyse
-
-1. **Build the consensus table.** For the quarter: sales, gross margin, EBIT and EBIT margin, EPS, free cash flow and capex where estimates exist, each with the mean, the number of estimates if given, the revision found in Gather step 4 with its date (or "not found"), the prior-year actual and the implied growth, the prior quarter for the sequential comparison, and the company's guidance range with the midpoint. Label each cell reported, derived or assumed. The vintage of the consensus is the estimate date given with it. Done when a reader can see in one table what the Street expects, how it moved, and what management guided.
-
-2. **Guidance credibility.** From the past quarters found in Gather step 4, actuals against the guidance midpoint (the estimates section carries guidance for some metrics; the releases and transcripts carry the rest), state the company's pattern: how often it beats its own midpoint, by how much, and whether the beat has been shrinking. Say in one line what the pattern implies for the printed number against the guide. Done when the pattern is stated with the count of quarters it rests on.
-
-3. **The drivers of the quarter.** Name three to five drivers that decide the print, in order of weight: volume, price and mix, the largest cost lines, the segment that moves the total, currency, anything the company flagged. For each driver: what consensus assumes (derived from the estimates, or stated as not inferable), the evidence since the last call with its date and source, and the direction of risk against consensus. The value-trigger logic in `references/expectations.md` (formula 4) says which revisions matter for this company, classified on the three-year rolling ROIIC from the annual statements, never one year: incremental return where it is near the cost of capital, sales growth where it is well above. Done when every driver has evidence or an explicit "no new evidence" and a direction.
-
-4. **Consensus against base rates.** Where consensus growth over the next few years is the question (a high multiple resting on it, or a guide well above history), place it in the reference class from `references/base-rates.md`: the three-year column for the size class by prior-year sales (the one-year column is noisy), with the share of companies that achieved it and the real-to-nominal conversion stated. Not every growth figure needs one. Done when each growth figure the note leans on carries a sentence of the form "requires X percent nominal growth a year over three years, about Y percent real, which Z percent of companies in the A to B size class achieved (historical base rate, sample and period)".
-
-5. **What is priced in.** From `references/expectations.md`: the price move since the last print against the index; the forward P/E against the steady-state P/E at a stated cost of equity (an assumption, shown with its basis); the growth the enterprise value implies at the stated cost of capital (the WACC from `references/valuation.md`) against consensus; the direction of estimate revisions against the direction of the price (expectations rising, falling, or price moving without revisions); the sentiment trend; the analyst targets' range against the price. Done when the note says in two sentences whether the bar for the quarter is high or low and why.
-
-6. **The sales-to-margin sensitivity.** From `references/operating-leverage-and-tam.md` and the company's own cost structure (gross margin, the fixed-cost lines in the five years of statements): what a sales miss or beat of a stated size does to EBIT and EPS. Use the sector's operating-margin beta from `references/base-rates.md` as the outside view and the company's own history of margin change per unit of sales change as the inside view, and show both. Done when the note gives the EPS effect of a 3 percent and a 5 percent sales miss and beat, labelled derived, with the formula.
-
-7. **Scenarios.** Three cases, from `references/forecasting-discipline.md`: beat and raise, in line, miss or cut. For each: what has to be true on the drivers, the printed sales and EPS against consensus, the probability, the likely stock reaction given what is priced in and sized against the typical earnings-day move from Gather step 5, and, where the likely reaction is a one-day move of 10 percent or more against the index, the base rates in table 1 and table 2 of `references/after-a-price-move.md` with N and the sample period, called historical. Probabilities sum to 100 and start from the company's own beat rate, with the number of quarters it rests on, rather than a default split. Most companies beat a consensus that was walked down into the print, so a beat alone is the expected case and tells little: the reaction turns on the size of the beat against the company's typical beat, and on the guide against next-period consensus. Write each case in those terms, citing the company's own record where found. Done when the three rows are complete and the expected value of the cases is consistent with the "what is priced in" paragraph.
-
-8. **What to check first.** Five to seven items in the order a reader should check them when the release lands: the metric, the consensus or guided figure, the threshold that changes the reading. Then five questions for the call, each tied to a driver or to a claim management made last time, starting from the primer's earnings-call questions (Gather step 7) and adapted to this company. Done when each item has its metric, figure and threshold, and each question names its driver or claim.
-
-For a cyclical, state where the company sits in its cycle and show the mid-cycle margin next to the consensus margin, as `references/valuation.md` requires, so a peak-margin print is not read as a run rate. For a bank, use the primer's lines and skip the sales-to-margin step; the equivalent is net interest income against rate assumptions and provisions against the credit cycle.
+Consensus for the quarter and the next fiscal years is a snapshot with its date, with actuals and surprises for some past quarters and guidance fields where the company gives them; no revision history. The latest-earnings record covers one quarter; older prints come from the estimates actuals or the results releases. Five fiscal years of annual statements and five quarters, the limit in each case. The earnings-day moves around past prints and the run since the last print need daily prices for the stock and its index. The 13F and options-activity data is quarterly positioning, not prices. The risk-free rate is in the country data. The next report date is in the corporate calendar. A private company has no estimates or market data; offer a document-based summary instead. Sector reporting lines, traps and call questions are in `references/sector-primers.md`.
 
 ## Write
 
-Follow `references/output-standard.md`. The note has these sections in this order.
+`references/output-standard.md` holds the rules. The title carries the setup in one line ("AWS at 40 percent is the bar; the quarter itself is not the debate"), not the event. The opening gives the bar for the quarter and what the price implies, in plain sentences the reader can act on. The body follows the question. What to check first and the call questions close a full preview. Sub-headings state the finding ("Amazon beats its own midpoint by 2 percent"), never the step that produced it.
 
-```
-# <Company> (<ticker>) earnings preview: Q<n> FY<yyyy>, reports <date, time, before or after market>
-Data as of: estimates <date>; latest statements <period>; newest document <date>.
+## Before sending
 
-## The setup
-Four to eight sentences. First the bar for the quarter: consensus against the guide, the
-revisions found, and the stock's run into the print against the index. Then what the price
-implies, with the figures (the forward P/E against the steady-state P/E, or the implied growth
-against consensus) and their basis; then whether the bar is high or low and why, and the one
-thing that would make this print matter beyond the quarter. No rating.
-
-## The quarter at a glance
-| Metric | Consensus (n) | Revision found (date) | Guidance (low, mid, high) | Prior year | Growth | Prior quarter |
-One "Basis and sources" note under the table: consensus reported with its vintage; revisions
-press or research summaries; growth derived.
-
-## Guidance record
-| Quarter | Guided midpoint | Actual | Difference | Basis | Source |
-The past quarters found (say how many). One sentence on the pattern, and the median earnings-day
-move against the index over the prints found.
-
-## Drivers
-One subsection per driver, each with: consensus assumption, evidence since the last call (dated),
-direction of risk.
-
-## Consensus against base rates
-The sentences from step 4, for the growth figures the note leans on.
-
-## What is priced in
-Price since last print vs index; forward P/E vs steady-state P/E; implied growth vs consensus;
-estimate revisions vs price; sentiment; target range. Two closing sentences.
-
-## Sensitivity
-| Sales vs consensus | EBIT effect (inside view) | EBIT effect (sector beta) | EPS effect | Basis | Source |
-Rows for -5, -3, +3, +5 percent.
-
-## Scenarios
-| Case | What has to be true | Sales / EPS vs consensus | Probability | Likely reaction | Watch for | Basis | Source |
-
-## What to check first
-Numbered list, metric, figure, threshold.
-
-## Questions for the call
-Five, each with the driver or claim it tests.
-
-## What would change this reading
-Two to five dated or observable conditions.
-
-## Gaps
-What Bigdata.com could not answer (options prices and short interest, whisper numbers, consensus
-history not found in search, a missing transcript).
-
-## Sources
-Numbered sources, the Data line, then the footer verbatim.
-```
-
-Length: two to four pages. For a narrow question, answer it in the method's terms with the relevant table and the sources, and keep the footer.
-
-## Checks before sending
-
-1. The guidance quoted is from the call for the quarter before the one previewed, verbatim, with a citation.
-2. The consensus table states its vintage and the number of estimates where available.
-3. The setup paragraph states the bar for the quarter, then the price-implied figures, before any sentence that reads as a view, and every number in it carries a citation or a basis word.
-4. Each growth figure the note leans on has its base-rate sentence from the three-year class, with the share and sample label.
-5. The sensitivity rows show the formula and the inside and outside views.
-6. Scenario probabilities sum to 100, are anchored to a stated beat rate with its quarter count, and the cases are written on the size of the beat and the guide, not on beat or miss alone.
-7. No buy, hold, sell, overweight, underweight, accumulate, avoid, or rating word anywhere.
-8. Every figure carries a Basis label and a source number, or appears in the Gaps line.
-9. Nothing in the note comes from memory or the web; a driver with no evidence says so.
-10. The cost of equity and cost of capital used are stated as assumptions with their basis.
-
-## Hand-offs
-
-- The company has already reported the quarter: use `bigdata-earnings-review`.
-- The user wants the full valuation behind "what is priced in": `bigdata-valuation`.
-- The user asks what else is coming for the name beyond the print: `bigdata-catalysts`.
-- After delivering, make one offer: save a monitor that flags the company's news until the report date, or the note itself to the user's Bigdata.com account. Act only on a clear yes.
+- The guidance quoted is verbatim from the call for the quarter before the one previewed, with its date and link.
+- Scenario probabilities sum to 100, rest on a stated beat rate, and a probability-weighted expected move is given.
+- Every number in the opening agrees with the figure it came from, and the net debt or enterprise value used anywhere matches the inputs stated once.
+- The user's parts are answered in the user's order, and every table on the page is one the reader needed.
+- Each metric has one cut-off across scenarios and checklist, and the cases leave no value unassigned.
+- Every code name or internal term (a project name, a contract metric) is explained where it first appears.
+- Nothing on the page names a file, formula, table, primer, author or method; no figure carries a label such as derived, assumed or judgment; no sentence describes how the note was made.

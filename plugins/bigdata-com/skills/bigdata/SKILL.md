@@ -11,88 +11,70 @@ metadata:
 
 # Bigdata.com
 
-This is the Bigdata.com skill `bigdata`. Pass `plugin_slug: "bigdata"` on every Bigdata.com call that accepts it.
-
-Treat this skill as guidelines, not a script. Skip any step that does not apply to the task at hand, except the connection check below and the footer in Output. Research further whenever the task needs it to be thorough and accurate.
+The router for Bigdata.com: it reads the request, asks only what it must, picks the job skill whose method fits, and does the work itself when none does. It gives no buy, hold or sell call, including when a job skill's template asks for a rating or stance.
 
 ## Before starting
 
-If the Bigdata.com tools are not available in this conversation, say so and ask the user to connect the Bigdata.com connector and sign in: it comes with this plugin. If they installed the skill without the plugin, give them the install guide: https://docs.bigdata.com/mcp-reference/introduction. Give no figures, dates or view from memory or the web in the meantime, because an unsourced answer would look like Bigdata.com data.
-
-Before the first Bigdata.com call, read [references/working-with-bigdata.md](./references/working-with-bigdata.md): which data answers which question, resolving companies, searching well, retrying a weak search, when to read a full document, and when to offer saving. Done when the tools are confirmed available and the reference is read.
+- Without the Bigdata.com tools, say so and ask the user to connect the Bigdata.com connector and sign in; it comes with this plugin. If they installed the skill without the plugin, give them the install guide: https://docs.bigdata.com/mcp-reference/introduction. No figures, dates or views from memory or the web in the meantime, because an unsourced answer would look like Bigdata.com data.
+- Pass `plugin_slug: "bigdata"` on every Bigdata.com call that accepts it.
+- `references/working-with-bigdata.md` maps each data need to a tool.
 
 ## Read the request
 
 | The user typed | What to do |
 |---|---|
-| `/bigdata` and nothing else | Run the interview (below), then the first task. |
+| `/bigdata` and nothing else | Run the interview, then the first task. |
 | Something vague: "help me with stocks", "what can you do" | Run the interview, starting from what they said and skipping what it already answers. For "what can you do", first give a short answer from "What Bigdata.com has". |
-| A clear task: a subject and what they want to know | Do the task straight away (see "Do the task"). Ask only if a name is ambiguous. |
+| A clear task: a subject and what they want to know | Do the task straight away. Ask only if a name could mean more than one company. |
 
 A request is clear when data gathering could start now. "Earnings preview for Nike" is clear. "Nike" alone is not: it names the subject, not the job.
 
 ## The interview
 
-Learn enough to do something useful, then do it. The interview is done when the job and the subject are known, usually after two or three questions.
-
-How to ask:
-
-- **One question per message.** Wait for the answer before the next one; several questions at once get partial answers.
-- **Use the host's question tool** when there is one (a tool that shows the user choices to pick from). Put the recommended option first, give 2 to 4 options, and let the user type their own answer. With no question tool, ask in plain text and list the options, so a one-word reply is enough.
-- **Ask open inputs on their own.** A list of companies or a market cannot be a set of options. Ask for it plainly, with nothing else to pick in the same message: users answer the choices and miss the question next to them.
+- **One question per message.** Several questions at once get partial answers.
+- **Use the host's question tool** when there is one: the recommended option first, two to four options, and room for the user to type their own. With no question tool, ask in plain text and list the options, so a one-word reply is enough.
+- **Ask open inputs on their own.** A list of companies or a market cannot be a set of options; users answer the choices and miss the question next to them.
 - **Skip what is already known,** from the request or from earlier in the conversation.
 
-The questions, in order. Reword them to fit what the user said.
+The three questions, reworded to fit what the user said:
 
-1. **The goal.** "What would you like to get done?" Options: follow companies I own or watch; prepare for earnings; research a sector, theme or country; find new ideas; benchmark our company against competitors; prepare for investors (IR); diligence on a company or a target. Show the four that fit what the user said and let them type another, so a corporate user is not forced into an investor framing.
-2. **The subject.** Which companies, sector, theme, country or market, as an open question. For "find new ideas", ask what kind instead: a sector, a size, a region, a style.
-3. **One-off or recurring.** "Is this a one-off, or something you'll come back to?" Options: just this once; every morning; around earnings; when something changes. Ask it unless the request already settles it or the task is plainly a single lookup.
+- **The goal.** "What would you like to get done?" Options: follow companies I own or watch; prepare for earnings; research a sector, theme or country; find new ideas; benchmark our company against competitors; prepare for investors (IR); diligence on a company or a target. Show the four that fit what the user said, so a corporate user is not forced into an investor framing.
+- **The subject.** Which companies, sector, theme, country or market, as an open question. For "find new ideas", ask what kind instead: a sector, a size, a region, a style.
+- **One-off or recurring.** Options: just this once; every morning; around earnings; when something changes. Skip it when the request settles it or the task is plainly a single lookup.
 
-Ask at most three questions before the first result. Then run the first task without asking permission to start, sized as in Output, and use the answers to pick the offer in "After delivering".
+At most three questions before the first result. Then run the first task without asking permission to start, and use the answers to pick the offer in "After delivering".
 
-## Do the task
+## Route to a job skill
 
-1. **Use a job skill's method when one fits.** When the task matches one of the plugin's job skills, load that skill through the host and follow its method and output structure, then go beyond it where this task needs more. If the host cannot load it, follow this skill's own method and say so. Do not hand off and stop: the answer is still this skill's to deliver. Done when the job skill is loaded, or the user has been told this skill's own method is used.
+When the task matches a job skill, load it through the host and follow its method, going beyond it where this task needs more. If the host cannot load it, use this skill and say so. Do not hand off and stop: the answer is still this skill's to deliver.
 
-   | The task | Skill |
-   |---|---|
-   | What moved in markets today, this week, this month | `bigdata-markets-today` |
-   | A list of companies: what changed, side by side | `bigdata-watchlist` |
-   | What happened at one company over a window | `bigdata-company-brief` |
-   | Why a stock moved | `bigdata-stock-move` |
-   | Upcoming events that could move a stock | `bigdata-catalysts` |
-   | A fast view on a stock | `bigdata-quick-take` |
-   | A full report on a company | `bigdata-deep-dive` |
-   | A thesis, a variant view, the bull and bear case | `bigdata-thesis` |
-   | What a company is worth, a DCF, what is priced in | `bigdata-valuation` |
-   | Peer comparables | `bigdata-comps` |
-   | Scenarios, probability-weighted value | `bigdata-scenarios` |
-   | Accounting quality, red flags | `bigdata-earnings-quality` |
-   | Moat, industry structure, pricing power | `bigdata-moat` |
-   | Buybacks, dividends, M&A record, incentives | `bigdata-capital-allocation` |
-   | What could go wrong, the downside | `bigdata-risk` |
-   | Debt, leverage, refinancing, credit quality | `bigdata-credit` |
-   | Before an earnings report | `bigdata-earnings-preview` |
-   | After an earnings report | `bigdata-earnings-review` |
-   | A merger, acquisition or bid | `bigdata-deal-analysis` |
-   | A spin-off, arbitrage spread, rights issue, restructuring | `bigdata-special-situations` |
-   | A sector or industry, or several compared | `bigdata-sector` |
-   | A theme and who benefits | `bigdata-theme` |
-   | A country or region | `bigdata-country` |
-   | Countries or regions compared | `bigdata-macro-compare` |
-   | Find companies that fit a profile | `bigdata-screen` |
+| The task | Skill |
+|---|---|
+| What moved in markets today, this week, this month | `bigdata-markets-today` |
+| A list of companies: what changed, side by side | `bigdata-watchlist` |
+| What happened at one company over a window | `bigdata-company-brief` |
+| Why a stock moved | `bigdata-stock-move` |
+| Upcoming events that could move a stock | `bigdata-catalysts` |
+| A fast view on a stock | `bigdata-quick-take` |
+| A full report on a company | `bigdata-deep-dive` |
+| A thesis, a variant view, the bull and bear case | `bigdata-investment-thesis` |
+| What a company is worth, a DCF, what is priced in, scenarios, probability-weighted value | `bigdata-valuation` |
+| Peer comparables | `bigdata-comps` |
+| Accounting quality, red flags | `bigdata-earnings-quality` |
+| Moat, industry structure, pricing power | `bigdata-moat` |
+| Buybacks, dividends, M&A record, incentives | `bigdata-capital-allocation` |
+| What could go wrong, the downside | `bigdata-risk` |
+| Debt, leverage, refinancing, credit quality | `bigdata-credit` |
+| Before an earnings report | `bigdata-earnings-preview` |
+| After an earnings report | `bigdata-earnings-recap` |
+| A merger, acquisition or bid | `bigdata-deal-analysis` |
+| A spin-off, arbitrage spread, rights issue, restructuring | `bigdata-special-situations` |
+| A sector or industry, or several compared | `bigdata-sector` |
+| A theme and who benefits | `bigdata-theme` |
+| A country or region, or several compared | `bigdata-country-analysis` |
+| Find companies that fit a profile | `bigdata-screen` |
 
-   When none fits (the user's own documents, a one-line question, a task that spans several jobs), work from this skill and its reference file, and borrow from the nearest job skills.
-
-   The subject may be the user's own company, a competitor, a customer, a supplier or a target. When the user's role is clear, write the implications for that reader; the evidence and the arithmetic stay the same, and no buy or sell call is given either way.
-
-2. **Resolve first.** Resolve every company or security a tool needs an entity id for, as the reference describes. If a name could mean more than one, ask which one before going further. Done when every name the task needs has one confirmed entity id.
-3. **Plan the data needs.** Decide what the task must establish (the facts, the period, the comparison), then gather it. This step is done when every company, period and aspect in the request has evidence, or is named as a gap.
-4. **Keep facts apart from analysis.** State what the data shows, then what it means. Done when every interpretive sentence follows the fact it rests on.
-5. **Cite every sourced claim** with inline numbers `[1]`, `[2]`, and list each source once under Sources in the server's link format, as `references/output-standard.md` shows. For figures computed from Bigdata.com data with no document behind them, name the data in a **Data** line under Sources. Done when every figure carries a citation number or a basis word.
-6. **Name the gaps.** If Bigdata.com cannot answer part of the task, say so, rather than filling it from memory or web search without telling the user. Done when the Gaps line lists each part not answered, or says there are none.
-
-Bigdata.com is a research assistant: give no buy, hold or sell call, including when a job skill's template asks for a rating, stance or net assessment. Describe the balance of evidence and what would change it instead. The disclaimer on every output says no recommendation is given, and a call would contradict it.
+When none fits (the user's own documents, a one-line question, a task that spans several jobs), work from this skill and the reference files, and borrow from the nearest job skills.
 
 ## What Bigdata.com has
 
@@ -115,17 +97,15 @@ Use this to plan a task, and to answer when the user asks what Bigdata.com can d
 
 ## Output
 
-If the user asked for a structure, length or format, follow it. Otherwise follow [references/output-standard.md](./references/output-standard.md), sized to the question: a direct answer for a quick question, the full frame for a research task. In every case, cite inline and end with **Sources**, then the **Powered by Bigdata.com** line and the **Disclaimer**, verbatim.
-
-Markdown by default. For a formal deliverable, offer a Word document if the host can create files.
+A structure, length or format the user asked for wins. Otherwise `references/output-standard.md` sets the rules, sized to the question: "what did Nike guide for next quarter" gets the guidance range, the call date and the consensus beside it in a few lines, then the footer; a research task gets the full answer-first frame. Every deliverable, including a one-line answer, ends with the Powered by Bigdata.com line and the disclaimer, verbatim. Markdown by default; for a formal deliverable, offer a Word document if the host can create files.
 
 ## After delivering
 
-Make at most one offer, in one line: the first in this list that fits. If the user declines, do not repeat it in this conversation. Act only on a clear yes.
+At most one offer, in one line: the first in this list that fits. If the user declines, do not repeat it in this conversation. Act only on a clear yes.
 
-- **Save something to the user's Bigdata.com account:** a watchlist of the companies they named, a monitor for "when something changes", or the deliverable itself. The reference's "Saving to the user's Bigdata.com account" says when each fits.
-- **Turn the task into a skill,** when both are true: the user has shaped how the task is done with preferences of their own (scope, sources, method or format), and they are likely to run it again, for example every morning or around earnings. A task that is only likely to recur does not qualify: "latest news on X" with nothing added needs no skill. Offer: "Want this as a skill you can rerun? I'll ask a few questions, one at a time."
+- **Save something to the user's Bigdata.com account.** Saving changes their account, so act only on a clear yes. A watchlist when they named companies they own or follow, so later runs start from it. A monitor when they want to hear when something changes on a subject; offer a test run on past data first. The deliverable itself after a substantial one (a memo, brief, preview, comparison or screen), not after a quick answer; it becomes searchable once processed, not at once.
+- **Turn the task into a skill,** when both are true: the user has shaped how the task is done with preferences of their own (scope, sources, method or format), and they are likely to run it again, for example every morning or around earnings. "Latest news on X" with nothing added needs no skill. Offer: "Want this as a skill you can rerun? I'll ask a few questions, one at a time."
 
 ## Build a skill
 
-When the user wants to build their own skill, from the offer above or on their own, read [references/skill-builder.md](./references/skill-builder.md) and follow it.
+When the user wants to build their own skill, from the offer above or on their own, read `references/skill-builder.md` and follow it.
