@@ -1,117 +1,110 @@
 # Valuation
 
-This method answers two questions: what one share is worth under stated assumptions, and what must be true for the current price to be right. It uses an enterprise DCF in which cash flow is tied to growth and returns, so no forecast can grow without the investment that growth needs, and it ends in a range with probabilities, never a point or a price target. Most DCFs fail from inconsistency rather than arithmetic: reinvestment that does not support growth, unchecked ROIC, a dominant terminal value, a careless equity bridge, mismatched currency and inflation (Robinson and Weyns, DCF Episode I, 2017, p. 5). The method is built to catch those.
-
-## When a skill loads this file
-
-Valuation, deep dives, memos, scenarios, earnings reviews that revise value, and any job that states what the price implies. Load `references/roic.md` (NOPAT, invested capital, cost of capital inputs), `references/multiples-and-peers.md` (cross-check) and `references/expectations.md` (reverse DCF). A narrow question ("what growth does the price imply") gets steps 1, 3 and 12 only.
+What one share is worth under stated assumptions, and what must be true for the price to be right. Use an enterprise DCF that ties cash flow to growth and returns, so nothing grows without the investment it needs. End in a range with probabilities, never a point or a price target. Most DCFs fail from inconsistency, not arithmetic.
 
 ## Inputs
 
-| Input | Where in Bigdata.com | Basis |
-|---|---|---|
-| Statements, PP&E gross and net, invested capital, capex, leases, stock-based compensation, net debt, market cap, EV | the company tearsheet: statements, ratios and key metrics; five periods per pull, annual periods for fiscal years | reported |
-| Price, 52-week range, performance | `company_overview` | reported |
-| Consensus sales, EBIT, EBITDA, capex, FCF, long-term growth to four years out, with vintage | `analyst_estimates` | reported |
-| Tax, pension, option and RSU notes; restricted and overseas cash; share count; minorities; litigation and restructuring accruals | search and the full document, on filings | reported |
-| Risk-free rate, equity risk premium, beta, credit spread, target weights | Not in Bigdata.com | assumed, each with source and date |
+| Input | Where it comes from |
+|---|---|
+| Statements, PP&E, invested capital, leases, stock compensation, net debt, market cap, EV, price, 52-week range | Company statements, key metrics and overview, five annual periods |
+| Consensus sales, EBIT, EBITDA, capex, FCF, long-term growth to four years out | Estimates, with their date |
+| Tax, pension and option notes; restricted and overseas cash; share count; minorities; accruals | Filings |
+| Risk-free rate | 10-year government yield in the currency of the cash flows, from the country data |
+| Equity risk premium, beta, credit spread, target weights | Not in the data. State each once, with its date |
 
-Treat consensus as biased upward: one-year-out S&P 500 earnings forecasts exceeded actuals by 10 points or more (McKinsey ch. 5). Not in the sources: any Bigdata.com field for cost of capital inputs; state each one's source and date.
+Treat consensus as biased upward: one-year-out S&P 500 earnings forecasts have run 10 points or more above actuals.
 
-## Procedure
+## Historical returns and tax
 
-1. **Rebuild history.** At least five years: EBITA, operating working capital, invested capital without excess cash, ROIC on average capital with and without goodwill, split into margin and turnover (McKinsey ch. 7-8; method in `references/roic.md`). Historicals should be continuing, core and controlled (DCF I, pp. 13-25). Done when the ROIC history table exists.
-2. **Set the operating tax rate** on EBITA from the tax note, excluding one-offs and the interest shield; never the levered effective or the statutory rate. The interest shield lives once, in WACC (McKinsey ch. 25; DCF I, pp. 26-32). Done when the rate and its derivation are shown.
-3. **Build the cost of capital.** Risk-free: 10-year government yield in the currency of the cash flows, not of the domicile, never a bill. Equity risk premium: name the source and date (an implied premium is preferred). Beta: 60 monthly returns against a broad index, with the standard error and R-squared, then sanity-checked before use. A single-stock regression beta is a noisy estimate: Blume-adjust it (two thirds raw plus one third of 1.0), set it beside the peer median unlevered beta relevered to the target structure and the sector beta, and if the regression figure is far from both (above about 1.6 for a large, profitable company, or with R-squared below 0.3), use the peer or sector figure and say why. The cost of equity that results should sit inside the range the market applies to comparable large companies (roughly 8 to 12 percent for US large caps at a 5 percent risk-free rate); outside it, the input is wrong more often than the market is. Cost of debt: yield to maturity on long-term debt for investment grade; below investment grade the yield overstates the expected cost, so use APV. Weights: target market values. Show prevailing and normalized WACC, each labelled, and in the sensitivity also show the value at the market-implied cost of capital (the rate at which the base case equals the price), so the reader sees how much of any gap to the price is the discount rate. Check: cost of equity above cost of debt; risk premium above the credit spread (McKinsey ch. 11; Mauboussin and Callahan, Cost of Capital, 2013, pp. 7-26; DCF I, pp. 48-71). Done when every input has a source and date and the beta check is shown.
-4. **Set the horizon** by time to maturity, length of competitive advantage and visibility, not by habit (DCF I, pp. 21-22). McKinsey uses 10 to 15 years, with 5 to 7 in detail (ch. 9). Fade growth to the terminal rate, at or below the economy's, by the last year. Done when horizon, reasons and growth path are stated.
-5. **Forecast revenue and margins.** Spend most time on revenue: bound it top-down (market x share) and bottom-up (customers), and check it against base rates (`references/base-rates.md`). Build price, volume and currency multiplicatively: (1.04)(1.12)(0.95) - 1 = 10.7 percent, not 11.0 (DCF I, pp. 13-25). Forecast costs as ratios to drivers, not growth rates. Done when every line has a driver.
-6. **Forecast reinvestment consistently.** Capex bottom-up, not a fixed share of revenue; depreciation by vintage over asset lives; capex = change in net PP&E + depreciation, and net investment = capex - depreciation = change in net PP&E; never use change in gross PP&E (DCF I, pp. 32-39; McKinsey ch. 7). Done when capex, depreciation and net investment are shown per year.
-7. **Check every forecast year.** ROIC = NOPAT margin x capital turnover, and implied growth = ROIC x reinvestment rate against forecast growth. Flag a turnover jump (1.2x to 3.0x in five years in DCF Episode II, pp. 23-24) and any negative implied capex (McKinsey ch. 9). Done when the table shows no unexplained jump.
-8. **Compute the continuing value** with the value driver formula. Base it on normalized NOPAT (mid-cycle revenue and margin). Set RONIC from the moat evidence: WACC for most companies, near the later-year ROIC for durable advantages, with modest growth. Discount from the end of the last explicit year, not one year later (McKinsey ch. 10). Done when g, RONIC and WACC are stated with reasons.
-9. **Test the continuing value.** Report its share of EV and the implied terminal EV/EBITDA against today's; the terminal multiple should be lower (DCF II, pp. 26-31). Done when both are reported.
-10. **Bridge to equity, item by item, each also per share** (DCF II, p. 28). Deduct only non-equity claims captured in EV; add only equity claims not in EV (Multiples, p. 28). Items: all liquid securities, not only cash; less operating cash (2 percent of sales for steady companies, 5 percent for less predictable or faster-growing ones; Mauboussin and Callahan 2014, pp. 6-7; McKinsey ch. 7); restricted cash if it sat in the cash line; overseas cash net of repatriation tax; debt at fair value if rates moved; pension deficit after tax; leases only if cash flows were lease-adjusted; minorities and non-core stakes at market value; unpaid restructuring and litigation at present value; options and RSUs. Count shares from filings, not aggregators. Do not divide by diluted shares if options were deducted at option value (DCF II, pp. 5-17; McKinsey ch. 12). Done when the bridge table is complete.
-11. **Show sensitivity and scenarios.** A WACC by terminal growth table on value per share, base case in the center (DCF II, pp. 32-38). Base, downside and upside run through the whole model with second-order effects on reinvestment and margin (pp. 39-51), with probabilities that sum to 100 and weights from `references/forecasting-discipline.md`. Average the values, not the inputs. Done when three values, probabilities and what must be true for each are shown.
-12. **Benchmark against the price.** Compare value per share with the price and 52-week range and explain any gap in economic terms; assume the market is right unless there is a specific reason (McKinsey ch. 13). Solve for the growth and ROIC the price implies (McKinsey ch. 3; `references/expectations.md`). Done when the gap and the implied expectations are stated.
+Rebuild at least five years of EBITA, operating working capital, invested capital without excess cash, and ROIC with and without goodwill, split into margin and turnover (roic.md, ROIC decomposition). Use continuing, core and controlled operations. Set the operating tax rate on EBITA from the tax note, excluding one-offs and the interest shield; never the levered effective or statutory rate.
 
-## Formulas
+## Cost of capital
 
-- Value driver: value = NOPAT(t+1) x (1 - g / RONIC) / (WACC - g). Check: NOPAT 100, g 5 percent, WACC 10 percent gives 1,000 at RONIC 10 percent and 1,500 at 20 percent (McKinsey ch. 2).
-- Continuing value CV(t) = NOPAT(t+1) x (1 - g / RONIC) / (WACC - g); at RONIC = WACC, CV = NOPAT(t+1) / WACC (McKinsey ch. 10).
-- g = RONIC x net investment / NOPAT; FCF = NOPAT - net investment.
-- Economic profit = invested capital x (ROIC - WACC); value = invested capital + PV of future economic profit (McKinsey ch. 6).
-- WACC = D/V x kd x (1 - Tm) + E/V x ke; ke = rf + beta x ERP. Unlevered beta = levered beta / (1 + D/E), relevered at target D/E (McKinsey ch. 11); `references/roic.md` gives the version with tax.
-- Mid-year: multiply PV by (1 + WACC)^0.5. Price roll-forward: value x (1 + r) - distributions per share (DCF I, pp. 72-76).
-- Scenario equity = max(scenario EV - claims, 0), then probability-weight (McKinsey ch. 12-13).
+WACC = D/V x kd x (1 - Tm) + E/V x ke, with ke = rf + beta x ERP, at target market-value weights.
+
+- Risk-free rate: 10-year yield in the currency of the cash flows, not the domicile; never a bill rate. Prefer an implied equity risk premium.
+- Beta: 60 monthly returns against a broad index, with standard error and R-squared. Blume-adjust the regression (two-thirds raw plus one-third of 1.0) and set it beside the peer median unlevered beta relevered to the target structure (unlevered = levered / (1 + D/E); roic.md, cost of capital, gives the version with tax) and the sector beta. When the regression is far from both, above about 1.6 for a large profitable company or with R-squared below 0.3, use the peer or sector figure and say why.
+- Sanity range: for US large caps at a 5 percent risk-free rate, the cost of equity sits between roughly 8 and 12 percent. Outside it, the input is wrong more often than the market.
+- Cost of debt: yield to maturity on long-term debt when investment grade. Below investment grade the yield overstates the expected cost; use adjusted present value.
+- Checks: cost of equity above cost of debt; risk premium above the credit spread.
+- Show prevailing and normalised WACC, and the rate at which the base case equals the price, so the reader sees how much of any gap is the discount rate.
+
+## Horizon, revenue and margins
+
+Set the horizon by maturity, length of advantage and visibility, typically 10 to 15 years with 5 to 7 in detail, fading growth to a terminal rate at or below the economy's. Spend most time on revenue: bound it top-down (market x share) and bottom-up (customers x revenue per customer), and place the growth in its size class (base-rates.md, real sales growth by starting size). Compound price, volume and currency: (1.04)(1.12)(0.95) - 1 = 10.7 percent, not 11.0. Forecast costs as ratios to their drivers.
+
+## Reinvestment and consistency checks
+
+- Capex bottom-up; depreciation by vintage over asset lives.
+- Capex = change in net PP&E + depreciation; net investment = capex - depreciation = change in net PP&E. Never use change in gross PP&E.
+- Growth = RONIC x net investment / NOPAT; FCF = NOPAT - net investment.
+- Each forecast year: ROIC = NOPAT margin x capital turnover, and implied growth = ROIC x reinvestment rate against forecast growth. Flag a turnover jump (1.2x to 3.0x in five years) and any negative implied capex.
+
+## Continuing value
+
+Value-driver formula: value = NOPAT(t+1) x (1 - g / RONIC) / (WACC - g), with g perpetual NOPAT growth and RONIC the return on new capital. At RONIC = WACC it reduces to NOPAT(t+1) / WACC.
+
+- Use NOPAT at mid-cycle revenue and margin.
+- RONIC equals WACC for most companies; near the later-year ROIC only for an evidenced durable advantage, and then with modest growth.
+- Discount from the end of the last explicit year.
+- Report the terminal share of EV and the implied terminal EV/EBITDA, which should sit below today's. Typical terminal share: 70 to 80 percent with 5 explicit years, 50 to 60 with 10; above 100 when the explicit years consume cash.
+- Cross-check: invested capital + present value of each year's invested capital x (ROIC - WACC) must equal the DCF value.
+
+## Equity bridge
+
+Deduct only non-equity claims in EV; add only equity claims outside it. Show each item in total and per share.
+
+- Add liquid securities, not only cash, less operating cash (2 percent of sales for steady companies, 5 for less predictable or faster-growing ones); overseas cash net of repatriation tax; non-core and joint-venture stakes at market value. Remove restricted cash if it sat in the cash line.
+- Deduct debt at fair value when rates have moved, pension deficit after tax, leases only if cash flows were lease-adjusted, minorities at market value, unpaid restructuring and litigation at present value, options and RSUs.
+- Shares from filings, not aggregators; not diluted when options were deducted at option value.
+- Mid-year convention: present value x (1 + WACC)^0.5. Roll forward: value x (1 + r) - distributions per share.
+
+## Sensitivity and cases
+
+Show a WACC by terminal-growth table of value per share, base case in the centre. Run base, downside and upside through the whole model, with second-order effects on reinvestment and margin and probabilities summing to 100 (forecasting-discipline.md, scenario weights). Average the values, not the inputs; scenario equity = max(scenario EV - claims, 0). Put uncertainty in the cases, not in the discount rate or a haircut. Half a point on WACC moves value about 10 percent at a forward P/E of 15 to 16, so plus or minus 15 percent is realistic precision.
+
+## Benchmark against the price
+
+Compare value per share with the price and 52-week range and explain any gap in economic terms; assume the market is right without a specific reason otherwise. Solve for the growth and return on new capital the price implies (expectations.md, implied growth).
+
+## Reference figures
+
+- ROIC persistence, 1995 to 2005: 67 percent of companies above 20 percent stayed above 20; 57 percent of those below 10 stayed below 10.
+- Growth, 1965 to 2007: median real revenue growth 5.4 percent a year; the top quintile's edge fell under 5 points by year 5 and under 2 by year 10.
 
 ## Error catalogue
 
-| Error | Fix | Source |
-|---|---|---|
-| Horizon too short or arbitrary | Set by maturity and advantage period; three stages when growth is high | DCF I, pp. 21-22 |
-| Terminal value dominates | Report PV split and implied terminal multiple | DCF II, pp. 26-31 |
-| Terminal value as FCF x (1 + g) / (WACC - g) with unrelated g | Value driver formula with RONIC | DCF I, pp. 40-45 |
-| Capex as a share of revenue; depreciation forced to capex | Bottom-up capex; vintage depreciation | DCF I, pp. 32-39 |
-| ROIC unchecked | ROIC, turnover and implied growth each year | DCF II, pp. 20-26 |
-| Interest shield counted twice | Operating tax on EBITA; shield only in WACC | DCF I, pp. 26-32 |
-| Cash or JV income counted twice | Net-debt or gross-debt approach, not both; JV income out of FCFF, stake in bridge | DCF I, pp. 17-18, 66-68 |
-| Cash flow and discount rate mismatched | FCFF at WACC; FCFE at levered cost of equity | DCF I, pp. 22, 65-66 |
-| Currency or inflation mismatched | Risk-free in the cash-flow currency; nominal with nominal | DCF I, pp. 49-53 |
-| Beta or premium unchecked | Read R-squared and standard error; Blume-adjust; compare with peer and sector betas; keep the cost of equity in the market's range; implied premium | DCF I, pp. 48-71 |
-| Bridge or share count wrong | Tick-box bridge; shares from filings | DCF II, pp. 5-17 |
-| Stock compensation counted twice or not at all | Past awards in the bridge or share count; future awards in the forecast | DCF II, p. 17 |
-| Single point | Sensitivity and three scenarios | DCF II, pp. 32-51 |
-| Not benchmarked | Price and 52-week range | DCF II, pp. 28-29 |
-| Naive base-year extrapolation | Hold working capital at a constant share of revenue | McKinsey ch. 10 |
-
-## Reference tables
-
-| Item | Guidance | Source |
-|---|---|---|
-| PV split, 5-year explicit | visible 20 to 30 percent, terminal 70 to 80 | DCF II, p. 27 (rule of thumb) |
-| PV split, 10-year explicit | visible 40 to 50 percent, terminal 50 to 60 | DCF II, p. 27 (rule of thumb) |
-| Terminal share in book examples | 56 to 125 percent of value | McKinsey ch. 10 |
-| ROIC persistence, 1995 to 2005 | above 20 percent: 67 percent stay above 20; below 10 percent: 57 percent stay below 10 | McKinsey ch. 4 (verify) |
-| Growth | median real revenue growth 5.4 percent (1965-2007); top-quintile edge under 5 points by year 5, under 2 by year 10 | McKinsey ch. 5 (verify) |
-| Precision | WACC +0.5 point is about -10 percent value at a forward P/E of 15 to 16; aim for plus or minus 15 percent | McKinsey ch. 13 |
+| Error | Fix |
+|---|---|
+| Horizon short or arbitrary | Set by maturity and advantage; three stages when growth is high |
+| Terminal value dominates | Present-value split and implied terminal multiple |
+| Terminal value as FCF x (1 + g) / (WACC - g) with unrelated g | Value-driver formula |
+| Capex as a share of revenue; depreciation forced to capex | Bottom-up capex; vintage depreciation |
+| ROIC unchecked | ROIC, turnover and implied growth each year |
+| Interest shield counted twice | Operating tax on EBITA; shield only in WACC |
+| Cash or JV income counted twice | One debt approach; JV income out of FCFF, stake in the bridge |
+| Cash flow and discount rate mismatched | FCFF at WACC; FCFE at levered cost of equity |
+| Currency or inflation mismatched | Risk-free in the cash-flow currency; nominal with nominal |
+| Beta or premium unchecked | Cost of capital checks above |
+| Bridge or share count wrong | Item-by-item bridge; shares from filings |
+| Stock compensation counted twice or not at all | Past awards in bridge or share count; future awards in the forecast |
+| Single point | Sensitivity table and three cases |
+| Not benchmarked | Price and 52-week range |
+| Base year extrapolated naively | Working capital at a constant share of revenue |
 
 ## Special cases
 
-- **Banks.** No enterprise DCF and no net debt: interest is operating. Value cash flow to equity at the cost of equity, CFE = net income - increase in book equity + other comprehensive income, with equity growth set by the capital ratio (Tier 1 or CET1 on risk-weighted assets). CV = NI(t+1) x (1 - g / RONE) / (ke - g); if RONE = ROE, P/B = (ROE - g) / (ke - g), so P/B above 1 needs ROE above ke. Let ke move with leverage and asset mix. Model through-the-cycle loan losses by category and test reserve adequacy. Forecast margins from forward rates. Split net interest income into economic spread, maturity-mismatch and matched-maturity charges; a one-point change in loan rates moved the book's example bank's ROE by about 12 points (McKinsey ch. 36). Use scenarios.
-- **Cyclicals.** Perfect-foresight DCF values are nearly flat while cash flows swing; consensus tends to ignore the cycle. Build a normal-cycle scenario with CV on mid-cycle profit and ROIC and a new-trend scenario extrapolating recent results, give each an economic rationale (demand, capacity, entry and exit), and weight them. Market prices fit a 50/50 blend of perfect and zero foresight (McKinsey ch. 35).
-- **High growth** (organic revenue growth above 15 percent a year). Begin with the future: size the addressable market, cap share using an early saturated market, set long-run margin and capital intensity from mature analogues, work back to today and weight scenarios. Compare the revenue ramp with the median, not the mean, of analogues; negative invested capital makes ROIC meaningless and expensed marketing and technology overstate early returns (McKinsey ch. 34). The book's example weights three scenarios 20/50/30 for an expected $751m; calibrate weights to growth base rates.
-- **Emerging markets.** Primary: scenario DCF with at least a business-as-usual and a crisis case at a global-investor cost of capital with no country premium. A country premium applies only to promised cash flows, never to probability-weighted ones: mixing double counts risk. Local risk-free = (1 + US rf) x (1 + local inflation) / (1 + US inflation) - 1 (1.04 x 1.048 / 1.001 - 1 = 8.9 percent for Brazil, 2009). Global beta and premium; cost of debt = dollar rf + systematic spread + inflation differential. Triangulate with multiples, since prices are weaker anchors (McKinsey ch. 33). Twenty emerging economies saw a real GDP fall above 5 percent about once every five years (book period, verify).
-- **Multi-business companies.** Value each unit on its own ROIC, growth and WACC (peer unlevered beta relevered to the unit's structure); eliminate intercompany sales; value corporate costs as a negative unit; reconcile unit NOPAT and capital to the consolidated totals. A blended multiple matches none of the units (ConsumerCo: 8.5x, 5.9x and 11.2x units, 8.8x combined). Sum of the parts is valid only with peers of similar performance (McKinsey ch. 13, 19).
-- **Distressed.** Do not deduct the market value of debt. For each scenario, equity = max(EV - face value of claims, 0), then weight: EV of 1,500 or 900 at 50/50 against debt of 1,200 gives equity of 150 (McKinsey ch. 12).
-- **Inflation and currency.** Inflation in the cash flows matches inflation in the discount rate; translation gains are not cash flow; never use the parent's WACC for a subsidiary's local-currency cash flows (McKinsey ch. 29-30).
+- **Banks.** Interest is operating: no enterprise DCF, no net debt. Value cash flow to equity at the cost of equity: CFE = net income - increase in book equity + other comprehensive income, with equity growth set by the capital ratio (Tier 1 or CET1 on risk-weighted assets). CV = NI(t+1) x (1 - g / RONE) / (ke - g); when RONE = ROE, P/B = (ROE - g) / (ke - g), so P/B above 1 needs ROE above ke. Let ke move with leverage and asset mix. Model through-the-cycle loan losses by category, test reserves, forecast margins from forward rates, and split net interest income into spread, maturity mismatch and matched-maturity charges.
+- **Cyclicals.** Build a normal-cycle case on mid-cycle profit and ROIC and a new-trend case extrapolating recent results, each with an economic rationale (demand, capacity, entry and exit), and weight them. Consensus tends to ignore the cycle; prices behave like a 50/50 blend of perfect and zero foresight.
+- **High growth** (organic growth above 15 percent a year). Start from the future: size the market, cap share by a saturated market, take long-run margin and capital intensity from mature analogues, then work back and weight scenarios to growth base rates. Compare the ramp with the analogues' median, not mean. Negative invested capital makes ROIC meaningless; expensed marketing and technology overstate early returns.
+- **Emerging markets.** Scenario DCF with at least a business-as-usual and a crisis case, at a global investor's cost of capital with no country premium; a premium on probability-weighted cash flows double counts risk. Local risk-free = (1 + US rf) x (1 + local inflation) / (1 + US inflation) - 1. Cost of debt = dollar risk-free + systematic spread + inflation differential. Triangulate with multiples. State the crisis probability and its basis: twenty emerging economies had a real GDP fall above 5 percent about once every five years.
+- **Multi-business.** Value each unit on its own ROIC, growth and WACC (peer beta relevered to the unit). Eliminate intercompany sales, value corporate costs as a negative unit, reconcile to consolidated NOPAT and capital. Sum of the parts holds only against peers of similar performance.
+- **Distressed.** Do not deduct the market value of debt. Per scenario, equity = max(EV - face value of claims, 0), then weight.
+- **Inflation and currency.** Match inflation in cash flows and discount rate. Translation gains are not cash flow. Never apply the parent's WACC to a subsidiary's local-currency cash flows.
 
 ## Interpretation and limits
 
-- A large terminal share does not mean value arises after the forecast; check value by business component and economic profit (McKinsey ch. 10).
-- RONIC = WACC is not a default haircut, and RONIC above WACC needs modest growth. Uncertainty belongs in scenarios, not in a higher discount rate or a haircut (McKinsey ch. 2, 10).
-- Exit multiples taken from today's market or a deal are circular (McKinsey ch. 10).
-- Not in the sources: a procedure for RSUs and stock compensation beyond the two effects named (DCF II, p. 17). State the treatment and do not count an award both as an expense in FCF and in the share count.
-- Not in the sources: current crisis probabilities for emerging markets (the book's frequency is about one in five years). State the probability used and its basis.
-
-## Output lines
-
-- Price and 52-week range. Basis: reported.
-- Operating tax rate with derivation. Basis: derived.
-- Horizon and reasons. Basis: judgment.
-- Revenue growth, margin, ROIC and turnover for the first and last forecast years, with consensus beside them. Basis: assumed; consensus reported.
-- Terminal g, RONIC and WACC, each with reason and source date. Basis: assumed.
-- PV of the explicit period, PV of the continuing value, terminal share of EV, implied terminal EV/EBITDA against today's. Basis: derived.
-- EV, each bridge item per share, equity value per share, share count source. Basis: derived; share count reported.
-- Value per share against price, as a premium or discount. Basis: derived.
-- WACC by growth table. Basis: derived.
-- Scenario table: three values, probabilities summing to 100 with their source, expected value, what must be true. Basis: assumed, judgment.
-- "At the current price the market implies [growth] at [ROIC] for [years]." Basis: derived.
-- Balance of evidence and what would change it. No rating, no target. Basis: judgment.
-
-## Sources
-
-- Notes: McKinsey, Valuation, 5th ed. (chapters 2 to 13, sections 3 and 4); McKinsey, Valuation, 5th ed. (chapters 19, 25, 29, 30, 33 to 36, sections 3 and 4); Mauboussin, Expectations Investing; Robinson and Weyns, UBS multiples and DCF papers (2017) (sections 2.3, 3.1, 3.2, 6).
-- Koller, T., Goedhart, M. and Wessels, D., Valuation, 5th ed., McKinsey, 2010, chapters 2 to 13, 19, 25, 29, 30, 33 to 36.
-- Robinson, D. and Weyns, G., "When DCF valuation goes rogue", Episode I (6 Sep 2017, pp. 5-88) and Episode II (25 Sep 2017, pp. 4-52), UBS (cited as DCF I and DCF II); "How to analyse and talk the language of multiples", UBS, Mar 2017, p. 28.
-- Mauboussin, M. and Callahan, D., "Estimating the Cost of Capital", Credit Suisse, 8 Oct 2013, pp. 7-26.
-
-<!-- Spec vs notes: no numeric conflicts. The emerging-market crisis frequency is quoted as the book states it (a fall of more than 5 percent in real GDP about once in five years); the spec's "about 20%" is the same figure expressed as a probability. -->
+- When the terminal share is large, check value by business unit and economic profit before concluding value arises after the forecast.
+- When RONIC is set above WACC, the moat evidence must support it; RONIC = WACC is the default, not a haircut.
+- When an exit multiple comes from today's market or a recent deal, it is circular; use the value-driver formula.
+- When stock compensation is material, state its treatment once and count each award once.

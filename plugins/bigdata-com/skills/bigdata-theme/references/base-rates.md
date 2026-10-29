@@ -1,82 +1,85 @@
 # Base rates and reversion to the mean
 
-This method answers: how does a forecast of growth, margin or return on capital compare with what actually happened to similar large companies, and how fast should an unusual level move back toward its sector mean. It starts from the history of a reference class (the outside view) and moves away from it only with evidence, instead of extrapolating the company's own story (the inside view). The inside view is usually too optimistic and its ranges too narrow (Base Rate Book, 2016). Every number in this file is a historical base rate for large, mostly listed companies. None is a forecast or a current fact.
-
-## When a skill loads this file
-
-Load it next to any growth, margin or return claim: earnings preview, valuation, thesis, deep dive, moat, scenarios, sector work. For a narrow question ("how often do companies this size grow 20 percent a year?") quote the relevant row with its label and stop.
+How a forecast of growth, margin or return on capital compares with what similar large companies achieved, and how fast an unusual level moves back toward its sector mean. Start from a reference class and move away from it only with evidence: a forecast built from the company's own story is usually too optimistic and too narrow. The tables are historical base rates for large, mostly listed companies, not forecasts or current facts.
 
 ## Inputs
 
-| Input | Bigdata.com source | Basis |
-|---|---|---|
-| Prior-year sales (sets the size class), sales and net income history | the company tearsheet, annual statements (five fiscal years) | reported |
-| Gross profitability = (revenue - cost of goods sold) / total assets | `financial_statements` income statement and balance sheet | derived |
-| Operating margin, ROIC | `financial_ratios` and `financial_statements` | reported or derived |
-| Sector | `company_overview` | reported |
-| Consensus growth, margin, EPS to FY+4, long-term growth | `analyst_estimates`, with vintage | reported |
-| Expected inflation | Not in Bigdata.com company fields; state it as an assumption with its basis | assumed |
-| Sector mean and persistence r | Tables below | reported (historical base rate) |
+| Input | Where it comes from |
+|---|---|
+| Prior-year sales (sets the size class), sales and net income history | Company tearsheet and annual statements, five fiscal years |
+| Gross profitability | (Revenue - cost of goods sold) / total assets, from the income statement and balance sheet |
+| Operating margin, ROIC | Financial ratios and statements |
+| Sector | Company overview |
+| Consensus growth, margin and EPS to four years out, long-term growth | Estimates, with their date |
+| Expected inflation | Not in the company data. Take it from the country data, or state the figure used once |
+| Sector mean and persistence r | The tables below |
 
-## Procedure
+## Choosing the reference class
 
-1. **State the quantity and the horizon.** Real or nominal growth, margin or return on capital, over how many years. Done when both are written.
-2. **Choose the reference class.** Size class by prior-year sales for growth; sector for margins, gross profitability and returns on capital; the above-$50B class for mega caps. The class must be large enough to be robust and narrow enough to be relevant. Done when the class, its N and its label are stated. If the company differs in a way that matters, say which feature differs and still show the base rate.
-3. **Read the distribution, not only the average.** Growth distributions are right-skewed: the median sits below the mean. Done when median, mean, dispersion and the relevant tail shares are quoted.
-4. **Place the forecast in the distribution.** "Consensus needs a 10-year real sales CAGR of X percent, which Y percent of companies in the $A to $B class achieved." The tables give shares at fixed thresholds only; interpolate between them and say so. Not in the sources: full percentile tables.
-5. **Convert real to nominal** before comparing with consensus (formula 4). Done when the inflation assumption is stated.
-6. **Blend by persistence** (formula 1). Beyond three years, put the majority of the weight on the class median for sales and earnings growth. For margins and gross profitability, start from the latest level and fade toward the sector mean. For returns on capital, apply the horizon-matched r. Done when the blend, the weights and the r used are shown.
-7. **Set a range at least as wide as history** and include a decline case (table 12). Done when the bear case includes shrinking real sales or lower net income.
-8. **Ask what must be true for the price** (`references/expectations.md`) and whether that assumption sits in a rare part of the distribution. Claim an exception only with a specific, evidenced reason. Done when the note says how rare the implied path is.
+State the quantity first: real or nominal, growth, margin or return on capital, and over how many years. Then pick the class:
 
-## Formulas
+- Sales and earnings growth: the size class by prior-year sales. For a mega cap, the above-$50B class.
+- Margins, gross profitability and returns on capital: the sector.
 
-**1. Regression to the mean and shrinkage** (Mauboussin, "How to Model Reversion to the Mean", 2013, "F"; Base Rate Book, 2016, "A")
+The class must be large enough to be robust and narrow enough to be relevant. When the company differs in a way that matters, name the difference and still show the base rate.
 
-- Expected outcome = mean + r x (current outcome - mean), where r is the correlation between the metric now and the same metric earlier. With r = 1 the best estimate is the last value; with r = 0 it is the mean.
-- Shrinkage form: estimated true level = grand average + c x (observed - grand average), c between 0 and 1, with r as the proxy for c. Source example: grand average 8 percent, observed 12 percent, c = 0.10 gives 8.4 percent.
-- Source example: Microsoft CFROI 16.1 percent, IT sector mean 9.0 percent, four-year r 0.50 gives 12.6 percent in four years.
-- The more luck in the outcome, the more weight on the base rate; the more skill, the more on the inside view.
-- Use the r that matches the horizon. The four-year r is higher than the one-year r compounded. For staples with CFROI 10 points above the sector mean, 0.89 applied four times leaves 6.3 points of excess; the four-year r of 0.78 leaves 7.8 points (paper F with its 2013 data: 6.0 against 7.3). The one-year r overstates the speed of fading.
-- Interpolating between years with r^(t/4) is an approximation by the note author, not a method in the papers; paper F says the single-r equation is meant for one-time adjustments.
+## Placing a forecast in the distribution
 
-**2. Fade convention** (HOLT, paper F, endnote 1)
+Growth distributions are skewed to the right, so the median sits below the mean: quote the median and the threshold shares, not the mean alone. Place the forecast as a share of the class: "consensus needs a 10-year real sales CAGR of X percent, which Y percent of companies in the $A to $B class achieved." Between two thresholds, interpolate and say so.
 
-An explicit fade period of 5 years set by life-cycle position; then 10 percent of the spread over the long-run average is eliminated each year (a spread of 10 points becomes 9); then the return equals the cost of capital in the terminal period. State it as a convention, not an empirical law.
+Set the range at least as wide as history and include a decline case. The "share negative" and "share with decline" rows give its frequency: a negative 10-year real sales CAGR ran from 4.9 percent of the smallest class to 41.1 percent of the above-$50B class.
 
-**3. Threshold margin** (A)
+Then ask what must be true for the price (expectations.md, implied growth) and whether that bar sits in a rare part of the distribution. Claim an exception only with a specific, evidenced reason, never with one analogy.
 
-Incremental threshold margin = (incremental fixed capital rate + incremental working capital rate) x cost of capital / [(1 + cost of capital) x (1 - tax rate)]. Source example: (0.35 + 0.25) x 0.10 / (1.10 x 0.65) = 8.4 percent. Growth at that margin is value-neutral; growth below it destroys value.
+## Real and nominal growth
 
-**4. Real versus nominal**
+The growth tables are real. Consensus is nominal. When comparing them, convert first: (1 + nominal) = (1 + real) x (1 + inflation); nominal is approximately real plus inflation.
 
-The tables are real (inflation-adjusted). Consensus is nominal. (1 + nominal) = (1 + real) x (1 + inflation); nominal is approximately real plus inflation.
+## Regression to the mean
 
-**5. Operating profit sensitivity** (A)
+Expected outcome = mean + r x (current outcome - mean), where r is the correlation between the metric now and the same metric earlier. With r = 1 the best estimate is the last value; with r = 0 it is the mean. The same arithmetic in shrinkage form: estimated true level = grand average + c x (observed - grand average), c between 0 and 1, with r as the proxy for c.
 
-Change in operating profit is approximately operating margin beta x change in sales (table 10). Financial leverage amplifies the effect on net income.
+- The more luck in the outcome, the more weight on the base rate.
+- Sales and earnings growth beyond three years: put most of the weight on the class median. Their r is low (persistence table).
+- Margins and gross profitability: start from the latest level and fade toward the sector mean at the sector's r.
+- Returns on capital: apply the r that matches the horizon. The four-year r is higher than the one-year r compounded: a 10-point spread faded at a one-year r of 0.89 four times leaves 6.3 points, a four-year r of 0.78 leaves 7.8. Compounding overstates the speed of fading.
+- Interpolating between years with r^(t/4) is an approximation; the single-r equation is meant for one adjustment over one horizon.
 
-## Reference tables
+## Fade toward the cost of capital
 
-Main label, carried by every table unless the table names another: **Historical base rate, top 1,000 global companies by market cap, 1950-2015, inflation-adjusted. Not a forecast and not a current fact.** The sample includes companies that later disappeared; modest survivorship bias remains, because a 10-year observation needs 10 years of survival.
+A common valuation convention: an explicit fade period of about five years set by life-cycle position; then 10 percent of the spread over the long-run average eliminated each year (a spread of 10 points becomes 9); then a return equal to the cost of capital in the terminal period. Present it as a convention, not an empirical law.
 
-**Table 1. Real sales growth, all sizes** (A; N = 53,266 at 3 years, 49,874 at 5, 41,645 at 10; real CAGR)
+## Threshold margin
+
+Incremental threshold margin = (incremental fixed capital rate + incremental working capital rate) x cost of capital / [(1 + cost of capital) x (1 - tax rate)]. Growth at that margin is value-neutral; growth below it destroys value.
+
+## Operating profit sensitivity
+
+Change in operating profit is approximately the operating margin beta x change in sales (operating margin beta by sector). Financial leverage amplifies the effect on net income. Analyst forecast errors are larger where the beta is high, so widen the range there.
+
+## Base-rate tables
+
+Unless a table names another population: top 1,000 global companies by market cap, 1950 to 2015, inflation-adjusted. The sample includes companies that later disappeared, but a 10-year observation needs 10 years of survival, so modest survivorship bias remains.
+
+### Real sales growth, all sizes
+
+N = 53,266 at 3 years, 49,874 at 5, 41,645 at 10. Real CAGR. The 1-year column is noisy; use the 3-, 5- and 10-year columns.
 
 | Statistic | 1-yr | 3-yr | 5-yr | 10-yr |
 |---|---|---|---|---|
 | Median | 5.8% | 5.4% | 5.2% | 4.9% |
 | Mean | 14.8% | 8.1% | 6.9% | 5.8% |
 | Standard deviation | 275% | 18.7% | 12.3% | 8.0% |
-| Share with CAGR >= 10% | 35.5% | 30.9% | 27.1% | 20.6% |
+| Share >= 10% | 35.5% | 30.9% | 27.1% | 20.6% |
 | Share >= 15% | 24.1% | 18.6% | 14.5% | 9.0% |
 | Share >= 20% | 17.3% | 11.9% | 8.5% | 4.5% |
 | Share >= 25% | 12.8% | 8.0% | 5.4% | 2.5% |
-| Share above 45% (the ">45" bin) | 5.5% | 2.5% | 1.3% | 0.3% |
+| Share above 45% | 5.5% | 2.5% | 1.3% | 0.3% |
 | Share negative | 26.2% | 22.6% | 20.0% | 16.9% |
 
-Use the 3-, 5- and 10-year columns; the 1-year column is noisy.
+### Real sales growth by starting size
 
-**Table 2. Real sales growth by starting size, prior-year sales in 2015 dollars** (A; each cell is 3-yr / 5-yr / 10-yr real CAGR unless the column says 10-yr; the >$50B row is a subset of >$25B; share columns were derived by the note author by summing the published bins)
+Prior-year sales in 2015 dollars. Each cell is 3-yr / 5-yr / 10-yr real CAGR unless the column says 10-yr. The above-$50B row is a subset of the above-$25B row.
 
 | Prior-year sales | Median | Mean 10-yr | SD 10-yr | Share >= 15% | Share >= 20% | Share < 0 |
 |---|---|---|---|---|---|---|
@@ -92,9 +95,11 @@ Use the 3-, 5- and 10-year columns; the 1-year column is noisy.
 | >$25B | 2.2 / 2.0 / 1.8 | 1.7 | 6.1 | 8.9 / 5.2 / 1.5 | 4.6 / 2.0 / 0.2 | 37.0 / 35.6 / 35.5 |
 | >$50B | 1.5 / 1.5 / 1.1 | 0.8 | 5.8 | 6.0 / 3.3 / 0.9 | 2.8 / 1.0 / 0.0 | 41.4 / 38.9 / 41.1 |
 
-Median and dispersion both fall with size. Above $25B, 35.5 percent had a negative 10-year real CAGR: large companies shrink about as often as they grow over a decade. In the $4.5-7B class no company grew 45 percent or more a year for 10 years, and 30 to 35 percent a year was about 0.2 percent of the class.
+The median and the dispersion both fall with size. Above $25B, large companies shrink in real terms about as often as they grow over a decade. In the $4.5-7B class no company grew 45 percent or more a year for 10 years, and 30 to 35 percent a year occurred in about 0.2 percent of the class.
 
-**Table 3. Real sales growth, alternate sample.** Label: historical base rate, S&P 1500 constituents followed after index exit, 1994-2014, inflation-adjusted (2014 dollars). Not a forecast and not a current fact. (Base Rate Book Sales Growth, 2015, "C"; N = 23,914 at 3 years, 19,288 at 5, 10,681 at 10, 1,136 at 20.)
+### Real sales growth, S&P 1500 sample
+
+S&P 1500 constituents, followed after they left the index, 1994 to 2014, inflation-adjusted to 2014 dollars. N = 23,914 at 3 years, 19,288 at 5, 10,681 at 10, 1,136 at 20.
 
 | Statistic | 1-yr | 3-yr | 5-yr | 10-yr | 20-yr |
 |---|---|---|---|---|---|
@@ -104,7 +109,9 @@ Median and dispersion both fall with size. Above $25B, 35.5 percent had a negati
 
 Negative real sales CAGR: 31 percent of companies at 3 years, 30 percent at 5. Ten-year medians by sales class: $0-250M 8.8%; $250-450M 6.1%; $450-700M 5.4%; $700M-1B 5.0%; $1-1.5B 4.7%; $1.5-2.25B 3.6%; $2.25-3.5B 3.3%; $3.5-6B 3.0%; $6-13B 2.9%; above $13B 2.7%; above $50B 2.0%.
 
-**Table 4. Real net income growth, all sizes** (A; net income before extraordinary items; a CAGR needs positive beginning and ending earnings; N = 52,901 at 1 year, 48,472 at 3, 44,874 at 5, 37,305 at 10)
+### Real net income growth, all sizes
+
+Net income before extraordinary items. A CAGR needs positive beginning and ending earnings. N = 52,901 at 1 year, 48,472 at 3, 44,874 at 5, 37,305 at 10.
 
 | Statistic | 1-yr | 3-yr | 5-yr | 10-yr |
 |---|---|---|---|---|
@@ -116,7 +123,9 @@ Negative real sales CAGR: 31 percent of companies at 3 years, 30 percent at 5. T
 | Share >= 30% | 24.4% | 13.6% | 7.5% | 2.4% |
 | Share with lower net income | 33.0% | 31.6% | 29.3% | 24.3% |
 
-**Table 5. Real net income growth by starting size, prior-year sales** (A; each cell is 3-yr / 5-yr / 10-yr)
+### Real net income growth by starting size
+
+Prior-year sales. Each cell is 3-yr / 5-yr / 10-yr.
 
 | Prior-year sales | Median | Share >= 20% | Share >= 30% | Share with decline |
 |---|---|---|---|---|
@@ -132,21 +141,25 @@ Negative real sales CAGR: 31 percent of companies at 3 years, 30 percent at 5. T
 | >$25B | 4.7 / 4.0 / 4.1 | 22.1 / 15.5 / 7.3 | 13.5 / 7.5 / 2.0 | 39.6 / 38.6 / 32.5 |
 | >$50B | 3.6 / 2.5 / 3.3 | 21.0 / 13.9 / 8.3 | 13.5 / 7.9 / 2.2 | 42.6 / 41.7 / 35.9 |
 
-The median falls with size but the dispersion barely does (3-year SD 33 to 38 percent in every class). A 10-year CAGR of 20 percent or more is rare (4 to 8 percent of any class). Of the 200 highest-net-income companies in 1990, 162 survived to 2000; 14 of them (under 9 percent) grew net income 15 percent or more a year over 1990-1999, and none sustained it for the decade to 2009.
+The median falls with size but the dispersion barely does: the 3-year SD is 33 to 38 percent in every class. A 10-year CAGR of 20 percent or more occurred in 4 to 8 percent of any class.
 
-**Table 6. Persistence: correlation between a metric now and the same metric earlier** (A unless stated; sample as listed)
+### Persistence of growth, margins and returns
 
-| Metric | 1-yr r | 3-yr r | 5-yr r | Sample |
+Correlation between a metric now and the same metric earlier.
+
+| Metric | 1-yr r | 3-yr r | 5-yr r | Population |
 |---|---|---|---|---|
 | Sales growth | 0.30 | 0.17 | 0.19 | 1950-2015 |
 | Net income growth | -0.05 | -0.23 | -0.24 | 1950-2015 |
-| Gross profitability | 0.95 | 0.89 | 0.82 | 1950-2015, ex-financials and utilities (A, E) |
+| Gross profitability | 0.95 | 0.89 | 0.82 | 1950-2015, ex-financials and utilities |
 | Operating margin | 0.91 | 0.79 | 0.72 | 1950-2015, ex-financials and utilities |
-| CFROI | 0.78 | n/a | n/a | Global, 1983-2015, ex-financials and utilities; the 4-year r is 0.56 |
+| CFROI | 0.78 | n/a | n/a | Global, 1983-2015, ex-financials and utilities; 4-yr r 0.56 |
 
-Net income growth predicts total shareholder return (correlation 0.20, 0.39 and 0.40 at 1, 3 and 5 years, 1985-2015) but is not persistent. Sales growth is weakly predictive (0.20, 0.25, 0.28). Prefer metrics that are persistent, predictive or both ("What Makes for a Useful Statistic", 2016, "G").
+Net income growth is not persistent but predicts total shareholder return (correlation 0.20, 0.39 and 0.40 at 1, 3 and 5 years, 1985 to 2015); sales growth predicts it weakly (0.20, 0.25, 0.28). Prefer metrics that are persistent, predictive or both.
 
-**Table 7. Gross profitability by sector.** Label: top 1,000 global companies ex-financials and utilities, 1950-2015, ratio, no inflation adjustment. Not a forecast and not a current fact. (A; gross profit / total assets; r is the 5-year correlation; SD and CoV are of the annual sector mean.)
+### Gross profitability by sector
+
+Gross profit / total assets. Top 1,000 global companies ex-financials and utilities, 1950 to 2015, no inflation adjustment. r is the 5-year correlation; SD and CoV are of the annual sector mean.
 
 | Sector | r (5-yr) | Median | Mean | SD | CoV |
 |---|---|---|---|---|---|
@@ -159,9 +172,11 @@ Net income growth predicts total shareholder return (correlation 0.20, 0.39 and 
 | Energy | 0.61 | 0.22 | 0.24 | 0.04 | 0.18 |
 | Telecom services | 0.59 | 0.24 | 0.27 | 0.07 | 0.26 |
 
-A value of 0.33 or higher is generally attractive (Novy-Marx, cited in "E"). Profitability and P/E can give opposite signals (Amazon 2015: 0.54 with a trailing P/E near 540).
+A value of 0.33 or higher is generally attractive. Gross profitability and P/E can point in opposite directions, so read them separately.
 
-**Table 8. Operating margin by sector.** Label: top 1,000 global companies ex-financials and utilities, 1950-2015, ratio, no inflation adjustment. Not a forecast and not a current fact. (A; operating income / sales.)
+### Operating margin by sector
+
+Operating income / sales. Top 1,000 global companies ex-financials and utilities, 1950 to 2015, no inflation adjustment.
 
 | Sector | r (5-yr) | Median | Mean | SD | CoV |
 |---|---|---|---|---|---|
@@ -176,7 +191,9 @@ A value of 0.33 or higher is generally attractive (Novy-Marx, cited in "E"). Pro
 
 The rise in the aggregate margin since the mid-1980s is almost all in the top quintile (21 percent in 1985 to 31 percent in 2015); the bottom three quintiles were roughly flat. Use the sector figure, not the aggregate.
 
-**Table 9. CFROI by sector.** Label: global companies, live and dead, market cap about $250M and above, 1983-2015, inflation-adjusted cash flow return on investment (Credit Suisse HOLT), including financials and utilities. Not a forecast and not a current fact. (A; r is the 4-year correlation; SD and CoV are of the annual sector mean; winsorized at the 1st and 99th percentiles.)
+### CFROI by sector
+
+Cash flow return on investment, inflation-adjusted. Global companies, live and dead, market cap about $250M and above, 1983 to 2015, including financials and utilities. r is the 4-year correlation; SD and CoV are of the annual sector mean; winsorized at the 1st and 99th percentiles.
 
 | Sector | 4-yr r | Median % | Mean % | SD % | CoV |
 |---|---|---|---|---|---|
@@ -191,9 +208,11 @@ The rise in the aggregate margin since the mid-1980s is almost all in the top qu
 | Materials | 0.41 | 4.6 | 4.7 | 0.9 | 0.19 |
 | Energy | 0.35 | 5.0 | 4.9 | 1.7 | 0.34 |
 
-Consumer-oriented sectors fade slowest; commodity and technology sectors fastest. Not in the sources: how closely CFROI tracks the FactSet ROIC in the tearsheet. Applying these r values to ROIC is an approximation; label it judgment.
+Consumer sectors fade slowest; commodity and technology sectors fastest. CFROI is a real cash return, so when applying these r values to a reported ROIC, treat the fade as an approximation and say the speed is a judgment.
 
-**Table 10. Operating margin beta by sector** (A; ex-financials and utilities; dollars of operating profit change per $1.00 of sales change)
+### Operating margin beta by sector
+
+Operating leverage: dollars of operating profit change per $1.00 of sales change. Ex-financials and utilities.
 
 | Sector | 1-yr | 3-yr |
 |---|---|---|
@@ -207,47 +226,22 @@ Consumer-oriented sectors fade slowest; commodity and technology sectors fastest
 | Consumer discretionary | 0.081 | 0.074 |
 | Consumer staples | 0.075 | 0.071 |
 
-Analyst forecast errors are larger where beta is high.
+### Consensus dispersion against history
 
-**Table 11. Analyst overconfidence** (historical snapshots; verify, not current; real growth, largest companies)
+Real growth, largest companies. Consensus figures are snapshots from 2015 and 2016.
 
-| Item | Consensus | History | Source |
-|---|---|---|---|
-| SD of 3-year sales growth | 8.3% (Sept 2016) | 18.7% | A |
-| SD of 3-year sales growth | 12.2% (Feb 2016) | 18.4% | Base Rate Book Sales Growth v2, 2016, "B" |
-| SD of 3-year net income growth | 19.2% (Sept 2016) | 34.6% | A |
-| Mean net income growth, S&P 1500 | 13.3% a year (Dec 2015) | 10.4% | Base Rate Book Earnings Growth, 2015, "D" |
+| Item | Consensus | History |
+|---|---|---|
+| SD of 3-year sales growth | 8.3% to 12.2% | 18.4% to 18.7% |
+| SD of 3-year net income growth | 19.2% | 34.6% |
+| Mean net income growth, S&P 1500 | 13.3% a year | 10.4% |
 
-Consensus dispersion is about half of historical dispersion, and few analysts forecast declines.
-
-**Table 12. How often companies shrink** (from tables 1, 2 and 4)
-
-| Outcome | Share of companies |
-|---|---|
-| Negative real sales CAGR over 3 years, all sizes | 22.6% |
-| Negative real sales CAGR over 10 years, by size class | 4.9% ($0-325M) to 41.1% (>$50B) |
-| Lower net income after 3 years, all sizes | 31.6% |
-| Lower net income after 10 years, all sizes | 24.3% |
+Consensus dispersion has run at about half of historical dispersion, and few analysts forecast declines. When a consensus range is narrower than the class, widen it to the class.
 
 ## Interpretation and limits
 
-- Reversion is not proof of competition and does not mean dispersion shrinks. It occurs whenever r is below 1, works backward in time too, and the population distribution stays about the same (the Secrist error, paper F). Check dispersion before writing "everything converges".
-- Where the sector mean is itself unstable (energy, materials, IT, telecom), do not fade to the long-run average blindly; shade it to mid-cycle and say where the sector is in its cycle (paper F; judgment).
-- Base rates are not destiny: Apple's growth over 1981-1990 was achieved by under 0.5 percent of similar-size companies. Claim an exception only with a specific, evidenced reason, and never by citing one analogy.
-- A margin trend is not structural change when the gain sits in the top quintile or comes from sector mix.
-- Samples are large caps, mostly before 2016, with modest survivorship bias. Small caps, private companies and recent years are not covered.
-- Banks and insurers: use returns on equity and price to book logic; the margin and gross profitability tables exclude financials.
-- Not in the sources: base rates for small companies with negative earnings, or a split by region or for emerging markets. Say so and widen the range.
-
-## Output lines
-
-- "Consensus needs a 10-year real sales CAGR of X percent (derived, after Y percent assumed inflation). Z percent of companies in the $A to $B class achieved this (reported, historical base rate, top 1,000 global companies by market cap, 1950-2015, inflation-adjusted)."
-- "Blended with the class median at W percent weight, the forecast is V percent (judgment; weights and inflation assumed)."
-- "Operating margin is X percent against a sector mean of Y percent and a 5-year r of R. The expected margin in 5 years is Y + R x (X - Y) = M percent (derived)."
-- "A sales miss of S percent implies an operating profit change of about beta x S (derived, historical sector beta)."
-- "Consensus dispersion is X against historical dispersion of Y (reported, historical)."
-
-## Sources
-
-- Note: base-rates.md, Parts 1 to 3, 5 and 6.
-- Mauboussin, Callahan and co-authors, Credit Suisse Global Financial Strategies: "A" The Base Rate Book (26 Sep 2016); "B" Base Rate Book: Sales Growth v2 (23 Feb 2016); "C" Base Rate Book: Sales Growth (4 May 2015); "D" Base Rate Book: Earnings Growth (16 Dec 2015); "E" Base Rate Book: Gross Profitability (25 Apr 2016); "F" How to Model Reversion to the Mean (17 Sep 2013); "G" What Makes for a Useful Statistic (5 Apr 2016).
+- When writing that levels converge, check the dispersion first. Reversion occurs whenever r is below 1, works backward in time too, and leaves the population distribution about the same; it is not proof of competition.
+- When the sector mean is itself unstable (energy, materials, information technology, telecom), fade to a mid-cycle level rather than the long-run average, and say where the sector is in its cycle.
+- When a margin gain sits in the top quintile or comes from sector mix, treat it as dispersion, not structural change.
+- For banks and insurers, use return on equity and price to book; the margin, gross profitability and operating leverage tables exclude financials and utilities.
+- The tables cover large caps, mostly before 2016. For a small company, a loss-making company, a private company or an emerging-market listing there is no matching class here: say so and widen the range beyond the nearest class.

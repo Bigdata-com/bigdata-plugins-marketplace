@@ -1,68 +1,78 @@
 # Multiples and peers
 
-This method answers three questions about a valuation multiple: is it built consistently and comparable across peers, what does it say about the market's expectations, and what multiple do the company's own returns, growth and risk justify. A multiple is shorthand for a cash-flow model; investors who rely on multiples are "burying" the forecast of cash flows and discount rates, not avoiding it (Mauboussin and Callahan, Cost of Capital, 2013, pp. 2-3). So the method builds every multiple the same way, explains it by value drivers, and reads it as a statement of expectations. It never calls a stock cheap or expensive as a recommendation.
-
-## When a skill loads this file
-
-Comps and peer comparison, valuation snapshots and full valuations (as the cross-check on the DCF), earnings previews and reviews (what is priced in), memos and sector work. Load `references/roic.md` for the returns each peer earns and `references/valuation.md` when a DCF is built. A narrow question ("what is the forward EV/EBITDA against peers") gets steps 1 to 8 for that multiple, with the peer table.
+Whether a multiple is built consistently across peers, what it says about the market's expectations, and what multiple the company's returns, growth and risk justify. A multiple is shorthand for a cash-flow model: it hides the forecast rather than avoiding it. Build every multiple the same way, explain it by value drivers, and read it as a statement of expectations, never as a call that a stock is cheap.
 
 ## Inputs
 
-| Input | Where in Bigdata.com | Basis |
-|---|---|---|
-| Market cap, EV, EV/EBITDA, P/E, FCF yield, net debt | the company tearsheet per peer: statements, ratios and key metrics (pulled as a set where the account allows) | reported |
-| Statements: debt, cash and securities, minorities, leases, pensions, equity-method investments, attributable net income | `financial_statements`, `financial_ratios`, `key_metrics` | reported |
-| ROIC, ROE, margins, cash conversion | `financial_ratios` | reported |
-| Consensus sales, EBITDA, EBIT, EPS, FCF, long-term growth, with vintage | `analyst_estimates` | reported |
-| Peer candidates | a company screen on sector, size, growth, margin and return; peers named in filings | reported |
-| Current figures for a peer set | the portfolio tearsheet | reported |
-| Non-recurring items, JV income, option and share tables, segment profit | search and the full document, on filings | reported |
-| Cost of capital | Not in Bigdata.com; see `references/roic.md` | assumed |
+| Input | Where it comes from |
+|---|---|
+| Market cap, EV, multiples, net debt, ROIC, ROE, margins, cash conversion | Key metrics and ratios, for the target and each peer |
+| Debt, cash, minorities, leases, pensions, equity-method stakes, attributable net income | Annual statements |
+| Consensus sales, EBITDA, EBIT, EPS, FCF, long-term growth | Estimates, with their date |
+| Peer candidates | A company screen on sector, size, growth, margin and return; competitors named in filings |
+| Non-recurring items, JV income, option and share tables | Filings, by text search and the full document |
+| Cost of capital | Not in the data; roic.md, cost of capital inputs |
 
-Not in the sources: how the tearsheet's enterprise value is built (minorities, pensions, leases, period-end or average net debt) and whether its EBITDA is cleaned. Rebuild EV from the balance sheet for the target and each peer, and say which one is quoted.
+The reported EV and EBITDA do not show how claims were treated or whether EBITDA was cleaned. Rebuild EV from the balance sheet for the target and every peer, and say which figure is quoted.
 
-## Procedure
+## Building the multiple
 
-1. **Match claimants.** Equity multiples (P/E, P/B) set parent-shareholder value against a metric after debt, minorities and preferred; P/E uses net income attributable to the parent. Price 5,600 over consolidated net income of 468 gives 12.0x; over attributable income of 298 it gives 18.8x (Robinson and Weyns, Multiples, 2017, p. 12). Enterprise multiples (EV/EBITDA, EV/EBITA, EV/Sales) put every claimant in the numerator. Done when each multiple is labelled equity or enterprise.
-2. **Build EV at market values.** Market cap plus debt (at fair value if yields have moved), preferred, minorities, unfunded pensions, leases and options, less non-operating assets at market value (excess cash, equity stakes, excess real estate). Use average or seasonally adjusted net debt, adjusted for changes in the group (p. 9). If the metric is before rent, EV includes leases; if after rent, it excludes them. Example with EBITA of 100 and core value of 900: a company with 100 of excess cash and a 200 equity stake has debt plus equity of 1,200; the right multiple is (1,200 - 300) / 100 = 9.0x, against 12x on debt plus equity and 11x on debt plus equity less cash (McKinsey ch. 14). Done when the EV bridge is shown, built the same way for every peer.
-3. **Pick the EV flavor and match the metric.** Total EV (all activities), operating EV (less non-operating assets), core EV (less non-core assets, with a core metric) (p. 7). Done when the flavor is stated.
-4. **Clean the metric.** Remove non-recurring and non-core items or the multiple capitalizes them: a 1,707 restructuring charge left in EBITDA at 12x understates EV by about 20,500 (12 x 1,707) (pp. 15-20). Add back non-recurring expenses, deduct non-recurring income. If the cash cost is unpaid, put its present value in the equity bridge. Remove equity-accounted JV income from EBITDA, value the stake separately and add it in the bridge: an EV/EBITDA of 12.1x became 14.0x when JV value was left in (pp. 25-26). Find items on the face of the income statement, in other income and expense, the operating-profit notes, the earnings-to-cash-flow reconciliation, and by text search for restructuring, impairment, write-down and integration. Count how many of the last five years carry a "one-time" charge; recurring ones are costs. Done when reported and cleaned metrics sit side by side.
-5. **Choose the multiple and the base** from the table below. Bases: historical (average price over past profit, for trading ranges), current (price over trailing and one or two forecast years), forward (price x (1 + cost of capital) - investor cash flow), partial-forward (current equity value with forecast net debt) (p. 62). Prefer forward multiples: historical E/P had 1.6 times the dispersion of forward E/P (6.0 against 3.7 percent), and IPO pricing error fell from 55.0 percent on historical to 28.5 percent on two-year forward earnings (McKinsey ch. 14). Prefer EV/EBITA to EV/EBIT (acquired-intangible amortization is an accounting artifact) and to EV/EBITDA where capital intensity or outsourcing differs. Done when the multiple and base are stated, the same for all peers.
-6. **Compute operating metrics for every peer** on the same basis: growth, ROIC, margin, cash conversion, leverage. Done when the table is complete.
-7. **Select peers by value drivers.** Two routes: industry classification, and the fundamentals that drive value (growth, margin, ROIC, turnover, leverage, capital intensity). Build both and report how many classification peers survive; a firm in another industry can be closer on drivers than one in the same industry (How Well Do You Compare, 2017, pp. 7, 10-12). Match cash generation, risk, value-added growth, size, product mix, geography, business model, life-cycle stage, organic against acquired growth (Multiples, pp. 24-27). Compare business models, not lines of business: Apple and Edison International both traded at 12.8x earnings in 2013 with CFROI of 25 and 5 percent (Mauboussin and Callahan, P/E, 2014, pp. 2, 14). State the selection rule before showing multiples, because analysts tend to pick high-multiple peers when arguing a stock is cheap (Compare, p. 7). Done when each peer has a reason.
-8. **Summarize with the median**, not the mean, and show the result with and without any outlier (Multiples, p. 45; Compare, p. 7). A relative multiple (company over market or sector) or a comparison with the company's own history is valid only if returns, growth, rates, risk premium, tax and accounting are unchanged, or measured at a comparable point in the cycle (P/E, p. 11; Multiples, p. 24). Done when median, range and the target's premium or discount are shown.
-9. **Explain the multiple.** Compare the target and peers on ROIC minus WACC, growth and risk; compute the justified multiple from the formulas below and split the actual multiple into a steady-state part (1/cost of equity for P/E, 1/WACC for EV/NOPAT) and the part paid for value creation, in turns. Done when the gap between actual and justified multiple is stated in turns with the driver that explains it.
-10. **Cross-check with the DCF.** Back out the multiples the DCF implies, static and rolling; the implied terminal multiple should be below today's (Multiples, pp. 47-49). Done when both are reported.
+- **Match claimants.** Equity multiples (P/E, P/B) use parent-shareholder value and net income attributable to the parent. Enterprise multiples put every claimant in the numerator.
+- **EV at market values** = market cap + debt (at fair value when yields have moved) + preferred + minorities + unfunded pensions + leases + options - non-operating assets at market value (excess cash, equity stakes, surplus property). Use average or seasonally adjusted net debt. Leases go in EV only when the metric is before rent; core EV goes with a core metric.
+- **Clean the metric**, or the multiple capitalises one-offs. Reverse non-recurring items and put the present value of an unpaid cash cost in the equity bridge. Take equity-accounted JV income out of EBITDA and add the stake in the bridge; leaving it in can move EV/EBITDA by two turns. A "one-time" charge in most of the last five years is a cost.
+- **Same basis for every peer**: growth, ROIC, margin, cash conversion and leverage.
 
-## Formulas
-
-- Returns form: EV / NOPAT = (1 - g / ROIC) / (WACC - g); EV / EBITA = (1 - T) x (1 - g / ROIC) / (WACC - g), T = operating tax rate (McKinsey ch. 14). At ROIC = WACC growth adds nothing.
-- One-stage cash form: EV / EBITDA = [FCFF x (1 + g) / (WACC - g)] / EBITDA, which separates cash conversion, risk and growth (Multiples, pp. 21-22).
-- Linking identities: EV / IC = EV / NOPAT x ROIC; P/B = P/E x ROE; EV / Sales = EV / EBITA x EBITA margin; value / earnings = value / capital x 1 / ROIC (McKinsey ch. 15).
-- Single-stage P/E = (ROE - g) / [ROE x (COE - g)], COE = cost of equity. ROE = COE gives 1 / COE whatever the growth; ROE 12 percent, g 5 percent, COE 10 percent gives 11.7x. Single-stage forms overstate; prefer two stages (Multiples, pp. 66-67).
-- Two-stage EV = NOPAT x (1 - gA / RONIC-A) / (WACC - gA) x [1 - ((1 + gA) / (1 + WACC))^N] + NOPAT x (1 + gA)^N x (1 - gB / RONIC-B) / [(WACC - gB) x (1 + WACC)^N], value-adding growth gA for N years, then gB below WACC (McKinsey ch. 10).
-- Steady-state P/E = 1 / COE. Declining business: steady-state value = NOPAT x (1 + g) / (cost of capital - g), g negative; NOPAT 100, cost of capital 10 percent, decline 10 percent a year gives 450, a 4.5x multiple (P/E, pp. 4, 8).
-- Warranted forward P/E = sum over t = 1 to N of (1 + g)^(t-1) x (1 - g / ROIIC) / (1 + k)^t, plus (1 + g)^N / k / (1 + k)^N, with k = cost of capital, N = 15 years, year-one earnings of 1 (reconstruction verified against P/E paper Exhibit 5).
-- Adjusted PEG = EV multiple / (100 x expected EBITA growth) (McKinsey ch. 14).
-- Banks: P/B = (ROE - g) / (ke - g); P/E = (1 - g / ROE) / (ke - g) (McKinsey ch. 36, 15).
-
-## Reference tables
-
-Which multiple (Multiples, pp. 50-62):
+## Which multiple and which base
 
 | Multiple | Use when | Watch for |
 |---|---|---|
-| EV/Sales | losses; restructuring candidates | margin differences; revenue recognition |
-| EV/EBITDA | peers with similar capital intensity | ignores capex; invalid across sectors |
-| EV/EBIT or EV/EBITA | capital intensity differs | depreciation policy; acquired amortization (use EBITA) |
-| EV/NOPAT | a degeared P/E; tax differences | subjective adjustments |
-| EV/FCF | smoothed, normalized FCF | lumpy cash flow |
-| P/B, EV/IC | asset-heavy businesses and banks, always beside ROE or ROIC | historical-cost book values |
-| P/E | clean earnings, similar leverage | negative earnings; leverage |
-| PEG | within a sector, similar returns | ignores ROIC; growth without a spread looks cheap |
-| EV per unit of capacity or subscriber | same-industry checks against replacement cost | says nothing about profitability |
+| EV/Sales | Losses; restructuring candidates | Margin differences; revenue recognition |
+| EV/EBITDA | Peers with similar capital intensity | Ignores capex; invalid across sectors |
+| EV/EBITA | Capital intensity differs | Depreciation policy |
+| EV/NOPAT | A degeared P/E; tax differences | Subjective adjustments |
+| EV/FCF | Smoothed, normalised FCF | Lumpy cash flow |
+| P/B, EV/IC | Asset-heavy businesses and banks, always beside ROE or ROIC | Historical-cost book values |
+| P/E | Clean earnings, similar leverage | Negative earnings; leverage |
+| PEG | Within a sector, similar returns | Ignores ROIC; growth without a spread looks cheap |
+| EV per unit of capacity or subscriber | Same-industry checks against replacement cost | Says nothing about profitability |
 
-Warranted forward P/E at an 8 percent cost of capital, 15-year horizon (Mauboussin and Callahan, P/E, 2014, Exhibit 5):
+Bases: historical (average price over past profit, for trading ranges), current (price over trailing and one or two forecast years), forward (price x (1 + cost of capital) - investor cash flow), partial-forward (current equity value with forecast net debt). Prefer forward multiples: historical earnings yields scatter far more across peers (6.0 against 3.7 percent dispersion). Prefer EV/EBITA to EV/EBIT, because acquired-intangible amortisation is an accounting artefact, and to EV/EBITDA where capital intensity or outsourcing differs: two businesses identical except for outsourcing can trade at 6.0x and 8.6x EBITDA and both at 10x EBITA.
+
+Summarise peers with the median, shown with and without any outlier. A market-relative multiple or the company's own history is a benchmark only when returns, growth, rates, risk premium, tax and accounting are unchanged, or at a comparable point in the cycle.
+
+## Peer selection by value drivers
+
+Build two lists: one by industry classification, one by the drivers of value (growth, margin, ROIC, turnover, leverage, capital intensity), and report how many classification peers survive the driver test. A firm in another industry can be closer on drivers than one in the same industry. Also match risk, size, geography, business model, life-cycle stage, and organic against acquired growth.
+
+State the selection rule before showing any multiple: a rule written afterwards tends to pick high-multiple peers. Listed peer sets are small and survivor-biased; for a niche industry, widen to global listings or adjacent sub-industries and say so. Test the median with and without the closest and the most distant peer.
+
+## What a multiple implies
+
+- Returns form: EV / NOPAT = (1 - g / ROIC) / (WACC - g); EV / EBITA = (1 - T) x (1 - g / ROIC) / (WACC - g), with T the operating tax rate. At ROIC = WACC, growth adds nothing.
+- One-stage cash form: EV / EBITDA = [FCFF x (1 + g) / (WACC - g)] / EBITDA, which separates cash conversion, risk and growth.
+- Two-stage: EV = NOPAT x (1 - gA / RONIC-A) / (WACC - gA) x [1 - ((1 + gA) / (1 + WACC))^N] + NOPAT x (1 + gA)^N x (1 - gB / RONIC-B) / [(WACC - gB) x (1 + WACC)^N], with value-adding growth gA for N years, then gB below WACC. Single-stage forms overstate; prefer two stages.
+- Single-stage P/E = (ROE - g) / [ROE x (COE - g)], with COE the cost of equity. ROE 12 percent, g 5 percent and COE 10 percent give 11.7x.
+- Linking identities: EV / IC = EV / NOPAT x ROIC; P/B = P/E x ROE; EV / Sales = EV / EBITA x EBITA margin.
+- Adjusted PEG = EV multiple / (100 x expected EBITA growth). PEG has no standard growth window, assumes value is proportional to growth, and ignores ROIC.
+
+Split the actual multiple into a steady-state part, 1 / COE for P/E and 1 / WACC for EV/NOPAT, and the turns paid for value creation. A multiple below the steady-state part means the market prices no value creation or expects earnings to fade; it is not by itself a bargain.
+
+Earnings multiples hide ROIC differences at low growth: at 4 percent growth, a 15 percent ROIC gives 2.5x invested capital and 10.6x EBITA, a 10 percent ROIC 1.5x and 9.6x. Show value to invested capital beside earnings multiples, and chart multiples against ROIC or ROE, not growth.
+
+Cross-check with the DCF: back out the multiples it implies; the implied terminal multiple should sit below today's.
+
+| Reference level | Figure | Population and period |
+|---|---|---|
+| Steady-state P/E | Average 10.4x, standard deviation 2.7 | US market, 1961 to 2013 |
+| Forward EV/EBITA | Most 7x to 11x; low growth and margin 7x, low growth and high margin 9x, high growth and margin 11x to 13x | S&P 500 non-financials, December 2009 |
+
+Recompute steady-state levels from the current risk-free rate and risk premium.
+
+## The warranted P/E
+
+Warranted forward P/E = sum over t = 1 to N of (1 + g)^(t-1) x (1 - g / ROIIC) / (1 + k)^t, plus (1 + g)^N / [k x (1 + k)^N], with k the cost of capital, N the years of advantage and year-one earnings of 1.
+
+**Warranted forward P/E at an 8 percent cost of capital over 15 years**
 
 | Earnings growth | ROIIC 4% | 8% | 16% | 24% |
 |---|---|---|---|---|
@@ -71,49 +81,18 @@ Warranted forward P/E at an 8 percent cost of capital, 15-year horizon (Maubouss
 | 8% | NM | 12.5x | 19.4x | 21.8x |
 | 10% | NM | 12.5x | 22.4x | 25.7x |
 
-The same 15.0x can mean 12 percent growth at an 8.8 percent ROIIC, 6 percent at 11.0, or 3 percent at 23.0 (Exhibit 6).
+The same 15.0x can mean 12 percent growth at an 8.8 percent ROIIC, 6 percent at 11.0, or 3 percent at 23.0, so state which path the price assumes.
 
-Dated benchmarks (verify; recompute from the current risk-free rate and implied equity risk premium):
+## Banks
 
-| Item | Figure | Source |
-|---|---|---|
-| Steady-state P/E | 12.5x at an 8 percent cost of equity (Jan 2014); 1961-2013 average 10.4x, standard deviation 2.7 | P/E paper, p. 4 |
-| Forward EV/EBITA, S&P 500 non-financials | most between 7x and 11x (Dec 2009) | McKinsey ch. 14 |
-| EV/EBITA by peer type | low growth, low margin 7x; low growth, high margin 9x; high growth, high margin 11x to 13x | McKinsey ch. 14, Exhibit 14.8 |
-| Value and returns | 4 percent growth at ROIC 15 percent: 2.5x capital, 10.6x EBITA; at ROIC 10 percent: 1.5x capital, 9.6x EBITA | McKinsey ch. 15, Exhibit 15.4 |
+No EV multiples: interest is operating. P/B = (ROE - g) / (ke - g); P/E = (1 - g / ROE) / (ke - g). A premium to book needs ROE above the cost of equity.
 
-## Interpretation and limits
+## Errors
 
-- A P/E below 1 / COE, or EV/NOPAT below 1 / WACC, means the market prices no value creation or expects earnings to fade; it does not by itself mean a bargain (P/E, pp. 4, 12).
-- Earnings multiples hide ROIC differences, especially at low growth (the 2.5x against 1.5x capital example is only 10.6x against 9.6x EBITA); show value to invested capital beside earnings multiples (McKinsey ch. 15).
-- Do not chart multiples against growth linearly; use multiples against ROIC or ROE (Multiples, p. 45).
-- Leverage: when the unlevered P/E is below 1 / cost of debt, P/E falls as leverage rises (McKinsey App. E). Use EV multiples when leverage differs.
-- EBITDA multiples mislead across outsourcing: identical businesses traded at 6.0x and 8.6x EBITDA and both at 10x EBITA (McKinsey ch. 14). A high multiple on depressed earnings is not overvaluation: Home Depot was 13.0x forward EBITA, 8.0x at 2005 margins.
-- PEG has no standard growth window, assumes value is linear in growth with a zero intercept, and ignores ROIC; use it only within a sector.
-- Listed peer sets are smaller, older and survivor-biased; for niche industries widen to global listings or adjacent sub-industries and say so (Shrinking Universe, 2017, as interpreted in the TAM and profit pools note).
-- Banks: no EV multiples; compare P/B against ROE, and a premium to book needs ROE above the cost of equity. Cyclicals: normalize to mid-cycle earnings first; consensus for cyclicals tends to ignore the cycle, so a forward P/E looks low at the peak and high at the trough (McKinsey ch. 35). High growth with losses: forward EV/Sales with the long-run margin stated. Emerging markets: share prices are weaker anchors; triangulate (McKinsey ch. 33).
-- A multiple is a check on a forecast, never a substitute (McKinsey ch. 14).
-- Not in the sources: a minimum number of peers. State the count and test the median with and without the closest and most distant peer.
-
-## Output lines
-
-- Multiple, base and definition for the target and each peer, labelled equity or enterprise. Basis: derived from reported.
-- EV bridge, every item, the same for each peer. Basis: reported and derived.
-- Reported and cleaned metric with the items removed and their source. Basis: reported, derived.
-- Peer table: multiple, growth, ROIC, margin, leverage, selection reason. Basis: derived; reason judgment.
-- "The company trades at X against a peer median of Y (range A to B), a Z percent premium; without [outlier] the median is W." Basis: derived.
-- "At an assumed cost of capital of k, a steady-state multiple is S; the remaining T turns price in value creation." Basis: assumed and derived.
-- "The company's ROIC, growth and risk justify about J; the gap of G turns is explained by [driver]." Basis: assumed inputs, derived output.
-- "The DCF implies a terminal multiple of M against N today." Basis: derived.
-
-## Sources
-
-- Notes: Mauboussin, Expectations Investing; Robinson and Weyns, UBS multiples and DCF papers (2017) (sections 1.3, 2.1 to 2.7, 5, 6); McKinsey, Valuation, 5th ed. (chapters 10, 14, 15); McKinsey, Valuation, 5th ed. (chapters 33, 35, 36, Appendix E); Mauboussin, Looking for Easy Games (2017) (How Well Do You Compare); Mauboussin, Total Addressable Market (2015), Operating Leverage (2016) and Global Industry Profit Pools (2016) (5.3).
-- Robinson, D. and Weyns, G., "How to analyse and talk the language of multiples", UBS, 16 Mar 2017, pp. 7-70 (cited as Multiples).
-- Mauboussin, M. and Callahan, D., "What Does a Price-Earnings Multiple Mean?", Credit Suisse, 29 Jan 2014, pp. 2-21 (cited as P/E).
-- Mauboussin, M. and Callahan, D., "Estimating the Cost of Capital", Credit Suisse, 2013, pp. 2-3.
-- Mauboussin, M., "How Well Do You Compare?", BlueMountain, Dec 2017, pp. 3-12.
-- Mauboussin, M. et al., "The Incredible Shrinking Universe of Stocks", Credit Suisse, Mar 2017.
-- Koller, T., Goedhart, M. and Wessels, D., Valuation, 5th ed., McKinsey, 2010, chapters 10, 14, 15, 33, 35, 36 and Appendix E.
-
-<!-- Spec vs notes: 12 x 1,707 is 20,484; the UBS source and the spec print 20,490 from unrounded inputs, so the file says "about 20,500". The spec's worked check from Multiples Figure 60 (9.9x and 12.8x) is omitted because the note does not carry the EBITDA behind it. -->
+| Error | Fix |
+|---|---|
+| Leverage differs across peers | EV multiples; when the unlevered P/E is below 1 / cost of debt, P/E falls as leverage rises |
+| Cyclical on peak or trough earnings | Normalise to mid-cycle; consensus tends to ignore the cycle, so a forward P/E looks low at the peak and high at the trough |
+| High multiple on depressed earnings read as overvaluation | Normalised earnings |
+| Loss-making growth company on earnings | Forward EV/Sales with the long-run margin stated |
+| Emerging-market listing taken at face value | Prices are weaker anchors; triangulate with a DCF |
