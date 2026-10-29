@@ -13,7 +13,7 @@
    },
    {
     "prompt": "How do the G7 economies compare on growth and inflation right now?",
-    "expected": "bigdata-macro-compare"
+    "expected": "bigdata-country-analysis"
    }
   ],
   "negative": [
@@ -97,7 +97,7 @@
    },
    {
     "prompt": "Micron reported last night, how did the quarter go?",
-    "expected": "bigdata-earnings-review"
+    "expected": "bigdata-earnings-recap"
    }
   ],
   "negative": [
@@ -160,14 +160,14 @@
    },
    {
     "prompt": "What is the bull and bear case for ASML, and what is the market missing?",
-    "expected": "bigdata-thesis"
+    "expected": "bigdata-investment-thesis"
    }
   ],
   "negative": [
    "How do I build a monthly budget on an income of 4,500 dollars?"
   ]
  },
- "bigdata-thesis": {
+ "bigdata-investment-thesis": {
   "positive": [
    "What is the bull and bear case for Nvidia?",
    "stress-test my idea that Nike is a turnaround story",
@@ -181,7 +181,7 @@
    },
    {
     "prompt": "Give me base, downside and upside values for Nvidia with probabilities.",
-    "expected": "bigdata-scenarios"
+    "expected": "bigdata-valuation"
    }
   ],
   "negative": [
@@ -193,16 +193,13 @@
    "What is Toyota worth?",
    "is MU cheap or expensive here",
    "Build me a DCF for Unilever with sensitivities on margin and terminal growth.",
-   "We have been approached about a sale. What is our company, Zoom, worth on a DCF and on multiples, and what does the current price imply?"
+   "We have been approached about a sale. What is our company, Zoom, worth on a DCF and on multiples, and what does the current price imply?",
+   "What are the upside and downside values for Toyota under different cases?"
   ],
   "near_miss": [
    {
     "prompt": "How does Toyota's multiple compare with Honda and Volkswagen?",
     "expected": "bigdata-comps"
-   },
-   {
-    "prompt": "What are the upside and downside values for Toyota under different cases?",
-    "expected": "bigdata-scenarios"
    }
   ],
   "negative": [
@@ -230,27 +227,6 @@
    "What is the difference between a stock and an ETF?"
   ]
  },
- "bigdata-scenarios": {
-  "positive": [
-   "Give me a bull, base and bear analysis for Nvidia.",
-   "NKE: what happens to the value if China demand stays weak?",
-   "Build probability-weighted scenarios for Micron through 2027 and tell me which signposts show which case is unfolding.",
-   "Run base, upside and downside scenarios for Ford if EV adoption stalls, with a value and a probability for each case."
-  ],
-  "near_miss": [
-   {
-    "prompt": "What is Micron worth on a DCF?",
-    "expected": "bigdata-valuation"
-   },
-   {
-    "prompt": "What could go wrong at Micron and how much could I lose?",
-    "expected": "bigdata-risk"
-   }
-  ],
-  "negative": [
-   "How do I run a Monte Carlo simulation in Python for my retirement savings?"
-  ]
- },
  "bigdata-earnings-quality": {
   "positive": [
    "Are Nike's earnings real?",
@@ -261,7 +237,7 @@
   "near_miss": [
    {
     "prompt": "How did Nike do last quarter?",
-    "expected": "bigdata-earnings-review"
+    "expected": "bigdata-earnings-recap"
    },
    {
     "prompt": "What are the biggest risks to Nike over the next year?",
@@ -328,7 +304,7 @@
    },
    {
     "prompt": "Give me base, upside and downside cases for Toyota with probabilities.",
-    "expected": "bigdata-scenarios"
+    "expected": "bigdata-valuation"
    }
   ],
   "negative": [
@@ -366,7 +342,7 @@
   "near_miss": [
    {
     "prompt": "Nvidia reported yesterday. How did the quarter go?",
-    "expected": "bigdata-earnings-review"
+    "expected": "bigdata-earnings-recap"
    },
    {
     "prompt": "What events are coming up for Nvidia over the next six months?",
@@ -377,7 +353,7 @@
    "What does EPS stand for and how is it calculated?"
   ]
  },
- "bigdata-earnings-review": {
+ "bigdata-earnings-recap": {
   "positive": [
    "How did Nike do last quarter?",
    "did ASML beat",
@@ -482,18 +458,15 @@
    "How do index funds work?"
   ]
  },
- "bigdata-country": {
+ "bigdata-country-analysis": {
   "positive": [
    "How is Brazil's economy doing?",
    "Japan outlook",
    "Give me a briefing on Turkey for the last quarter: growth, inflation, the lira and political risk.",
-   "We are considering opening a plant in Mexico next year. What is the macro and political picture, and what is priced in?"
+   "We are considering opening a plant in Mexico next year. What is the macro and political picture, and what is priced in?",
+   "Compare the US, UK and Germany on growth and inflation."
   ],
   "near_miss": [
-   {
-    "prompt": "Compare the US, UK and Germany on growth and inflation.",
-    "expected": "bigdata-macro-compare"
-   },
    {
     "prompt": "How is the Brazilian banking sector positioned?",
     "expected": "bigdata-sector"
@@ -501,27 +474,6 @@
   ],
   "negative": [
    "What is GDP and why does it matter?"
-  ]
- },
- "bigdata-macro-compare": {
-  "positive": [
-   "Compare the G7 economies.",
-   "who is stronger right now, Mexico or Brazil",
-   "Give me a global macro overview for this quarter: growth, inflation, rates and currencies across the major blocs.",
-   "Where should we expand next in Europe: compare Germany, Spain and Poland on growth, inflation, rates and political risk."
-  ],
-  "near_miss": [
-   {
-    "prompt": "Give me a briefing on Mexico's economy.",
-    "expected": "bigdata-country"
-   },
-   {
-    "prompt": "How did global equity markets do this week?",
-    "expected": "bigdata-markets-today"
-   }
-  ],
-  "negative": [
-   "Can you explain what inflation is to a teenager?"
   ]
  },
  "bigdata-screen": {

@@ -58,10 +58,10 @@ def primers_bundle():
         body = re.sub(r"^(#{2,5}) ", lambda m: "#" + m.group(1) + " ", text, flags=re.M)
         body = re.sub(r"^# .*$", f"## {label} ({name})", body, count=1, flags=re.M)
         parts.append(body)
-    head = ("# Sector primers\n\nOne section per sector, each about 100 lines. Read only the section for the company's sector: "
+    head = ("# Sector primers\n\nOne section per sector. Read only the section for the company's sector: "
             "find its start with `grep -n '^## .*(<slug>)' references/sector-primers.md` using the slug from the list below, "
             "then read from that line to the next line that starts with `## `. Every figure is a range with its source and "
-            "period, historical rather than current; the (verify) marks are working notes and do not appear in a deliverable.\n\n"
+            "period, historical rather than current.\n\n"
             + "\n".join(toc) + "\n\n")
     return head + "\n\n".join(parts) + "\n"
 

@@ -5,12 +5,12 @@ Fails on: a missing SKILL.md or frontmatter; name not equal to the folder;
 description over 1,024 characters or under 200; body over 400 lines; a
 link to a file that does not exist; a `../` path; more than 20 companion
 files, a file over 5 MB or a skill over 10 MB (Cowork); a text file over
-256 KiB (Anthropic directory); the eight required headings missing; a
+256 KiB (Anthropic directory); the six required headings missing; a
 rating word; "Prepared with Claude"; a hard-coded year in an instruction;
 non-ASCII characters; a missing agents/openai.yaml; a plugin:skill name over
 64 characters for the OpenAI app id; more than 512 files in the plugin.
 """
-import os, re, sys, json
+import os, glob, re, sys, json
 try:
     import yaml
 except ImportError:
@@ -19,7 +19,10 @@ except ImportError:
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "plugins", "bigdata-com"))
 SKILLS = os.path.join(ROOT, "skills")
 OPENAI_APP = "app-69491eceef3c8191beb70788b7840429"
-HEADINGS = ["## Before starting", "## Scope the request", "## Gather", "## Analyse", "## Write", "## Checks before sending", "## Hand-offs"]
+HEADINGS = ["## Before starting", "## Method choices that are not the default", "## Where it goes wrong", "## What the data has, and does not", "## Write", "## Before sending"]
+# Skills still in the 25 October shape, left untouched until Marko decides their fate (27 Oct 2026); exempt from the heading check only.
+OLD_SHAPE = set()  # 28 Oct 2026: catalysts and watchlist were brought to the six headings; no skill is exempt
+LEAK = re.compile(r"\b(Mauboussin|Callahan|McKinsey|Credit Suisse|HOLT|Damodaran|Klarman|Berkowitz|Greenwald|Koller|Robinson and Weyns|Base Rate Book|Expectations Investing|Man Overboard|Celebrating the Summit|Measuring the Moat|Security Analysis, 6th|Not in the sources|\(verify\)|When a skill loads this file|Done when|formula [0-9]+[a-z]?|tables? [0-9]+)\b|\b(pp?\.) ?[0-9]+|\bch\. ?[0-9]+", re.I)
 RATING = re.compile(r"\b(strong buy|buy rating|sell rating|overweight|underweight|accumulate|outperform|underperform)\b", re.I)
 errors, warnings = [], []
 total_files = 0
@@ -63,7 +66,7 @@ for skill in sorted(os.listdir(SKILLS)):
     lines = body.count("\n") + 1
     if lines > 400:
         errors.append(f"{skill}: body is {lines} lines, over 400")
-    if skill != "bigdata":
+    if skill != "bigdata" and skill not in OLD_SHAPE:
         for h in HEADINGS:
             if h not in body:
                 errors.append(f"{skill}: missing heading {h}")
@@ -80,6 +83,24 @@ for skill in sorted(os.listdir(SKILLS)):
             errors.append(f"{skill}: rating word in body: {m2.group(0)}"); break
     if "Prepared with Claude" in text:
         errors.append(f"{skill}: 'Prepared with Claude' footer")
+    # leak lint (28 Oct 2026): words that reach the deliverable when they sit in a body or a reference.
+    # A body addresses the library by content, never by number; nothing in the shipped files names a source,
+    # a verification note or a basis label. See docs/superpowers/plans/2026-10-28-packaging-rules.md.
+    for m2 in re.finditer(r"\b(formula|tables?|rule|step|procedure step) [0-9]+[a-z]?\b", body, re.I):
+        errors.append(f"{skill}: body points at the library by number: '{m2.group(0)}'"); break
+    for m2 in re.finditer(r"\b(basis column|label(led|ed)? (it|as|them)|N and sample|sample and period|not in bigdata\.com)\b", body, re.I):
+        errors.append(f"{skill}: body carries retired label or data-stop wording: '{m2.group(0)}'"); break
+    for m2 in re.finditer(r"\b(words against|the run without this skill|an earnings run took|of ten reports|in [0-9]+ of [0-9]+ (with-skill )?reports)\b", body, re.I):
+        errors.append(f"{skill}: body carries an eval anecdote: '{m2.group(0)}'"); break
+    # a report skeleton in the body (a fenced page layout, quoted section headings or a table-column template)
+    # becomes run-in labels and form-filling on the page; the Write section states the content in prose
+    if re.search(r"^```", body, re.M) or re.search(r"^#{1,3} <", body, re.M):
+        errors.append(f"{skill}: body carries a report skeleton (code fence or templated heading); write the content in prose")
+    for rp in sorted(glob.glob(os.path.join(d, "references", "*.md"))):
+        rt = open(rp, encoding="utf-8").read()
+        m2 = LEAK.search(rt)
+        if m2:
+            errors.append(f"{skill}: {os.path.relpath(rp, d)} names a source or carries an author note: '{m2.group(0)}'")
     for y in re.findall(r"\b(20[12]\d)\b", body):
         if f"FY{y}" not in body and f"FY {y}" not in body:
             warnings.append(f"{skill}: year {y} appears in the body; make sure it is an example, not a rule")

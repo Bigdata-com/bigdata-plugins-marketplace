@@ -16,11 +16,12 @@
       "judge": [
         "The note states what the price implies (a steady-state or implied-growth figure, or the multiple against the steady-state multiple) before any sentence that reads as a view.",
         "Management's guidance for the quarter is quoted from the previous quarter's earnings call with a citation, not from a later call and not from memory.",
-        "Consensus sales and EPS growth are placed in a reference class with the share of companies that achieved it and the sample label (top 1,000 global companies, 1950 to 2015).",
-        "There is a sales-to-margin sensitivity with the formula or the sector operating-margin beta shown and labelled derived.",
+        "Where a multi-year growth claim carries the conclusion, the sentence says how often companies of that size achieved it, with the population and period in the same sentence and no source book or author named.",
+        "When the question is a sales miss or beat, the note shows what a miss or beat does to operating income and EPS, with the arithmetic in the sentence or table note and no label such as derived.",
         "Scenario probabilities sum to 100 and the note says where the weights come from.",
         "No buy, hold, sell, overweight, underweight or rating word appears.",
-        "Every figure, in tables and in prose, has a source number or a basis word (reported, derived, assumed), and the report carries Sources, the Powered by Bigdata.com line and the disclaimer verbatim; a one-line offer after the disclaimer is allowed."
+        "Every figure, in tables and in prose, has a source number or a basis word (reported, derived, assumed), and the report carries Sources, the Powered by Bigdata.com line and the disclaimer verbatim; a one-line offer after the disclaimer is allowed.",
+        "Nothing in the deliverable names a library file, formula, table, primer, framework, author or source book, and no sentence describes how the note was made."
       ]
     },
     {
@@ -35,7 +36,8 @@
       },
       "judge": [
         "The answer is a direct one: the consensus figures with their vintage and the guidance quoted with a citation, not a full earnings preview with scenarios.",
-        "The answer still ends with Sources, the Powered by Bigdata.com line and the disclaimer."
+        "The answer still ends with the Powered by Bigdata.com line and the disclaimer, with any document cited inline.",
+        "Nothing in the deliverable names a library file, formula, table, primer, framework, author or source book, and no sentence describes how the note was made."
       ]
     },
     {
@@ -54,8 +56,9 @@
         "The move and the index move over the same window are taken from Bigdata.com data, with the window stated.",
         "The trigger has a dated source, or the note says no company-specific trigger was found.",
         "The note says whether the trigger changed the long-term outlook (growth, margin, return or duration) or only the headline.",
-        "A historical base-rate row is quoted with N and the sample period, and the momentum, valuation and quality proxies are labelled derived.",
-        "No sentence recommends buying, selling, adding or trimming."
+        "The historical drift figure for the matching case is stated with its population and period in the sentence, no source paper or author named, and the momentum, valuation and quality readings are given as plain findings with no label.",
+        "No sentence recommends buying, selling, adding or trimming.",
+        "Nothing in the deliverable names a library file, formula, table, primer, framework, author or source book, and no sentence describes how the note was made."
       ]
     },
     {
@@ -74,9 +77,10 @@
       "judge": [
         "The output fits on about one page: the view in prose, a what-the-price-implies table, three drivers, risks with early signals, a next dated event.",
         "Because the company is a bank, the drivers are bank drivers (net interest income, credit costs, capital, fee lines) and the valuation check uses price to book against return on equity or a steady-state P/E, not EV/EBITDA.",
-        "The cost of equity used is stated as an assumption with its basis.",
+        "The cost of equity is one stated figure with its yield, beta and premium in a single clause, and no regression statistics.",
         "The note gives no buy, hold, sell or rating call of its own; reported analyst rating counts and price targets quoted as data are fine. 'Interesting' is answered with what the price assumes and what the evidence says.",
-        "Every figure has a source number or a Basis label; the footer is present."
+        "Every fact from a document carries an inline link with source and date; no figure carries a basis label; the footer is present.",
+        "Nothing in the deliverable names a library file, formula, table, primer, framework, author or source book, and no sentence describes how the note was made."
       ]
     },
     {
@@ -90,7 +94,8 @@
       },
       "judge": [
         "The assistant says the Bigdata.com tools are not available and tells the user how to connect.",
-        "The assistant gives no view, figures or news about Nvidia from memory or web search."
+        "The assistant gives no view, figures or news about Nvidia from memory or web search.",
+        "Nothing in the deliverable names a library file, formula, table, primer, framework, author or source book, and no sentence describes how the note was made."
       ]
     },
     {
@@ -110,7 +115,8 @@
         "Currency and reporting conventions for a non-US company are stated (euro figures, fiscal year).",
         "The valuation reports the terminal-value share of enterprise value, the implied terminal multiple and a bridge per share, and gives a range with probabilities that sum to 100.",
         "What the price implies precedes the valuation and the summary is consistent with it.",
-        "No rating word; every figure has a source number or a Basis label; the footer is present."
+        "No rating word; every fact from a document carries an inline link with source and date; no figure carries a basis label; the footer is present.",
+        "Nothing in the deliverable names a library file, formula, table, primer, framework, author or source book, and no sentence describes how the note was made."
       ]
     }
   ]

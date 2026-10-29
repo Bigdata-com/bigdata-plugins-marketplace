@@ -48,13 +48,10 @@
       "folder": "./skills/bigdata-deep-dive"
     },
     {
-      "folder": "./skills/bigdata-thesis"
+      "folder": "./skills/bigdata-investment-thesis"
     },
     {
       "folder": "./skills/bigdata-valuation"
-    },
-    {
-      "folder": "./skills/bigdata-scenarios"
     },
     {
       "folder": "./skills/bigdata-earnings-quality"
@@ -69,7 +66,7 @@
       "folder": "./skills/bigdata-earnings-preview"
     },
     {
-      "folder": "./skills/bigdata-earnings-review"
+      "folder": "./skills/bigdata-earnings-recap"
     },
     {
       "folder": "./skills/bigdata-deal-analysis"
@@ -81,7 +78,7 @@
       "folder": "./skills/bigdata-theme"
     },
     {
-      "folder": "./skills/bigdata-country"
+      "folder": "./skills/bigdata-country-analysis"
     }
   ],
   "agentConnectors": [
