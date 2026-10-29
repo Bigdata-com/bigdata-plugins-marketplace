@@ -1,19 +1,19 @@
 ---
-name: bigdata-earnings-review
+name: bigdata-earnings-recap
 description: >-
   After a company reports: results vs consensus and guidance, what changed in the outlook, thesis
   check, reaction, peer read-across. Use for how did X do, beat or miss, a competitor's print. Not
   the setup: bigdata-earnings-preview.
 ---
 
-# Earnings review
+# Earnings recap
 
 This skill writes the note the morning after a print: results against consensus and guidance, what made the beat or miss, the guidance change and what management stopped saying, whether the long-term outlook moved, the thesis check or the Street's reception, the quality of the quarter, the reaction, the read-across to peers, and the next date. It sizes to the question: "did Nike beat" gets the results table and the guidance line; "give me a reaction note" gets the short form; "analyse Nike's quarter" gets the full review. A portfolio manager with a thesis wants it tested against the quarter. A supplier, customer, competitor or the company's own investor-relations team wants what the print means for their business, and their questions set the order of the note; the valuation refresh and the thesis vocabulary are for the investor reader. No rating, no action.
 
 ## Before starting
 
 - If the Bigdata.com tools are not available, say so and ask the user to connect the Bigdata.com connector. Give no figures from memory in the meantime; an unsourced answer would look like Bigdata.com data.
-- Pass `plugin_slug: "bigdata-earnings-review"` on every Bigdata.com call that accepts it.
+- Pass `plugin_slug: "bigdata-earnings-recap"` on every Bigdata.com call that accepts it.
 - `references/working-with-bigdata.md` maps each data need below to a tool, with fallbacks when a tool is missing. Read it before the first call. Open the method files named below when a step needs more than this page gives.
 
 ## Scope

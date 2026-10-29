@@ -23,7 +23,7 @@ Which sources informed each library file and skill, as reported by the agents th
 
 ## Sector primers
 
-| Primer | Sources | Judgment ranges marked (verify) |
+| Primer | Sources | Ranges carry population and period; no source or verify marks in shipped files (28 Oct) |
 |---|---|---|
 | technology-software, semiconductors-and-hardware, communication-services, healthcare-pharma | Base Rate Book sector tables (persistence, margins, CFROI, operating-margin beta); Profit Pools; Measuring the Moat; McKinsey ch. 26-28, 32, 34, 35; the Microsoft cash-versus-earnings example; Damodaran's R&D method; the old software and pharma primers rebuilt | Retention and payback ranges, chip spending ranges, telecom capex and churn, trial success rates; the pharma double-discounting in the old primer was corrected to McKinsey's decision-tree method |
 | financials-banks, insurance, reits, utilities | McKinsey ch. 36 (equity cash flow, economic spread, parts), ch. 16, 4, 15, 7; Calculating ROIC p. 11; Security Analysis (Berkowitz on loss reserves, Marks on appraisals, Graham and Dodd on 1929 utility bonds); Klarman; the CFROI financials row; the old banks and REIT primers | Most of insurance; REIT and utility benchmark ranges; the primers say where enterprise multiples partly survive (implied cap rate, EV to regulated asset base) |
@@ -50,7 +50,7 @@ Which sources informed each library file and skill, as reported by the agents th
 | risk | downside-and-catalysts; credit steps 2-8; Klarman ch. 8 (private-market value); the old risk categories |
 | credit | credit.md; Marks in Security Analysis; the rating medians; McKinsey ch. 23 |
 | earnings-preview | expectations, base rates, operating leverage, forecasting; the old preview's order of sections |
-| earnings-review | after-a-price-move rule 1 and tables; expectations formulas 1-2; the old digest and reaction (guidance table, thesis words) |
+| earnings-recap | after-a-price-move rule 1 and tables; expectations formulas 1-2; the old digest and reaction (guidance table, thesis words) |
 | deal-analysis | capital-allocation step 7 and formulas 8-11; McKinsey ch. 21-22; Sirower and Sahni via Cultivating Your Judgment Skills |
 | special-situations | special-situations-arithmetic; Klarman ch. 9-12; Merkin in Security Analysis |
 | sector | industry-structure steps 1-8; base-rates tables 6-10; the primers; the old sector skills |

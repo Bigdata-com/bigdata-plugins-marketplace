@@ -22,7 +22,7 @@ def rj(p):
 def exists(p): return os.path.exists(p)
 
 SKILL_LABEL = {"company-brief": "Company brief", "credit": "Credit", "deep-dive": "Deep dive", "earnings-preview": "Earnings preview",
-               "earnings-review": "Earnings review", "markets": "Markets today", "sector": "Sector", "stock-move": "Stock move",
+               "earnings-review": "Earnings review", "earnings-recap": "Earnings recap", "markets": "Markets today", "sector": "Sector", "stock-move": "Stock move",
                "theme": "Theme", "valuation": "Valuation"}
 SUBJECT = {"coreweave": "CoreWeave", "cableone": "Cable One", "spacex": "SpaceX", "amazon": "Amazon", "gm": "General Motors",
            "week": "Last week", "semis": "Semiconductors", "deckers": "Deckers", "nvent": "nVent", "nvidia": "Nvidia",
@@ -46,11 +46,34 @@ for it_dir in sorted(glob.glob(f"{EV}/iteration-*")):
     for ed in sorted(glob.glob(f"{it_dir}/*/")):
         eid = os.path.basename(ed.rstrip("/"))
         meta = rj(f"{ed}/eval_metadata.json")
-        for arm in ("with_skill", "without_skill"):
+        single = {}
+        arms = sorted(os.path.basename(a.rstrip("/")) for a in glob.glob(f"{ed}/*/") if exists(f"{a}/outputs/report.md"))
+        arms = [a for a in arms if a == "with_skill"] + [a for a in arms if a == "without_skill"] + [a for a in arms if a.startswith("with_skill_")]
+        for vp, kp, arm_key in [(f"{ed}/judge/verdict.md", f"{ed}/judge/pair.key", "with_skill")] + [(f"{ed}/judge/verdict_v{n}.md", f"{ed}/judge/pair_v{n}.key", f"with_skill_v{n}") for n in range(2, 10)]:
+            if exists(vp) and exists(kp):
+                key = rd(kp).strip(); letter = "A" if key.startswith("A=with_skill") else "B"
+                vt = rd(vp); w = re.search(r"\*\*Winner\*\*:\s*([AB])", vt)
+                verdicts_single = {"text": vt, "letter": letter, "won": bool(w and w.group(1) == letter)}
+                single[arm_key] = verdicts_single
+        verdicts = {}
+        for vp in sorted(glob.glob(f"{ed}/judge/verdict_*.md")):
+            if re.search(r"verdict_v\d+\.md$", vp): continue
+            n = vp.rsplit("_", 1)[1].split(".")[0]
+            key = rd(f"{ed}/judge/pair_{n}.key").strip() if exists(f"{ed}/judge/pair_{n}.key") else ""
+            m = re.search(r"(with_skill_\d+)", key)
+            if not m: continue
+            letter = "A" if key.startswith("A=with_skill") else "B"
+            vt = rd(vp)
+            w = re.search(r"\*\*Winner\*\*:\s*([AB])", vt)
+            won = bool(w and w.group(1) == letter)
+            verdicts[m.group(1)] = {"text": vt, "letter": letter, "won": won}
+        results_md = rd(f"{ed}/RESULTS.md") if exists(f"{ed}/RESULTS.md") else ""
+        for arm in arms:
             od = f"{ed}/{arm}/outputs"
             if not exists(f"{od}/report.md"): continue
             g = rj(f"{od}/grading.json") if exists(f"{od}/grading.json") else {"expectations": []}
             t = rj(f"{od}/timing.json") if exists(f"{od}/timing.json") else {}
+            rb = rj(f"{od}/reading.json") if exists(f"{od}/reading.json") else {}
             cit = None
             if exists(f"{od}/citation_grading.json"):
                 c = rj(f"{od}/citation_grading.json")
@@ -58,9 +81,22 @@ for it_dir in sorted(glob.glob(f"{EV}/iteration-*")):
                        "notes": c.get("implausible_notes") or c.get("notes") or "", "regraded": True}
             elif g.get("citation_sample"):
                 cit = {"sampled": g["citation_sample"], "estimate": g.get("implausible_total_estimate"), "notes": "", "regraded": False}
+            base_arm = "with_skill" if arm.startswith("with_skill") else "without_skill"
+            if re.match(r"with_skill_v\d+$", arm):
+                label = f"With skill, round {it}, " + {"with_skill_v2": "body revised", "with_skill_v3": "body revised, table recipe"}.get(arm, "revised " + arm[-2:])
+            elif arm.startswith("with_skill_"):
+                label = f"With skill, round {it}, run {arm.rsplit('_', 1)[1]}"
+            elif arm == "without_skill" and it > 1:
+                label = f"Without skill, round {it}"
+            else:
+                label = ARM[arm] + (f", round {it}" if arm == "with_skill" else "")
+            v = verdicts.get(arm) or single.get(arm)
+            allv = dict(verdicts); allv.update(single)
+            if arm == "without_skill" and allv:
+                v = {"text": "", "letter": "", "won": None, "lost": sum(1 for x in allv.values() if x["won"]), "of": len(allv)}
             runs[f"{eid}|{it}|{arm}"] = {
-                "eval": eid, "iter": it, "arm": arm,
-                "label": ARM[arm] + (f", round {it}" if arm == "with_skill" else ""),
+                "eval": eid, "iter": it, "arm": base_arm, "arm_dir": arm,
+                "label": label, "verdict": v, "results": results_md if arm.startswith("with_skill") or (arm == "without_skill" and it > 1) else "",
                 "report": rd(f"{od}/report.md"),
                 "run_log": rd(f"{od}/run_log.md") if exists(f"{od}/run_log.md") else "",
                 "expectations": [{"text": x["text"], "passed": bool(x["passed"]), "evidence": x.get("evidence", "")} for x in g.get("expectations", [])],
@@ -71,11 +107,26 @@ for it_dir in sorted(glob.glob(f"{EV}/iteration-*")):
                 "tokens": t.get("total_tokens"), "secs": t.get("total_duration_seconds"), "calls": t.get("tool_calls_total"),
                 "words": t.get("report_words") or len(rd(f"{od}/report.md").split()),
                 "by_name": t.get("tool_calls_by_name", {}),
+                "read_before": rb.get("words_before_first_call"), "read_files": [os.path.basename(x["file"]) + " " + str(x["words"]) for x in rb.get("files_read_before_first_call", [])],
+                "method_files": len(rb.get("method_files_opened_whole_run", [])) if rb else None,
             }
-        if it == 1:
+        if eid not in [e["id"] for e in evals]:
             sk, vo, su = split_id(eid)
-            evals.append({"id": eid, "skill": sk, "skill_id": by_id[eid]["skill"], "voice": vo, "subject": su,
-                          "label": f"{sk}: {su}", "prompt": by_id[eid]["prompt"]})
+            src = by_id.get(eid) or by_id.get(eid.replace("earnings-recap", "earnings-review")) or {"skill": meta.get("skill", ""), "prompt": meta.get("prompt", "")}
+            evals.append({"id": eid, "skill": sk, "skill_id": src["skill"], "voice": vo, "subject": su,
+                          "label": f"{sk}: {su}", "prompt": src["prompt"], "first_round": it})
+for e in evals:
+    ks = [k for k in runs if k.startswith(e["id"] + "|")]
+    def order(k):
+        _, it, arm = k.split("|"); it = int(it)
+        return (it, 0 if arm == "with_skill" else 1 if arm == "without_skill" else 2, arm)
+    e["run_keys"] = [k.split("|", 1)[1] for k in sorted(ks, key=order)]
+for e in evals:
+    ks = [k for k in runs if k.startswith(e["id"] + "|")]
+    def order(k):
+        _, it, arm = k.split("|"); it = int(it)
+        return (it, 0 if arm == "with_skill" else 1 if arm == "without_skill" else 2, arm)
+    e["run_keys"] = [k.split("|", 1)[1] for k in sorted(ks, key=order)]
 
 spare = []
 for e in evals_json:
@@ -88,15 +139,27 @@ def k(n): return "" if n is None else f"{round(n/1000):,}k"
 def mins(s): return "" if s is None else f"{s/60:.1f}"
 rows = []
 for e in evals:
-    a = runs[f"{e['id']}|1|with_skill"]; b = runs[f"{e['id']}|1|without_skill"]; c = runs.get(f"{e['id']}|2|with_skill")
-    rows.append({"eval": e["label"], "id": e["id"], "voice": e["voice"],
-                 "with": f"{a['pass']}/{a['total']}", "without": f"{b['pass']}/{b['total']}",
-                 "r2": f"{c['pass']}/{c['total']}" if c else "not rerun", "gain": f"{a['pass']-b['pass']:+d}" if a["pass"]!=b["pass"] else "0",
+    fr = e.get("first_round", 1)
+    a = runs.get(f"{e['id']}|1|with_skill") or runs[f"{e['id']}|{fr}|with_skill"]; b = runs.get(f"{e['id']}|1|without_skill") or runs[f"{e['id']}|{fr}|without_skill"]; c = runs.get(f"{e['id']}|2|with_skill"); d = runs.get(f"{e['id']}|3|with_skill")
+    def pairs(it):
+        rr = [runs[f"{e['id']}|{it}|{a}"] for a in ("with_skill_1", "with_skill_2", "with_skill_3") if f"{e['id']}|{it}|{a}" in runs]
+        if not rr: return ""
+        won = sum(1 for r in rr if r["verdict"] and r["verdict"]["won"]); return f"{won} of {len(rr)} pairs won"
+    r6 = ""
+    if f"{e['id']}|6|with_skill" in runs:
+        v1 = runs[f"{e['id']}|6|with_skill"]["verdict"]; r6 = "won" if v1 and v1["won"] else "lost"
+        for n in (2, 3):
+            vn = runs.get(f"{e['id']}|6|with_skill_v{n}", {}).get("verdict")
+            if vn: r6 += f"; rerun {n - 1} " + ("won" if vn["won"] else "lost")
+    rows.append({"eval": e["label"], "id": e["id"], "voice": e["voice"], "r4": pairs(4), "r5": pairs(5), "r6": r6,
+                 "with": f"{a['pass']}/{a['total']}" if a["total"] else "", "without": f"{b['pass']}/{b['total']}" if b["total"] else "",
+                 "r2": f"{c['pass']}/{c['total']}" if c else ("not rerun" if fr == 1 else ""), "r3": f"{d['pass']}/{d['total']}" if d else "", "gain": (f"{a['pass']-b['pass']:+d}" if a["pass"]!=b["pass"] else "0") if a["total"] else "",
                  "words": f"{a['words']:,} / {b['words']:,}", "tokens": f"{k(a['tokens'])} / {k(b['tokens'])}",
                  "minutes": f"{mins(a['secs'])} / {mins(b['secs'])}"})
 
-tot_w = sum(runs[f"{e['id']}|1|with_skill"]["pass"] for e in evals); tot_wt = sum(runs[f"{e['id']}|1|with_skill"]["total"] for e in evals)
-tot_o = sum(runs[f"{e['id']}|1|without_skill"]["pass"] for e in evals); tot_ot = sum(runs[f"{e['id']}|1|without_skill"]["total"] for e in evals)
+r1 = [e for e in evals if f"{e['id']}|1|with_skill" in runs]
+tot_w = sum(runs[f"{e['id']}|1|with_skill"]["pass"] for e in r1); tot_wt = sum(runs[f"{e['id']}|1|with_skill"]["total"] for e in r1)
+tot_o = sum(runs[f"{e['id']}|1|without_skill"]["pass"] for e in r1); tot_ot = sum(runs[f"{e['id']}|1|without_skill"]["total"] for e in r1)
 n_runs = len(runs); n_words = sum(r["words"] for r in runs.values())
 
 fonts = rd(f"{INPUTS}/fonts-platform.css")
@@ -194,6 +257,7 @@ strong {{ font-weight: 600; }}
 .pane {{ border: 1px solid var(--line); border-radius: 8px; background: var(--surface); min-width: 0; display: flex; flex-direction: column; }}
 .pane-h {{ padding: 10px 16px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }}
 .pane-h .row {{ display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; }}
+.pane-h .seg {{ flex-wrap: wrap; border-radius: 8px; }}
 .stats {{ display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--fg-2); margin: 0; font-variant-numeric: tabular-nums; }}
 .stats div {{ display: flex; gap: 5px; align-items: baseline; }}
 .stats dt {{ color: var(--fg-3); }}
@@ -295,10 +359,10 @@ details.k-fold > summary {{ font-size: 14px; }}
   <h2>Overview</h2>
   <p class="lead">One row per prompt. <strong>With skill</strong> means the agent read the skill and its library before answering. <strong>Without skill</strong> means it had the Bigdata.com tools alone. <strong>Round 2</strong> is the with-skill run repeated after the library fixes. A score is the number of assertions a second model marked as passed, out of the 11 to 13 graded for that prompt. <strong>Gain</strong> is the with-skill score minus the without-skill score. The last three columns read with skill / without skill: words in the report, input and output tokens, and wall-clock minutes. Click a row to open it in the reader.</p>
   <div id="ov" data-search="Overview table" data-search-hint="Table"></div>
-  <div class="ov-foot">Round 1 totals: with skill {tot_w}/{tot_wt}, without skill {tot_o}/{tot_ot}. Round 2 repeated four with-skill runs after the library fixes and added a citation-fidelity assertion, so its totals are graded on one more assertion.</div>
+  <div class="ov-foot">Round 1 totals: with skill {tot_w}/{tot_wt}, without skill {tot_o}/{tot_ot}. Round 2 repeated four with-skill runs after the library fixes and added a citation-fidelity assertion, so its totals are graded on one more assertion. Round 4 (28 October) is judged by blind pairwise comparison, not assertions; see the Round 4 column and the Blind verdict tab in the reader.</div>
 </section>
 
-<section id="reader" data-rail="Read the runs" data-rail-note="24">
+<section id="reader" data-rail="Read the runs" data-rail-note="{n_runs}">
   <h2>Read the runs</h2>
   <div class="bar">
     <label>Prompt <select id="ev" aria-label="Prompt"></select></label>
@@ -321,7 +385,8 @@ details.k-fold > summary {{ font-size: 14px; }}
   <h2>How the runs were made</h2>
   <div class="k-fold-body" style="padding:0">
   <p>Each of the ten prompts was written on 26 October 2026 from that day's news, in the words a portfolio manager or a corporate strategy, treasury or investor-relations reader would use. Each ran twice with a fresh Claude Opus agent at high effort: once after reading the skill's instructions and its library, once with the Bigdata.com tools alone. Neither run had web tools. Four prompts carried a premise that was not true (a guidance cut, a lowered outlook, a price move, a yield level); both arms were left to check it.</p>
-  <p>One Claude Sonnet grader per run scored 11 to 13 assertions against the report. Six are shared by every prompt and mirror the output standard (sources and dates on material facts, no unfinished-work markers, tables of at most eight columns, a gaps note, a closing watch list, framing for the stated reader). The rest are specific to the skill under test. The grader also left notes on anything it found suspicious, shown under Grades. Round 2 repeated four with-skill runs after the library fixes, with a citation-fidelity assertion that samples five citations and checks that each points at a document that could plausibly hold the fact; the round 1 reports for those four were regraded on the same sample.</p>
+  <p>One Claude Sonnet grader per run scored 11 to 13 assertions against the report. Six are shared by every prompt and mirror the output standard (sources and dates on material facts, no unfinished-work markers, tables of at most eight columns, a gaps note, a closing watch list, framing for the stated reader). The rest are specific to the skill under test. The grader also left notes on anything it found suspicious, shown under Grades. Round 2 repeated four with-skill runs after the library fixes, with a citation-fidelity assertion that samples five citations and checks that each points at a document that could plausibly hold the fact; the round 1 reports for those four were regraded on the same sample. Round 3, on 27 October, repeated one prompt (the Amazon earnings preview) after the skill bodies were rewritten as guidelines and the library was stripped; its pane header also shows how much skill and library text the agent read before its first Bigdata.com call.</p>
+  <p>Round 4, on 28 October, followed the packaging rewrite of the earnings-preview skill and the library files it loads: no author, paper or book named, formulas and tables named by content rather than numbered, no procedures inside reference files, and an output standard under which an assumption is stated once in plain words and nothing else is labelled. Three fresh with-skill runs and one fresh no-skill run were made the same afternoon, then three Claude Sonnet judges each read one with-skill note beside the no-skill note with the order randomised and said which an expert would rather have and why. No assertion grades were run for round 4; the blind verdict, the word count and the tokens are the measures. A scan of each note for library file names, formula or table numbers, primer or source names, and basis labels found none in any round-4 note.</p>
   <p>Tokens are the agent's total input and output tokens for the run. Minutes are wall-clock time from launch to the final message. Tool calls count every call, including file reads of the skill and Bigdata.com calls.</p>
   </div>
   <details class="k-fold" id="spare"><summary>Ten prompts drafted but not run<small>one spare per skill</small></summary><div class="k-fold-body">{spare_html}</div></details>
@@ -346,7 +411,7 @@ details.k-fold > summary {{ font-size: 14px; }}
   function fmtMin(s) {{ return s == null ? "\\u2013" : (s / 60).toFixed(1); }}
   function fmtN(n) {{ return n == null ? "\\u2013" : n.toLocaleString("en-US"); }}
   function save() {{ try {{ localStorage.setItem("eval-reader", JSON.stringify({{ layout: state.layout }})); }} catch (e) {{}} }}
-  function runsFor(id) {{ var out = []; ["1|with_skill", "1|without_skill", "2|with_skill"].forEach(function (k) {{ if (RUNS[id + "|" + k]) out.push(k); }}); return out; }}
+  function runsFor(id) {{ var e = byId(id); var out = []; (e && e.run_keys ? e.run_keys : ["1|with_skill", "1|without_skill", "2|with_skill", "3|with_skill"]).forEach(function (k) {{ if (RUNS[id + "|" + k]) out.push(k); }}); return out; }}
   function run(side) {{ return RUNS[state.ev + "|" + state[side].run]; }}
 
   function renderMd(md) {{
@@ -402,22 +467,29 @@ details.k-fold > summary {{ font-size: 14px; }}
     }});
     row1.appendChild(seg);
     var tabs = el("div", "tabs"); tabs.setAttribute("role", "tablist");
-    [["report", "Report"], ["grades", "Grades"], ["log", "Run log"]].forEach(function (t) {{
+    var tabList = [["report", "Report"]]; if (r.total > 0) tabList.push(["grades", "Grades"]); if (r.verdict && r.verdict.text) tabList.push(["verdict", "Blind verdict"]); if (r.results) tabList.push(["results", "Round notes"]); tabList.push(["log", "Run log"]);
+    if (!tabList.some(function (t) {{ return t[0] === state[side].tab; }})) state[side].tab = "report";
+    tabList.forEach(function (t) {{
       var b = el("button", null, t[1]); b.type = "button"; b.setAttribute("role", "tab"); b.setAttribute("aria-selected", String(t[0] === state[side].tab));
       b.addEventListener("click", function () {{ state[side].tab = t[0]; renderPane(side); }}); tabs.appendChild(b);
     }});
     row1.appendChild(tabs); h.appendChild(row1);
     var st = el("dl", "stats");
     function stat(k, v, tip, cls) {{ var d = el("div"); d.appendChild(el("dt", null, k)); var dd = el("dd", cls, v); d.appendChild(dd); if (tip) {{ d.setAttribute("data-tip", tip); d.tabIndex = 0; }} st.appendChild(d); }}
-    stat("Passed", r.pass + "/" + r.total, "Assertions passed over assertions graded by the Sonnet grader", "pass");
+    if (r.total > 0) stat("Passed", r.pass + "/" + r.total, "Assertions passed over assertions graded by the Sonnet grader", "pass");
+    if (r.verdict && r.verdict.won != null) stat("Blind pair", r.verdict.won ? "won" : "lost", "A judge (Sonnet in round 4, Fable in round 5) read this note and the same-day no-skill note with the order randomised (this note was Report " + r.verdict.letter + ") and picked the one an expert would rather have", r.verdict.won ? "pass" : "");
+    else if (r.verdict && r.verdict.of) stat("Blind pairs", "lost " + r.verdict.lost + " of " + r.verdict.of, "This no-skill note was judged blind against each with-skill run of the same round", "");
     stat("Words", fmtN(r.words), "Words in the report");
     stat("Tokens", fmtK(r.tokens), "Input and output tokens the agent used in the run");
     stat("Minutes", fmtMin(r.secs), "Wall-clock time from launch to the final message");
-    stat("Tool calls", fmtN(r.calls), Object.keys(r.by_name || {{}}).map(function (k) {{ return k.replace(/^mcp__claude_ai_Bigdata_com__/, "") + ": " + r.by_name[k]; }}).join("\\n") || "Tool calls in the run");
+    if (r.read_before != null) stat("Read first", fmtN(r.read_before), "Words of skill and library text the agent read before its first Bigdata.com call: " + (r.read_files || []).join(", ") + (r.method_files != null ? ". Method files opened over the run: " + r.method_files : ""));
+    stat("Tool calls", fmtN(r.calls), Object.keys(r.by_name || {{}}).map(function (k) {{ return k.replace(/^mcp__claude_ai_Bigdata_com(_2)?__/, "") + ": " + r.by_name[k]; }}).join("\\n") || "Tool calls in the run");
     h.appendChild(st); host.appendChild(h);
     var b = el("div", "pane-b"); b.setAttribute("role", "tabpanel"); b.setAttribute("data-check", "skip");   /* the agents' own reports: wide tables scroll inside the pane, and clipped text is not an overlap */
     if (state[side].tab === "report") b.appendChild(renderMd(r.report));
     else if (state[side].tab === "grades") b.appendChild(renderGrades(r));
+    else if (state[side].tab === "verdict") {{ b.appendChild(el("p", "cit-note", "The judge saw this note as Report " + r.verdict.letter + " and the no-skill note of the same day as Report " + (r.verdict.letter === "A" ? "B" : "A") + ". It did not know which was which.")); b.appendChild(renderMd(r.verdict.text)); }}
+    else if (state[side].tab === "results") b.appendChild(renderMd(r.results));
     else b.appendChild(r.run_log ? renderMd(r.run_log) : el("p", "cit-note", "No run log was saved for this run."));
     host.appendChild(b);
   }}
@@ -425,6 +497,11 @@ details.k-fold > summary {{ font-size: 14px; }}
   function renderCompare() {{
     var body = document.getElementById("cmp-body"); body.textContent = "";
     var a = run("L"), b = run("R");
+    if (!a.total || !b.total) {{
+      var which = !a.total && !b.total ? "these two runs have" : ((!a.total ? a.label : b.label) + " has");
+      document.querySelector("#cmp > summary").textContent = "Assertions side by side: " + which + " no assertion grades (rounds 4 and 5 are judged by blind comparison; open the Blind verdict tab).";
+      return;
+    }}
     var t = el("table", "cmp"); var thead = el("thead"); var tr = el("tr");
     [["Assertion", ""], [a.label, "m"], [b.label, "m"]].forEach(function (c) {{ var th = el("th", c[1], c[0]); tr.appendChild(th); }}); thead.appendChild(tr); t.appendChild(thead);
     var tb = el("tbody"); var seen = {{}}; var order = [];
@@ -472,8 +549,11 @@ details.k-fold > summary {{ font-size: 14px; }}
       {{ key: "with", label: "With skill", tip: "Assertions passed out of assertions graded, round 1, with the skill loaded" }}, {{ key: "without", label: "Without skill", tip: "Assertions passed out of assertions graded, round 1, Bigdata.com tools only" }},
       {{ key: "gain", label: "Gain", tip: "With-skill score minus without-skill score, round 1" }},
       {{ key: "r2", label: "Round 2", tip: "With skill, repeated after the library fixes and graded on one extra assertion (citation fidelity), so its denominator is one higher" }},
-      {{ key: "words", label: "Words", tip: "Report length, with skill / without skill" }}, {{ key: "tokens", label: "Tokens", tip: "Input and output tokens, with skill / without skill" }},
-      {{ key: "minutes", label: "Minutes", tip: "Wall-clock minutes, with skill / without skill" }}
+      {{ key: "r3", label: "Round 3", tip: "With skill, repeated on 27 October after the bodies were rewritten as guidelines and the library stripped; graded on the round 2 assertion set" }},
+      {{ key: "r4", label: "Round 4", tip: "28 October, after the packaging rewrite (no source names, no labels, no numbered pointers): three fresh with-skill runs each judged blind by Sonnet, then again by Fable with a brutal brief, against a fresh no-skill run of the same day. Blind pairs won by the with-skill note." }},
+      {{ key: "r5", label: "Round 5", tip: "28 October, later: the skill revised on the Fable findings (balance sheet once, cases that partition, no regression statistics, findings as headings). Three fresh with-skill runs judged blind by Fable against the same no-skill note. Blind pairs won by the with-skill note." }},
+      {{ key: "r6", label: "Round 6", tip: "28 October, evening: five more skills on their spare live prompts, one with-skill run against one no-skill run, judged blind by Fable with the brutal brief. Where the skill lost, the body was revised and rerun against the same no-skill note: rerun 1 after the artefact pass (conditional directions), rerun 2 after the table recipe." }},
+      {{ key: "words", label: "Words", tip: "Report length, with skill / without skill" }}, {{ key: "tokens", label: "Tokens", tip: "Input and output tokens, with skill / without skill (wall-clock minutes are in each run's pane)" }}
     ],
     rows: DATA.rows, noun: "prompts"
   }});

@@ -57,13 +57,13 @@ In the topic model, 71 percent of searches name a time window, which is why ever
 2. Skills are guidelines, not scripts. Each skill says what a finished answer must establish and how to get there, and tells the model to skip steps that do not apply and to go further where the task needs it. A narrow question gets a direct answer in the skill's method, not the full report.
 3. The reader is a seasoned portfolio manager. Rigour first, plain language, buy-side vocabulary where it is the natural word. The user can ask for a simpler version.
 4. Expectations before the view. Any skill that forms a view on a stock states what the price implies before saying what the analyst thinks, using the expectations method file.
-5. Every number has a basis. Tables carry a Basis column with one of four labels: reported (from a document or dataset, with a citation), derived (computed from reported figures, with the formula or fields named), assumed (an input the analyst chose), judgment. Prose marks derived and assumed figures when it is not obvious.
+5. Every number can be checked. A fact from a document carries a link with the source and date next to it. An assumption a conclusion rests on is stated once, in plain words, where it matters. Nothing else is labelled. (Revised 28 October: the four basis words and the Basis column were retired after they reached the reports as residue.)
 6. Ranges, not points. Valuation and forecasts come as base, downside and upside with probabilities that sum to 100 percent and weights taken from the reference class, never a default 25/50/25.
-7. Base rates next to every growth or margin claim. The claim is placed in its size-and-horizon reference class with the share of companies that achieved it, labelled with the sample and period.
+7. A base rate where a multi-year growth or margin claim carries the conclusion, written into that sentence with how often companies of that size achieved it and the population and period, and nowhere else. (Revised 28 October: the earlier rule, a base rate next to every claim labelled with sample and period, produced paragraphs that named the source book.)
 8. No recommendation. The output describes the balance of evidence and what would change it. It carries no rating, stance line, position size or Kelly fraction.
 9. Facts apart from analysis. What the data shows, then what it means, then what would change the view, then the gaps Bigdata.com could not fill.
 10. The same footer everywhere: Sources, the Powered by Bigdata.com line and the disclaimer, verbatim.
-11. Nothing hard-coded that goes stale: no fixed years, no fixed query lists, no numbers from the papers quoted as current facts. Dated figures carry "(verify)" and their source window.
+11. Nothing hard-coded that goes stale: no fixed years, no fixed query lists, no historical figure quoted as a current fact. A historical figure carries its population and period. (Revised 28 October: the "(verify)" convention was retired; verification notes live in the method specs under docs, never in shipped files.)
 12. No scripts in version one. Computation goes through the Bigdata.com `bigdata_computer` tool or the host's code execution with the working shown; the method files carry the formulas. We revisit bundled scripts if the evals show arithmetic errors.
 
 These replace the EPIC driver table and the FaVeS variant-perception scoring used in the current skills, the Kelly position-sizing formula, the star ratings, the Buy/Hold/Sell lines, the "Prepared with Claude" footer and the five Python scripts.
@@ -92,7 +92,7 @@ Twenty-five job skills plus the entry skill. Names keep the `bigdata-` prefix be
 | bigdata-valuation | What the company is worth: price-implied expectations first, then a reinvestment-consistent DCF with the terminal value and bridge checks, as a range | 367 runs; the current skill lacks the checks a PM would run |
 | bigdata-comps | Peers chosen by value drivers, consistent multiples at market values, medians, and where the company should sit and why | 239 runs |
 | bigdata-scenarios | Base, downside and upside cases run through the drivers with reference-class weights and an expected value | 180 runs |
-| bigdata-earnings-quality | Accrual, EBITA rebuild, recurring one-offs, provisions, revenue recognition, earnings-to-equity reconciliation, red flags with severity | 55 runs, but the method is used inside deep-dive, thesis and earnings-review |
+| bigdata-earnings-quality | Accrual, EBITA rebuild, recurring one-offs, provisions, revenue recognition, earnings-to-equity reconciliation, red flags with severity | 55 runs, but the method is used inside deep-dive, thesis and earnings-recap |
 | bigdata-moat | Industry map, profit pool, share stability, pricing power, concentration, entry and exit, five forces, source of advantage, disruption test | 57 runs; the Measuring the Moat sequence replaces the current taxonomy |
 | bigdata-capital-allocation | Five-year sources and uses, buyback and dividend tests, deal tests, reinvestment returns, leverage, incentives | New; the governance half of moat-governance plus the capital-allocation methods |
 | bigdata-risk | Downside first: what breaks the thesis, how much is at risk, liquidation and private-market floors, the risks ranked by probability and size | 110 runs |
@@ -103,7 +103,7 @@ Twenty-five job skills plus the entry skill. Names keep the `bigdata-` prefix be
 | Skill | Job | Why it is in the set |
 |---|---|---|
 | bigdata-earnings-preview | Drivers, what is priced in, consensus against base rates and guidance, scenarios with watch-fors, the sales-to-margin linkage | 183 runs; the current order of sections is kept |
-| bigdata-earnings-review | After the print: results versus consensus and guidance, what changed in the long-term outlook, thesis check, estimate and valuation refresh, quality signals, next date | earnings-digest and earnings-reaction merged; the long and short forms are one skill sized to the question |
+| bigdata-earnings-recap | After the print: results versus consensus and guidance, what changed in the long-term outlook, thesis check, estimate and valuation refresh, quality signals, next date | earnings-digest and earnings-reaction merged; the long and short forms are one skill sized to the question |
 | bigdata-deal-analysis | For an announced or rumoured deal: strategic logic, price versus value, synergies against base rates, SVAR, financing, regulatory path, what each side's shareholders get | New; deals are 3 percent of searches |
 | bigdata-special-situations | Spin-offs, merger arbitrage, rights issues, restructurings, liquidations: the arithmetic of the payoff with a break price and probabilities | New; replaces the five IPO skills for event work |
 
@@ -133,18 +133,18 @@ The current skills copy 23 reference files between them, several of which (EPIC,
 
 | File | What it carries | Loaded by |
 |---|---|---|
-| expectations.md | Steady-state value, implied growth and competitive-advantage period solved from the price, the warranted P/E grid, which revision matters, implied multiples from a DCF | quick-take, deep-dive, thesis, valuation, earnings-preview, earnings-review, scenarios, theme, sector |
+| expectations.md | Steady-state value, implied growth and competitive-advantage period solved from the price, the warranted P/E grid, which revision matters, implied multiples from a DCF | quick-take, deep-dive, thesis, valuation, earnings-preview, earnings-recap, scenarios, theme, sector |
 | base-rates.md | Sales and earnings growth distributions by size and horizon, margin and profitability persistence by sector, fade formula with horizon-matched r, operating-margin beta, threshold margin, consensus overconfidence | valuation, scenarios, earnings-preview, thesis, deep-dive, theme, screen |
 | roic.md | NOPAT and invested capital built both ways, with and without goodwill, leases, capitalised R&D, excess cash, ROIIC, margin times turnover, spread over cost of capital, the FactSet field as a cross-check | deep-dive, valuation, moat, capital-allocation, comps, earnings-quality |
 | valuation.md | Value-driver formula, horizon by competitive advantage, continuing value with RONIC fading to WACC, terminal-value share and implied terminal multiple, reinvestment consistency, tax on EBIT, the equity bridge per share, cost of capital as an assumption with a sensitivity table, scenarios, special cases for banks, cyclicals, high growth, emerging markets, conglomerates | valuation, deep-dive, scenarios, deal-analysis |
 | multiples-and-peers.md | Consistent numerator and denominator, EV at market values, cleaning the metric, which multiple for which business, peers by value drivers, medians, what drives a multiple, target multiple formulas, implied multiples | comps, valuation, quick-take, sector, screen |
-| earnings-quality.md | One accrual definition, EBITA rebuild, recurring one-offs counted, provisions, pensions, leases, stock compensation, revenue recognition, earnings-to-equity reconciliation, Graham and Dodd normalisation, red flags with severity | earnings-quality, earnings-review, deep-dive, thesis, risk |
+| earnings-quality.md | One accrual definition, EBITA rebuild, recurring one-offs counted, provisions, pensions, leases, stock compensation, revenue recognition, earnings-to-equity reconciliation, Graham and Dodd normalisation, red flags with severity | earnings-quality, earnings-recap, deep-dive, thesis, risk |
 | capital-allocation.md | Sources and uses, buyback return and EPS breakeven, dividend tests, deal NPV and SVAR, synergy base rates, reinvestment returns, leverage, incentives | capital-allocation, deal-analysis, deep-dive, moat |
 | industry-structure.md | Industry map, profit pool, share stability, pricing power, HHI, entry and exit, five forces, value chain, sources of advantage, disruption, lifecycle and CAP | moat, deep-dive, sector, theme, thesis |
 | operating-leverage-and-tam.md | Fixed and variable cost response, scale versus leverage, threshold margin, TAM built bottom-up and top-down, S-curve warning, profit pools and value migration | earnings-preview, theme, deep-dive, scenarios |
-| after-a-price-move.md | Event classification, the Man Overboard and Celebrating the Summit tables, momentum, valuation and quality proxies from tearsheet fields, the long-term-outlook test | stock-move, earnings-review, watchlist |
+| after-a-price-move.md | Event classification, the Man Overboard and Celebrating the Summit tables, momentum, valuation and quality proxies from tearsheet fields, the long-term-outlook test | stock-move, earnings-recap, watchlist |
 | downside-and-catalysts.md | Margin of safety, downside first, why it is cheap and who sells, liquidation and private-market floors, catalyst taxonomy and potency, kill rule, sell logic, facts versus opinions | risk, thesis, catalysts, quick-take, deep-dive |
-| forecasting-discipline.md | Granular probabilities, scenario weights from the reference class, premortem, kill criteria with dates, disconfirming evidence, expected value and magnitude over frequency | scenarios, thesis, earnings-preview, earnings-review |
+| forecasting-discipline.md | Granular probabilities, scenario weights from the reference class, premortem, kill criteria with dates, disconfirming evidence, expected value and magnitude over frequency | scenarios, thesis, earnings-preview, earnings-recap |
 | credit.md | Coverage and leverage tests, safety margins for senior securities, rating medians, maturities, distress signals | credit, risk, deal-analysis |
 | special-situations-arithmetic.md | Merger arbitrage spread and break price, spin-off logic, rights issues, restructurings, liquidations, probability-weighted payoff | special-situations, deal-analysis |
 
@@ -152,7 +152,7 @@ Appendix C specifies each file: inputs mapped to Bigdata.com fields, the procedu
 
 ### 5.2 Sector primers (12)
 
-The seven current primers (software, banks, pharma, REITs, industrials, consumer and retail, energy) are rewritten so that every number is a range with its source and a "(verify)" mark, and five are added: semiconductors and hardware (split from software), materials, communication services, utilities, insurance. Each primer carries the sector's value drivers, the metrics that matter and why, the structure of the profit pool, the accounting traps, where the sector sits in the persistence and fade tables, and the questions a specialist asks on an earnings call. The sector skill loads the primer for the sector in question; the company skills load it when the company is in one of the eleven sectors.
+The seven current primers (software, banks, pharma, REITs, industrials, consumer and retail, energy) are rewritten so that every number is a range with its population and period (revised 28 October: sources and "(verify)" marks were removed from shipped files), and five are added: semiconductors and hardware (split from software), materials, communication services, utilities, insurance. Each primer carries the sector's value drivers, the metrics that matter and why, the structure of the profit pool, the accounting traps, where the sector sits in the persistence and fade tables, and the questions a specialist asks on an earnings call. The sector skill loads the primer for the sector in question; the company skills load it when the company is in one of the eleven sectors.
 
 ### 5.3 The two files every skill loads
 
@@ -189,7 +189,7 @@ Every job skill has the same eight parts, in this order. The headings are fixed 
 4. Scope the request: what must be known before data gathering starts, what to assume and state when it is not, and the one question worth asking when the answer would change the work materially. At most one question.
 5. Gather: the data plan as a list of tool calls in order, with what each must establish and the done condition for the step.
 6. Analyse: the method as numbered steps, each naming the reference file to load and when, each ending in what the step must produce.
-7. Write: the report structure as a skeleton with the sections, the tables and their Basis column, length guidance, and how to size down for a narrow question.
+7. Write: what the opening gives, that the body follows the question, what closes the note, and how to size down for a narrow question (revised 28 October: no section skeleton and no Basis column; sub-headings state findings, not steps).
 8. Checks before sending: the list a portfolio manager would run on this report, five to ten items, specific to the skill.
 9. Hand-offs: when to switch to a neighbouring skill, and the single offer to make after delivery (save a watchlist, a monitor or a report, or build a skill).
 
@@ -202,12 +202,12 @@ Each report has the same frame so that a user who reads three of them knows wher
 - Header: title, the company or subject with its ticker, the date, and "Data as of" with the latest fiscal period in the tearsheet and the newest document used.
 - The answer first, in prose, four to eight sentences: what the evidence shows, what the price implies, what would change the reading. No rating word.
 - The body sections the skill defines, in its order.
-- Tables carry a Basis column (reported, derived, assumed, judgment) and a Source column with the citation number. Every figure has a unit, a currency and a period. Consensus figures carry their vintage and the number of estimates when the tearsheet gives it.
+- A fact from a document carries an inline link with source and date; an assumption a conclusion rests on is stated once in plain words where it matters; no Basis column and no citation numbers (revised 28 October). Every figure has a unit, a currency and a period. Consensus figures carry their vintage and the number of estimates when the tearsheet gives it.
 - A "What would change this view" section with two to five conditions, each observable and dated where possible.
 - A "Gaps" line naming what Bigdata.com could not answer. Nothing is filled from memory or the web without saying so.
 - Sources: numbered, with source name, title, date and the attribution link from the tool result. Derived figures that have no document cite the data set in a Data line.
 - The footer: the Powered by Bigdata.com line and the disclaimer, verbatim.
-- Length. One page for quick-take. One to two pages for company-brief, stock-move, catalysts, watchlist and markets-today. Two to four pages for earnings-preview, earnings-review, valuation, comps, scenarios, earnings-quality, moat, capital-allocation, risk and credit. Four to eight pages for deep-dive, thesis, sector, theme, country and deal-analysis. A narrow question gets a direct answer that still cites and still carries the footer.
+- Length. One page for quick-take. One to two pages for company-brief, stock-move, catalysts, watchlist and markets-today. Two to four pages for earnings-preview, earnings-recap, valuation, comps, scenarios, earnings-quality, moat, capital-allocation, risk and credit. Four to eight pages for deep-dive, thesis, sector, theme, country and deal-analysis. A narrow question gets a direct answer that still cites and still carries the footer.
 - Plain language, active verbs, no hype adjectives. Buy-side vocabulary is fine; an uncommon term is defined on first use.
 
 Citation format is one of the open decisions in section 10. The proposal uses numbered references with the server's link format inside each Sources entry, which works in markdown, in Word export and in every host, and asks the MCP team to align the server instruction's inline format with it.
@@ -292,7 +292,7 @@ The Cowork package is a zip with `manifest.json`, the two icons and `skills/`, b
 
 With 26 skills the package leaves six out. The proposed first cut, by expected demand and by overlap with skills that stay: bigdata-credit, bigdata-special-situations, bigdata-capital-allocation, bigdata-macro-compare, bigdata-screen and bigdata-comps (valuation loads the same multiples file). The build prints the skills left out so the list is visible on every build, and usage after four weeks revises it.
 
-Microsoft also has a declarative-agent route for Copilot Chat with at most 8 skills and 20,000 characters of instructions per agent. If a Copilot Chat agent is wanted later, it takes the six monitoring skills plus earnings-preview and earnings-review; this proposal does not build it.
+Microsoft also has a declarative-agent route for Copilot Chat with at most 8 skills and 20,000 characters of instructions per agent. If a Copilot Chat agent is wanted later, it takes the six monitoring skills plus earnings-preview and earnings-recap; this proposal does not build it.
 
 ### 7.4 Other hosts
 
@@ -324,7 +324,7 @@ Per skill, six prompts:
 | Indirect, ticker only | "MU just dropped, what happened" | the skill fires |
 | Window phrasing | "What drove ASML this week?" | the skill fires |
 | Near miss, neighbour | "What happened at Micron last month?" | bigdata-company-brief fires, not stock-move |
-| Near miss, neighbour | "Micron reported last night, how did it do?" | bigdata-earnings-review fires |
+| Near miss, neighbour | "Micron reported last night, how did it do?" | bigdata-earnings-recap fires |
 | Should not fire | "Why do stocks drop after earnings in general?" | no Bigdata.com skill, or the entry skill at most |
 
 Twenty-six skills times six prompts is 156; with the baseline run it is 312 model calls on Sonnet, in the tens of dollars per pass at current Sonnet prices. The pass rule is that each skill fires on its three positives and on none of its three negatives in at least two of three runs. The whole set runs together, which is the coexistence test the onboarding plan asked for. The skill-creator plugin's description tuner runs on any skill that fails, with the same six prompts as its should-fire and should-not-fire sets.
@@ -348,7 +348,7 @@ The judge grades each report against a checklist specific to the skill, written 
 
 - earnings-preview. States what the price implies before the drivers. Places consensus sales and EPS growth in the size-and-horizon class with the share that achieved it. Quotes the company's guidance for the quarter from the previous call, verbatim with a citation. Gives the sales-to-margin sensitivity with the sector's operating-margin beta. Scenarios carry probabilities summing to 100 and a watch-for each. No rating.
 - valuation. Expectations first. A reinvestment-consistent terminal value with RONIC fading to WACC. The terminal-value share of EV reported against the guidance band, and the implied terminal multiple below today's. The bridge per share with every item. A WACC and growth sensitivity table. A range rather than a point. The special case applied when the company is a bank, a cyclical or high growth.
-- stock-move. The event classified as earnings or not, with its size relative to the index. The base-rate table row quoted with N and period. Momentum, valuation and quality proxied from tearsheet fields and labelled derived. The long-term-outlook test answered. No buy or sell call.
+- stock-move. The event classified as earnings or not, with its size relative to the index. The base-rate row stated with its population and period. Momentum, valuation and quality proxied from tearsheet fields and named derived. The long-term-outlook test answered. No buy or sell call.
 - quick-take. Fits on one page. The steady-state P/E check is there. Three drivers with evidence, the next dated catalyst, and what would change the view.
 
 Each item scores pass or fail with a one-sentence reason. A skill ships at 80 percent of items passing across its runs, a starting bar to raise as the skills mature, and any failed item on "no rating", "no memory fill" or "citation on every number" blocks regardless. The judge grades against the checklist item by item, so its own taste plays a small part.
@@ -376,7 +376,7 @@ Every call carries `plugin_slug`, the server-side allowlist gets the new names a
 | cross-sector, sector-analysis, sector-playbook | bigdata-sector |
 | regional-comparison, g7-comparison, country-sector-analysis | bigdata-macro-compare (country-sector questions route to bigdata-sector with a country scope) |
 | earnings-preview | bigdata-earnings-preview |
-| earnings-digest, earnings-reaction | bigdata-earnings-review |
+| earnings-digest, earnings-reaction | bigdata-earnings-recap |
 | scenario-analysis | bigdata-scenarios |
 | risk-assessment | bigdata-risk |
 | moat-governance-review | bigdata-moat (structure) and bigdata-capital-allocation (governance and incentives) |

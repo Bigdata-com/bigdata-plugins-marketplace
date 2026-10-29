@@ -64,3 +64,7 @@ Each one is a call I would have asked about. The alternative is stated so it can
 - D40 Cost of capital: valuation.md step 3 now requires a Blume-adjusted beta checked against peer and sector betas, a cost of equity inside the market's range for comparable companies (roughly 8 to 12 percent for US large caps at a 5 percent risk-free rate), and the value at the market-implied cost of capital in the sensitivity. Trigger: the Nvidia run's 13.9 percent WACC from a raw beta of 2.19.
 - D41 Tool-description requests for the MCP team are listed in `docs/proposals/2026-10-26-tool-description-requests.md` (17 items). Until they land, the skills' library carries those facts.
 - D42 Regression check: the with-skill arm rerun on four skills (company-brief, earnings-review, valuation, theme) against the new bodies, graded with the iteration-1 assertions plus a citation-fidelity assertion; iteration-1 with-skill reports regraded on that assertion for comparison. Results in `evals/quality-2026-10-26/iteration-2/` and the write-up.
+
+## Finish plan, 2026-10-27
+
+- D43 Marko renamed `bigdata-earnings-review` to `bigdata-earnings-recap` by message on 27 October. Applied the same day across the skill folder, the seven trigger cases, the neighbouring skills and method file, the Microsoft manifest and the proposal text; the 23 to 26 October run logs and plan records keep the old name as history.

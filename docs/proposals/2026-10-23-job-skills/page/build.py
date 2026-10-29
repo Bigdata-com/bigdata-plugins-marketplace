@@ -156,6 +156,15 @@ add = rd(f"{S}/addendum-2026-10-26.md")
 ADD = {}
 for k in re.split(r"^## ", add, flags=re.M)[1:]:
     t, _, body = k.partition("\n"); ADD[t.strip()] = body
+add28 = rd(f"{S}/addendum-2026-10-28.md")
+ADD28 = {}
+for k in re.split(r"^## ", add28, flags=re.M)[1:]:
+    t, _, body = k.partition("\n"); ADD28[t.strip()] = body
+add27 = rd(f"{S}/addendum-2026-10-27.md")
+ADD27 = {}
+for k in re.split(r"^## ", add27, flags=re.M)[1:]:
+    t, _, body = k.partition("\n"); ADD27[t.strip()] = body
+RECUT = os.path.join(os.path.dirname(S), "2026-10-26-recut")
 PLUG = f"{W}/plugins/bigdata-com"
 import glob, subprocess
 def built_skill(name):
@@ -239,11 +248,29 @@ def section(n, label, title, inner, cls=""):
     return f'<section id="{n}" data-rail="{esc(label)}" class="{cls}"><h2>{esc(title)}</h2>\n{inner}\n</section>'
 
 order = []
-status = ('<p class="status"><strong>Status, ' + esc(datetime.date.today().strftime("%d %b %Y")) + '.</strong> The 23 October build (branch <code>skills-proposal-2026-10-23</code>) was audited on 25 October and every fix was made on a second branch, <code>skills-audit-fixes-2026-10-25</code>, now at commit <code>' + esc(COMMIT) + '</code>: library formulas corrected, tool steps matched to what the data holds, all 26 descriptions rewritten and the trigger suite grown to 182 cases, skill bodies made tool-agnostic, and ten skills run on live prompts with and without the skill. The section "What changed since 23 October" carries the audit and the fixes, "Quality evals" the live runs, and "Decisions for Marko" the calls still open. The file browser and the eval results show the second branch. Nothing is merged, pushed or published to any host.</p>')
+status = ('<p class="status"><strong>Status, ' + esc(datetime.date.today().strftime("%d %b %Y")) + '.</strong> The 23 October build (branch <code>skills-proposal-2026-10-23</code>) was audited on 25 October and every fix was made on a second branch, <code>skills-audit-fixes-2026-10-25</code>, now at commit <code>' + esc(COMMIT) + '</code>: library formulas corrected, tool steps matched to what the data holds, all 26 descriptions rewritten and the trigger suite grown to 182 cases, skill bodies made tool-agnostic, and ten skills run on live prompts with and without the skill. The section "What changed since 23 October" carries the audit and the fixes, "Quality evals" the live runs, and "Decisions for Marko" the calls still open. On 27 October the re-cut was checked against the 23 October goals and found short in four places; "Finish plan" states the four, what changes, the answers from the review page, and the order of work to the release. On 28 October the earnings-preview skill lost a blind comparison to a no-skill run; the cause was traced to the packaging (source names, basis labels and numbered pointers reaching the page), the library and the output standard were rewritten in three layers, the skill then won six of six blind comparisons, and every other body was revised the same way; "Packaging, 28 October" carries the diagnosis, the rules and the evidence. The file browser shows the files as of that revision. Nothing is merged, pushed or published to any host.</p>')
 order.append(section("summary", "Summary", "Summary", status + md(sections[1][1])))
 order.append(section("changes", "Since 23 Oct", "What changed since 23 October", md(ADD["What changed since 23 October"])))
+def body_fold(label, job, text, open_=False):
+    words = len(text.split())
+    return (f'<details class="k-fold"{" open" if open_ else ""}><summary><span class="fold-name">{esc(label)}</span><span class="fold-job">{esc(job)}</span><small>{words:,} words</small></summary>'
+            f'<div class="k-fold-body doc">{md(text, gl=False, base_h=4)}</div></details>')
+finish_html = (md(ADD27["Where the plan fell short"]) + "<h3>What changes</h3>" + md(ADD27["What changes"]).replace("<h3>", "<h4>").replace("</h3>", "</h4>")
+    + '<h4>The valuation body in three versions</h4><p>Open each to read it as the agent would. The third is the shape proposed for all 22 bodies.</p><div class="folds">'
+    + body_fold("SKILL.md, today", "The file on the audit branch, 25 October: gather, analyse, write, eleven checks.", rd(f"{PLUG}/skills/bigdata-valuation/SKILL.md"))
+    + body_fold("valuation.recut.md, 26 October", "The first re-cut: the same procedure, shorter, 23 numbered steps.", rd(f"{RECUT}/valuation.recut.md"))
+    + body_fold("valuation.recut2.md, 27 October", "Only what the agent would not supply itself: the method choices, the recorded mistakes, the data facts, three checks.", rd(f"{RECUT}/valuation.recut2.md"), open_=True)
+    + '</div><h3>Answers from the review page</h3>' + md(ADD27["Answers from the review page"]) + "<h3>Order of work</h3>" + md(ADD27["Order of work"]))
+order.append(section("finish", "Finish plan", "Finish plan, 27 October", finish_html))
+pack_html = "".join("<h3>" + esc(h) + "</h3>" + md(ADD28[h]) for h in ADD28)
+order.append(section("packaging", "Packaging, 28 Oct", "Packaging, 28 October", pack_html))
 order.append(section("decisions", "Decisions", "Decisions for Marko", "<h3>Open after the audit and the evals, 26 October</h3>" + md(ADD["Decisions still open for Marko"]) + "<h3>From the 23 October proposal</h3><p>Two of these were settled by the evals: the citation format is now inline links carried with each fact, after numbered references put six of ten reports on a wrong document, and the cost of capital stays an assumption but the valuation method now checks the beta and shows the value at the market-implied rate.</p>" + md(sections[10][1])))
 tree = json.load(open(f"{INPUTS}/plugin/tree.json"))
+# every served file inlined, so the page is self-contained (the publish script sends one HTML file, and file:// works)
+files_inline = {}
+for _e in tree:
+    if _e.get("src") and _e["src"] not in files_inline:
+        files_inline[_e["src"]] = open(f"{INPUTS}/plugin/{_e['src']}", encoding="utf-8").read()
 browse_html = ('<p>The plugin as it stands on the branch, file by file: the manifest, the library, and every skill folder with its SKILL.md, its ChatGPT listing file and the references the build placed in it. Pick a file in the tree, or press Cmd+K and type its name. A reference inside a skill is a copy of a library file; the viewer says which one and shows it from the library, so the same text is not stored twenty times.</p>'
     '<div class="fb"><div class="fb-side"><input id="fb-filter" type="search" placeholder="Filter files" aria-label="Filter files"><nav id="fb-tree" class="fb-tree" aria-label="Plugin files" data-check="skip"></nav></div>'
     '<div class="fb-view"><div class="fb-head"><div class="fb-path" id="fb-path">Pick a file</div><div class="fb-meta" id="fb-meta"></div><div class="fb-nav"><button type="button" id="fb-prev">Previous</button><button type="button" id="fb-next">Next</button><button type="button" id="fb-raw">Raw</button></div></div><div class="fb-body doc" id="fb-body" data-check="skip"><p class="dim">The 26 skills, the library and the manifests are listed on the left. A SKILL.md opens as a document with its frontmatter in a box at the top.</p></div></div></div>')
@@ -469,6 +496,7 @@ details.k-fold > summary small {{ margin-left: auto; color: var(--muted); font-s
 <script>
 var SKILLS = {rows_json};
 var TREE = {json.dumps(tree, ensure_ascii=True)};
+var FILES = {json.dumps(files_inline, ensure_ascii=True).replace("</", "<\\/")};
 (function () {{
   function el(t, c, x) {{ var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }}
   function detail(r) {{
@@ -543,6 +571,7 @@ var TREE = {json.dumps(tree, ensure_ascii=True)};
     function open(e) {{
       current = e;
       if (cache[e.src]) return show(e, cache[e.src]);
+      if (FILES[e.src] !== undefined) {{ cache[e.src] = FILES[e.src]; return show(e, cache[e.src]); }}
       body.textContent = "Loading " + e.path;
       fetch("plugin/" + e.src).then(function (r) {{ if (!r.ok) throw new Error(r.status); return r.text(); }}).then(function (txt) {{ cache[e.src] = txt; if (current === e) show(e, txt); }}).catch(function (err) {{ body.textContent = "Could not load " + e.path + " (" + err.message + ")."; }});
     }}

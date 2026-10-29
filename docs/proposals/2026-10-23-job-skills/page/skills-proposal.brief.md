@@ -10,6 +10,7 @@
   6. How are the skills evaluated before release and narrowed after?
   7. Which decisions are Marko's, and what is the recommendation on each?
   8. What does a finished skill look like (four complete drafts)?
+  9. Where did the 26 October plan fall short of the 23 October goals, what changes, what did Marko answer on the review page, and in what order does the work finish? (added 27 October)
 - Data:
   - Mixpanel skill runs by skill, 10 Sep to 13 Oct 2026: shown (table in section 2).
   - Topic-model shares and empty-result rates, 22 Sep to 22 Oct: shown (same table).
@@ -22,6 +23,7 @@
   - Eval layers, the six-prompt pattern, the fixtures, the rubric examples, costs: shown.
   - Migration map old to new: shown (table).
   - Decisions for Marko: shown at the top, after the summary.
+  - Finish plan (27 October): the four gaps as a table, the four changes, the valuation body in three versions (today, 26 October re-cut, 27 October guideline shape) as folds with word counts, the review-page answers as a table, the order of work with cost.
   - Four SKILL.md drafts: one click away (fold each, rendered as a document, not raw markdown).
   - Sources: fold at the end.
   - Dropped: the session's working notes, the tool-result paths, the agent fan-out details (reply only).
@@ -35,4 +37,4 @@
   4. GitHub's repository file browser and the VS Code explorer: a tree with folders collapsed by default, the file name as the click target, the open file's path shown above its content.
 - Components: the kit (tokens replaced by brand tokens, rail, fold, tooltip, table, search).
 - Spacing scale: base 4 px; steps 4, 8, 12, 16, 24, 32, 48; page gutter 24 px desktop, 16 px phone; section gap 48; title-to-content 12; row padding 6 x 10.
-- Loaded: artifact-design, visual-design (look.md, accessibility.md), bigdata-analytics:bigdata-design (Platform system: platform/README.md, platform/colors_and_type.css, fonts embedded, logo file), build-artifact references/defaults.md, references/documents.md, references/publishing.md, marko-comms:writing-core (lint run on the markdown source)
+- Loaded: artifact-design, visual-design (look.md, accessibility.md), bigdata-analytics:bigdata-design (Platform system: platform/README.md, platform/colors_and_type.css, fonts embedded, logo file), build-artifact references/defaults.md, references/documents.md, references/publishing.md, marko-comms:writing-core (lint run on the markdown source). 27 October update: artifact-design, build-artifact (defaults.md, documents.md, publishing.md), marko-comms:writing-core (marko-voice, public-voice, lexicon, structural-patterns, self-check; lint on the addendum), skill-craft, skill-creator, plugin-dev skill-development and plugin-structure (for the body shape); bigdata-design not reloaded, the brand tokens come from the existing generator.
