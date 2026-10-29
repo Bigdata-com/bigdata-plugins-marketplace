@@ -1,6 +1,6 @@
 # Forecasting discipline
 
-How to turn beliefs into numbers a portfolio manager can check, each stated next to the evidence that would disprove it. The output describes the balance of evidence and what would change it. It gives no buy, hold or sell call and no position size.
+How to turn beliefs into numbers the reader can check, each stated next to the evidence that would disprove it. The output describes the balance of evidence and what would change it. It gives no buy, hold or sell call and no position size.
 
 ## Inputs
 

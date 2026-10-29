@@ -11,7 +11,7 @@ metadata:
 
 # Earnings recap
 
-A note on a print that has landed, for someone who will act on it: results against consensus and guidance, what made the beat or miss, the guidance change, whether the long-term outlook moved, the thesis check or the Street's reception, the reaction, the read-across and the next date. Never a rating, a price target or an action. When the company is the user's competitor, customer or supplier, the question is what the print means for the user's business (pricing, orders, their own next call), and that read-across leads. Size the work to the question: "did Nike beat" gets the results against consensus and guidance and the guidance line; "give me a reaction note" gets those plus the thesis or Street line and the reaction, a sentence or three each; "analyse Nike's quarter" gets the full review.
+A note on a print that has landed, for someone who will act on it: results against consensus and guidance, what made the beat or miss, the guidance change, whether the long-term outlook moved, the thesis check or the Street's reception, the reaction, the read-across and the next date. Never a rating, a price target or an action. When the user asks what the print means for them (pricing, orders, their own next call), that read-across leads. Size the work to the question: "did Nike beat" gets the results against consensus and guidance and the guidance line; "give me a reaction note" gets those plus the thesis or Street line and the reaction, a sentence or three each; "analyse Nike's quarter" gets the full review.
 
 ## Before starting
 
