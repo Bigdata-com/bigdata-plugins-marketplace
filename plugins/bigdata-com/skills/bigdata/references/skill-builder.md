@@ -59,22 +59,23 @@ Give every gathering step a budget: how many lookups and on what. For example: "
 
 Write a folder named after the skill:
 
-- `SKILL.md`: the workflow.
-- `references/`: one file per framework of the user's, linked from the step that uses it.
-- `assets/report-template.md`: the exact output structure, built from [../assets/report-template.md](../assets/report-template.md) with the user's sections in place of the generic ones. It keeps the inline citations, Sources, the footer and the Disclaimer.
+- `SKILL.md`: what the note establishes and the choices that are not the default.
+- `references/`: one file per framework of the user's, written as technique (what it answers, inputs, arithmetic, the trap), pointed at from the body by the section's content, never by a number. No author, paper or book is named in it: a framework the user brought is written as the user's own method.
+
+No report template file. A skeleton of headings and table columns reaches the page as a form being filled; the body says in prose what the opening gives, what the tables carry, and what closes the note, and the output rules in [output-standard.md](./output-standard.md) do the rest.
 
 Write `SKILL.md` in this order:
 
 1. **Frontmatter.** `name`: the skill's name (rules below). `description`, written for two readers: first one plain sentence a person can read in a tooltip, saying what they get; then one or two sentences on scope; then `Triggers:` with the user's own phrasings, quoted. Keep the part before the triggers under about 80 words. No dashes used as punctuation.
-2. **The identity line** (rule 1 below), then "Use Bigdata.com for every fact."
-3. **What the skill is for,** in one sentence. Do not list what it is not for, and do not name other skills.
-4. **Core philosophy** (optional): 2 or 3 principles in the user's words, so the agent resolves cases the workflow did not foresee the way the user would.
-5. **Data needs:** a `| Need | Purpose |` table, and the rule "Resolve every company first. If a name could mean more than one, ask which one."
-6. **Workflow:** numbered steps in the user's order. State each gate as an ordering with the user's reason ("check earnings quality before valuation: valuing earnings that are not real is how memos go wrong"). Put thresholds inline with how to read them. Give gathering steps their budget. Link each framework file at the step that uses it.
-7. **Output:** follow the template. Cite inline, linked to the exact passage (keep the passage number in Bigdata.com document links). End with Sources, the Powered by Bigdata.com line and the Disclaimer, verbatim. If the deliverable is not a markdown report, keep the sources in the form's own way: a source column in a spreadsheet, footnotes in a document, a source line per slide.
-8. **Quality bar:** 4 to 7 checks, in the user's words, that let them reject a bad output at a glance.
+2. **The identity line** (rule 1 below), then one sentence on what the skill is for. Do not list what it is not for, and do not name other skills.
+3. **Before starting:** the connector check, the slug line, and "Resolve every company first. If a name could mean more than one, ask which one."
+4. **Method choices that are not the default:** the user's gates and preferences as directions with their reasons ("check earnings quality before valuation: valuing earnings that are not real is how memos go wrong"), each conditional where it is not always needed, thresholds inline with how to read them, each gathering step with its budget, and each framework file pointed at by the section that applies. Not a numbered procedure: the agent already knows how to gather and write; the body carries only what the user would not get by default.
+5. **Where it goes wrong:** one line per mistake the user has seen, as the condition and the rule.
+6. **What the data has, and does not:** the data facts that change the work (what the user's sources carry, windows, what has no structured field and must be searched for).
+7. **Write:** in prose, what the title carries, what the opening gives, that the body follows the question, which tables the note carries described by their content, and what closes it. Sub-headings state findings, never steps. Cite inline with a link next to each fact; no numbered sources. End with the Data line, the Powered by Bigdata.com line and the Disclaimer, verbatim. If the deliverable is not a markdown report, keep the sources in the form's own way: a source column in a spreadsheet, footnotes in a document, a source line per slide.
+8. **Before sending:** 3 to 5 checks the agent can verify on the page, in the user's words, ending with: nothing on the page names a file, formula, table, framework, author or method; no figure carries a label saying how it was obtained; no sentence describes how the note was made.
 
-Write in the imperative and give reasons rather than ALWAYS or NEVER in capitals. Refer to "the agent" and "the user", never to a specific assistant. Keep `SKILL.md` under about 150 lines; move long frameworks into `references/`. Write for the cases the user never showed you, not only the dry-run example.
+Write in the imperative and give reasons rather than ALWAYS or NEVER in capitals. Refer to "the agent" and "the user", never to a specific assistant. Keep `SKILL.md` under about 150 lines; move long frameworks into `references/`. Write for the cases the user never showed you, not only the dry-run example. Nothing that exists to produce the note goes into the note: no method names, no labels such as derived or assumed, no commentary on how a figure was reached. An assumption a conclusion rests on is stated once, in plain words, where it matters.
 
 ## Every skill you build
 
@@ -83,7 +84,7 @@ These rules are not up for discussion in the interview.
 1. **Its identity line.** The first line of the body is:
    `This is a Bigdata.com skill. Pass plugin_slug: "bigdata-user" on every Bigdata.com call that accepts it.`
 2. **Data needs, never tool names.** Describe what data each step needs, not which tool returns it. Tools get renamed, and a skill saved in the user's host does not receive Bigdata.com's updates, so a skill that names tools breaks.
-3. **Bigdata.com attribution.** Every deliverable cites its sources inline and ends with the **Powered by Bigdata.com** line and the **Disclaimer**, verbatim, as in [../assets/report-template.md](../assets/report-template.md).
+3. **Bigdata.com attribution.** Every deliverable cites its sources inline and ends with the **Powered by Bigdata.com** line and the **Disclaimer**, verbatim, as in the Footer section of [output-standard.md](./output-standard.md).
 
 The user names the skill after their job, for example `earnings-preview` or `weekly-holdings-review`: lowercase letters, digits and hyphens. Do not add a `bigdata-` prefix: that prefix is for Bigdata.com's own skills.
 
@@ -134,8 +135,8 @@ Check the skill against this list:
 - Every company-scoped step resolves the company first and asks when a name is ambiguous.
 - Every gathering step has a budget.
 - The user's order, gates and thresholds are in the workflow, with their reasons.
-- The template exists and ends with Sources, the footer and the Disclaimer; citations link to the exact passage.
-- A quality bar lets the user reject a bad output at a glance.
+- The Write section states the note's content in prose, with no template file or skeleton; citations are inline links next to each fact; the note ends with the Data line, the footer and the Disclaimer.
+- The Before-sending checks let the user reject a bad output at a glance, and the last one keeps the method off the page.
 - The user saw at least one dry-run output.
 - A skill that covers a list says where the list comes from and states its coverage in every output.
 - A recurring skill has its memory tags, a destination, an empty-run rule and a paste-ready schedule prompt.

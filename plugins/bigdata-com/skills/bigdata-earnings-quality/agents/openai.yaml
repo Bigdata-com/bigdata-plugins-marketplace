@@ -1,0 +1,8 @@
+interface:
+  display_name: Earnings Quality
+  short_description: Accruals, EBITA rebuild, recurring one-offs and red flags with severity
+  default_prompt: Use $bigdata-earnings-quality to check whether [company]'s reported earnings are backed by cash.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

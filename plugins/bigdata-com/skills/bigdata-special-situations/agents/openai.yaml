@@ -1,0 +1,8 @@
+interface:
+  display_name: Special Situations
+  short_description: Payoff arithmetic for arbitrage, spin-offs, rights issues and restructurings
+  default_prompt: Use $bigdata-special-situations to work out the payoff of the [deal, spin-off or restructuring] at [company].
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

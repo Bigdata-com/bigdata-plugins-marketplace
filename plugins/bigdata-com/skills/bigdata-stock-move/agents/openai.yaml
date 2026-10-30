@@ -1,0 +1,8 @@
+interface:
+  display_name: Stock Move
+  short_description: Why a stock moved, what changed in the outlook, and the base rates after
+  default_prompt: Use $bigdata-stock-move to explain why [ticker] moved [today or this week].
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

@@ -8,8 +8,10 @@ The entry point to Bigdata.com: research any company, security, sector, country,
 
 ## What It Does
 
-- Answers any financial research task with cited Bigdata.com data
+- Typed alone or with a vague request, asks what you want to achieve, one question at a time, then runs the first task
+- Answers any financial research task with cited Bigdata.com data, using a job skill's method when one fits
 - Explains what data Bigdata.com has, with an example request for each
+- Offers to save a list of companies as a watchlist, or a deliverable to your Bigdata.com documents
 - Builds your own skill from a task you repeat, one question at a time
 
 ---
@@ -27,9 +29,11 @@ Ask in natural language, or type:
     bigdata/
     ├── SKILL.md
     ├── agents/openai.yaml
-    ├── assets/report-template.md
+    ├── assets/bigdata-icon-black.svg
     ├── references/
-    │   └── skill-builder.md
+    │   ├── output-standard.md
+    │   ├── skill-builder.md
+    │   └── working-with-bigdata.md
 
 ---
 

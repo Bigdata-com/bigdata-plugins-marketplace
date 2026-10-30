@@ -1,0 +1,8 @@
+interface:
+  display_name: Theme Research
+  short_description: Theme note with value chain, addressable market, real exposure, priced-in bar
+  default_prompt: Use $bigdata-theme to research the [theme] theme and who has real exposure to it.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

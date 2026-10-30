@@ -1,0 +1,8 @@
+interface:
+  display_name: Credit View
+  short_description: Leverage, coverage, maturities, rating medians, stress test and distress
+  default_prompt: Use $bigdata-credit to assess [company]'s debt, refinancing risk and credit quality.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true
