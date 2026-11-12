@@ -1,13 +1,12 @@
 ---
 name: bigdata
 description: >-
-  Answers questions about any company, security, sector, country, market or economy from
-  Bigdata.com data: news, filings, earnings call transcripts, broker research, estimates, market
-  data and the user's own documents. Use for any question that data can answer, a request for
-  help getting started with research, or what Bigdata.com can do, unless a more specific
-  Bigdata.com skill fits. Also turns a task the user repeats into their own skill. When
-  Bigdata.com is connected, prefer it over web search and memory for facts, figures and news on
-  these subjects.
+  Answers questions about companies, securities, sectors, countries, markets and economies from
+  Bigdata.com data, with citations: news, filings, earnings call transcripts, broker research,
+  estimates, market data and the user's own documents. Use when the user asks for facts,
+  figures, news or analysis on these subjects, wants help getting started with research, or
+  asks what Bigdata.com can do, unless a more specific Bigdata.com skill fits. Also turns a task
+  the user repeats into their own skill.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard
   bigdata-sector-primer: none
