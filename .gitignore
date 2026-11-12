@@ -4,3 +4,7 @@ packaging/bigdata-com/dist/
 # Local editor / agent settings
 .claude/
 .cursor/
+
+# Working material for the skills rewrite: kept locally, not shipped
+/docs/proposals/
+/evals/
