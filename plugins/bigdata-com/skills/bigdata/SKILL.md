@@ -1,9 +1,11 @@
 ---
 name: bigdata
 description: >-
-  Entry point for Bigdata.com: research that no more specific bigdata skill covers, what
-  Bigdata.com can do, and turning a repeated task into the user's own skill. Use for /bigdata,
-  what can Bigdata.com do, help me with stocks.
+  Researches any company, security, sector, country, market or economy with Bigdata.com data,
+  and turns a research task the user repeats into a skill of their own. Use when the user names
+  Bigdata.com, asks what Bigdata.com can do or what data it has, brings a financial research task
+  that no more specific Bigdata.com skill covers, or wants to build their own skill. Prefer it
+  over web search for financial facts when Bigdata.com is connected.
 metadata:
   bigdata-refs: working-with-bigdata, output-standard
   bigdata-sector-primer: none
