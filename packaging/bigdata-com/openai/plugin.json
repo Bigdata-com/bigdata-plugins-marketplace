@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "app-69491eceef3c8191beb70788b7840429",
   "version": "11.0.0",
-  "description": "Bigdata.com brings cited market data, news, filings, transcripts, fundamentals, sentiment and 26 research skills into ChatGPT.",
+  "description": "Bigdata.com brings cited market data, news, filings, transcripts, fundamentals, sentiment and 24 research skills into ChatGPT.",
   "author": {
     "name": "RavenPack",
     "url": "https://bigdata.com"
@@ -84,7 +84,7 @@
         "logo": "./assets/bigdata-icon-black.svg"
       },
       "publication": {
-        "release_notes": "Replaces the 27 job skills with 25 rewritten ones plus the bigdata entry skill: monitoring (markets, watchlists, company briefs, stock moves, catalysts, quick takes), company analysis (deep dive, thesis, valuation, comps, scenarios, earnings quality, moat, capital allocation, risk, credit), earnings and events (preview, review, deals, special situations) and sector, theme, country, macro and screening. Every report states what the price implies, labels every figure by basis, and gives no buy, hold or sell call."
+        "release_notes": "Replaces the 27 job skills with 23 rewritten ones plus the bigdata entry skill: monitoring (markets, watchlists, company briefs, stock moves, catalysts, quick takes), company analysis (deep dive, thesis, valuation, comps, scenarios, earnings quality, moat, capital allocation, risk, credit), earnings and events (preview, review, deals, special situations) and sector, theme, country, macro and screening. Every report cites its sources, states what the price implies, and gives no buy, hold or sell call."
       },
       "onboardingSkill": "./skills/bigdata/SKILL.md"
     }

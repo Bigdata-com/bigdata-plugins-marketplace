@@ -20,8 +20,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..",
 SKILLS = os.path.join(ROOT, "skills")
 OPENAI_APP = "app-69491eceef3c8191beb70788b7840429"
 HEADINGS = ["## Before starting", "## Method choices that are not the default", "## Where it goes wrong", "## What the data has, and does not", "## Write", "## Before sending"]
-# Skills still in the 25 October shape, left untouched until Marko decides their fate (27 Oct 2026); exempt from the heading check only.
-OLD_SHAPE = set()  # 28 Oct 2026: catalysts and watchlist were brought to the six headings; no skill is exempt
+OLD_SHAPE: set[str] = set()  # skills exempt from the heading check
 LEAK = re.compile(r"\b(Mauboussin|Callahan|McKinsey|Credit Suisse|HOLT|Damodaran|Klarman|Berkowitz|Greenwald|Koller|Robinson and Weyns|Base Rate Book|Expectations Investing|Man Overboard|Celebrating the Summit|Measuring the Moat|Security Analysis, 6th|Not in the sources|\(verify\)|When a skill loads this file|Done when|formula [0-9]+[a-z]?|tables? [0-9]+)\b|\b(pp?\.) ?[0-9]+|\bch\. ?[0-9]+", re.I)
 RATING = re.compile(r"\b(strong buy|buy rating|sell rating|overweight|underweight|accumulate|outperform|underperform)\b", re.I)
 errors, warnings = [], []
@@ -83,9 +82,9 @@ for skill in sorted(os.listdir(SKILLS)):
             errors.append(f"{skill}: rating word in body: {m2.group(0)}"); break
     if "Prepared with Claude" in text:
         errors.append(f"{skill}: 'Prepared with Claude' footer")
-    # leak lint (28 Oct 2026): words that reach the deliverable when they sit in a body or a reference.
+    # Leak lint: words that reach the deliverable when they sit in a body or a reference.
     # A body addresses the library by content, never by number; nothing in the shipped files names a source,
-    # a verification note or a basis label. See docs/superpowers/plans/2026-10-28-packaging-rules.md.
+    # a verification note or a basis label.
     for m2 in re.finditer(r"\b(formula|tables?|rule|step|procedure step) [0-9]+[a-z]?\b", body, re.I):
         errors.append(f"{skill}: body points at the library by number: '{m2.group(0)}'"); break
     for m2 in re.finditer(r"\b(basis column|label(led|ed)? (it|as|them)|N and sample|sample and period|not in bigdata\.com)\b", body, re.I):
