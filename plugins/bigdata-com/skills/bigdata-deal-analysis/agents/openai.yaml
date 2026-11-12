@@ -1,0 +1,8 @@
+interface:
+  display_name: Deal Analysis
+  short_description: A deal's terms, logic, price vs value, synergies, SVAR, financing, approvals
+  default_prompt: Use $bigdata-deal-analysis to analyse [acquirer]'s proposed acquisition of [target].
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

@@ -1,7 +1,7 @@
 interface:
-  display_name: Bigdata Country Analysis
-  short_description: Produce a deep country economic analysis
-  default_prompt: Use $bigdata-country-analysis to analyze a country's economy.
+  display_name: Country Analysis
+  short_description: One country, or several compared, on growth, inflation, rates, currency, balances, politics
+  default_prompt: Use $bigdata-country-analysis for a briefing on [country], or to compare [country] and [country].
   icon_small: assets/bigdata-icon-black.svg
   icon_large: assets/bigdata-icon-black.svg
 policy:

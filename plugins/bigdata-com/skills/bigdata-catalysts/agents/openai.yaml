@@ -1,0 +1,8 @@
+interface:
+  display_name: Catalyst Calendar
+  short_description: Dated events ahead for a stock or list, with mechanism, size and odds
+  default_prompt: Use $bigdata-catalysts to list the catalysts for [company or tickers] over [the next quarter].
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

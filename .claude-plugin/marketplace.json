@@ -2,14 +2,14 @@
     "name": "bigdata-plugins-marketplace",
     "description": "Official Bigdata.com plugin marketplace by RavenPack: financial research and market intelligence skills powered by the Bigdata.com MCP server.",
     "owner": {
-      "name": "RavenPack",
-      "email": "support@bigdata.com"
+        "name": "RavenPack",
+        "email": "support@bigdata.com"
     },
     "plugins": [
-      {
-        "name": "bigdata-com",
-        "source": "./plugins/bigdata-com",
-        "description": "Financial research and market intelligence on stocks, companies, sectors, and economies. Run valuation snapshots, peer comparables, and investment memos; preview, digest, and analyze earnings (quality, reactions, surprises); assess risk, monitor catalysts, and review competitive moats and governance. Covers thematic and sector research, cross-sector and regional comparisons, country and macro analysis, G7 benchmarking, scenario analysis, and company briefs. Powered by Bigdata MCP."
-      }
+        {
+            "name": "bigdata-com",
+            "source": "./plugins/bigdata-com",
+            "description": "Financial research on companies, sectors, countries and markets with Bigdata.com data: market wraps and watchlist checks, company briefs and why a stock moved, earnings previews and reviews, deep dives, theses, valuation and comps, scenarios, earnings quality, moats, capital allocation, risk and credit, deals and special situations, sector, theme, country and macro comparisons, and screens. Every report cites its sources, states what the price implies, and gives no buy, hold or sell call. Powered by the Bigdata.com MCP connector."
+        }
     ]
-  }
+}

@@ -1,0 +1,8 @@
+interface:
+  display_name: Company Screen
+  short_description: A two-stage screen and a ranked shortlist with the numbers behind each name
+  default_prompt: Use $bigdata-screen to find [size] [sector] companies in [country] with [criteria].
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

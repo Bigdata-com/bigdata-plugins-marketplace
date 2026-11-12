@@ -1,0 +1,8 @@
+interface:
+  display_name: Sector Analysis
+  short_description: Sector note with profit pool, cycle position, drivers, what is priced in
+  default_prompt: Use $bigdata-sector to analyse the [sector] sector, or compare [sector] with [sector].
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

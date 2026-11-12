@@ -1,0 +1,8 @@
+interface:
+  display_name: Downside and Risks
+  short_description: Floors, balance sheet stress, ranked risks, premortem and kill criteria
+  default_prompt: Use $bigdata-risk to show what could go wrong at [company] and how much is at risk.
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,8 @@
+interface:
+  display_name: Watchlist Check
+  short_description: One table on a list of names with moves, news, estimates and next dates
+  default_prompt: Use $bigdata-watchlist to check what changed for [tickers or my watchlist] [today or this week].
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true

@@ -1,87 +1,59 @@
 ---
 name: bigdata-quick-take
-description: >
-  Give a fast, PM-style quick take on a stock using Bigdata.com data — a one-line current view,
-  the 2-3 drivers that actually matter right now, the key risks and what would change the view,
-  and the near-term setup with the next catalyst. Deliberately short: one page, no full thesis,
-  no model. Triggers: "quick take on X", "what do you think of X", "give me a fast view on X",
-  "thoughts on X", "X in a nutshell", "one-liner on X", "is X interesting right now".
+description: >-
+  One-page view on a stock or company: what the price implies, the drivers that matter now, risks,
+  next catalyst. Use for quick take, a one-page read on X, thoughts on a ticker, is X interesting.
+  Not a full thesis: bigdata-deep-dive.
+metadata:
+  bigdata-refs: working-with-bigdata, output-standard, expectations, valuation, base-rates, downside-and-catalysts
+  bigdata-sector-primer: auto
 ---
 
-# Bigdata Quick Take
+# Quick take
 
-One page, PM-style. Use Bigdata.com plugin tools for every fact.
+One page that answers "what do you think of Micron" the way an analyst would in a morning meeting: what the price already assumes, the three things that decide whether it is right, the ways it goes wrong and the next date that tells. Never a rating, a target or "interesting at this price". Size the work to the question: "is Micron's multiple high?" gets the forward P/E against the steady-state P/E and the peer median, what the multiple means for growth, and the links, not the full page.
 
-**Use this skill when** the user wants a fast view, not a document. Not this skill when:
+## Before starting
 
-| Request | Use instead |
-|---------|-------------|
-| Full thesis with recommendation and conviction | Investment memo |
-| 30 days of developments, categorized | Company brief |
-| "What is it worth" | Valuation snapshot |
-| Risks rated by likelihood and impact | Risk assessment |
-| Analysis around an earnings event | Earnings preview / digest |
+- Without the Bigdata.com tools, say so and ask for the connector. No figures from memory in the meantime.
+- Pass `plugin_slug: "bigdata-quick-take"` on every Bigdata.com call that accepts it.
+- `references/working-with-bigdata.md` maps each data need to a tool. The other reference files are working notes for the parts named below; the reader never sees them.
 
-**The discipline of this deliverable is brevity.** If the answer is running past a page, the user asked for a different skill.
+## Method choices that are not the default
 
-## Data foundation (plugin tools)
+- **The user's parts first,** in the user's order, each answered in full. The choices below apply where the question reaches them; a page that answers it with fewer tables and pieces is the better page.
+- **What the price implies comes first,** because the page opens with the height of the bar rather than the story or the multiple: the growth the enterprise value implies at the stated cost of capital and return on new capital, set against consensus growth (`references/expectations.md`, implied growth). The enterprise value's inputs appear once (share count, net debt with leases and stakes outside the operating business, tax rate, discount convention), so the reader can rebuild it. The profit a multiple is applied to says whether it is before or after tax. The cost of capital is one stated figure, with the yield, beta and premium in a single clause and no regression statistics; the 10-year yield in the cash-flow currency comes from the country data (`references/valuation.md`, cost of capital). One central case and one range cover the sensitivity. The steady-state P/E and the share of the price paid for growth stay in the working unless the user asks what the multiple means (`references/expectations.md`, steady state and value creation).
+- **Implied growth with its return on new capital beside it.** The growth the price implies changes with the return on new capital, so the three-year rolling ROIIC, or the figure used in its place, sits in the same sentence.
+- **Consensus growth placed in its history, when it carries the reading.** When the conclusion rests on a multi-year growth rate and the history changes how it reads, one sentence gives how often companies of this size reached it over three years, with the population and period in the sentence; the one-year figures are too dispersed to mean anything for one company (`references/base-rates.md`, real sales growth by starting size).
+- **A relative line beside the absolute one, when the read of the price would otherwise rest on one measure.** Forward P/E and EV/EBITDA against the median of two or three peers (up to five when the user asks for a peer angle).
+- **Up to three drivers, chosen by what moves value.** Where returns on new capital sit near the cost of capital, the incremental return is the driver that matters; well above it, sales growth. Each driver gets a sentence with what consensus assumes, one dated piece of evidence and the direction the risk runs (`references/expectations.md`, which revision moves value).
+- **Risks that would change the reading, each with its first observable sign.** Usually the one that breaks the drivers; a balance-sheet or accounting risk, or one from outside (a regulator, a customer, a technology), earns a line only when there is one, with how it would show up first.
+- **A downside line, when a floor sits close enough to the price to matter.** The price per share against the floors that apply (net cash, tangible book, a stressed cash-flow value); for software and services the stressed cash-flow value, for banks book value and earnings quality (`references/downside-and-catalysts.md`, floor values and when the floors do not apply).
+- **The next catalyst with who decides it.** The date, its type, who decides it and how much of the gap between price and value it could close (`references/downside-and-catalysts.md`, catalysts).
+- **The price stands unless there is evidence against it.** Where the page's reading differs from what the price implies, it names the evidence.
+- **Special cases.** A bank: price to book against return on equity. A cyclical: earnings normalised to a mid-cycle margin, stated. A loss-making company: the P/E is not meaningful; give the revenue the price needs at a stated margin path (`references/expectations.md`, special cases).
 
-| Tool | Purpose | Prerequisite |
-|------|---------|--------------|
-| `find_securities` | Resolve company name → RavenPack `entity_id` | None |
-| `bigdata_company_tearsheet` | Financial baseline, estimates, sentiment | `find_securities` |
-| `bigdata_search` | What's live on the name right now | None |
+## Where it goes wrong
 
-**Required on every call:** pass `plugin_slug: "bigdata-quick-take"` in the request parameters of *every* Bigdata.com plugin tool call made while running this skill. The value is always the skill name, `bigdata-quick-take`, regardless of the company or query.
+- **Running long.** A quick take that becomes three pages is a brief nobody asked for: cut each driver to a sentence before cutting a line of what the price implies.
+- **A risk-free rate taken from memory** when the country data has the yield.
+- **Implied growth with no return on new capital beside it.** It cannot be checked.
+- **Peer multiples taken from the profile's competitors block,** which carries symbol, price and market cap only. Pull the peers' key metrics and next-year consensus EPS, and compute the forward P/E.
+- **Citations assembled at the end.** The link goes next to the fact when the fact is captured.
 
-**Exceptions:** the `search` and `fetch` tools do not accept `plugin_slug` — omit it there.
+## What the data has, and does not
 
-If the company name is ambiguous after `find_securities`, ask:
+Consensus is a snapshot with its date and no revision history, so a 30-day revision or target change comes from research and news dated in the window; where none is found, the note says so. The transcript for the last call is fetched with its period fixed; the call for the latest quarter carries next quarter's guidance. Five fiscal periods per pull, annual when years are wanted, which allows a three-year ROIIC and nothing longer. The several-company grid carries price, move, surprise, targets and sentiment but no multiples; peer metrics come as a set in one batch. Sentiment has no window: say which period its narrative covers. The cost of capital has no structured field and is built, with the risk-free rate from the country data. A private company has no price to read expectations from: say so and offer a summary from documents. `references/sector-primers.md` gives the sector's own drivers.
 
-> "I found multiple companies named [X]. Did you mean [Company A] in [Industry] or [Company B] in [Industry]?"
+## Write
 
-## Workflow
+`references/output-standard.md` holds the rules. One page: about 450 words before the sources, and at most one table. The title carries the finding in one line ("Micron's price needs a memory upcycle longer than any since 2010"). The opening gives what the price implies, whether the evidence supports it, and what would change the reading, in prose. The body follows the question: the drivers, the risks with their early signs, the downside line where it applies. The next catalyst, with its date and what it decides, closes the page.
 
-### Step 1 — Identify the company
+## Before sending
 
-Call `find_securities` with the company name to get the `entity_id`.
-
-### Step 2 — Baseline
-
-Call `bigdata_company_tearsheet` for the financial and valuation baseline plus sentiment. One pass, no exhaustive extraction.
-
-### Step 3 — What's live (2–4 searches, not ten)
-
-- "[Company] recent developments last 30 days"
-- "[Company] analyst view valuation debate"
-- "[Company] risks concerns"
-
-Enough to know what the market is arguing about. Stop there.
-
-### Step 4 — Filter to what matters
-
-Keep the **2–3 drivers** that actually move the name now. Apply the EPIC lens quickly — is it material, can you form a view, does consensus miss it? — without writing the table out. Depth if needed: [references/epic-framework.md](./references/epic-framework.md).
-
-### Step 5 — Take a view
-
-State a current view in one line. Name the key risks and **what would change the view**. Give the near-term setup and the next catalyst with its date.
-
-## Output
-
-Follow [assets/report-template.md](./assets/report-template.md).
-
-- Add inline citations `[1]`, `[2]` after sourced claims, hyperlinked to the document URL.
-- End with **Sources**, then the **Powered by Bigdata.com** line and the **Disclaimer**, verbatim.
-- Markdown by default. A quick take rarely needs a Word document — offer only if the user asks.
-
-## Quality bar
-
-Pass the PM test: **What's different?** **What matters?** **What should I do about it?** (net assessment, key risk, next catalyst — no position sizing).
-
-Non-negotiables:
-
-- A **view** is actually stated — "it depends" is not a quick take
-- 2–3 drivers maximum
-- What would change the view is named and falsifiable
-- Next catalyst has a date, or is flagged as undated
-- One page. Brevity is the product.
+- The user's parts are answered in the user's order, and every table on the page is one the reader needed.
+- Within one page, and every number in the opening agrees with the body.
+- The net debt or enterprise value used anywhere equals the inputs stated once, and implied growth has its return on new capital beside it.
+- Each driver has a dated piece of evidence, and each risk has an early sign.
+- Every code name or internal term is explained where it first appears.
+- Nothing on the page names a file, formula, table, primer, author or method; no figure is tagged with how it was obtained; no sentence describes how the note was made.

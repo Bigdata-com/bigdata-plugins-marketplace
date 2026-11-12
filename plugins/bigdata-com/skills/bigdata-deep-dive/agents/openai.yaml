@@ -1,0 +1,8 @@
+interface:
+  display_name: Deep Dive
+  short_description: An initiation-style report on one company, every figure sourced
+  default_prompt: Use $bigdata-deep-dive for a full report on [company].
+  icon_small: assets/bigdata-icon-black.svg
+  icon_large: assets/bigdata-icon-black.svg
+policy:
+  allow_implicit_invocation: true
