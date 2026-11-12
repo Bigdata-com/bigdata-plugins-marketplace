@@ -1,14 +1,26 @@
-# bigdata-com
+# Bigdata.com plugin
 
-Financial research for Claude, ChatGPT and Microsoft 365 Copilot, built by [RavenPack](https://www.ravenpack.com/). The plugin connects the host to the [Bigdata.com](https://bigdata.com/) MCP server and adds 24 research skills that turn its tools into finished analyst work. Every report cites its sources, labels each figure as reported, derived, assumed or judgment, states what the share price implies before giving a view, and gives no buy, hold or sell call.
+Financial research for Claude, ChatGPT and Microsoft 365 Copilot, built by [RavenPack](https://www.ravenpack.com/). The plugin connects the host to the [Bigdata.com](https://bigdata.com/) MCP server and adds 24 skills that turn its tools into finished analyst work, grounded in licensed news, filings, transcripts, broker research and estimates, plus files you upload. Every report cites its sources and gives no buy, hold or sell call.
+
+## Requirements
+
+A Bigdata.com account. [Sign up](https://app.bigdata.com/) if you don't have one.
 
 ## Install
 
-Claude: Customize, Plugins, Discover, search for Bigdata.com, Add. Claude Code: `/plugin install bigdata-com@bigdata-plugins-marketplace`. The plugin's Connectors tab lists the Bigdata.com connector; add it and sign in. A Bigdata.com account is required.
+In Claude and Claude Desktop, install the plugin from the Claude directory and sign in to Bigdata.com when asked. Team and Enterprise admins can enable it for the organization under **Organization settings**.
 
-## The skills
+In Claude Code, run `/plugin marketplace add Bigdata-com/bigdata-plugins-marketplace`, then `/plugin install bigdata-com@bigdata-plugins-marketplace`. The plugin's `.mcp.json` connects to `https://mcp.bigdata.com`, and you sign in with OAuth when Claude asks. To use an API key from [platform.bigdata.com/api-keys](https://platform.bigdata.com/api-keys) instead:
 
-The entry skill `bigdata` handles any Bigdata.com question, interviews the user when the request is vague, and routes to a job skill when one fits.
+```bash
+claude mcp add --transport http bigdata_com https://mcp.bigdata.com/ --header "x-api-key: YOUR_API_KEY"
+```
+
+Then ask something like "Prepare an earnings preview for Broadcom".
+
+## Skills
+
+Start with `bigdata` for any Bigdata.com question. It asks what you need when the request is vague, and hands off to a job skill when one fits. You can also type `/` and pick a skill by name, or describe the task and the host picks one from its description.
 
 | Group | Skills |
 |---|---|
@@ -17,22 +29,24 @@ The entry skill `bigdata` handles any Bigdata.com question, interviews the user 
 | Earnings and events | `bigdata-earnings-preview`, `bigdata-earnings-recap`, `bigdata-deal-analysis`, `bigdata-special-situations` |
 | Sectors, themes and macro | `bigdata-sector`, `bigdata-theme`, `bigdata-country-analysis`, `bigdata-screen` |
 
-Each skill is a folder with a `SKILL.md` (what a complete answer contains and where the work goes wrong), the reference files it loads, and an `agents/openai.yaml` for ChatGPT and Codex. Type `/` in Claude to pick one by name, or describe the task and the host picks the skill from its description.
+## Data handling
 
-## The library
+Queries go to the Bigdata.com MCP server at `https://mcp.bigdata.com` and are answered from licensed content under your account's entitlements. See the [privacy policy](https://bigdata.com/privacy-policy) and [terms and conditions](https://bigdata.com/terms-and-conditions).
 
-`library/` holds the files the skills share: `output-standard.md` (the rules every report follows, and the footer), `working-with-bigdata.md` (which data answers which question, and what the data can and cannot do), fourteen method files under `methods/` (price-implied expectations, base rates, ROIC, valuation, multiples and peers, earnings quality, capital allocation, industry structure, operating leverage and TAM, after a price move, downside and catalysts, forecasting discipline, credit, special situations) and the sector primers under `sectors/`. The methods come from Michael Mauboussin's research, the McKinsey valuation text, Graham and Dodd, Klarman and Damodaran, with every figure labelled by source and period.
+## Development
 
-A skill names the files it needs in its frontmatter (`bigdata-refs`, `bigdata-sector-primer`). `packaging/bigdata-com/scripts/sync_library.py` copies them into the skill's `references/` folder, because claude.ai copies only the skill folder into its sandbox and Microsoft Cowork rejects paths outside it. Edit the library, run the sync, commit both.
+Each skill is a folder with a `SKILL.md`, the reference files it loads, and an `agents/openai.yaml` for ChatGPT and Codex.
 
-## Checks and evals
+`library/` holds what the skills share: `output-standard.md` (the rules every report follows), `working-with-bigdata.md` (which data answers which question), the method files under `methods/` and the sector primers under `sectors/`. A skill lists the files it needs in its frontmatter (`bigdata-refs`, `bigdata-sector-primer`), and `packaging/bigdata-com/scripts/sync_library.py` copies them into its `references/` folder, because claude.ai and Microsoft Cowork only load files inside the skill folder. Edit the library, run the sync, and commit both.
 
-`packaging/bigdata-com/scripts/check_skills.py` validates every skill against the Claude, OpenAI and Microsoft rules (names, description length, body length, links, companion file counts and sizes, rating words, non-ASCII characters). `evals/run_evals.py` runs cases against the live connector in Claude Code headless and grades them with a judge; see `evals/README.md`.
+`packaging/bigdata-com/scripts/check_skills.py` validates every skill against the Claude, OpenAI and Microsoft limits. The `build-*.sh` scripts in the same folder build the ChatGPT package, the Microsoft 365 Copilot Cowork package (the 19 skills listed in `packaging/bigdata-com/microsoft/manifest.json`), standalone skill archives, and a development zip for trying a branch in claude.ai.
 
-## Packaging
+## Documentation and support
 
-`packaging/bigdata-com/scripts/` builds the ChatGPT zip, the Microsoft 365 Copilot Cowork zip (19 skills, listed in `packaging/bigdata-com/microsoft/manifest.json`) and a development zip for claude.ai.
+- [Plugin documentation](https://docs.bigdata.com/mcp-reference/plugins/bigdata-com)
+- [MCP reference](https://docs.bigdata.com/mcp-reference/introduction)
+- [Support](https://docs.bigdata.com/support) or [support@bigdata.com](mailto:support@bigdata.com)
 
 ## License
 
-MIT, see LICENSE.
+See [LICENSE](LICENSE), or contact legal@ravenpack.com.
