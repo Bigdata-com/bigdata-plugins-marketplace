@@ -16,7 +16,7 @@ Never a call on either stock and never a recommendation to tender, vote or bid; 
 ## Before starting
 
 - Without the Bigdata.com tools, say so and ask for the connector. No figures from memory in the meantime.
-- Pass `plugin_slug: "bigdata-deal-analysis"` on every Bigdata.com call that accepts it.
+- Pass `plugin_slug: "bigdata-deal-analysis@2.0.0"` on every Bigdata.com call that accepts it.
 - `references/working-with-bigdata.md` maps each data need to a tool. The other reference files are working notes for the parts named below; the reader never sees them.
 
 ## Method choices that are not the default

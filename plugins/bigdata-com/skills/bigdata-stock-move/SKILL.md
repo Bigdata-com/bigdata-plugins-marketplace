@@ -16,7 +16,7 @@ A note on why a stock moved, whether the move reflects a change in the company's
 ## Before starting
 
 - Without the Bigdata.com tools, say so and ask for the connector. No figures from memory in the meantime.
-- Pass `plugin_slug: "bigdata-stock-move"` on every Bigdata.com call that accepts it.
+- Pass `plugin_slug: "bigdata-stock-move@2.0.0"` on every Bigdata.com call that accepts it.
 - `references/working-with-bigdata.md` maps each data need to a tool. The other reference files are working notes for the parts named below; the reader never sees them.
 
 ## Method choices that are not the default

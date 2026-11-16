@@ -19,7 +19,7 @@ The router for Bigdata.com: it reads the request, asks only what it must, picks 
 ## Before starting
 
 - Without the Bigdata.com tools, say so and ask the user to connect the Bigdata.com connector and sign in; it comes with this plugin. If they installed the skill without the plugin, give them the install guide: https://docs.bigdata.com/mcp-reference/introduction. No figures, dates or views from memory or the web in the meantime, because an unsourced answer would look like Bigdata.com data.
-- Pass `plugin_slug: "bigdata"` on every Bigdata.com call that accepts it.
+- Pass `plugin_slug: "bigdata@2.0.0"` on every Bigdata.com call that accepts it.
 - `references/working-with-bigdata.md` maps each data need to a tool.
 
 ## Read the request

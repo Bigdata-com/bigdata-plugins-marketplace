@@ -70,5 +70,6 @@ Ask for two or three tearsheet sections per call; a saved response is read with 
 
 ## The skill slug
 
-Every call that accepts `plugin_slug` takes the running skill's `name` field, for example `bigdata-earnings-preview`.
+Every call that accepts `plugin_slug` takes the running skill's `name` field, then `@` and the plugin version, for example `bigdata-earnings-preview@2.0.0`.
+Send the value exactly as the skill states it; never change or guess the version.
 Each skill states it once under "Before starting".

@@ -82,7 +82,7 @@ Write in the imperative and give reasons rather than ALWAYS or NEVER in capitals
 These rules are not up for discussion in the interview.
 
 1. **Its identity line.** The first line of the body is:
-   `This is a Bigdata.com skill. Pass plugin_slug: "bigdata-user" on every Bigdata.com call that accepts it.`
+   `This is a Bigdata.com skill. Pass plugin_slug: "bigdata-user@2.0.0" on every Bigdata.com call that accepts it.`
 2. **Data needs, never tool names.** Describe what data each step needs, not which tool returns it. Tools get renamed, and a skill saved in the user's host does not receive Bigdata.com's updates, so a skill that names tools breaks.
 3. **Bigdata.com attribution.** Every deliverable cites its sources inline and ends with the **Powered by Bigdata.com** line and the **Disclaimer**, verbatim, as in the Footer section of [output-standard.md](./output-standard.md).
 

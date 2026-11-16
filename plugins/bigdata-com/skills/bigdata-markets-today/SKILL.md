@@ -16,7 +16,7 @@ The wrap someone reads before the open or after the close: what moved across ass
 ## Before starting
 
 - Without the Bigdata.com tools, say so and ask for the connector. No figures from memory in the meantime.
-- Pass `plugin_slug: "bigdata-markets-today"` on every Bigdata.com call that accepts it.
+- Pass `plugin_slug: "bigdata-markets-today@2.0.0"` on every Bigdata.com call that accepts it.
 - `references/working-with-bigdata.md` maps each data need to a tool. The other reference files are working notes for the parts named below; the reader never sees them.
 
 ## Method choices that are not the default

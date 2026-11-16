@@ -39,6 +39,8 @@ Each skill is a folder with a `SKILL.md`, the reference files it loads, and an `
 
 `library/` holds what the skills share: `output-standard.md` (the rules every report follows), `working-with-bigdata.md` (which data answers which question), the method files under `methods/` and the sector primers under `sectors/`. A skill lists the files it needs in its frontmatter (`bigdata-refs`, `bigdata-sector-primer`), and `packaging/bigdata-com/scripts/sync_library.py` copies them into its `references/` folder, because claude.ai and Microsoft Cowork only load files inside the skill folder. Edit the library, run the sync, and commit both.
 
+Every skill sends `plugin_slug: "<skill name>@<plugin version>"` on its Bigdata.com calls, so Bigdata.com can tell which release of the plugin a user runs. The version is the one in `.claude-plugin/plugin.json` on every host. After raising it, run `packaging/bigdata-com/scripts/stamp_version.py` and commit the result; `stamp_version.py --check` fails when a skill carries another version.
+
 `packaging/bigdata-com/scripts/check_skills.py` validates every skill against the Claude, OpenAI and Microsoft limits. The `build-*.sh` scripts in the same folder build the ChatGPT package, the Microsoft 365 Copilot Cowork package (the 19 skills listed in `packaging/bigdata-com/microsoft/manifest.json`), standalone skill archives, and a development zip for trying a branch in claude.ai.
 
 ## Documentation and support
